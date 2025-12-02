@@ -1,0 +1,136 @@
+/* Card styling */
+.card {
+  background-color: #f3d9b1; /* light warm orange */
+  color: #4b2e2e; /* dark text for readability */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Card header */
+.card-header {
+  background-color: #f0c27b; /* slightly darker */
+  color: #4b2e2e;
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-align: center;
+  border-bottom: 2px solid #e6b970;
+  border-radius: 12px 12px 0 0;
+  padding: 1rem;
+}
+
+/* Form inputs */
+.form-control {
+  background-color: #fff1e0;
+  color: #5a3e3e;
+  border: 1px solid #e0c8a0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  background-color: #ffe4b3;
+  color: #462a2a;
+  border-color: #ffb84d;
+  box-shadow: 0 0 5px rgba(255, 159, 28, 0.5);
+}
+
+/* Labels */
+.form-label {
+  color: #6b4a4a;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #ff9f1c;
+  border-color: #ff9f1c;
+  color: #1b1b1b;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #ffb84d;
+  border-color: #ffb84d;
+  color: #1b1b1b;
+}
+
+.btn-secondary {
+  background-color: #d4b88b;
+  border-color: #caa978;
+  color: #4b2e2e;
+  font-weight: 500;
+}
+
+.btn-secondary:hover {
+  background-color: #f0c68b;
+  border-color: #e6b970;
+  color: #3e2424;
+}
+
+/* Invalid feedback text */
+.invalid-feedback {
+  color: #d94e1f;
+  font-weight: 500;
+}
+
+/* Spinner color */
+.spinner-border {
+  color: #4b2e2e;
+}
+
+/* Smooth container spacing */
+.container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Dark mode support */
+body.dark-mode .card {
+  background-color: #2d3748 !important;
+  color: #f0f0f0 !important;
+}
+
+body.dark-mode .card-header {
+  background-color: #4a5568 !important;
+  color: #f0f0f0 !important;
+}
+
+body.dark-mode .form-control {
+  background-color: #4a5568 !important;
+  color: #f0f0f0 !important;
+  border-color: #718096 !important;
+}
+
+body.dark-mode .form-control:focus {
+  background-color: #4a5568 !important;
+  color: #f0f0f0 !important;
+  border-color: #667eea !important;
+}
+
+body.dark-mode .form-label {
+  color: #e2e8f0 !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .card {
+    margin: 0.5rem;
+  }
+  
+  .d-md-flex .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
