@@ -1,8 +1,8 @@
 /* =========================
-   LOGIN PAGE STYLES
+   LOGIN PAGE - THEME CONSISTENT
 ======================== */
 
-/* BASE CONTAINER */
+/* Container */
 .container {
   display: flex;
   justify-content: center;
@@ -11,7 +11,7 @@
   padding: 1rem;
 }
 
-/* CARD */
+/* Card */
 .card {
   width: 100%;
   max-width: 400px;
@@ -19,89 +19,92 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
+  background: #fff;
 }
-
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
-/* CARD HEADER */
+/* Card Header */
 .card-header {
-  background-color: var(--highlight-yellow);
-  color: #1b2a44;
+  background-color: #667eea; /* match navbar primary */
+  color: #fff;
   text-align: center;
   padding: 1rem 1.5rem;
   font-size: 1.5rem;
   font-weight: bold;
+  border-bottom: none;
 }
 
-/* CARD BODY */
+/* Card Body */
 .card-body {
   padding: 1.5rem;
 }
 
-/* FORM ELEMENTS */
+/* Form Labels */
 .form-label {
   font-weight: 500;
   margin-bottom: 0.3rem;
 }
 
+/* Form Controls */
 .form-control {
   width: 100%;
   min-height: 45px;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  transition: border 0.3s;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  transition: border 0.3s, box-shadow 0.3s;
 }
-
 .form-control:focus {
-  border-color: var(--highlight-yellow);
-  box-shadow: 0 0 0 0.2rem rgba(215, 155, 31, 0.25);
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.25);
 }
-
 .is-invalid {
   border-color: #dc3545 !important;
 }
-
 .invalid-feedback {
   font-size: 0.85rem;
 }
 
-/* BUTTONS */
+/* Button */
 .d-grid button {
   width: 100%;
   padding: 0.6rem 1.2rem;
   font-weight: 600;
   border-radius: 8px;
+  background-color: #667eea;
+  border: 1px solid #667eea;
+  color: #fff;
   transition: transform 0.2s, background-color 0.2s;
 }
-
 .d-grid button:hover:not(:disabled) {
+  background-color: #5a67d8;
   transform: translateY(-2px);
 }
 
+/* Spinner */
 .spinner-border {
   width: 1rem;
   height: 1rem;
+  border-width: 0.15em;
 }
 
-/* TEXT LINK */
+/* Links */
 .text-center a {
-  color: var(--highlight-yellow);
+  color: #667eea;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
 }
-
 .text-center a:hover {
-  color: #c38b1a;
+  color: #5a67d8;
   text-decoration: underline;
 }
 
-/* ALERT */
+/* Alert */
 .alert {
   font-size: 0.9rem;
   padding: 0.5rem 0.75rem;
@@ -110,7 +113,7 @@
 }
 
 /* =========================
-   RESPONSIVE STYLES
+   RESPONSIVE
 ======================== */
 
 /* Tablet and up */
@@ -145,4 +148,37 @@
   .text-center p {
     font-size: 0.9rem;
   }
+}
+
+/* =========================
+   DARK MODE
+======================== */
+body.dark-mode .card {
+  background: #2d3748;
+  color: #e2e8f0;
+  border: 1px solid #4a5568;
+}
+body.dark-mode .card-header {
+  background-color: #667eea;
+  color: #fff;
+}
+body.dark-mode .form-control {
+  background: #4a5568;
+  color: #e2e8f0;
+  border: 1px solid #718096;
+}
+body.dark-mode .form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.25);
+}
+body.dark-mode .text-center a {
+  color: #90cdf4;
+}
+body.dark-mode .text-center a:hover {
+  color: #63b3ed;
+}
+body.dark-mode .alert {
+  background-color: #4a5568;
+  color: #e2e8f0;
+  border-color: #718096;
 }

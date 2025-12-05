@@ -1,6 +1,4 @@
-/* ===========================
-   THEME VARIABLES
-=========================== */
+/* Theme variables */
 :root {
   --bg-light: #fdfdfd;
   --card-light: #ffffff;
@@ -10,6 +8,7 @@
   --card-hover-light: #f4f4f4;
 }
 
+/* Dark theme variables */
 [data-theme="dark"] {
   --bg-light: #0f1a2b;
   --card-light: #14233d;
@@ -19,9 +18,7 @@
   --card-hover-light: #1d314f;
 }
 
-/* ===========================
-   GLOBAL STYLES
-=========================== */
+/* Global styles */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--bg-light);
@@ -31,7 +28,7 @@ body {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none; /* inline comment is fine too */
   color: inherit;
 }
 
@@ -47,37 +44,33 @@ p, small {
   box-sizing: border-box;
 }
 
-/* ===========================
-   CONTAINER
-=========================== */
+/* Container */
 .container-fluid {
   width: 100%;
   padding: 0 1rem;
   margin: 0 auto;
 }
 
-/* ===========================
-   HEADER
-=========================== */
+/* Header */
 h1.display-5 {
   font-size: 2rem;
 }
 
-@media (min-width: 768px) {
-  h1.display-5 {
-    font-size: 2.5rem;
-  }
+@media (min-width: 768px) { 
+  h1.display-5 { font-size: 2.5rem; } 
 }
 
-@media (min-width: 1200px) {
-  h1.display-5 {
-    font-size: 2.7rem;
-  }
+@media (min-width: 1200px) { 
+  h1.display-5 { font-size: 2.7rem; } 
 }
 
-/* ===========================
-   EMPTY STATE CARD
-=========================== */
+.d-flex.flex-column.flex-md-row {
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Empty state card */
 .empty-state-card {
   max-width: 400px;
   margin: 2rem auto;
@@ -86,6 +79,12 @@ h1.display-5 {
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
   text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.empty-state-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
 .empty-state-icon {
@@ -98,18 +97,18 @@ h1.display-5 {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
+  0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
 
-/* ===========================
-   BOOK CARD
-=========================== */
+/* Book card */
 .book-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 12px;
+  background-color: var(--card-light);
 }
 
 .book-card:hover {
@@ -121,7 +120,6 @@ h1.display-5 {
   color: var(--highlight-yellow);
 }
 
-/* Book meta and text */
 .card-title, .card-subtitle {
   text-align: center;
   overflow: hidden;
@@ -133,29 +131,23 @@ h1.display-5 {
   font-size: 0.9rem;
 }
 
-/* Card footer buttons */
 .card-footer .btn {
   font-size: 0.85rem;
   padding: 0.4rem 0.6rem;
+  transition: all 0.3s;
+}
+
+.card-footer .btn:hover {
+  transform: translateY(-1px);
 }
 
 @media (max-width: 576px) {
-  .card-footer .btn {
-    font-size: 0.75rem;
-    padding: 0.35rem 0.5rem;
-  }
+  .card-footer .btn { font-size: 0.75rem; padding: 0.35rem 0.5rem; }
 }
 
-/* ===========================
-   GRID LAYOUT
-=========================== */
-.row.g-3, .row.g-md-4 {
-  margin: 0 -0.5rem;
-}
-
-.row > [class*='col-'] {
-  padding: 0 0.5rem;
-}
+/* Grid layout */
+.row.g-3, .row.g-md-4 { margin: 0 -0.5rem; }
+.row > [class*='col-'] { padding: 0 0.5rem; }
 
 @media (max-width: 576px) {
   .col-12, .col-sm-6, .col-lg-4, .col-xl-3 {
@@ -164,33 +156,19 @@ h1.display-5 {
   }
 }
 
-/* Tablet / small laptop */
 @media (min-width: 577px) and (max-width: 991px) {
-  .col-sm-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
+  .col-sm-6 { flex: 0 0 50%; max-width: 50%; }
 }
 
-/* Desktop */
 @media (min-width: 992px) and (max-width: 1199px) {
-  .col-lg-4 {
-    flex: 0 0 33.3333%;
-    max-width: 33.3333%;
-  }
+  .col-lg-4 { flex: 0 0 33.3333%; max-width: 33.3333%; }
 }
 
-/* Large desktop */
 @media (min-width: 1200px) {
-  .col-xl-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
-  }
+  .col-xl-3 { flex: 0 0 25%; max-width: 25%; }
 }
 
-/* ===========================
-   BUTTONS
-=========================== */
+/* Buttons */
 .btn-lg {
   display: flex;
   align-items: center;
@@ -202,9 +180,11 @@ h1.display-5 {
   transition: all 0.3s ease-in-out;
 }
 
-/* ===========================
-   LOADING SPINNER
-=========================== */
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Loading spinner */
 .loading-pulse .spinner-border {
   animation: spin 1s linear infinite;
 }
@@ -214,49 +194,27 @@ h1.display-5 {
   100% { transform: rotate(360deg); }
 }
 
-/* ===========================
-   RESPONSIVE TYPOGRAPHY
-=========================== */
-.lead {
-  font-size: 1rem;
-}
+/* Responsive typography */
+.lead { font-size: 1rem; }
 
-@media (min-width: 768px) {
-  .lead {
-    font-size: 1.15rem;
-  }
-}
+@media (min-width: 768px) { .lead { font-size: 1.15rem; } }
+@media (min-width: 1200px) { .lead { font-size: 1.25rem; } }
 
-@media (min-width: 1200px) {
-  .lead {
-    font-size: 1.25rem;
-  }
-}
-
-/* ===========================
-   GENERAL RESPONSIVENESS
-=========================== */
+/* General responsiveness */
 @media (max-width: 768px) {
   .d-flex.flex-column.flex-md-row {
     flex-direction: column !important;
     align-items: center !important;
     text-align: center;
-    gap: 1rem;
   }
-  .d-md-none {
-    display: block !important;
-  }
-  .d-none.d-md-block {
-    display: none !important;
-  }
-  .px-md-4 {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-  }
+
+  .d-md-none { display: block !important; }
+  .d-none.d-md-block { display: none !important; }
+
+  .px-md-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
 }
 
 @media (max-width: 480px) {
-  .display-5 {
-    font-size: 1.6rem;
-  }
+  .display-5 { font-size: 1.6rem; }
+  .btn-lg { font-size: 0.9rem; padding: 0.5rem 1rem; }
 }
