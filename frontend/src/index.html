@@ -4,7 +4,13 @@
   <meta charset="utf-8">
   <title>BookWebApp</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- Essential viewport for responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+  
+  <!-- Theme color for mobile browsers -->
+  <meta name="theme-color" content="#1f3b5f">
+  
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   
   <!-- Add Bootstrap CSS -->
@@ -12,12 +18,11 @@
   
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  
-  <!-- Preload critical fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <app-root></app-root>
+  
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

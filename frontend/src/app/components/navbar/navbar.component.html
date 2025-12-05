@@ -1,50 +1,39 @@
 <nav class="navbar navbar-expand-lg warm-navbar">
   <div class="container-fluid">
-    
-    
+    <!-- Brand/Logo -->
+    <a class="navbar-brand" routerLink="/" [ngClass]="{'brand-large': isHomePage}">
+      <fa-icon [icon]="faHome" class="me-2"></fa-icon>
+      Book Quotes Buddy
+    </a>
 
-    <!-- Menu - Always expanded (removed collapse classes) -->
-    <div class="navbar-collapse" id="navbarSupportedContent">
+    <!-- Hamburger -->
+    <button class="navbar-toggler" type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <!-- Navigation Links -->
+    <!-- Collapsible Menu -->
+    <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-        <!-- Home Link -->
         <li class="nav-item">
-          <a class="nav-link" 
-             routerLink="/" 
-             routerLinkActive="active" 
-             [routerLinkActiveOptions]="{ exact: true }">
-            <fa-icon [icon]="faHome" class="me-2"></fa-icon>
-            {{ 'brand' | translate }}
-          </a>
-        </li>
-
-        <!-- Books Link -->
-        <li class="nav-item">
-          <a class="nav-link" 
-             routerLink="/books" 
-             routerLinkActive="active">
+          <a class="nav-link" routerLink="/books" routerLinkActive="active">
             <fa-icon [icon]="faBook" class="me-1"></fa-icon>
-            {{ 'books' | translate }}
+            Books
           </a>
         </li>
-
-        <!-- Quotes Link -->
         <li class="nav-item">
-          <a class="nav-link" 
-             routerLink="/quotes" 
-             routerLinkActive="active">
+          <a class="nav-link" routerLink="/quotes" routerLinkActive="active">
             <fa-icon [icon]="faQuoteLeft" class="me-1"></fa-icon>
-            {{ 'quotes' | translate }}
+            Quotes
           </a>
         </li>
-
       </ul>
 
-      <!-- Right Side Controls -->
       <div class="d-flex align-items-center gap-2 gap-sm-3">
-
         <!-- Language Dropdown -->
         <div class="dropdown" ngbDropdown>
           <button class="btn-language" ngbDropdownToggle id="languageDropdown"
@@ -53,38 +42,30 @@
             <span class="d-none d-md-inline">{{ currentFlag }}</span>
           </button>
           <div ngbDropdownMenu aria-labelledby="languageDropdown" class="dropdown-menu-end">
-            <button ngbDropdownItem 
-                    (click)="switchLanguage('en')"
-                    [class.active]="currentLanguage === 'en'"
-                    class="dropdown-item">
+            <button ngbDropdownItem (click)="switchLanguage('en')" [class.active]="currentLanguage === 'en'" class="dropdown-item">
               🇬🇧 English
             </button>
-            <button ngbDropdownItem 
-                    (click)="switchLanguage('sv')"
-                    [class.active]="currentLanguage === 'sv'"
-                    class="dropdown-item">
+            <button ngbDropdownItem (click)="switchLanguage('sv')" [class.active]="currentLanguage === 'sv'" class="dropdown-item">
               🇸🇪 Svenska
             </button>
           </div>
         </div>
 
         <!-- Dark Mode Toggle -->
-        <button class="btn-darkmode" 
-                (click)="toggleDarkMode()"
-                [title]="(isDarkMode ? 'switchToLight' : 'switchToDark') | translate">
+        <button class="btn-darkmode" (click)="toggleDarkMode()" [title]="(isDarkMode ? 'switchToLight' : 'switchToDark') | translate">
           <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
         </button>
 
         <!-- Auth Buttons -->
         <div class="d-flex gap-2" *ngIf="!authService.isAuthenticated()">
           <a class="btn btn-outline-light btn-sm" routerLink="/login">
-            <span class="d-none d-sm-inline">{{ 'login' | translate }}</span>
+            <span class="d-none d-sm-inline">Login</span>
             <span class="d-sm-none">
               <fa-icon [icon]="faSignInAlt"></fa-icon>
             </span>
           </a>
           <a class="btn btn-light btn-sm" routerLink="/register">
-            <span class="d-none d-sm-inline">{{ 'register' | translate }}</span>
+            <span class="d-none d-sm-inline">Register</span>
             <span class="d-sm-none">
               <fa-icon [icon]="faUserPlus"></fa-icon>
             </span>
@@ -92,37 +73,14 @@
         </div>
 
         <!-- Logout Button -->
-        <button class="btn btn-outline-light btn-sm" 
-                (click)="logout()"
-                *ngIf="authService.isAuthenticated()">
+        <button class="btn btn-outline-light btn-sm" (click)="logout()" *ngIf="authService.isAuthenticated()">
           <fa-icon [icon]="faSignOutAlt" class="me-1 d-none d-sm-inline"></fa-icon>
-          <span class="d-none d-sm-inline">{{ 'logout' | translate }}</span>
+          <span class="d-none d-sm-inline">Logout</span>
           <span class="d-sm-none">
             <fa-icon [icon]="faSignOutAlt"></fa-icon>
           </span>
         </button>
-
       </div>
-    </div>
-  </div>
-</nav>
-
-<!-- Mobile Bottom Navigation -->
-<nav class="navbar warm-navbar fixed-bottom d-lg-none mobile-bottom-nav" *ngIf="authService.isAuthenticated()">
-  <div class="container-fluid">
-    <div class="d-flex justify-content-around w-100">
-      <a class="nav-link text-center py-2" routerLink="/" routerLinkActive="active">
-        <fa-icon [icon]="faHome" class="d-block fs-5 mb-1"></fa-icon>
-        <small>{{ 'home' | translate }}</small>
-      </a>
-      <a class="nav-link text-center py-2" routerLink="/books" routerLinkActive="active">
-        <fa-icon [icon]="faBook" class="d-block fs-5 mb-1"></fa-icon>
-        <small>{{ 'books' | translate }}</small>
-      </a>
-      <a class="nav-link text-center py-2" routerLink="/quotes" routerLinkActive="active">
-        <fa-icon [icon]="faQuoteLeft" class="d-block fs-5 mb-1"></fa-icon>
-        <small>{{ 'quotes' | translate }}</small>
-      </a>
     </div>
   </div>
 </nav>

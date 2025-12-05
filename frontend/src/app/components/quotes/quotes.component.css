@@ -1,14 +1,18 @@
-/* Quotes Basket Styles */
+/* ===============================
+   QUOTES BASKET - CLEAN & RESPONSIVE
+   =============================== */
+
+/* Quote Card */
 .quote-basket-card {
-  background: white;
+  background: #fff;
   border: 2px solid #e9ecef;
   border-radius: 12px;
   padding: 1.5rem;
-  transition: all 0.3s ease;
-  position: relative;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+  height: 100%;
 }
 
 .quote-basket-card:hover {
@@ -19,6 +23,7 @@
 
 .quote-content {
   flex-grow: 1;
+  margin-bottom: 1rem;
 }
 
 .quote-icon {
@@ -32,14 +37,16 @@
   font-style: italic;
   line-height: 1.6;
   color: #2d3748;
-  margin-bottom: 1rem;
   font-size: 1.1rem;
+  margin-bottom: 1rem;
+  word-break: break-word;
 }
 
 .quote-author {
   color: #667eea;
   font-weight: 600;
   font-size: 0.9rem;
+  margin-top: auto;
 }
 
 .quote-actions {
@@ -51,15 +58,143 @@
   border-top: 1px solid #e9ecef;
 }
 
+.quote-actions button {
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form & Input Styles */
+.form-control,
+.form-select,
+textarea.form-control {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.25rem rgba(102,126,234,0.25);
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Buttons */
+.btn,
+.btn-outline-primary,
+.btn-outline-danger {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: #667eea;
+  border-color: #667eea;
+}
+
+.btn-primary:hover {
+  background: #5a67d8;
+  border-color: #5a67d8;
+  transform: translateY(-1px);
+}
+
 /* Empty Basket */
 .empty-basket {
-  padding: 3rem 2rem;
+  padding: 2rem;
   background: #f8f9fa;
   border-radius: 12px;
   border: 2px dashed #dee2e6;
+  text-align: center;
+  margin: 2rem 0;
 }
 
-/* Dark Mode Support */
+.empty-basket i {
+  font-size: 3rem;
+  color: #adb5bd;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Typography */
+.display-5 {
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.lead {
+  color: #718096;
+  font-size: 1.1rem;
+}
+
+.text-primary {
+  color: #667eea !important;
+}
+
+.text-muted {
+  color: #718096 !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablets (768px - 991px) */
+@media (max-width: 991.98px) {
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* Small devices (up to 767px) */
+@media (max-width: 767.98px) {
+  .col-md-6,
+  .col-lg-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .quote-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+  }
+
+  .quote-actions button {
+    flex: 1;
+    margin: 0 0.125rem;
+  }
+
+  .empty-basket {
+    padding: 1.5rem;
+  }
+}
+
+/* Touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .quote-basket-card:hover,
+  .btn:hover {
+    transform: none;
+  }
+
+  .quote-basket-card:active,
+  .btn:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Dark Mode */
 body.dark-mode .quote-basket-card {
   background: #2d3748;
   border-color: #4a5568;
@@ -80,13 +215,18 @@ body.dark-mode .empty-basket {
   color: #f0f0f0;
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .quote-basket-card {
-    padding: 1rem;
-  }
-  
-  .quote-text {
-    font-size: 1rem;
-  }
+body.dark-mode .empty-basket i {
+  color: #a0aec0;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+  background: #4a5568;
+  border-color: #718096;
+  color: #e2e8f0;
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+  border-color: #667eea;
 }

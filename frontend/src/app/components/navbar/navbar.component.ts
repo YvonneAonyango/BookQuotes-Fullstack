@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -19,7 +19,7 @@ import {
   faGlobe,
   faSignInAlt,
   faUserPlus,
-  faPlus
+  faHeart
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -45,9 +45,8 @@ export class NavbarComponent implements OnInit {
   faGlobe = faGlobe;
   faSignInAlt = faSignInAlt;
   faUserPlus = faUserPlus;
-  faPlus = faPlus;
+  faHeart = faHeart;
 
-  isMenuCollapsed = true;
   currentLanguage: Language = 'en';
   currentFlag = '🇬🇧';
 
@@ -56,17 +55,29 @@ export class NavbarComponent implements OnInit {
   themeService = inject(ThemeService);
   private router = inject(Router);
 
+  isHomePage = false;
+
   ngOnInit(): void {
     this.currentLanguage = this.translationService.getCurrentLanguage();
     this.currentFlag = this.currentLanguage === 'en' ? '🇬🇧' : '🇸🇪';
+
+    // Set initial route
+    this.checkRoute(this.router.url);
+
+    // Listen to route changes
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkRoute(event.urlAfterRedirects);
+      }
+    });
+  }
+
+  private checkRoute(url: string) {
+    this.isHomePage = url === '/' || url === '/home';
   }
 
   get isDarkMode(): boolean {
     return this.themeService.isDarkMode();
-  }
-
-  collapseMenu(): void {
-    this.isMenuCollapsed = true;
   }
 
   toggleDarkMode(): void {
@@ -82,6 +93,5 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
-    this.collapseMenu();
   }
 }

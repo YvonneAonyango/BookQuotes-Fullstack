@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book, BookService } from '../../services/book.service';
-import { TranslationService } from '../../services/translation.service'; // ADDED
-import { TranslationPipe } from '../../pipes/translation.pipe'; // ADDED
+import { TranslationService } from '../../services/translation.service'; 
+import { TranslationPipe } from '../../pipes/translation.pipe'; 
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule, 
     RouterModule,
-    TranslationPipe // ADDED
+    TranslationPipe 
   ],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
@@ -25,7 +25,7 @@ export class BooksComponent implements OnInit {
   constructor(
     private bookService: BookService, 
     private router: Router,
-    private translationService: TranslationService // ADDED
+    private translationService: TranslationService 
   ) {}
 
   ngOnInit(): void {

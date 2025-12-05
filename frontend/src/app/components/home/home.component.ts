@@ -23,7 +23,7 @@ import {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  // Icons - Added new ones for sidebar
+  
   faBook = faBook;
   faQuoteLeft = faQuoteLeft;
   faUser = faUser;
@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
 
   stats = {
     books: 125,
-    quotes: 543
+    quotes: 500
   };
 
   get currentTranslations() {

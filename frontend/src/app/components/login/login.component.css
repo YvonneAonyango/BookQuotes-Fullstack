@@ -1,3 +1,148 @@
+/* =========================
+   LOGIN PAGE STYLES
+======================== */
+
+/* BASE CONTAINER */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 1rem;
+}
+
+/* CARD */
 .card {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* CARD HEADER */
+.card-header {
+  background-color: var(--highlight-yellow);
+  color: #1b2a44;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* CARD BODY */
+.card-body {
+  padding: 1.5rem;
+}
+
+/* FORM ELEMENTS */
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+.form-control {
+  width: 100%;
+  min-height: 45px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border 0.3s;
+}
+
+.form-control:focus {
+  border-color: var(--highlight-yellow);
+  box-shadow: 0 0 0 0.2rem rgba(215, 155, 31, 0.25);
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+  font-size: 0.85rem;
+}
+
+/* BUTTONS */
+.d-grid button {
+  width: 100%;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.d-grid button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* TEXT LINK */
+.text-center a {
+  color: var(--highlight-yellow);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.text-center a:hover {
+  color: #c38b1a;
+  text-decoration: underline;
+}
+
+/* ALERT */
+.alert {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+}
+
+/* =========================
+   RESPONSIVE STYLES
+======================== */
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .card {
+    max-width: 400px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .container {
+    min-height: 70vh;
+    padding: 0.5rem;
+  }
+  
+  .card-header {
+    font-size: 1.3rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .form-control {
+    font-size: 0.95rem;
+    min-height: 42px;
+  }
+
+  .d-grid button {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .text-center p {
+    font-size: 0.9rem;
+  }
 }

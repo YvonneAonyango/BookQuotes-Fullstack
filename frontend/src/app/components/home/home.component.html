@@ -1,33 +1,23 @@
-<div class="container-fluid home-container">
-  <div class="row">
-    
-    <!-- Sidebar - Professional Dashboard -->
-    <div class="col-lg-3 col-md-4 sidebar sidebar-tablet">
+<div class="home-container">
+  <div class="row g-0">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
       <div class="sidebar-content">
-        
-        <!-- Quick Stats Dashboard -->
         <div class="dashboard-card">
           <div class="text-center mb-4">
             <i class="bi bi-graph-up-arrow dashboard-icon"></i>
-            <h4 class="mt-3">{{ currentTranslations['libraryOverview'] }}</h4>
+            <h4>{{ currentTranslations['libraryOverview'] }}</h4>
           </div>
-
-          <!-- Stats Grid -->
           <div class="stats-grid">
             <div class="stat-box">
-              <div class="stat-icon">
-                <i class="bi bi-book"></i>
-              </div>
+              <div class="stat-icon"><i class="bi bi-book"></i></div>
               <div class="stat-content">
                 <div class="stat-number">{{ stats.books }}</div>
                 <div class="stat-label">{{ currentTranslations['books'] }}</div>
               </div>
             </div>
-            
             <div class="stat-box">
-              <div class="stat-icon">
-                <i class="bi bi-chat-quote"></i>
-              </div>
+              <div class="stat-icon"><i class="bi bi-chat-quote"></i></div>
               <div class="stat-content">
                 <div class="stat-number">{{ stats.quotes }}</div>
                 <div class="stat-label">{{ currentTranslations['quotes'] }}</div>
@@ -35,46 +25,37 @@
             </div>
           </div>
 
-          <!-- Quick Access -->
           <div class="quick-access mt-4">
-            <h6 class="fw-semibold mb-3">{{ currentTranslations['quickAccess'] }}</h6>
+            <h6 class="quick-access-title">{{ currentTranslations['quickAccess'] }}</h6>
             <div class="access-links">
               <a class="access-link" routerLink="/books">
-                <i class="bi bi-book me-2"></i>
+                <i class="bi bi-book"></i>
                 {{ currentTranslations['browseBooks'] }}
               </a>
               <a class="access-link" routerLink="/books/new">
-                <i class="bi bi-plus-circle me-2"></i>
+                <i class="bi bi-plus-circle"></i>
                 {{ currentTranslations['addNewBook'] }}
               </a>
               <a class="access-link" routerLink="/quotes">
-                <i class="bi bi-collection me-2"></i>
+                <i class="bi bi-collection"></i>
                 {{ currentTranslations['myQuotes'] }}
               </a>
             </div>
           </div>
         </div>
 
-        <!-- Recent Activity -->
-        <div class="activity-card mt-4">
-          <h6 class="fw-semibold mb-3">
-            <i class="bi bi-clock-history me-2"></i>
-            {{ currentTranslations['recentActivity'] }}
-          </h6>
+        <div class="activity-card">
+          <h6><i class="bi bi-clock-history me-2"></i>{{ currentTranslations['recentActivity'] }}</h6>
           <div class="activity-list">
             <div class="activity-item">
-              <div class="activity-icon">
-                <i class="bi bi-book"></i>
-              </div>
+              <div class="activity-icon"><i class="bi bi-book"></i></div>
               <div class="activity-content">
                 <div class="activity-title">{{ currentTranslations['latestBookAdded'] }}</div>
                 <small class="activity-time">2 hours ago</small>
               </div>
             </div>
             <div class="activity-item">
-              <div class="activity-icon">
-                <i class="bi bi-chat-quote"></i>
-              </div>
+              <div class="activity-icon"><i class="bi bi-chat-quote"></i></div>
               <div class="activity-content">
                 <div class="activity-title">{{ currentTranslations['quoteSaved'] }}</div>
                 <small class="activity-time">Yesterday</small>
@@ -82,95 +63,57 @@
             </div>
           </div>
         </div>
-        
       </div>
-    </div>
+    </aside>
 
-    <!-- Main Content - Unchanged -->
-    <div class="col-lg-9 col-md-8 main-content">
-      
-      <!-- Hero Section -->
-      <div class="hero-section text-center responsive-padding">
-        <h1 class="display-5 fw-bold text-primary mb-3">{{ currentTranslations['brand'] }}</h1>
-        <p class="lead mb-5">{{ currentTranslations['personalLibrary'] }}</p>
-        
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <!-- HERO -->
+      <section class="hero-section text-center">
+        <h1 class="hero-title">{{ currentTranslations['brand'] }}</h1>
+        <p class="hero-subtitle">{{ currentTranslations['personalLibrary'] }}</p>
         <div class="row g-4">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let feature of ['bookManagement','quoteCollection','personalLibraryTitle']; let i = index">
             <div class="feature-card">
-              <i class="bi bi-book feature-icon"></i>
-              <h5 class="mt-3">{{ currentTranslations['bookManagement'] }}</h5>
-              <p class="mb-0">{{ currentTranslations['bookManagementDesc'] }}</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-4">
-            <div class="feature-card">
-              <i class="bi bi-chat-quote feature-icon"></i>
-              <h5 class="mt-3">{{ currentTranslations['quoteCollection'] }}</h5>
-              <p class="mb-0">{{ currentTranslations['quoteCollectionDesc'] }}</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-4">
-            <div class="feature-card">
-              <i class="bi bi-person feature-icon"></i>
-              <h5 class="mt-3">{{ currentTranslations['personalLibraryTitle'] }}</h5>
-              <p class="mb-0">{{ currentTranslations['personalLibraryDesc'] }}</p>
+              <i class="bi feature-icon" 
+                 [ngClass]="feature==='bookManagement' ? 'bi-book' : feature==='quoteCollection' ? 'bi-chat-quote' : 'bi-person'"></i>
+              <h5 class="feature-title">{{ currentTranslations[feature] }}</h5>
+              <p class="feature-description">{{ currentTranslations[feature+'Desc'] }}</p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- How It Works -->
-      <div class="how-it-works responsive-padding">
-        <h3 class="text-center mb-5">{{ currentTranslations['howItWorks'] }}</h3>
+      <!-- HOW IT WORKS -->
+      <section class="how-it-works text-center">
+        <h3 class="section-title">{{ currentTranslations['howItWorks'] }}</h3>
         <div class="row g-4">
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-6 mb-4" *ngFor="let step of ['addYourBooks','manageQuotes','editUpdate','enjoyReading']; let i = index">
             <div class="step-card">
-              <div class="step-number">1</div>
-              <h5>{{ currentTranslations['addYourBooks'] }}</h5>
-              <p class="mb-0">{{ currentTranslations['addYourBooksDesc'] }}</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="step-card">
-              <div class="step-number">2</div>
-              <h5>{{ currentTranslations['manageQuotes'] }}</h5>
-              <p class="mb-0">{{ currentTranslations['manageQuotesDesc'] }}</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="step-card">
-              <div class="step-number">3</div>
-              <h5>{{ currentTranslations['editUpdate'] }}</h5>
-              <p class="mb-0">{{ currentTranslations['editUpdateDesc'] }}</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="step-card">
-              <div class="step-number">4</div>
-              <h5>{{ currentTranslations['enjoyReading'] }}</h5>
-              <p class="mb-0">{{ currentTranslations['enjoyReadingDesc'] }}</p>
+              <div class="step-number">{{ i + 1 }}</div>
+              <h5 class="step-title">{{ currentTranslations[step] }}</h5>
+              <p class="step-description">{{ currentTranslations[step+'Desc'] }}</p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Call to Action -->
-      <div class="cta-section text-center responsive-padding">
+      <!-- CTA -->
+      <section class="cta-section text-center">
         <div class="cta-card">
-          <i class="bi bi-lightbulb cta-icon"></i>
-          <h4 class="mt-3">{{ currentTranslations['readyToStart'] }}</h4>
-          <p class="mb-4">{{ currentTranslations['joinThousands'] }}</p>
+          <i class="bi bi-lightbulb cta-icon-wrapper"></i>
+          <h4 class="cta-title">{{ currentTranslations['readyToStart'] }}</h4>
+          <p class="cta-description">{{ currentTranslations['joinThousands'] }}</p>
           <div class="cta-buttons">
-            <button class="btn btn-primary btn-lg me-2 mb-2" routerLink="/register">
+            <button class="btn-cta-primary" routerLink="/register">
               {{ currentTranslations['getStarted'] }}
             </button>
-            <button class="btn btn-outline-primary btn-lg mb-2" routerLink="/books">
+            <button class="btn-cta-secondary" routerLink="/books">
               {{ currentTranslations['browseLibrary'] }}
             </button>
           </div>
         </div>
-      </div>
-      
-    </div>
+      </section>
+    </main>
   </div>
 </div>

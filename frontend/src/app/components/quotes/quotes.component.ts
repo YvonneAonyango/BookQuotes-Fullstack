@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Quote, QuoteService } from '../../services/quote.service';
-import { TranslationService } from '../../services/translation.service'; // ADDED
-import { TranslationPipe } from '../../pipes/translation.pipe'; // ADDED
+import { TranslationService } from '../../services/translation.service'; 
+import { TranslationPipe } from '../../pipes/translation.pipe'; 
 
 @Component({
   selector: 'app-quotes',
@@ -11,7 +11,7 @@ import { TranslationPipe } from '../../pipes/translation.pipe'; // ADDED
   imports: [
     CommonModule, 
     ReactiveFormsModule,
-    TranslationPipe // ADDED
+    TranslationPipe 
   ],
   templateUrl: './quotes.component.html',
   styleUrls: ['./quotes.component.css']
@@ -27,7 +27,7 @@ export class QuotesComponent implements OnInit {
   constructor(
     private quoteService: QuoteService,
     private fb: FormBuilder,
-    private translationService: TranslationService // ADDED
+    private translationService: TranslationService 
   ) {
     this.quoteForm = this.fb.group({
       text: ['', [Validators.required, Validators.minLength(10)]],

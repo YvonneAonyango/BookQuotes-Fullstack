@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { environment } from '../environments/environment';
 
 export interface Book {
   id?: number;
@@ -13,107 +14,44 @@ export interface Book {
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = 'http://localhost:5298/api/books';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  // Helper method to get token from ANY possible key
   private getToken(): string | null {
-    return localStorage.getItem('authToken') || 
-           localStorage.getItem('token') || 
-           localStorage.getItem('bookapp_token') ||
-           localStorage.getItem('quotesTest');
+    return localStorage.getItem('authToken') || localStorage.getItem('token');
   }
 
-  // Helper method to create headers with token
-  private getAuthHeaders(): HttpHeaders {
+  private getAuthHeaders(contentType = false): HttpHeaders {
     const token = this.getToken();
-    
-    if (token) {
+    if (!token) return new HttpHeaders();
+
+    if (contentType) {
       return new HttpHeaders({
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       });
     }
-    
-    return new HttpHeaders();
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   }
 
   getBooks(): Observable<Book[]> {
-    const token = this.getToken();
-    
-    if (!token) {
-      console.error('❌ BookService: No token found! User needs to login.');
-      return throwError(() => new Error('Not authenticated. Please login first.'));
-    }
-    
-    console.log('📤 BookService: Sending request with Authorization header');
-    
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    
-    return this.http.get<Book[]>(this.apiUrl, { headers });
+    return this.http.get<Book[]>(`${this.apiUrl}/books`, { headers: this.getAuthHeaders() });
   }
 
   getBook(id: number): Observable<Book> {
-    const token = this.getToken();
-    
-    if (!token) {
-      console.error('❌ BookService: No token for getBook');
-      return throwError(() => new Error('Not authenticated'));
-    }
-    
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    
-    return this.http.get<Book>(`${this.apiUrl}/${id}`, { headers });
+    return this.http.get<Book>(`${this.apiUrl}/books/${id}`, { headers: this.getAuthHeaders() });
   }
 
   createBook(book: Book): Observable<Book> {
-    const token = this.getToken();
-    
-    if (!token) {
-      console.error('BookService: No token for createBook');
-      return throwError(() => new Error('Not authenticated'));
-    }
-    
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-    
-    return this.http.post<Book>(this.apiUrl, book, { headers });
+    return this.http.post<Book>(`${this.apiUrl}/books`, book, { headers: this.getAuthHeaders(true) });
   }
 
   updateBook(id: number, book: Book): Observable<Book> {
-    const token = this.getToken();
-    
-    if (!token) {
-      console.error('❌ BookService: No token for updateBook');
-      return throwError(() => new Error('Not authenticated'));
-    }
-    
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-    
-    return this.http.put<Book>(`${this.apiUrl}/${id}`, book, { headers });
+    return this.http.put<Book>(`${this.apiUrl}/books/${id}`, book, { headers: this.getAuthHeaders(true) });
   }
 
   deleteBook(id: number): Observable<void> {
-    const token = this.getToken();
-    
-    if (!token) {
-      console.error('❌ BookService: No token for deleteBook');
-      return throwError(() => new Error('Not authenticated'));
-    }
-    
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
+    return this.http.delete<void>(`${this.apiUrl}/books/${id}`, { headers: this.getAuthHeaders() });
   }
 }
