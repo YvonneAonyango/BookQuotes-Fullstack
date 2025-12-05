@@ -1,0 +1,65 @@
+<div class="admin-login-container">
+  <div class="admin-login-card">
+    <h2>Admin Login</h2>
+    
+    <!-- Error message -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    
+    <!-- Success message (optional) -->
+    <div *ngIf="authService.isAuthenticated() && authService.isAdmin()" class="alert alert-success">
+      Already logged in as admin. Redirecting...
+    </div>
+
+    <!-- Login form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (input)="onInputChange()">
+      <!-- Username field -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          formControlName="username" 
+          class="form-control"
+          placeholder="Enter admin username"
+          [class.is-invalid]="hasError('username', 'required')">
+        <div *ngIf="hasError('username', 'required')" class="invalid-feedback">
+          Username is required
+        </div>
+      </div>
+
+      <!-- Password field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          class="form-control"
+          placeholder="Enter password"
+          [class.is-invalid]="hasError('password', 'required')">
+        <div *ngIf="hasError('password', 'required')" class="invalid-feedback">
+          Password is required
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-block"
+        [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="!isLoading">Login as Admin</span>
+        <span *ngIf="isLoading">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Logging in...
+        </span>
+      </button>
+    </form>
+    
+    <!-- Back to regular login -->
+    <div class="text-center mt-3">
+      <a routerLink="/login" class="text-muted">Regular User Login</a>
+    </div>
+  </div>
+</div>

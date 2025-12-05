@@ -1,0 +1,11 @@
+# FRONTEND 
+frontend/node_modules/ 
+frontend/dist/ 
+frontend/.angular/ 
+ 
+# BACKEND 
+backend/BookWebApp.Api/bin/ 
+backend/BookWebApp.Api/obj/ 
+backend/BookWebApp.Api/appsettings.Development.json 
+backend/BookWebApp.Api/appsettings.json.backup 
+backend/BookWebApp.Api/books.db 

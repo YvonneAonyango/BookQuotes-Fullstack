@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Admin Dashboard</h1>
+    <div>
+      <a routerLink="/admin/users" class="btn btn-outline-primary me-2">Manage Users</a>
+      <a routerLink="/admin/books" class="btn btn-outline-primary me-2">Manage Books</a>
+      <a routerLink="/admin/quotes" class="btn btn-outline-primary">Manage Quotes</a>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row mb-4" *ngIf="!isLoading">
+    <div class="col-md-3 mb-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-subtitle mb-2">Total Users</h6>
+              <h2 class="card-title mb-0">{{ stats.totalUsers }}</h2>
+            </div>
+            <i class="fas fa-users fa-2x opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-subtitle mb-2">Total Books</h6>
+              <h2 class="card-title mb-0">{{ stats.totalBooks }}</h2>
+            </div>
+            <i class="fas fa-book fa-2x opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-subtitle mb-2">Total Quotes</h6>
+              <h2 class="card-title mb-0">{{ stats.totalQuotes }}</h2>
+            </div>
+            <i class="fas fa-quote-left fa-2x opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+      <div class="card bg-warning text-dark">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="card-subtitle mb-2">Admin Users</h6>
+              <h2 class="card-title mb-0">{{ stats.adminUsers }}</h2>
+            </div>
+            <i class="fas fa-shield-alt fa-2x opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading dashboard data...</p>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 text-center">
+              <a routerLink="/admin/users" class="btn btn-outline-primary btn-lg w-100 py-3">
+                <i class="fas fa-users fa-2x mb-2"></i><br>
+                Manage Users
+              </a>
+            </div>
+            <div class="col-md-4 text-center">
+              <a routerLink="/admin/books" class="btn btn-outline-success btn-lg w-100 py-3">
+                <i class="fas fa-book fa-2x mb-2"></i><br>
+                Manage Books
+              </a>
+            </div>
+            <div class="col-md-4 text-center">
+              <a routerLink="/admin/quotes" class="btn btn-outline-info btn-lg w-100 py-3">
+                <i class="fas fa-quote-left fa-2x mb-2"></i><br>
+                Manage Quotes
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

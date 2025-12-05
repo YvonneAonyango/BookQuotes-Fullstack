@@ -1,0 +1,117 @@
+<div class="container-fluid py-3 py-md-4">
+  <div class="row">
+    <div class="col-12">
+      
+      <!-- Header Section -->
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 mb-md-5 px-3 px-md-4">
+        <div class="mb-3 mb-md-0">
+          <h1 class="display-5 fw-bold text-primary mb-2">
+            <i class="bi bi-quote me-3"></i>
+            {{ 'myQuotesBasket' | translate }}
+          </h1>
+          <p class="lead text-muted mb-0">{{ 'quotesBasketDesc' | translate }}</p>
+        </div>
+        <button class="btn btn-primary btn-lg shadow-sm" (click)="showAddForm()" *ngIf="!showForm">
+          <i class="bi bi-plus me-2"></i>
+          {{ 'addNewQuote' | translate }}
+        </button>
+      </div>
+
+      <!-- Quote Form -->
+      <div *ngIf="showForm" class="row justify-content-center mb-5">
+        <div class="col-12 col-lg-8 col-xl-6">
+          <div class="card shadow border-0 mb-4">
+            <div class="card-header bg-primary text-white py-3">
+              <h5 class="mb-0">{{ isEdit ? ('editQuote' | translate) : ('addToBasket' | translate) }}</h5>
+            </div>
+            <div class="card-body p-4">
+              <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">{{ 'quoteText' | translate }}</label>
+                  <textarea class="form-control" formControlName="text" rows="3"
+                            [placeholder]="'quotePlaceholder' | translate"></textarea>
+                  <div class="text-danger small mt-1" *ngIf="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched">
+                    {{ 'minLength10' | translate }}
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">{{ 'quoteAuthor' | translate }}</label>
+                  <input type="text" class="form-control" formControlName="author" [placeholder]="'authorPlaceholder' | translate">
+                  <div class="text-danger small mt-1" *ngIf="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
+                    {{ 'authorRequired' | translate }}
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-end">
+                  <button type="button" class="btn btn-outline-secondary" (click)="cancelForm()">
+                    {{ 'cancel' | translate }}
+                  </button>
+                  <button type="submit" class="btn btn-primary" [disabled]="quoteForm.invalid || isLoading">
+                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ isEdit ? ('update' | translate) : ('addToBasket' | translate) }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quotes Basket -->
+      <div class="px-3 px-md-4">
+        
+        <!-- Basket Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="text-muted">
+            <i class="bi bi-basket me-2"></i>
+            {{ 'yourQuotesCount' | translate: { count: quotes.length } }}
+          </h3>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">{{ 'loadingQuotes' | translate }}</span>
+          </div>
+          <p class="mt-3 text-muted">{{ 'loadingQuotesProgress' | translate }}</p>
+        </div>
+
+        <!-- Empty Basket -->
+        <div *ngIf="!isLoading && quotes.length === 0 && !showForm" class="text-center py-5">
+          <div class="empty-basket">
+            <i class="bi bi-basket text-muted" style="font-size: 4rem;"></i>
+            <h4 class="text-muted mt-3">{{ 'basketEmpty' | translate }}</h4>
+            <p class="text-muted mb-4">{{ 'addQuotesToStart' | translate }}</p>
+            <button class="btn btn-primary btn-lg" (click)="showAddForm()">
+              <i class="bi bi-plus me-2"></i>
+              {{ 'addFirstQuote' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Quotes Grid -->
+        <div *ngIf="!isLoading && quotes.length > 0" class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4" *ngFor="let quote of quotes">
+            <div class="quote-basket-card">
+              <div class="quote-content">
+                <i class="bi bi-quote quote-icon"></i>
+                <p class="quote-text">"{{ quote.text }}"</p>
+                <div class="quote-author">— {{ quote.author }}</div>
+              </div>
+              <div class="quote-actions">
+                <button class="btn btn-outline-primary btn-sm" (click)="editQuote(quote)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-outline-danger btn-sm" (click)="deleteQuote(quote.id!)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

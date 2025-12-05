@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Quotes Management</h1>
+    <div>
+      <a routerLink="/admin/dashboard" class="btn btn-outline-secondary me-2">Back to Dashboard</a>
+      <a routerLink="/quotes" class="btn btn-primary">Add New Quote</a>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading quotes...</p>
+  </div>
+
+  <!-- Quotes List -->
+  <div *ngIf="!isLoading && quotes.length > 0" class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">All Quotes ({{ quotes.length }})</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush">
+            <div *ngFor="let quote of quotes" class="list-group-item">
+              <div class="d-flex justify-content-between align-items-start">
+                <div class="flex-grow-1">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="badge bg-secondary me-2">ID: {{ quote.id }}</span>
+                  </div>
+                  <p class="mb-1 fst-italic">"{{ quote.text }}"</p>
+                </div>
+                <div class="ms-3">
+                  <button 
+                    class="btn btn-sm btn-outline-danger"
+                    (click)="deleteQuote(quote.id!)">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && quotes.length === 0" class="text-center py-5">
+    <i class="fas fa-quote-left fa-3x text-muted mb-3"></i>
+    <h4>No Quotes Found</h4>
+    <p class="text-muted">There are no quotes in the system.</p>
+    <a routerLink="/quotes" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add First Quote
+    </a>
+  </div>
+</div>

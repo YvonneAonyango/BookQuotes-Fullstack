@@ -1,0 +1,119 @@
+<div class="home-container">
+  <div class="row g-0">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <div class="dashboard-card">
+          <div class="text-center mb-4">
+            <i class="bi bi-graph-up-arrow dashboard-icon"></i>
+            <h4>{{ currentTranslations['libraryOverview'] }}</h4>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-icon"><i class="bi bi-book"></i></div>
+              <div class="stat-content">
+                <div class="stat-number">{{ stats.books }}</div>
+                <div class="stat-label">{{ currentTranslations['books'] }}</div>
+              </div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-icon"><i class="bi bi-chat-quote"></i></div>
+              <div class="stat-content">
+                <div class="stat-number">{{ stats.quotes }}</div>
+                <div class="stat-label">{{ currentTranslations['quotes'] }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-access mt-4">
+            <h6 class="quick-access-title">{{ currentTranslations['quickAccess'] }}</h6>
+            <div class="access-links">
+              <a class="access-link" routerLink="/books">
+                <i class="bi bi-book"></i>
+                {{ currentTranslations['browseBooks'] }}
+              </a>
+              <a class="access-link" routerLink="/books/new">
+                <i class="bi bi-plus-circle"></i>
+                {{ currentTranslations['addNewBook'] }}
+              </a>
+              <a class="access-link" routerLink="/quotes">
+                <i class="bi bi-collection"></i>
+                {{ currentTranslations['myQuotes'] }}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="activity-card">
+          <h6><i class="bi bi-clock-history me-2"></i>{{ currentTranslations['recentActivity'] }}</h6>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon"><i class="bi bi-book"></i></div>
+              <div class="activity-content">
+                <div class="activity-title">{{ currentTranslations['latestBookAdded'] }}</div>
+                <small class="activity-time">2 hours ago</small>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon"><i class="bi bi-chat-quote"></i></div>
+              <div class="activity-content">
+                <div class="activity-title">{{ currentTranslations['quoteSaved'] }}</div>
+                <small class="activity-time">Yesterday</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <!-- HERO -->
+      <section class="hero-section text-center">
+        <h1 class="hero-title">{{ currentTranslations['brand'] }}</h1>
+        <p class="hero-subtitle">{{ currentTranslations['personalLibrary'] }}</p>
+        <div class="row g-4">
+          <div class="col-12 col-md-6 col-lg-4 mb-4" *ngFor="let feature of ['bookManagement','quoteCollection','personalLibraryTitle']; let i = index">
+            <div class="feature-card">
+              <i class="bi feature-icon" 
+                 [ngClass]="feature==='bookManagement' ? 'bi-book' : feature==='quoteCollection' ? 'bi-chat-quote' : 'bi-person'"></i>
+              <h5 class="feature-title">{{ currentTranslations[feature] }}</h5>
+              <p class="feature-description">{{ currentTranslations[feature+'Desc'] }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="how-it-works text-center">
+        <h3 class="section-title">{{ currentTranslations['howItWorks'] }}</h3>
+        <div class="row g-4">
+          <div class="col-12 col-md-6 mb-4" *ngFor="let step of ['addYourBooks','manageQuotes','editUpdate','enjoyReading']; let i = index">
+            <div class="step-card">
+              <div class="step-number">{{ i + 1 }}</div>
+              <h5 class="step-title">{{ currentTranslations[step] }}</h5>
+              <p class="step-description">{{ currentTranslations[step+'Desc'] }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cta-section text-center">
+        <div class="cta-card">
+          <i class="bi bi-lightbulb cta-icon-wrapper"></i>
+          <h4 class="cta-title">{{ currentTranslations['readyToStart'] }}</h4>
+          <p class="cta-description">{{ currentTranslations['joinThousands'] }}</p>
+          <div class="cta-buttons">
+            <button class="btn-cta-primary" routerLink="/register">
+              {{ currentTranslations['getStarted'] }}
+            </button>
+            <button class="btn-cta-secondary" routerLink="/books">
+              {{ currentTranslations['browseLibrary'] }}
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

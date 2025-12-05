@@ -1,0 +1,10 @@
+/* Basic padding for main content */
+main.container {
+  padding-block-start: 20px;
+}
+
+/* Dark mode styling for main content */
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
