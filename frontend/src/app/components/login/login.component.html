@@ -3,7 +3,7 @@
     <div class="col-md-6 col-lg-4">
       <div class="card">
         <div class="card-header text-center">
-          <h3>Login</h3>
+          <h3>{{ 'login' | translate }}</h3>
         </div>
         <div class="card-body">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -12,32 +12,34 @@
             </div>
 
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
+              <label for="username" class="form-label">{{ 'Username' | translate }}</label>
               <input type="text" class="form-control" id="username" formControlName="username"
+                     [placeholder]="'Enter your username' | translate"
                      [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
               <div class="invalid-feedback" *ngIf="loginForm.get('username')?.errors?.['required']">
-                Username is required
+                {{ 'Username is required' | translate }}
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
+              <label for="password" class="form-label">{{ 'Password' | translate }}</label>
               <input type="password" class="form-control" id="password" formControlName="password"
+                     [placeholder]="'Enter your password' | translate"
                      [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
               <div class="invalid-feedback" *ngIf="loginForm.get('password')?.errors?.['required']">
-                Password is required
+                {{ 'Password is required' | translate }}
               </div>
             </div>
 
             <div class="d-grid">
               <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || isLoading">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                Login
+                {{ isLoading ? ('loggingIn' | translate) : ('login' | translate) }}
               </button>
             </div>
 
             <div class="text-center mt-3">
-              <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+              <p>{{ "Don't have an account?" | translate }} <a routerLink="/register">{{ 'Register here' | translate }}</a></p>
             </div>
           </form>
         </div>

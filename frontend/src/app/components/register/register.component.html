@@ -5,9 +5,9 @@
         <div class="card-header bg-primary text-white text-center py-4">
           <div class="d-flex align-items-center justify-content-center mb-3">
             <i class="bi bi-person-plus fs-1 me-3"></i>
-            <h1 class="h3 mb-0 fw-bold">Create Account</h1>
+            <h1 class="h3 mb-0 fw-bold">{{ 'Create Account' | translate }}</h1>
           </div>
-          <p class="mb-0 opacity-75">Join Book Quotes Buddy today</p>
+          <p class="mb-0 opacity-75">{{ 'Join Book Quotes Buddy today' | translate }}</p>
         </div>
         
         <div class="card-body p-4 p-md-5">
@@ -24,29 +24,29 @@
             <div class="mb-4">
               <label for="username" class="form-label fw-semibold">
                 <i class="bi bi-person me-2 text-primary"></i>
-                Username
+                {{ 'Username' | translate }}
               </label>
               <input type="text" 
                      class="form-control form-control-lg" 
                      id="username" 
                      formControlName="username"
-                     placeholder="Enter your username"
+                     [placeholder]="'Enter your username' | translate"
                      [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
                      [class.is-valid]="registerForm.get('username')?.valid && registerForm.get('username')?.touched">
               <div class="invalid-feedback d-block" 
                    *ngIf="registerForm.get('username')?.errors?.['required'] && registerForm.get('username')?.touched">
                 <i class="bi bi-exclamation-circle me-1"></i>
-                Username is required
+                {{ 'Username is required' | translate }}
               </div>
               <div class="invalid-feedback d-block" 
                    *ngIf="registerForm.get('username')?.errors?.['minlength'] && registerForm.get('username')?.touched">
                 <i class="bi bi-exclamation-circle me-1"></i>
-                Username must be at least 3 characters long
+                {{ 'Username must be at least 3 characters long' | translate }}
               </div>
               <div class="valid-feedback d-block" 
                    *ngIf="registerForm.get('username')?.valid && registerForm.get('username')?.touched">
                 <i class="bi bi-check-circle me-1"></i>
-                Username looks good!
+                {{ 'Username looks good!' | translate }}
               </div>
             </div>
 
@@ -54,44 +54,44 @@
             <div class="mb-4">
               <label for="password" class="form-label fw-semibold">
                 <i class="bi bi-lock me-2 text-primary"></i>
-                Password
+                {{ 'Password' | translate }}
               </label>
               <input type="password" 
                      class="form-control form-control-lg" 
                      id="password" 
                      formControlName="password"
-                     placeholder="Create a password"
+                     [placeholder]="'Create a password' | translate"
                      [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
                      [class.is-valid]="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
 
               <!-- Password Requirements -->
               <ul class="text-muted small mt-2 mb-0" *ngIf="registerForm.get('password')?.touched">
                 <li [class.text-success]="passwordErrors.minLength" [class.text-danger]="!passwordErrors.minLength">
-                  Minimum 6 characters
+                  {{ 'Minimum 6 characters' | translate }}
                 </li>
                 <li [class.text-success]="passwordErrors.hasLowercase" [class.text-danger]="!passwordErrors.hasLowercase">
-                  At least one lowercase letter
+                  {{ 'At least one lowercase letter' | translate }}
                 </li>
                 <li [class.text-success]="passwordErrors.hasUppercase" [class.text-danger]="!passwordErrors.hasUppercase">
-                  At least one uppercase letter
+                  {{ 'At least one uppercase letter' | translate }}
                 </li>
                 <li [class.text-success]="passwordErrors.hasNumber" [class.text-danger]="!passwordErrors.hasNumber">
-                  At least one number
+                  {{ 'At least one number' | translate }}
                 </li>
                 <li [class.text-success]="passwordErrors.hasSymbol" [class.text-danger]="!passwordErrors.hasSymbol">
-                  At least one special character (!@#$%^&*)
+                  {{ 'At least one special character (!@#$%^&*)' | translate }}
                 </li>
               </ul>
 
               <div class="invalid-feedback d-block" 
                    *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
                 <i class="bi bi-exclamation-circle me-1"></i>
-                Password is required
+                {{ 'Password is required' | translate }}
               </div>
               <div class="valid-feedback d-block" 
                    *ngIf="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
                 <i class="bi bi-check-circle me-1"></i>
-                Password looks strong!
+                {{ 'Password looks strong!' | translate }}
               </div>
             </div>
 
@@ -99,29 +99,29 @@
             <div class="mb-4">
               <label for="confirmPassword" class="form-label fw-semibold">
                 <i class="bi bi-lock me-2 text-primary"></i>
-                Confirm Password
+                {{ 'Confirm Password' | translate }}
               </label>
               <input type="password" 
                      class="form-control form-control-lg" 
                      id="confirmPassword" 
                      formControlName="confirmPassword"
-                     placeholder="Confirm your password"
+                     [placeholder]="'Confirm your password' | translate"
                      [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
                      [class.is-valid]="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.touched">
               <div class="invalid-feedback d-block" 
                    *ngIf="registerForm.get('confirmPassword')?.errors?.['required'] && registerForm.get('confirmPassword')?.touched">
                 <i class="bi bi-exclamation-circle me-1"></i>
-                Please confirm your password
+                {{ 'Please confirm your password' | translate }}
               </div>
               <div class="invalid-feedback d-block" 
                    *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched">
                 <i class="bi bi-exclamation-circle me-1"></i>
-                Passwords do not match
+                {{ 'Passwords do not match' | translate }}
               </div>
               <div class="valid-feedback d-block" 
                    *ngIf="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.touched">
                 <i class="bi bi-check-circle me-1"></i>
-                Passwords match!
+                {{ 'Passwords match!' | translate }}
               </div>
             </div>
 
@@ -132,16 +132,16 @@
                       [disabled]="registerForm.invalid || isLoading">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                 <i class="bi bi-person-plus me-2" *ngIf="!isLoading"></i>
-                {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+                {{ isLoading ? ('Creating Account...' | translate) : ('Create Account' | translate) }}
               </button>
             </div>
 
             <!-- Login Link -->
             <div class="text-center">
-              <p class="mb-2">Already have an account?</p>
+              <p class="mb-2">{{ 'Already have an account?' | translate }}</p>
               <a routerLink="/login" class="btn btn-outline-primary btn-lg w-100">
                 <i class="bi bi-box-arrow-in-right me-2"></i>
-                Login to Your Account
+                {{ 'Login to Your Account' | translate }}
               </a>
             </div>
           </form>
@@ -153,7 +153,7 @@
         <div class="card-body text-center p-3">
           <small class="text-muted">
             <i class="bi bi-shield-check me-1"></i>
-            Your data is secure and encrypted
+            {{ 'Your data is secure and encrypted' | translate }}
           </small>
         </div>
       </div>

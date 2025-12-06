@@ -18,23 +18,23 @@ body {
 /* ===== WARM NAVBAR STYLING ===== */
 .warm-navbar {
   background: linear-gradient(135deg, #1f3b5f, #2c5282);
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 1rem; /* Reduced padding */
   box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-  min-height: 56px;
+  min-height: 52px; /* Reduced height */
   display: flex;
   align-items: center;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 13px; /* Smaller base font */
   position: relative;
   width: 100%;
   margin: 0;
 }
 
-/* BRAND */
+/* BRAND - Keep this larger */
 .navbar-brand {
   color: #fff !important;
   font-weight: 700;
-  font-size: 1.1rem !important;
+  font-size: 1.2rem !important; /* Slightly larger for prominence */
   display: flex;
   align-items: center;
   gap: 0.3rem;
@@ -42,7 +42,7 @@ body {
 }
 
 .brand-large { 
-  font-size: 1.15rem !important;
+  font-size: 1.25rem !important;
 }
 
 .navbar-brand:hover { 
@@ -53,21 +53,26 @@ body {
   font-size: 1rem !important;
 }
 
-/* NAV LINKS */
+/* NAV LINKS - Fixed alignment and reduced size */
 .navbar-nav {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
   gap: 0.25rem;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
 }
 
 .navbar-nav .nav-link {
   color: #fff !important;
-  font-size: 0.9rem !important;
+  font-size: 0.85rem !important; /* Reduced from 0.9rem */
   font-weight: 500;
-  padding: 0.35rem 0.6rem !important;
+  padding: 0.25rem 0.5rem !important; /* Reduced padding */
   border-radius: 6px;
   transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  line-height: 1.2; /* Better line height */
 }
 
 .navbar-nav .nav-link:hover {
@@ -82,17 +87,18 @@ body {
 }
 
 .navbar-nav .nav-link fa-icon {
-  font-size: 0.85rem !important;
+  font-size: 0.8rem !important; /* Reduced icon size */
+  margin-right: 0.25rem; /* Smaller margin */
 }
 
-/* BUTTONS */
+/* BUTTONS - Reduced size */
 .btn-sm,
 .btn-language,
 .btn-darkmode {
-  font-size: 0.85rem !important;
-  padding: 0.35rem 0.7rem !important;
-  min-height: 32px !important;
-  border-radius: 8px;
+  font-size: 0.8rem !important; /* Reduced from 0.85rem */
+  padding: 0.25rem 0.6rem !important; /* Reduced padding */
+  min-height: 30px !important; /* Reduced height */
+  border-radius: 6px; /* Slightly smaller radius */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,7 +108,7 @@ body {
 .btn-sm fa-icon,
 .btn-language fa-icon,
 .btn-darkmode fa-icon {
-  font-size: 0.9em !important;
+  font-size: 0.85em !important; /* Smaller icons */
 }
 
 .btn-outline-light {
@@ -139,8 +145,8 @@ body {
   background: rgba(255,255,255,0.1);
   border: none;
   color: #fff;
-  font-size: 1rem !important;
-  padding: 0.35rem 0.8rem !important;
+  font-size: 0.9rem !important; /* Reduced */
+  padding: 0.25rem 0.7rem !important; /* Reduced */
 }
 
 .btn-darkmode:hover {
@@ -148,33 +154,33 @@ body {
 }
 
 .btn-darkmode fa-icon {
-  font-size: 1rem !important;
+  font-size: 0.9rem !important; /* Reduced */
 }
 
 /* TOGGLER */
 .navbar-toggler {
   border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 8px;
-  width: 38px !important;
-  height: 38px !important;
-  padding: 0.25rem !important;
+  border-radius: 6px;
+  width: 36px !important; /* Smaller */
+  height: 36px !important; /* Smaller */
+  padding: 0.2rem !important; /* Reduced */
 }
 
 .navbar-toggler-icon {
   filter: brightness(0) invert(1);
-  width: 1.2em !important;
-  height: 1.2em !important;
+  width: 1.1em !important; /* Smaller */
+  height: 1.1em !important; /* Smaller */
 }
 
 /* DROPDOWNS */
 .dropdown-menu {
-  font-size: 0.9rem !important;
-  min-width: 120px;
+  font-size: 0.85rem !important; /* Reduced */
+  min-width: 110px; /* Smaller */
 }
 
 .dropdown-item {
-  padding: 0.4rem 1rem !important;
-  font-size: 0.9rem !important;
+  padding: 0.3rem 0.9rem !important; /* Reduced */
+  font-size: 0.85rem !important; /* Reduced */
 }
 
 /* ===== RESPONSIVE ===== */
@@ -185,7 +191,7 @@ body {
     left: 0;
     right: 0;
     background: linear-gradient(135deg, #1f3b5f, #2c5282);
-    padding: 1rem;
+    padding: 0.8rem; /* Reduced */
     border-radius: 0 0 8px 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
@@ -194,53 +200,53 @@ body {
     text-align: center;
     flex-direction: column;
     width: 100%;
-    gap: 0.5rem;
-    padding-top: 0.5rem;
+    gap: 0.4rem; /* Reduced gap */
+    padding-top: 0.4rem; /* Reduced */
   }
 
   .navbar-nav .nav-link {
-    padding: 0.4rem 0.5rem !important;
-    font-size: 0.9rem !important;
-    margin: 0.1rem 0;
+    padding: 0.3rem 0.5rem !important; /* Reduced */
+    font-size: 0.85rem !important; /* Reduced */
+    margin: 0.05rem 0; /* Reduced margin */
   }
 
   .btn-sm,
   .btn-language,
   .btn-darkmode {
-    font-size: 0.85rem !important;
-    padding: 0.35rem 0.7rem !important;
-    min-height: 32px !important;
+    font-size: 0.8rem !important; /* Reduced */
+    padding: 0.25rem 0.6rem !important; /* Reduced */
+    min-height: 28px !important; /* Reduced */
   }
 
   .d-flex.gap-2 {
-    gap: 0.5rem !important;
+    gap: 0.4rem !important; /* Reduced */
   }
 }
 
 @media (max-width: 575px) {
   .navbar-brand { 
-    font-size: 1rem !important;
+    font-size: 1.1rem !important; /* Adjusted */
   }
   
   .brand-large { 
-    font-size: 1.05rem !important;
+    font-size: 1.15rem !important; /* Adjusted */
   }
 
   .btn-sm,
   .btn-language,
   .btn-darkmode {
-    font-size: 0.8rem !important;
-    padding: 0.3rem 0.6rem !important;
-    min-height: 30px !important;
+    font-size: 0.75rem !important; /* Reduced */
+    padding: 0.2rem 0.5rem !important; /* Reduced */
+    min-height: 26px !important; /* Reduced */
   }
 
   .btn-darkmode {
-    padding: 0.3rem 0.7rem !important;
+    padding: 0.2rem 0.6rem !important; /* Reduced */
   }
 
   .navbar-toggler {
-    width: 36px !important;
-    height: 36px !important;
+    width: 34px !important; /* Smaller */
+    height: 34px !important; /* Smaller */
   }
 }
 
@@ -250,5 +256,5 @@ body {
 }
 
 button, a {
-  line-height: 1.2 !important;
+  line-height: 1.1 !important; /* Better line height */
 }

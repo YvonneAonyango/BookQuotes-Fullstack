@@ -1,16 +1,91 @@
 <div class="books-page">
-  <div class="page-header">
+  <!-- Page Header -->
+  <div class="page-header mb-4">
     <h1>My Books</h1>
     <p class="lead">Manage your book collection</p>
   </div>
 
-  <!-- BOOK FORM (Visible immediately when entering page) -->
-  <div class="book-form-section mb-4">
+  <!-- ACTION BUTTONS -->
+  <div class="action-buttons mb-4">
+    <div class="btn-group" role="group">
+      <button type="button" 
+              class="btn btn-primary"
+              (click)="showAddForm()"
+              [class.active]="currentAction === 'add'">
+        <i class="bi bi-plus-circle me-2"></i>
+        Add Book
+      </button>
+      <button type="button" 
+              class="btn btn-outline-primary"
+              (click)="showEditMode()"
+              [class.active]="currentAction === 'edit'">
+        <i class="bi bi-pencil me-2"></i>
+        Edit Book
+      </button>
+      <button type="button" 
+              class="btn btn-outline-danger"
+              (click)="showDeleteMode()"
+              [class.active]="currentAction === 'delete'">
+        <i class="bi bi-trash me-2"></i>
+        Delete Book
+      </button>
+    </div>
+  </div>
+
+  <!-- BOOK BADGES AREA -->
+  <div class="book-badges-area mb-4" *ngIf="addedBooks && addedBooks.length > 0">
     <div class="card">
-      <div class="card-header bg-primary text-white">
+      <div class="card-header bg-info text-white">
         <h5 class="mb-0">
-          <i class="bi bi-plus-circle me-2"></i>
-          {{ isEditing ? 'Edit Book' : 'Add New Book' }}
+          <i class="bi bi-basket me-2"></i>
+          Your Book Basket
+          <span class="badge bg-light text-dark ms-2">{{ addedBooks.length }}</span>
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="book-badges">
+          <div *ngFor="let book of addedBooks" 
+               class="book-badge"
+               [class.selected-for-edit]="currentAction === 'edit' && selectedBookId === book.id"
+               [class.selected-for-delete]="currentAction === 'delete' && selectedBookId === book.id">
+            
+            <div class="badge-content">
+              <strong>{{ book.title }}</strong>
+              <small *ngIf="book.author">by {{ book.author }}</small>
+              <small *ngIf="book.publicationDate" class="text-muted d-block mt-1">
+                <i class="bi bi-calendar me-1"></i>
+                {{ book.publicationDate | date:'mediumDate' }}
+              </small>
+            </div>
+            
+            <!-- Show action buttons only in edit/delete mode for selected book -->
+            <div class="badge-actions" 
+                 *ngIf="(currentAction === 'edit' || currentAction === 'delete') && selectedBookId === book.id">
+              <button class="btn btn-sm btn-outline-primary" 
+                      (click)="selectBookForAction(book)"
+                      *ngIf="currentAction === 'edit'">
+                <i class="bi bi-check me-1"></i> Select to Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger" 
+                      (click)="selectBookForAction(book)"
+                      *ngIf="currentAction === 'delete'">
+                <i class="bi bi-check me-1"></i> Select to Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD/EDIT BOOK FORM -->
+  <div class="book-form-section mb-4" *ngIf="currentAction === 'add' || (currentAction === 'edit' && selectedBookId)">
+    <div class="card">
+      <div class="card-header" [class.bg-success]="currentAction === 'add'" [class.bg-warning]="currentAction === 'edit'"
+           [class.text-white]="currentAction === 'add'" [class.text-dark]="currentAction === 'edit'">
+        <h5 class="mb-0">
+          <i class="bi" [class.bi-plus-circle]="currentAction === 'add'" [class.bi-pencil]="currentAction === 'edit'" me-2></i>
+          {{ currentAction === 'add' ? 'Add New Book' : 'Edit Book' }}
         </h5>
       </div>
       <div class="card-body">
@@ -24,8 +99,8 @@
                      formControlName="title"
                      placeholder="Enter book title"
                      [class.is-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched">
-              <div class="invalid-feedback" *ngIf="bookForm.get('title')?.errors?.['required']">
-                Title is required
+              <div class="invalid-feedback" *ngIf="bookForm.get('title')?.errors?.['required'] && bookForm.get('title')?.touched">
+                Book title is required
               </div>
             </div>
             
@@ -41,15 +116,18 @@
             <div class="col-12">
               <div class="d-flex gap-2">
                 <button type="submit" 
-                        class="btn btn-primary"
+                        class="btn" 
+                        [class.btn-success]="currentAction === 'add'" 
+                        [class.btn-warning]="currentAction === 'edit'"
                         [disabled]="bookForm.invalid || isLoading">
                   <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                  {{ isEditing ? 'Update Book' : 'Add Book' }}
+                  <i class="bi bi-check-circle me-2"></i>
+                  {{ currentAction === 'add' ? 'Add Book' : 'Update Book' }}
                 </button>
                 <button type="button" 
                         class="btn btn-secondary"
-                        (click)="cancelForm()"
-                        *ngIf="isEditing">
+                        (click)="cancelAction()">
+                  <i class="bi bi-x-circle me-2"></i>
                   Cancel
                 </button>
               </div>
@@ -60,90 +138,79 @@
     </div>
   </div>
 
-  <!-- BOOK BADGE/CART SYSTEM -->
-  <div class="book-basket-section mb-4" *ngIf="addedBooks.length > 0">
-    <div class="card">
-      <div class="card-header bg-info text-white">
-        <h5 class="mb-0">
-          <i class="bi bi-basket me-2"></i>
-          Your Book Basket ({{ addedBooks.length }})
-        </h5>
-      </div>
-      <div class="card-body">
-        <div class="book-badges">
-          <div *ngFor="let book of addedBooks" 
-               class="book-badge" 
-               (click)="editBookFromBadge(book)"
-               [class.selected]="selectedBookId === book.id">
-            <div class="badge-content">
-              <strong>{{ book.title }}</strong>
-              <small *ngIf="book.author">by {{ book.author }}</small>
-            </div>
-            <div class="badge-actions">
-              <button class="btn btn-sm btn-outline-primary" 
-                      (click)="editBookFromBadge(book); $event.stopPropagation()">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger" 
-                      (click)="removeFromBasket(book.id!); $event.stopPropagation()">
-                <i class="bi bi-trash"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- DELETE CONFIRMATION -->
+  <div class="alert alert-danger mb-4" *ngIf="currentAction === 'delete' && selectedBookId">
+    <h5><i class="bi bi-exclamation-triangle me-2"></i>Confirm Delete</h5>
+    <p>Are you sure you want to delete this book?</p>
+    <div class="d-flex gap-2">
+      <button class="btn btn-danger" (click)="deleteBook(selectedBookId!)">
+        <i class="bi bi-trash me-2"></i>Delete
+      </button>
+      <button class="btn btn-secondary" (click)="cancelAction()">
+        <i class="bi bi-x-circle me-2"></i>Cancel
+      </button>
     </div>
   </div>
 
-  <!-- EXISTING BOOKS LIST -->
-  <div class="existing-books-section" *ngIf="!isLoading && books.length > 0">
+  <!-- ALL BOOKS LIST -->
+  <div class="existing-books-section">
     <h3 class="mb-3">All Books</h3>
-    <div class="books-grid">
+    
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && books.length === 0" class="empty-state-card text-center py-5">
+      <i class="bi bi-book text-muted" style="font-size: 3rem;"></i>
+      <h3 class="mt-3">No Books Yet</h3>
+      <p class="text-muted">Start by adding your first book to your collection</p>
+      <button class="btn btn-primary mt-2" (click)="showAddForm()">
+        <i class="bi bi-plus me-2"></i>
+        Add First Book
+      </button>
+    </div>
+    
+    <!-- Books Grid -->
+    <div class="books-grid" *ngIf="!isLoading && books.length > 0">
       <div *ngFor="let book of books" class="book-card">
         <div class="book-card-header">
-          <i class="bi bi-book book-icon"></i>
-          <button class="btn btn-sm btn-outline-success add-to-basket-btn"
+          <div>
+            <i class="bi bi-book book-icon"></i>
+          </div>
+          <button class="add-to-basket-btn" 
                   (click)="addToBasket(book)"
                   [disabled]="isInBasket(book.id!)">
-            <i class="bi bi-plus"></i> Add to Basket
+            <i class="bi" [class.bi-plus]="!isInBasket(book.id!)" [class.bi-check]="isInBasket(book.id!)"></i>
+            {{ isInBasket(book.id!) ? 'In Basket' : 'Add to Basket' }}
           </button>
         </div>
         <div class="book-card-body">
-          <h6 class="book-title">{{ book.title }}</h6>
+          <h5 class="book-title">{{ book.title }}</h5>
           <p class="book-author" *ngIf="book.author">
-            <small>by {{ book.author }}</small>
+            <i class="bi bi-person me-1"></i>by {{ book.author }}
           </p>
           <div class="book-meta">
-            <span class="badge bg-secondary">
-              <i class="bi bi-chat-quote me-1"></i>
-              {{ book.quotes?.length || 0 }} quotes
-            </span>
+            <small *ngIf="book.publicationDate" class="text-muted">
+              <i class="bi bi-calendar me-1"></i>
+              {{ book.publicationDate | date:'mediumDate' }}
+            </small>
           </div>
         </div>
         <div class="book-card-footer">
-          <button class="btn btn-sm btn-primary" (click)="editBook(book)">
-            <i class="bi bi-pencil"></i>
+          <button class="btn btn-outline-primary btn-sm" 
+                  (click)="showEditMode(); selectBookForAction(book)">
+            <i class="bi bi-pencil"></i> Edit
           </button>
-          <button class="btn btn-sm btn-danger" (click)="deleteBook(book.id!)">
-            <i class="bi bi-trash"></i>
+          <button class="btn btn-outline-danger btn-sm" 
+                  (click)="showDeleteMode(); selectBookForAction(book)">
+            <i class="bi bi-trash"></i> Delete
           </button>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- LOADING & EMPTY STATES -->
-  <div *ngIf="isLoading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2">Loading books...</p>
-  </div>
-
-  <div *ngIf="!isLoading && books.length === 0 && addedBooks.length === 0" 
-       class="empty-state text-center py-5">
-    <i class="bi bi-book text-muted" style="font-size: 4rem;"></i>
-    <h3 class="mt-3">No books yet</h3>
-    <p class="text-muted">Start by adding your first book using the form above!</p>
   </div>
 </div>

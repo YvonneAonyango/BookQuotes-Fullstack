@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Book, BookService } from '../../services/book.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { TranslationPipe } from '../../pipes/translation.pipe'; // ADDED
 
 @Component({
   selector: 'app-book-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslationPipe], // ADDED TranslationPipe
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.css']
 })
@@ -49,7 +50,7 @@ export class BookFormComponent implements OnInit {
       this.titleService.setTitle(this.isEdit ? 'Edit Book - BookWebApp' : 'Add Book - BookWebApp');
     });
 
-    // REMOVE the viewport meta tag - only in navbar component
+  
     // SEO description
     this.meta.updateTag({
       name: 'description',

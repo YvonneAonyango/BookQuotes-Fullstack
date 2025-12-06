@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService, LoginRequest } from '../../services/auth.service';
 import { Meta, Title } from '@angular/platform-browser';
+import { TranslationPipe } from '../../pipes/translation.pipe'; 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslationPipe], 
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -38,9 +39,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.titleService.setTitle('BookWebApp - Login');
-    
-    // REMOVE the viewport meta tag - only in navbar component
-    // this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
     
     // Keep SEO description
     this.meta.updateTag({ name: 'description', content: 'Login to your BookWebApp account.' });

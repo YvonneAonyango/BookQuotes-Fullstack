@@ -15,11 +15,12 @@ import {
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 import { Meta, Title } from '@angular/platform-browser';
+import { TranslationPipe } from '../../pipes/translation.pipe'; // ADDED
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, TranslationPipe], // ADDED TranslationPipe
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   encapsulation: ViewEncapsulation.None
@@ -43,6 +44,7 @@ export class HomeComponent implements OnInit {
     quotes: 500
   };
 
+  // Add this getter to access translations
   get currentTranslations() {
     return this.translationService.currentTranslations();
   }
@@ -51,7 +53,10 @@ export class HomeComponent implements OnInit {
   private titleService = inject(Title);
 
   ngOnInit(): void {
+    // Set page title
     this.titleService.setTitle('BookWebApp - Home');
+
+    // Optional: SEO description
     this.meta.updateTag({
       name: 'description',
       content: 'Manage your personal library with BookWebApp. Add books, save quotes, and enjoy reading!'

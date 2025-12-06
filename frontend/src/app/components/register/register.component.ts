@@ -6,11 +6,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { TranslationPipe } from '../../pipes/translation.pipe'; // ADDED
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslationPipe], // ADDED TranslationPipe
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })

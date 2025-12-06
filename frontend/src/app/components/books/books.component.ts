@@ -17,12 +17,17 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class BooksComponent implements OnInit {
   books: Book[] = [];
-  addedBooks: Book[] = []; // Books in the basket/badge system
+  addedBooks: Book[] = [];
   bookForm: FormGroup;
+
   isLoading = false;
   isEditing = false;
+
   editingBookId?: number;
-  selectedBookId?: number; // For badge selection
+  selectedBookId?: number;
+
+  // NEW from your old component
+  currentAction: 'add' | 'edit' | 'delete' | null = null;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -41,17 +46,18 @@ export class BooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Books');
-    
     this.meta.updateTag({
       name: 'description',
       content: 'Browse, manage, and edit your books in your personal library with BookWebApp.'
     });
 
     this.loadBooks();
-    // Load any existing books from localStorage (for persistence)
     this.loadBasketFromStorage();
   }
 
+  // -----------------------
+  // LOAD BOOKS
+  // -----------------------
   loadBooks(): void {
     this.isLoading = true;
     this.bookService.getBooks().subscribe({
@@ -66,7 +72,60 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  // BADGE/BASKET SYSTEM METHODS
+  // -----------------------
+  // MODE SWITCHING (NEW)
+  // -----------------------
+  showAddForm() {
+    this.currentAction = 'add';
+    this.resetForm();
+    this.selectedBookId = undefined;
+  }
+
+  showEditMode() {
+    this.currentAction = 'edit';
+    this.selectedBookId = undefined;
+    this.resetForm();
+  }
+
+  showDeleteMode() {
+    this.currentAction = 'delete';
+    this.selectedBookId = undefined;
+  }
+
+  cancelAction() {
+    this.currentAction = null;
+    this.selectedBookId = undefined;
+    this.resetForm();
+  }
+
+  // -----------------------
+  // SELECT BOOK FOR ACTION
+  // -----------------------
+  selectBookForAction(book: Book) {
+    this.selectedBookId = book.id;
+
+    if (this.currentAction === 'edit') {
+      this.isEditing = true;
+      this.editingBookId = book.id;
+
+      this.bookForm.patchValue({
+        title: book.title,
+        author: book.author || ''
+      });
+
+      document.querySelector('.book-form-section')
+        ?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (this.currentAction === 'delete') {
+      // Now calls the updated deleteBook method
+      this.deleteBook(book.id!);
+    }
+  }
+
+  // -----------------------
+  // BASKET
+  // -----------------------
   addToBasket(book: Book): void {
     if (!this.isInBasket(book.id!)) {
       this.addedBooks.push(book);
@@ -77,25 +136,10 @@ export class BooksComponent implements OnInit {
   removeFromBasket(bookId: number): void {
     this.addedBooks = this.addedBooks.filter(book => book.id !== bookId);
     this.saveBasketToStorage();
-    if (this.selectedBookId === bookId) {
-      this.selectedBookId = undefined;
-    }
   }
 
   isInBasket(bookId: number): boolean {
     return this.addedBooks.some(book => book.id === bookId);
-  }
-
-  editBookFromBadge(book: Book): void {
-    this.selectedBookId = book.id;
-    this.isEditing = true;
-    this.editingBookId = book.id;
-    this.bookForm.patchValue({
-      title: book.title,
-      author: book.author || ''
-    });
-    // Scroll to form
-    document.querySelector('.book-form-section')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   saveBasketToStorage(): void {
@@ -108,89 +152,110 @@ export class BooksComponent implements OnInit {
       try {
         this.addedBooks = JSON.parse(saved);
       } catch (e) {
-        console.error('Error loading basket from storage:', e);
+        console.error('Error loading basket:', e);
       }
     }
   }
 
-  // FORM METHODS
+  // -----------------------
+  // FORM SUBMIT
+  // -----------------------
   onSubmit(): void {
-    if (this.bookForm.valid) {
-      this.isLoading = true;
-      const bookData: Book = this.bookForm.value;
+    if (!this.bookForm.valid) return;
 
-      if (this.isEditing && this.editingBookId) {
-        // Update existing book
-        this.bookService.updateBook(this.editingBookId, bookData).subscribe({
-          next: (updatedBook) => {
-            // Update in main list
-            const index = this.books.findIndex(b => b.id === this.editingBookId);
-            if (index !== -1) this.books[index] = updatedBook;
-            
-            // Update in basket if present
-            const basketIndex = this.addedBooks.findIndex(b => b.id === this.editingBookId);
-            if (basketIndex !== -1) this.addedBooks[basketIndex] = updatedBook;
-            
-            this.resetForm();
-            this.saveBasketToStorage();
-            this.isLoading = false;
-          },
-          error: (error) => {
-            console.error('Error updating book:', error);
-            this.isLoading = false;
-          }
-        });
-      } else {
-        // Add new book
-        this.bookService.createBook(bookData).subscribe({
-          next: (newBook) => {
-            this.books.push(newBook);
-            this.addedBooks.push(newBook); // Add to basket
-            this.resetForm();
-            this.saveBasketToStorage();
-            this.isLoading = false;
-          },
-          error: (error) => {
-            console.error('Error adding book:', error);
-            this.isLoading = false;
-          }
-        });
-      }
+    this.isLoading = true;
+    const data: Book = this.bookForm.value;
+
+    if (this.isEditing && this.editingBookId) {
+      this.updateBook(this.editingBookId, data);
+    } else {
+      this.createBook(data);
     }
   }
 
-  resetForm(): void {
-    this.bookForm.reset();
-    this.isEditing = false;
-    this.editingBookId = undefined;
-    this.selectedBookId = undefined;
+  // CREATE NEW BOOK
+  createBook(bookData: Book) {
+    this.bookService.createBook(bookData).subscribe({
+      next: newBook => {
+        this.books.push(newBook);
+        this.addedBooks.push(newBook);
+        this.saveBasketToStorage();
+        this.resetForm();
+        this.currentAction = null;
+        this.isLoading = false;
+      },
+      error: err => {
+        console.error('Error adding book:', err);
+        this.isLoading = false;
+      }
+    });
   }
 
-  cancelForm(): void {
-    this.resetForm();
+  // UPDATE BOOK
+  updateBook(id: number, bookData: Book) {
+    this.bookService.updateBook(id, bookData).subscribe({
+      next: updated => {
+        const idx = this.books.findIndex(b => b.id === id);
+        if (idx !== -1) this.books[idx] = updated;
+
+        const badgeIdx = this.addedBooks.findIndex(b => b.id === id);
+        if (badgeIdx !== -1) this.addedBooks[badgeIdx] = updated;
+
+        this.saveBasketToStorage();
+        this.resetForm();
+        this.currentAction = null;
+        this.selectedBookId = undefined;
+        this.isLoading = false;
+      },
+      error: err => {
+        console.error('Error updating book:', err);
+        this.isLoading = false;
+      }
+    });
   }
 
-  // EXISTING METHODS (modified)
-  editBook(book: Book): void {
-    this.editBookFromBadge(book);
-  }
-
+  // -----------------------
+  // DELETE BOOK - UPDATED VERSION
+  // -----------------------
   deleteBook(id: number): void {
-    const confirmMessage = this.translationService.translate('confirmDeleteBook') ||
-      'Are you sure you want to delete this book?';
+    // If we're in delete mode and this book is selected, show confirmation
+    if (this.currentAction === 'delete' && this.selectedBookId === id) {
+      const msg =
+        this.translationService.translate('confirmDeleteBook') ||
+        'Are you sure you want to delete this book?';
 
-    if (confirm(confirmMessage)) {
+      if (!confirm(msg)) return;
+
       this.bookService.deleteBook(id).subscribe({
         next: () => {
           this.books = this.books.filter(book => book.id !== id);
           this.addedBooks = this.addedBooks.filter(book => book.id !== id);
+          
+          this.cancelAction();
           this.saveBasketToStorage();
-          if (this.selectedBookId === id) {
-            this.resetForm();
-          }
         },
-        error: error => console.error('Error deleting book:', error)
+        error: err => console.error('Error deleting book:', err)
       });
     }
+    // If not in delete mode, just select the book for deletion
+    else {
+      this.showDeleteMode();
+      this.selectedBookId = id;
+    }
+  }
+
+  // -----------------------
+  // RESET FORM
+  // -----------------------
+  resetForm(): void {
+    this.bookForm.reset();
+    this.isEditing = false;
+    this.editingBookId = undefined;
+  }
+
+  cancelForm(): void {
+    this.resetForm();
+    this.currentAction = null;
+    this.selectedBookId = undefined;
   }
 }
