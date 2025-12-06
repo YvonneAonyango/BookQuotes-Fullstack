@@ -1,84 +1,128 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { Book, BookService } from '../../services/book.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Quote, QuoteService } from '../../services/quote.service';
 import { TranslationService } from '../../services/translation.service'; 
 import { TranslationPipe } from '../../pipes/translation.pipe'; 
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-books',
+  selector: 'app-quotes',
   standalone: true,
   imports: [
     CommonModule, 
-    RouterModule,
+    ReactiveFormsModule,
     TranslationPipe 
   ],
-  templateUrl: './books.component.html',
-  styleUrls: ['./books.component.css']
+  templateUrl: './quotes.component.html',
+  styleUrls: ['./quotes.component.css']
 })
-export class BooksComponent implements OnInit {
-  books: Book[] = [];
+export class QuotesComponent implements OnInit {
+  quotes: Quote[] = [];
+  quoteForm: FormGroup;
+  showForm = false;
+  isEdit = false;
+  editingQuoteId?: number;
   isLoading = false;
-  hasMoreBooks = false;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
   private translationService = inject(TranslationService);
 
   constructor(
-    private bookService: BookService, 
-    private router: Router
-  ) {}
+    private quoteService: QuoteService,
+    private fb: FormBuilder
+  ) {
+    this.quoteForm = this.fb.group({
+      text: ['', [Validators.required, Validators.minLength(10)]],
+      author: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     // Set page title
-    this.titleService.setTitle('BookWebApp - Books');
+    this.titleService.setTitle('BookWebApp - Quotes');
 
-    // SEO description only - REMOVED viewport meta
+    // REMOVED the viewport meta tag - only in navbar component
+    // SEO description
     this.meta.updateTag({
       name: 'description',
-      content: 'Browse, manage, and edit your books in your personal library with BookWebApp.'
+      content: 'Browse, add, and manage quotes in your personal library with BookWebApp.'
     });
 
-    this.loadBooks();
+    this.loadQuotes();
   }
 
-  loadBooks(): void {
+  loadQuotes(): void {
     this.isLoading = true;
-    this.bookService.getBooks().subscribe({
-      next: (books) => {
-        this.books = books;
+    this.quoteService.getQuotes().subscribe({
+      next: (quotes) => {
+        this.quotes = quotes;
         this.isLoading = false;
-        this.hasMoreBooks = books.length >= 10;
       },
       error: (error) => {
-        console.error('Error loading books:', error);
+        console.error('Error loading quotes:', error);
         this.isLoading = false;
       }
     });
   }
 
-  addBook(): void {
-    this.router.navigate(['/books/new']);
+  showAddForm(): void {
+    this.showForm = true;
+    this.isEdit = false;
+    this.quoteForm.reset();
   }
 
-  editBook(id: number): void {
-    this.router.navigate(['/books/edit', id]);
+  cancelForm(): void {
+    this.showForm = false;
+    this.isEdit = false;
+    this.quoteForm.reset();
   }
 
-  deleteBook(id: number): void {
-    const confirmMessage = this.translationService.translate('confirmDeleteBook') || 
-                          'Are you sure you want to delete this book?';
-    
-    if (confirm(confirmMessage)) {
-      this.bookService.deleteBook(id).subscribe({
+  onSubmit(): void {
+    if (this.quoteForm.valid) {
+      this.isLoading = true;
+      const quoteData: Quote = this.quoteForm.value;
+
+      const operation = this.isEdit && this.editingQuoteId
+        ? this.quoteService.updateQuote(this.editingQuoteId, quoteData)
+        : this.quoteService.createQuote(quoteData);
+
+      operation.subscribe({
         next: () => {
-          this.books = this.books.filter(book => book.id !== id);
+          this.isLoading = false;
+          this.loadQuotes();
+          this.cancelForm();
         },
         error: (error) => {
-          console.error('Error deleting book:', error);
+          console.error('Error saving quote:', error);
+          this.isLoading = false;
+        }
+      });
+    }
+  }
+
+  editQuote(quote: Quote): void {
+    this.showForm = true;
+    this.isEdit = true;
+    this.editingQuoteId = quote.id;
+    this.quoteForm.patchValue({
+      text: quote.text,
+      author: quote.author
+    });
+  }
+
+  deleteQuote(id: number): void {
+    const confirmMessage = this.translationService.translate('confirmDeleteQuote') || 
+                          'Are you sure you want to delete this quote?';
+    
+    if (confirm(confirmMessage)) {
+      this.quoteService.deleteQuote(id).subscribe({
+        next: () => {
+          this.quotes = this.quotes.filter(quote => quote.id !== id);
+        },
+        error: (error) => {
+          console.error('Error deleting quote:', error);
         }
       });
     }
