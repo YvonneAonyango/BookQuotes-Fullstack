@@ -11,8 +11,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Meta, Title } from '@angular/platform-browser';
 
 import {
-  faBook,
-  faQuoteLeft,
   faSun,
   faMoon,
   faSignOutAlt,
@@ -37,8 +35,6 @@ import {
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  faBook = faBook;
-  faQuoteLeft = faQuoteLeft;
   faSun = faSun;
   faMoon = faMoon;
   faSignOutAlt = faSignOutAlt;
