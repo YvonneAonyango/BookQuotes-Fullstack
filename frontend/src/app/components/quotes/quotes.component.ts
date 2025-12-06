@@ -19,6 +19,7 @@ import { Meta, Title } from '@angular/platform-browser';
 })
 export class QuotesComponent implements OnInit {
   quotes: Quote[] = [];
+  addedQuotes: Quote[] = []; // Badge list of added quotes
   quoteForm: FormGroup;
   showForm = false;
   isEdit = false;
@@ -43,8 +44,7 @@ export class QuotesComponent implements OnInit {
     // Set page title
     this.titleService.setTitle('BookWebApp - Quotes');
 
-    // REMOVED the viewport meta tag - only in navbar component
-    // SEO description
+    // SEO description only
     this.meta.updateTag({
       name: 'description',
       content: 'Browse, add, and manage quotes in your personal library with BookWebApp.'
@@ -89,9 +89,18 @@ export class QuotesComponent implements OnInit {
         : this.quoteService.createQuote(quoteData);
 
       operation.subscribe({
-        next: () => {
+        next: (savedQuote) => {
           this.isLoading = false;
-          this.loadQuotes();
+
+          if (this.isEdit && this.editingQuoteId) {
+            // Update badge list
+            const index = this.addedQuotes.findIndex(q => q.id === this.editingQuoteId);
+            if (index !== -1) this.addedQuotes[index] = savedQuote;
+          } else {
+            // Add new quote to badge list
+            this.addedQuotes.push(savedQuote);
+          }
+
           this.cancelForm();
         },
         error: (error) => {
@@ -119,12 +128,23 @@ export class QuotesComponent implements OnInit {
     if (confirm(confirmMessage)) {
       this.quoteService.deleteQuote(id).subscribe({
         next: () => {
-          this.quotes = this.quotes.filter(quote => quote.id !== id);
+          this.quotes = this.quotes.filter(q => q.id !== id);
+          this.addedQuotes = this.addedQuotes.filter(q => q.id !== id); // Remove from badge list too
         },
         error: (error) => {
           console.error('Error deleting quote:', error);
         }
       });
     }
+  }
+
+  addToBadge(quote: Quote): void {
+    if (!this.addedQuotes.find(q => q.id === quote.id)) {
+      this.addedQuotes.push(quote);
+    }
+  }
+
+  removeFromBadge(quote: Quote): void {
+    this.addedQuotes = this.addedQuotes.filter(q => q.id !== quote.id);
   }
 }

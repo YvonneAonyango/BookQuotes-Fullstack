@@ -22,7 +22,7 @@ import { Meta, Title } from '@angular/platform-browser';
   imports: [CommonModule, RouterModule, FontAwesomeModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  encapsulation: ViewEncapsulation.None  // Add this line
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
   
@@ -53,12 +53,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // Set page title
     this.titleService.setTitle('BookWebApp - Home');
-
-    // Add viewport meta (fix zoom issue)
-    this.meta.updateTag({
-      name: 'viewport',
-      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-    });
 
     // Optional: SEO description
     this.meta.updateTag({

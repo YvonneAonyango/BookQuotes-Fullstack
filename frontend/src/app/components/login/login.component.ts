@@ -38,7 +38,11 @@ export class LoginComponent implements OnInit {
     }
 
     this.titleService.setTitle('BookWebApp - Login');
-    this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
+    
+    // REMOVE the viewport meta tag - only in navbar component
+    // this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
+    
+    // Keep SEO description
     this.meta.updateTag({ name: 'description', content: 'Login to your BookWebApp account.' });
   }
 
