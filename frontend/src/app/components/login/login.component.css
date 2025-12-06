@@ -1,179 +1,70 @@
+/* =========================
+   TYPOGRAPHY FIX
+========================= */
 
-/* Container */
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  padding: 1rem;
+/* Base font size */
+html {
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  color: #2d3748;
 }
 
-/* Card */
-.card {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-  background: #fff;
+/* Headings */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-
-/* Card Header */
-.card-header {
-  background-color: #667eea; /* match navbar primary */
-  color: #fff;
-  text-align: center;
-  padding: 1rem 1.5rem;
+h2 {
   font-size: 1.5rem;
-  font-weight: bold;
-  border-bottom: none;
-}
-
-/* Card Body */
-.card-body {
-  padding: 1.5rem;
-}
-
-/* Form Labels */
-.form-label {
-  font-weight: 500;
-  margin-bottom: 0.3rem;
-}
-
-/* Form Controls - set min font-size 16px to prevent iOS zoom */
-.form-control {
-  width: 100%;
-  min-height: 45px;
-  padding: 0.5rem 0.75rem;
-  font-size: 16px; /* updated */
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
-  transition: border 0.3s, box-shadow 0.3s;
-}
-.form-control:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.25);
-}
-.is-invalid {
-  border-color: #dc3545 !important;
-}
-.invalid-feedback {
-  font-size: 0.85rem;
-}
-
-/* Button - set min font-size 16px */
-.d-grid button {
-  width: 100%;
-  padding: 0.6rem 1.2rem;
-  font-size: 16px; /* updated */
   font-weight: 600;
-  border-radius: 8px;
-  background-color: #667eea;
-  border: 1px solid #667eea;
-  color: #fff;
-  transition: transform 0.2s, background-color 0.2s;
+  margin-bottom: 0.5rem;
 }
-.d-grid button:hover:not(:disabled) {
-  background-color: #5a67d8;
-  transform: translateY(-2px);
+h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+h4 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+p, span, label, small {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
-/* Spinner */
-.spinner-border {
-  width: 1rem;
-  height: 1rem;
-  border-width: 0.15em;
+/* Override Bootstrap display classes */
+.display-1, .display-2, .display-3, .display-4, .display-5 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 /* Links */
-.text-center a {
+a {
+  font-size: 1rem;
   color: #667eea;
   text-decoration: none;
-  font-weight: 500;
   transition: color 0.3s;
 }
-.text-center a:hover {
+a:hover {
   color: #5a67d8;
   text-decoration: underline;
 }
 
-/* Alert */
-.alert {
-  font-size: 0.9rem;
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 1rem;
-  border-radius: 6px;
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.35rem; }
+  h3 { font-size: 1.2rem; }
+  p, span, label, small { font-size: 0.95rem; }
+  .display-1, .display-2, .display-3, .display-4, .display-5 { font-size: 1.5rem; }
 }
 
-/* =========================
-   RESPONSIVE
-======================== */
-
-/* Tablet and up */
-@media (min-width: 768px) {
-  .card {
-    max-width: 400px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 576px) {
-  .container {
-    min-height: 70vh;
-    padding: 0.5rem;
-  }
-  
-  .card-header {
-    font-size: 1.3rem;
-    padding: 0.75rem 1rem;
-  }
-
-  .form-control {
-    font-size: 16px; /* prevent zoom */
-    min-height: 42px;
-  }
-
-  .d-grid button {
-    padding: 0.5rem 1rem;
-    font-size: 16px; /* prevent zoom */
-  }
-  
-  .text-center p {
-    font-size: 0.9rem;
-  }
-}
-
-body.dark-mode .card {
-  background: #2d3748;
-  color: #e2e8f0;
-  border: 1px solid #4a5568;
-}
-body.dark-mode .card-header {
-  background-color: #667eea;
-  color: #fff;
-}
-body.dark-mode .form-control {
-  background: #4a5568;
-  color: #e2e8f0;
-  border: 1px solid #718096;
-}
-body.dark-mode .form-control:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.25);
-}
-body.dark-mode .text-center a {
-  color: #90cdf4;
-}
-body.dark-mode .text-center a:hover {
-  color: #63b3ed;
-}
-body.dark-mode .alert {
-  background-color: #4a5568;
-  color: #e2e8f0;
-  border-color: #718096;
+/* Prevent iOS zoom on inputs */
+input, textarea, select, button {
+  font-size: 16px;
 }

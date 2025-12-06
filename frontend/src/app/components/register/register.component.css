@@ -11,6 +11,7 @@
   align-items: center;
   justify-content: center;
   background: #f5f7fa;
+  font-family: 'Inter', 'Helvetica', sans-serif;
 }
 
 body.dark-mode .register-container {
@@ -23,7 +24,7 @@ body.dark-mode .register-container {
   border-radius: 16px;
   overflow: hidden;
   width: 100%;
-  max-width: 500px; /* ensures it doesn’t grow too wide */
+  max-width: 450px; /* slightly smaller for better proportion */
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
 }
@@ -35,7 +36,7 @@ body.dark-mode .register-card {
 /* Card header */
 .register-card .card-header {
   border-bottom: none;
-  padding: 2rem 1.5rem;
+  padding: 1.75rem 1.25rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   text-align: center;
@@ -47,7 +48,7 @@ body.dark-mode .register-card .card-header {
 
 .register-card .card-header h2 {
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.4rem; /* normal size, not too big */
   margin: 0;
 }
 
@@ -58,13 +59,13 @@ body.dark-mode .register-card .card-header {
 
 /* Card body */
 .register-card .card-body {
-  padding: 1.5rem 1.25rem;
+  padding: 1.25rem 1rem;
 }
 
 /* Form styling */
 .form-control {
   padding: 0.65rem 1rem;
-  font-size: 16px; /* updated for mobile-friendly zoom */
+  font-size: 1rem; /* consistent across devices */
   border-radius: 8px;
   transition: all 0.2s ease;
 }
@@ -72,15 +73,15 @@ body.dark-mode .register-card .card-header {
 .form-label {
   font-weight: 600;
   margin-bottom: 0.5rem;
-  font-size: 14px; /* slightly larger for mobile readability */
+  font-size: 0.95rem;
 }
 
 /* Buttons */
 .btn-primary,
 .btn-outline-primary {
   width: 100%;
-  font-size: 16px; /* updated */
-  padding: 0.75rem;
+  font-size: 1rem;
+  padding: 0.65rem;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
@@ -98,13 +99,38 @@ body.dark-mode .register-card .card-header {
 }
 
 /* Responsive adjustments */
+@media (max-width: 768px) {
+  .register-card {
+    max-width: 90%; /* almost full width on tablets */
+  }
+
+  .register-card .card-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .form-control {
+    font-size: 0.95rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+  }
+
+  .btn-primary,
+  .btn-outline-primary {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
+}
+
 @media (max-width: 576px) {
   .register-card {
     margin: 0 0.5rem;
   }
 
   .register-card .card-header h2 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 
   .register-card .card-body {
@@ -112,18 +138,18 @@ body.dark-mode .register-card .card-header {
   }
 
   .form-control {
-    font-size: 15px; /* slightly smaller for narrow screens */
-    padding: 0.55rem 0.75rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.7rem;
   }
 
   .form-label {
-    font-size: 13px;
+    font-size: 0.85rem;
   }
 
   .btn-primary,
   .btn-outline-primary {
-    font-size: 15px;
-    padding: 0.65rem;
+    font-size: 0.9rem;
+    padding: 0.55rem;
   }
 }
 
