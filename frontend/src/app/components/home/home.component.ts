@@ -51,10 +51,7 @@ export class HomeComponent implements OnInit {
   private titleService = inject(Title);
 
   ngOnInit(): void {
-    // Set page title
     this.titleService.setTitle('BookWebApp - Home');
-
-    // Optional: SEO description
     this.meta.updateTag({
       name: 'description',
       content: 'Manage your personal library with BookWebApp. Add books, save quotes, and enjoy reading!'

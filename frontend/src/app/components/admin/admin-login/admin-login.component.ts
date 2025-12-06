@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService, LoginRequest } from '../../../services/auth.service';
+import { AuthService, LoginRequest, AuthResponse } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -43,18 +43,18 @@ export class AdminLoginComponent {
       };
 
       this.authService.adminLogin(loginData).subscribe({
-        next: (response) => {
+        next: (response: AuthResponse) => {
           this.isLoading = false;
-          if (response.role === 'Admin') {
+          if (response.role === 'admin' || response.username === 'AngularAdmin') {
             this.router.navigate(['/admin/dashboard']);
           } else {
             this.errorMessage = 'Access denied. Admin privileges required.';
             this.authService.logout();
           }
         },
-        error: (error) => {
+        error: (error: any) => {
           this.isLoading = false;
-          this.errorMessage = error.error?.message || 'Admin login failed. Please check your credentials.';
+          this.errorMessage = error.error?.message || error.message || 'Admin login failed. Please check your credentials.';
         }
       });
     } else {

@@ -1,46 +1,35 @@
-/* ===== HOME PAGE - MINIMAL ===== */
+/* ===== HOME PAGE - FIXED LAYOUT ===== */
 .home-container {
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-.home-container h1 { font-size: 2rem; }
-.home-container h2 { font-size: 1.75rem; }
-.home-container h3 { font-size: 1.5rem; }
-.home-container p,
-.home-container div {
-  font-size: 1rem;
-  line-height: 1.5;
+  min-height: calc(100vh - 56px); /* Subtract navbar height */
+  margin-top: 56px;
+  width: 100%;
+  font-size: 16px;
 }
 
-@media (min-width: 992px) {
-  .home-container {
-    flex-direction: row;
-  }
-}
-
-/* SIDEBAR */
+/* SIDEBAR - Fixed width and position */
 .sidebar {
   background: #122442;
-  padding: 1rem;
   color: white;
-}
-@media (min-width: 992px) {
-  .sidebar {
-    width: 250px;
-    position: sticky;
-    top: 70px;
-  }
+  width: 250px;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  padding: 1rem;
+  z-index: 900;
 }
 
-/* DASHBOARD & ACTIVITY CARDS */
-.dashboard-card,
-.activity-card {
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-  padding: 1.25rem;
+.sidebar-content {
+  height: 100%;
+}
+
+/* DASHBOARD CARDS */
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
   margin-bottom: 1rem;
 }
 
@@ -48,41 +37,100 @@
 .stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  margin: 1rem 0;
-}
-.stat-box {
-  background: rgba(255,255,255,0.08);
-  border-radius: 8px;
-  padding: 0.75rem;
-}
-.stat-number {
-  font-size: 1.25rem;
-  font-weight: 700;
+  gap: 1rem;
+  margin: 1.5rem 0;
 }
 
-/* QUICK ACCESS LINKS */
+.stat-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffd36b;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* QUICK ACCESS */
 .access-links {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-.access-link {
-  color: white;
-  padding: 0.75rem;
-  background: rgba(255,255,255,0.05);
-  border-radius: 8px;
-  text-decoration: none;
+  gap: 0.75rem;
 }
 
-/* MAIN CONTENT */
+.access-link {
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.access-link:hover {
+  background: rgba(255, 211, 107, 0.2);
+  transform: translateX(5px);
+}
+
+/* ===== FEATURED QUOTES IN SIDEBAR ===== */
+.featured-quotes {
+  margin-top: 1.5rem;
+}
+
+.featured-quotes-title {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #ffd36b;
+  text-transform: uppercase;
+}
+
+.quote-card {
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.quote-card:hover {
+  background-color: rgba(255, 211, 107, 0.2);
+}
+
+.quote-text {
+  font-style: italic;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.quote-author {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+/* MAIN CONTENT - Takes remaining space */
 .main-content {
   flex: 1;
-  padding: 1.5rem 1rem;
+  margin-left: 250px; /* Match sidebar width */
+  padding: 2rem;
+  background: #f8f9fa;
+  min-height: calc(100vh - 56px);
 }
-@media (min-width: 768px) {
-  .main-content { padding: 2rem; }
+
+body.dark-mode .main-content {
+  background: #1a1a2e;
 }
 
 /* HERO SECTION */
@@ -90,122 +138,197 @@
   text-align: center;
   margin-bottom: 2rem;
 }
+
 .hero-title {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2c5282;
   margin-bottom: 0.5rem;
 }
+
+body.dark-mode .hero-title {
+  color: #ffd36b;
+}
+
 .hero-subtitle {
-  font-size: 1.1rem;
-  opacity: 0.8;
+  font-size: 1.2rem;
+  color: #666;
   margin-bottom: 2rem;
 }
 
-/* FEATURE & STEP CARDS */
+body.dark-mode .hero-subtitle {
+  color: #ccc;
+}
+
+/* FEATURES & STEPS CARDS */
 .feature-card,
 .step-card {
-  background: var(--card-light);
-  border-radius: 10px;
+  background: white;
+  border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  height: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
 }
+
 body.dark-mode .feature-card,
 body.dark-mode .step-card {
-  background: var(--card-dark);
+  background: #2d3748;
+  color: white;
 }
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
 .feature-icon {
-  font-size: 2rem;
-  color: var(--highlight-yellow);
+  font-size: 2.5rem;
+  color: #667eea;
   margin-bottom: 1rem;
 }
+
 .feature-title,
 .step-title {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
 }
 
-/* SECTION TITLE & STEP NUMBER */
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
+.feature-description,
+.step-description {
+  font-size: 0.95rem;
+  color: #666;
 }
+
+body.dark-mode .feature-description,
+body.dark-mode .step-description {
+  color: #ccc;
+}
+
 .step-number {
-  width: 30px;
-  height: 30px;
-  background: var(--highlight-yellow);
+  width: 40px;
+  height: 40px;
+  background: #667eea;
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  margin: 0 auto 0.75rem;
+  font-size: 1.2rem;
+  margin: 0 auto 1rem;
 }
 
-/* CTA CARD */
-.cta-card {
-  background: rgba(255,184,77,0.1);
-  border-radius: 12px;
-  padding: 2rem 1.5rem;
+/* SECTION TITLES */
+.section-title {
   text-align: center;
-  margin-top: 2rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #333;
 }
-.cta-icon-wrapper {
-  font-size: 2.5rem;
-  color: var(--highlight-yellow);
+
+body.dark-mode .section-title {
+  color: white;
+}
+
+/* CTA SECTION */
+.cta-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  color: white;
+}
+
+.cta-icon {
+  font-size: 3rem;
+  color: #ffd36b;
   margin-bottom: 1rem;
 }
+
 .cta-title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
 }
-.cta-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  justify-content: center;
-}
-@media (min-width: 576px) {
-  .cta-buttons { flex-direction: row; }
+
+.cta-description {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
 }
 
-/* CTA BUTTONS */
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
 .btn-cta-primary,
 .btn-cta-secondary {
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
   border: none;
-}
-.btn-cta-primary {
-  background: var(--highlight-yellow);
-  color: #1f3b5f;
-}
-.btn-cta-secondary {
-  background: transparent;
-  color: var(--text-light);
-  border: 2px solid var(--text-light);
+  transition: all 0.3s ease;
 }
 
-/* RESPONSIVE ADJUSTMENTS */
-@media (max-width: 767px) {
+.btn-cta-primary {
+  background: #ffd36b;
+  color: #1f3b5f;
+}
+
+.btn-cta-primary:hover {
+  background: #ffc745;
+  transform: translateY(-2px);
+}
+
+.btn-cta-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+  .home-container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    position: relative;
+    width: 100%;
+    top: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
   .stats-grid {
     grid-template-columns: 1fr;
   }
-  .hero-title {
-    font-size: 1.75rem;
-  }
+  
   .cta-buttons {
     flex-direction: column;
   }
-  .btn-cta-primary,
-  .btn-cta-secondary {
-    width: 100%;
+  
+  .feature-card,
+  .step-card {
+    margin-bottom: 1rem;
   }
 }
 
@@ -214,10 +337,12 @@ body.dark-mode .step-card {
   margin-left: -0.5rem;
   margin-right: -0.5rem;
 }
+
 .col-12,
 .col-md-6,
 .col-lg-4 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
+
 .g-4 { gap: 1rem; }

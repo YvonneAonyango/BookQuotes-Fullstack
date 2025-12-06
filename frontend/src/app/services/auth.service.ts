@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
+// =========================
+// AUTH MODELS
+// =========================
 export interface LoginRequest {
   username: string;
   password: string;
@@ -12,111 +17,36 @@ export interface RegisterRequest {
   username: string;
   password: string;
   confirmPassword: string;
-  role?: string;
 }
 
 export interface AuthResponse {
   token: string;
   username: string;
   role: string;
-  message: string;
+  message?: string;
 }
 
-export interface UserInfo {
-  username: string;
-  role: string;
-  token: string;
-}
-
+// =========================
+// AUTH SERVICE
+// =========================
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // ✅ Updated backend URL
-  private apiUrl = 'https://bookquotes-back-nxld.onrender.com/api/auth';
-  private TOKEN_KEY = 'authToken';
-  private USER_KEY = 'currentUser';
+  private apiUrl = environment.apiUrl;
 
-  private tokenSubject = new BehaviorSubject<string | null>(this.getToken());
-  private userSubject = new BehaviorSubject<UserInfo | null>(this.getCurrentUser());
-  private authStatusSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
-  private adminStatusSubject = new BehaviorSubject<boolean>(this.isAdmin());
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
-  public token$ = this.tokenSubject.asObservable();
-  public currentUser$ = this.userSubject.asObservable();
-  public isAuthenticated$ = this.authStatusSubject.asObservable();
-  public isAdmin$ = this.adminStatusSubject.asObservable();
+  // =========================
+  // HELPER METHODS
+  // =========================
 
-  constructor(private http: HttpClient) {
-    this.updateAuthStatus();
-  }
-
-  /** Login for users */
-  login(user: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, user).pipe(
-      tap(response => {
-        this.storeAuthData(response);
-        this.updateAuthStatus();
-      }),
-      catchError(error => throwError(() => error))
-    );
-  }
-
-  /** Admin login */
-  adminLogin(user: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, user).pipe( // Backend endpoint is same
-      tap(response => {
-        this.storeAuthData(response);
-        this.updateAuthStatus();
-      }),
-      catchError(error => throwError(() => error))
-    );
-  }
-
-  /** Register a new user */
-  register(user: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, user).pipe(
-      tap(response => {
-        this.storeAuthData(response);
-        this.updateAuthStatus();
-      }),
-      catchError(error => throwError(() => error))
-    );
-  }
-
-  /** Logout user */
-  logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
-    this.updateAuthStatus();
-  }
-
-  /** Store token and user info */
-  private storeAuthData(response: AuthResponse): void {
-    localStorage.setItem(this.TOKEN_KEY, response.token);
-    const userInfo: UserInfo = { username: response.username, role: response.role, token: response.token };
-    localStorage.setItem(this.USER_KEY, JSON.stringify(userInfo));
-  }
-
-  /** Get token from storage */
+  /** Get token from local storage */
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
-
-  /** Get current user info from storage */
-  getCurrentUser(): UserInfo | null {
-    const userJson = localStorage.getItem(this.USER_KEY);
-    return userJson ? JSON.parse(userJson) : null;
-  }
-
-  /** Get user role */
-  getUserRole(): string | null {
-    return this.getCurrentUser()?.role || null;
-  }
-
-  /** Check if user is admin */
-  isAdmin(): boolean {
-    return this.getCurrentUser()?.role === 'Admin';
+    return localStorage.getItem('authToken');
   }
 
   /** Check if user is authenticated */
@@ -124,13 +54,135 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  /** Update BehaviorSubjects */
-  private updateAuthStatus(): void {
+  /** Check if user is admin */
+  isAdmin(): boolean {
+    const role = localStorage.getItem('role');
+    const username = localStorage.getItem('username');
+    
+    // Check for explicit admin credentials
+    return role === 'admin' || username === 'AngularAdmin';
+  }
+
+  /** Get current username */
+  getCurrentUser(): string | null {
+    return localStorage.getItem('username');
+  }
+
+  /** Get current user role */
+  getCurrentRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  // =========================
+  // AUTH METHODS
+  // =========================
+
+  /** Regular user login */
+  login(loginData: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, loginData)
+      .pipe(
+        tap(response => {
+          if (response.token) {
+            localStorage.setItem('authToken', response.token);
+            localStorage.setItem('username', response.username);
+            localStorage.setItem('role', response.role || 'user');
+          }
+        }),
+        catchError(error => {
+          console.error('Login error:', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  /** Admin-specific login (with special validation) */
+  adminLogin(loginData: LoginRequest): Observable<AuthResponse> {
+    // Check for explicit admin credentials first
+    if (loginData.username === 'AngularAdmin' && loginData.password === 'Admin123!') {
+      // Create admin response
+      const adminResponse: AuthResponse = {
+        token: 'admin-token-' + Date.now(),
+        username: 'AngularAdmin',
+        role: 'admin'
+      };
+      
+      // Store in localStorage
+      localStorage.setItem('authToken', adminResponse.token);
+      localStorage.setItem('username', adminResponse.username);
+      localStorage.setItem('role', adminResponse.role);
+      
+      // Return as observable
+      return new Observable<AuthResponse>(observer => {
+        observer.next(adminResponse);
+        observer.complete();
+      });
+    }
+    
+    // If not AngularAdmin, use regular login but check role
+    return this.login(loginData)
+      .pipe(
+        map(response => {
+          // If role is not admin, throw error
+          if (response.role !== 'admin') {
+            throw new Error('Access denied. Admin privileges required.');
+          }
+          return response;
+        }),
+        catchError(error => {
+          return throwError(() => error);
+        })
+      );
+  }
+
+  /** User registration */
+  register(registerData: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, registerData)
+      .pipe(
+        tap(response => {
+          if (response.token) {
+            localStorage.setItem('authToken', response.token);
+            localStorage.setItem('username', response.username);
+            localStorage.setItem('role', response.role || 'user');
+          }
+        }),
+        catchError(error => {
+          console.error('Registration error:', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  /** Logout user */
+  logout(): void {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
+    this.router.navigate(['/login']);
+  }
+
+  /** Check if user has specific role */
+  hasRole(role: string): boolean {
+    const userRole = this.getCurrentRole();
+    return userRole === role;
+  }
+
+  /** Validate token (optional - for checking if token is still valid) */
+  validateToken(): Observable<boolean> {
     const token = this.getToken();
-    const user = this.getCurrentUser();
-    this.tokenSubject.next(token);
-    this.userSubject.next(user);
-    this.authStatusSubject.next(!!token);
-    this.adminStatusSubject.next(user?.role === 'Admin');
+    if (!token) {
+      return of(false);
+    }
+
+    return this.http.get<{ valid: boolean }>(`${this.apiUrl}/auth/validate`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .pipe(
+        map(response => response.valid),
+        catchError(() => {
+          // If validation fails, clear storage
+          this.logout();
+          return of(false);
+        })
+      );
   }
 }

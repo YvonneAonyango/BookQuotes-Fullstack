@@ -32,7 +32,7 @@
           </a>
         </li>
 
-        <!-- ✅ Admin Links -->
+        <!-- Admin Links (only visible to admins) -->
         <li class="nav-item" *ngIf="authService.isAdmin()">
           <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
             <fa-icon [icon]="faBook" class="me-1"></fa-icon>
@@ -76,9 +76,6 @@
             <span class="d-sm-none">
               <fa-icon [icon]="faUserPlus"></fa-icon>
             </span>
-          </a>
-          <a class="btn btn-outline-warning btn-sm" routerLink="/admin/login" *ngIf="!authService.isAdmin()">
-            <span class="d-none d-sm-inline">Admin Login</span>
           </a>
         </div>
 

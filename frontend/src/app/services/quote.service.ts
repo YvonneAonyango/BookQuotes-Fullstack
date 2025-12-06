@@ -10,6 +10,7 @@ export interface Quote {
   id?: number;
   text: string;
   author: string; // Make sure author exists
+  bookId?: number; // Added bookId property for book-quote association
 }
 
 // =========================
@@ -73,5 +74,10 @@ export class QuoteService {
   /** Delete a quote by ID */
   deleteQuote(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/quotes/${id}`, { headers: this.getAuthHeaders() });
+  }
+
+  /** Fetch quotes by book ID (optional, if your backend supports it) */
+  getQuotesByBookId(bookId: number): Observable<Quote[]> {
+    return this.http.get<Quote[]>(`${this.apiUrl}/books/${bookId}/quotes`, { headers: this.getAuthHeaders() });
   }
 }

@@ -1,7 +1,21 @@
+/* ===== FIXED NAVBAR SETUP ===== */
 :host {
-  font-size: 16px !important;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
 }
 
+/* Offset page content for fixed navbar */
+body {
+  margin: 0;
+  padding-top: 56px; /* height of navbar */
+}
+
+/* ===== WARM NAVBAR STYLING ===== */
 .warm-navbar {
   background: linear-gradient(135deg, #1f3b5f, #2c5282);
   padding: 0.5rem 1rem;
@@ -11,8 +25,12 @@
   align-items: center;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
+  position: relative;
+  width: 100%;
+  margin: 0;
 }
 
+/* BRAND */
 .navbar-brand {
   color: #fff !important;
   font-weight: 700;
@@ -33,6 +51,14 @@
 
 .navbar-brand fa-icon {
   font-size: 1rem !important;
+}
+
+/* NAV LINKS */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
 }
 
 .navbar-nav .nav-link {
@@ -59,6 +85,7 @@
   font-size: 0.85rem !important;
 }
 
+/* BUTTONS */
 .btn-sm,
 .btn-language,
 .btn-darkmode {
@@ -124,6 +151,7 @@
   font-size: 1rem !important;
 }
 
+/* TOGGLER */
 .navbar-toggler {
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 8px;
@@ -138,6 +166,7 @@
   height: 1.2em !important;
 }
 
+/* DROPDOWNS */
 .dropdown-menu {
   font-size: 0.9rem !important;
   min-width: 120px;
@@ -148,10 +177,24 @@
   font-size: 0.9rem !important;
 }
 
+/* ===== RESPONSIVE ===== */
 @media (max-width: 991px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #1f3b5f, #2c5282);
+    padding: 1rem;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
   .navbar-nav {
     text-align: center;
+    flex-direction: column;
     width: 100%;
+    gap: 0.5rem;
     padding-top: 0.5rem;
   }
 
@@ -201,6 +244,7 @@
   }
 }
 
+/* UNIVERSAL */
 .navbar * {
   box-sizing: border-box;
 }
