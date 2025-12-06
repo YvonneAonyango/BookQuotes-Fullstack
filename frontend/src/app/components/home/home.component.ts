@@ -14,6 +14,7 @@ import {
   faHistory,
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -45,5 +46,23 @@ export class HomeComponent implements OnInit {
     return this.translationService.currentTranslations();
   }
 
-  ngOnInit(): void {}
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+
+  ngOnInit(): void {
+    // Set page title
+    this.titleService.setTitle('BookWebApp - Home');
+
+    // Add viewport meta (fix zoom issue)
+    this.meta.updateTag({
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+    });
+
+    // Optional: SEO description
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Manage your personal library with BookWebApp. Add books, save quotes, and enjoy reading!'
+    });
+  }
 }

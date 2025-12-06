@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Book, BookService } from '../../services/book.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-book-form',
@@ -21,6 +22,9 @@ export class BookFormComponent implements OnInit {
   // ✅ Added this to fix template error
   showBackButton = true;
 
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+
   constructor(
     private fb: FormBuilder,
     private bookService: BookService,
@@ -35,6 +39,21 @@ export class BookFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Set page title
+    this.titleService.setTitle(this.isEdit ? 'Edit Book - BookWebApp' : 'Add Book - BookWebApp');
+
+    // Add viewport meta (fix zoom issue)
+    this.meta.updateTag({
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+    });
+
+    // Optional: SEO description
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Add or edit books in your personal library with BookWebApp.'
+    });
+
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.isEdit = true;

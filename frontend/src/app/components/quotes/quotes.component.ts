@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Quote, QuoteService } from '../../services/quote.service';
 import { TranslationService } from '../../services/translation.service'; 
 import { TranslationPipe } from '../../pipes/translation.pipe'; 
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-quotes',
@@ -24,10 +25,13 @@ export class QuotesComponent implements OnInit {
   editingQuoteId?: number;
   isLoading = false;
 
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+  private translationService = inject(TranslationService);
+
   constructor(
     private quoteService: QuoteService,
-    private fb: FormBuilder,
-    private translationService: TranslationService 
+    private fb: FormBuilder
   ) {
     this.quoteForm = this.fb.group({
       text: ['', [Validators.required, Validators.minLength(10)]],
@@ -36,6 +40,21 @@ export class QuotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Set page title
+    this.titleService.setTitle('BookWebApp - Quotes');
+
+    // Add viewport meta (fix zoom issue)
+    this.meta.updateTag({
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+    });
+
+    // Optional: SEO description
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Browse, add, and manage quotes in your personal library with BookWebApp.'
+    });
+
     this.loadQuotes();
   }
 

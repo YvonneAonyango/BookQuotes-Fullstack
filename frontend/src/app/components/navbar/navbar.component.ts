@@ -8,6 +8,7 @@ import { ThemeService } from '../../services/theme.service';
 import { TranslationPipe } from '../../pipes/translation.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { Meta, Title } from '@angular/platform-browser';
 
 import {
   faBook,
@@ -55,11 +56,26 @@ export class NavbarComponent implements OnInit {
   themeService = inject(ThemeService);
   private router = inject(Router);
 
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+
   isHomePage = false;
 
   ngOnInit(): void {
     this.currentLanguage = this.translationService.getCurrentLanguage();
     this.currentFlag = this.currentLanguage === 'en' ? '🇬🇧' : '🇸🇪';
+
+    // Set viewport & meta tags for all pages
+    this.meta.updateTag({
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+    });
+
+    this.titleService.setTitle('BookWebApp'); // default title
+    this.meta.updateTag({
+      name: 'description',
+      content: 'BookWebApp - Manage your personal library with books and quotes.'
+    });
 
     // Set initial route
     this.checkRoute(this.router.url);

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book, BookService } from '../../services/book.service';
 import { TranslationService } from '../../services/translation.service'; 
 import { TranslationPipe } from '../../pipes/translation.pipe'; 
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-books',
@@ -22,13 +23,31 @@ export class BooksComponent implements OnInit {
   isLoading = false;
   hasMoreBooks = false;
 
+  private meta = inject(Meta);
+  private titleService = inject(Title);
+  private translationService = inject(TranslationService);
+
   constructor(
     private bookService: BookService, 
-    private router: Router,
-    private translationService: TranslationService 
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    // Set page title
+    this.titleService.setTitle('BookWebApp - Books');
+
+    // Add viewport meta (fix zoom issue)
+    this.meta.updateTag({
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+    });
+
+    // Optional: SEO description
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Browse, manage, and edit your books in your personal library with BookWebApp.'
+    });
+
     this.loadBooks();
   }
 
