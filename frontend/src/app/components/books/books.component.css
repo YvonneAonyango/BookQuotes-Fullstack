@@ -1,155 +1,142 @@
-/* Theme variables */
-:root {
-  --bg-light: #fdfdfd;
-  --card-light: #ffffff;
-  --text-dark: #1b2a44;
-  --text-secondary: #4a5568;
-  --highlight-yellow: #d79b1f;
-  --card-hover-light: #f4f4f4;
-}
 
-/* Dark theme variables */
-[data-theme="dark"] {
-  --bg-light: #0f1a2b;
-  --card-light: #14233d;
-  --text-dark: #e1e8f0;
-  --text-secondary: #cfd8e3;
-  --highlight-yellow: #f2c94c;
-  --card-hover-light: #1d314f;
-}
-
-/* Global styles */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
-  margin: 0;
-  padding: 0;
-  font-size: 16px; /* base font size for readability */
-  line-height: 1.5;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-h1, h3, h4, h5, h6 {
-  color: var(--text-dark);
-  line-height: 1.2; /* prevent headings from looking huge */
-}
-
-p, small {
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-/* Container */
-.container-fluid {
-  width: 100%;
-  padding: 0 1rem;
-  margin: 0 auto;
-}
-
-/* Header */
+/* Page Header */
 h1.display-5 {
-  font-size: 2rem; /* reduced from giant size */
-}
-@media (min-width: 768px) { h1.display-5 { font-size: 2.5rem; } }
-@media (min-width: 1200px) { h1.display-5 { font-size: 2.7rem; } }
-@media (max-width: 480px) { h1.display-5 { font-size: 1.6rem; } }
-
-/* Flex utilities */
-.d-flex.flex-column.flex-md-row {
-  align-items: start;
-  justify-content: space-between;
-  gap: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
 }
 
-/* Cards */
-.empty-state-card, .book-card {
-  border-radius: 12px;
-  background-color: var(--card-light);
-  transition: transform 0.3s, box-shadow 0.3s;
+p.lead,
+p.text-muted {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
 }
 
-.empty-state-card:hover, .book-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.empty-state-icon, .book-icon {
-  color: var(--highlight-yellow);
-}
-
-.card-title, .card-subtitle {
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.card-title { font-size: 1.2rem; } /* reduced from giant text */
-.card-subtitle { font-size: 0.9rem; }
-
-/* Buttons - prevent iOS zoom */
-.btn, .btn-lg {
-  font-size: 16px !important;
+/* Add Book Button */
+.btn.btn-primary.btn-lg {
+  font-size: 0.95rem;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  min-width: 120px;
   transition: all 0.3s ease-in-out;
 }
 
-.btn:hover {
-  transform: translateY(-1px);
+.btn.btn-primary.btn-lg i {
+  font-size: 1rem;
 }
 
-/* Card footer buttons */
-.card-footer .btn {
-  font-size: 16px !important; /* prevent zoom */
-  padding: 0.4rem 0.6rem;
+/* =========================
+   BOOK CARD STYLING
+========================= */
+.book-card {
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.card-footer .btn:hover { transform: translateY(-1px); }
-
-/* Loading spinner */
-.loading-pulse .spinner-border {
-  animation: spin 1s linear infinite;
+.book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.book-icon {
+  font-size: 2.5rem;
+  color: var(--highlight-yellow);
+  margin-bottom: 0.5rem;
+  display: block;
+  text-align: center;
 }
 
-/* Responsive typography */
-.lead { font-size: 1rem; }
-@media (min-width: 768px) { .lead { font-size: 1.15rem; } }
-@media (min-width: 1200px) { .lead { font-size: 1.25rem; } }
-
-/* General responsiveness */
-@media (max-width: 768px) {
-  .d-flex.flex-column.flex-md-row {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center;
-  }
-
-  .d-md-none { display: block !important; }
-  .d-none.d-md-block { display: none !important; }
-  .px-md-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+.card-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.book-meta small {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: block;
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+/* Card Footer Buttons */
+.card-footer .btn-sm {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* =========================
+   LOADING & EMPTY STATES
+========================= */
+.empty-state-card {
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.empty-state-card i {
+  font-size: 4rem;
+  color: #adb5bd;
+  margin-bottom: 1rem;
+}
+
+.empty-state-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-card p {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+/* =========================
+   RESPONSIVE TYPOGRAPHY
+========================= */
+
+/* Medium screens */
+@media (min-width: 768px) {
+  h1.display-5 { font-size: 2rem; }
+  .btn.btn-primary.btn-lg { font-size: 1rem; padding: 0.6rem 1.1rem; }
+  .book-icon { font-size: 3rem; }
+  .card-title { font-size: 1.1rem; }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  h1.display-5 { font-size: 2.2rem; }
+  .btn.btn-primary.btn-lg { font-size: 1.05rem; padding: 0.65rem 1.2rem; }
+  .book-icon { font-size: 3.2rem; }
+  .card-title { font-size: 1.15rem; }
+}
+
+/* Small screens */
 @media (max-width: 576px) {
-  .col-12, .col-sm-6, .col-lg-4, .col-xl-3 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  h1.display-5 { font-size: 1.6rem; }
-  .btn-lg { font-size: 16px !important; padding: 0.5rem 1rem; } /* maintain min font size */
+  h1.display-5 { font-size: 1.5rem; }
+  .btn.btn-primary.btn-lg { font-size: 0.9rem; padding: 0.5rem 0.9rem; }
+  .book-icon { font-size: 2rem; }
+  .card-title { font-size: 0.95rem; }
+  .card-subtitle { font-size: 0.85rem; }
+  .book-meta small { font-size: 0.75rem; }
+  .empty-state-card h3 { font-size: 1rem; }
+  .empty-state-card p { font-size: 0.85rem; }
 }

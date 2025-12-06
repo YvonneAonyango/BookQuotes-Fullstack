@@ -1,76 +1,137 @@
-
-/* Base font for body */
-body {
-  font-size: 16px;
-  line-height: 1.5;
-  font-family: 'Inter', sans-serif;
-  color: var(--text-primary);
+/* ===== REGISTER PAGE WRAPPER ===== */
+.register-page {
+  min-height: 100vh;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f7fa;
 }
 
-/* HERO SECTION */
-.hero-title { font-size: 2rem; }
-.hero-subtitle { font-size: 1.2rem; }
-
-/* FEATURE CARDS */
-.feature-title { font-size: 1.1rem; }
-.feature-description { font-size: 1rem; }
-
-/* HOW IT WORKS / STEP CARDS */
-.step-number { font-size: 1.4rem; }
-.step-title { font-size: 1.1rem; }
-.step-description { font-size: 1rem; }
-
-/* CTA SECTION */
-.cta-title { font-size: 1.4rem; }
-.cta-description { font-size: 1rem; }
-
-/* DASHBOARD CARDS */
-.dashboard-card, .activity-card {
-  font-size: 1rem;
-}
-.stat-number { font-size: 1.2rem; }
-.stat-label { font-size: 0.9rem; }
-
-/* SIDEBAR TEXT */
-.sidebar, .quick-access-title, .access-link {
-  font-size: 0.95rem;
+/* ===== REGISTER CARD ===== */
+.register-card {
+  width: 100%;
+  max-width: 420px;                /* ← NORMAL SIZE ON LAPTOPS */
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem 1.25rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border: 1px solid #e6e8ea;
+  transition: 0.25s ease;
 }
 
-/* ACTIVITY LIST */
-.activity-title { font-size: 1rem; }
-.activity-time { font-size: 0.75rem; }
-
-/* LINKS & BUTTONS */
-a, .btn-cta-primary, .btn-cta-secondary, .access-link {
-  font-size: 1rem;
-}
-button, input, textarea, select {
-  font-size: 16px; /* prevents iOS zoom */
+.register-card:hover {
+  transform: translateY(-2px);
 }
 
-/* RESPONSIVE ADJUSTMENTS */
-@media (max-width: 1200px) {
-  .sidebar { font-size: 0.95rem; }
+/* ===== TITLE ===== */
+.register-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1f3b5f;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
-@media (max-width: 991.98px) {
-  .hero-title { font-size: 1.8rem; }
-  .hero-subtitle { font-size: 1.1rem; }
-  .feature-title { font-size: 1rem; }
-  .feature-description { font-size: 0.95rem; }
-  .step-number { font-size: 1.3rem; }
-  .step-description { font-size: 0.95rem; }
-  .cta-title { font-size: 1.3rem; }
-  .cta-description { font-size: 0.95rem; }
+/* ===== FORM CONTROLS ===== */
+.form-control {
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem !important;
+  font-size: 0.95rem !important;
+  border: 1px solid #d3d6da;
 }
 
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.25rem rgba(102,126,234,0.25);
+}
+
+/* ===== BUTTONS ===== */
+.btn-register {
+  width: 100%;
+  padding: 0.65rem !important;
+  font-size: 0.95rem !important;
+  border-radius: 8px;
+  background: #2c5282;
+  color: #fff;
+  border: none;
+  transition: 0.2s ease;
+}
+
+.btn-register:hover {
+  background: #1f3b5f;
+}
+
+/* ===== SWITCH TO LOGIN LINK ===== */
+.login-redirect {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.login-redirect a {
+  color: #2c5282;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-redirect a:hover {
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .register-card {
+    max-width: 380px;
+    padding: 1.25rem 1rem;
+  }
+  .register-title { font-size: 1.25rem; }
+}
+
+/* Phones */
 @media (max-width: 576px) {
-  .hero-title { font-size: 1.6rem; }
-  .hero-subtitle { font-size: 1rem; }
-  .feature-title { font-size: 0.95rem; }
-  .feature-description { font-size: 0.9rem; }
-  .step-number { font-size: 1.2rem; }
-  .step-description { font-size: 0.9rem; }
-  .cta-title { font-size: 1.2rem; }
-  .cta-description { font-size: 0.9rem; }
+  .register-card {
+    max-width: 94%;
+    padding: 1rem 0.85rem;
+  }
+  .form-control {
+    padding: 0.55rem 0.8rem !important;
+    font-size: 0.9rem !important;
+  }
+  .btn-register {
+    padding: 0.55rem !important;
+    font-size: 0.9rem !important;
+  }
+  .register-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* ===== DARK MODE ===== */
+body.dark-mode .register-page {
+  background: #111;
+}
+
+body.dark-mode .register-card {
+  background: #2d3748;
+  color: #f0f0f0;
+  border-color: #4a5568;
+}
+
+body.dark-mode .form-control {
+  background: #1a202c;
+  border-color: #4a5568;
+  color: #fff;
+}
+
+body.dark-mode .btn-register {
+  background: #ffd36b;
+  color: #1f3b5f;
+}
+
+body.dark-mode .btn-register:hover {
+  background: #ffbf3f;
 }

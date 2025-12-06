@@ -1,24 +1,60 @@
-/* ===== QUOTE BASKET CARD RESPONSIVE CSS ===== */
+/* =========================
+   QUOTES BASKET TYPOGRAPHY & CARD
+========================= */
 
-/* Base Card */
+/* Page Header */
+h1.display-5 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--highlight-yellow); /* warm theme like books page */
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+p.lead {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+/* Add Quote Button */
+.btn.btn-primary.btn-lg {
+  font-size: 0.95rem;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  background: var(--highlight-yellow);
+  border-color: var(--highlight-yellow);
+  color: #1b2a44;
+  min-width: 130px;
+}
+
+.btn.btn-primary.btn-lg:hover {
+  background: #d4a010; /* slightly darker yellow */
+  transform: translateY(-1px);
+}
+
+/* =========================
+   QUOTE BASKET CARD
+========================= */
+
+/* Card */
 .quote-basket-card {
   background: #fff;
   border: 2px solid #e9ecef;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
   width: 100%;
-  height: 100%;
-  word-wrap: break-word;
 }
 
 .quote-basket-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  border-color: #667eea;
+  border-color: var(--highlight-yellow);
 }
 
 /* Card Content */
@@ -28,63 +64,67 @@
 }
 
 .quote-icon {
-  font-size: 1.5rem;
-  color: #667eea;
+  font-size: 2rem;
+  color: var(--highlight-yellow);
   margin-bottom: 0.5rem;
   display: block;
+  text-align: center;
 }
 
 .quote-text {
   font-style: italic;
-  line-height: 1.6;
-  color: #2d3748;
-  font-size: 1rem; /* consistent across devices */
-  margin-bottom: 1rem;
+  line-height: 1.5;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
   word-break: break-word;
+  text-align: center;
 }
 
 .quote-author {
-  color: #667eea;
+  color: var(--highlight-yellow);
   font-weight: 600;
-  font-size: 0.95rem;
-  margin-top: auto;
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 /* Action Buttons */
 .quote-actions {
   display: flex;
   gap: 0.5rem;
-  justify-content: flex-end;
-  margin-top: auto;
-  padding-top: 1rem;
+  justify-content: center;
+  padding-top: 0.75rem;
   border-top: 1px solid #e9ecef;
 }
 
 .quote-actions button {
-  min-width: 40px;
-  min-height: 40px;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
-/* Form & Input Styles */
+/* =========================
+   INPUTS & FORM
+========================= */
 .form-control,
-.form-select,
-textarea.form-control {
+textarea.form-control,
+.form-select {
   border-radius: 8px;
   border: 1px solid #dee2e6;
-  padding: 0.65rem 1rem;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.95rem;
   width: 100%;
+  transition: all 0.3s ease;
 }
 
 .form-control:focus,
 .form-select:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 0.25rem rgba(102,126,234,0.25);
+  border-color: var(--highlight-yellow);
+  box-shadow: 0 0 0 0.25rem rgba(215,155,31,0.25);
 }
 
 textarea.form-control {
@@ -92,33 +132,11 @@ textarea.form-control {
   resize: vertical;
 }
 
-/* Buttons */
-.btn,
-.btn-outline-primary,
-.btn-outline-danger {
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-}
-
-.btn-primary {
-  background: #667eea;
-  border-color: #667eea;
-}
-
-.btn-primary:hover {
-  background: #5a67d8;
-  border-color: #5a67d8;
-  transform: translateY(-1px);
-}
-
-/* Empty Basket */
+/* =========================
+   EMPTY BASKET
+========================= */
 .empty-basket {
-  padding: 2rem;
+  padding: 1.5rem;
   background: #f8f9fa;
   border-radius: 12px;
   border: 2px dashed #dee2e6;
@@ -127,105 +145,74 @@ textarea.form-control {
 }
 
 .empty-basket i {
-  font-size: 2.5rem;
-  color: #adb5bd;
+  font-size: 3rem;
+  color: var(--highlight-yellow);
   margin-bottom: 1rem;
   display: block;
 }
 
-/* Typography */
-.display-5 {
-  font-weight: 700;
-  color: #2d3748;
-  font-size: 1.5rem; /* smaller for normal balance */
+.empty-basket h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
 }
 
-.lead {
-  color: #718096;
-  font-size: 1rem;
+.empty-basket p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
 }
 
-.text-primary {
-  color: #667eea !important;
+/* =========================
+   RESPONSIVE TYPOGRAPHY
+========================= */
+
+/* Medium screens */
+@media (min-width: 768px) {
+  h1.display-5 { font-size: 1.8rem; }
+  .quote-icon { font-size: 2.25rem; }
+  .quote-text { font-size: 1rem; }
+  .quote-author { font-size: 0.95rem; }
+  .btn.btn-primary.btn-lg { font-size: 1rem; padding: 0.6rem 1.1rem; }
 }
 
-.text-muted {
-  color: #718096 !important;
+/* Large screens */
+@media (min-width: 1200px) {
+  h1.display-5 { font-size: 2rem; }
+  .quote-icon { font-size: 2.5rem; }
+  .quote-text { font-size: 1.05rem; }
+  .quote-author { font-size: 1rem; }
+  .btn.btn-primary.btn-lg { font-size: 1.05rem; padding: 0.65rem 1.2rem; }
 }
 
-/* ===== RESPONSIVE ===== */
-
-/* Medium devices (768px - 991px) */
-@media (max-width: 991.98px) {
-  .col-md-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-}
-
-/* Small devices (up to 767px) */
-@media (max-width: 767.98px) {
-  .col-md-6,
-  .col-lg-4 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-
-  .quote-actions {
-    flex-direction: row;
-    justify-content: space-between;
-    padding-top: 0.75rem;
-  }
-
-  .quote-actions button {
-    flex: 1;
-    margin: 0 0.125rem;
-  }
-
-  .empty-basket {
-    padding: 1.5rem;
-  }
-
-  .quote-text {
-    font-size: 0.95rem;
-  }
-
-  .quote-author {
-    font-size: 0.9rem;
-  }
-
-  .display-5 {
-    font-size: 1.3rem;
-  }
+/* Small screens */
+@media (max-width: 576px) {
+  h1.display-5 { font-size: 1.4rem; }
+  .quote-icon { font-size: 1.8rem; }
+  .quote-text { font-size: 0.9rem; }
+  .quote-author { font-size: 0.85rem; }
+  .btn.btn-primary.btn-lg { font-size: 0.9rem; padding: 0.5rem 0.9rem; }
 }
 
 /* Touch devices adjustments */
 @media (hover: none) and (pointer: coarse) {
   .quote-basket-card:hover,
-  .btn:hover {
-    transform: none;
-  }
-
+  .btn:hover { transform: none; }
   .quote-basket-card:active,
-  .btn:active {
-    transform: scale(0.98);
-  }
+  .btn:active { transform: scale(0.98); }
 }
 
-/* Dark Mode */
+/* =========================
+   DARK MODE
+========================= */
 body.dark-mode .quote-basket-card {
   background: #2d3748;
   border-color: #4a5568;
   color: #f0f0f0;
 }
 
-body.dark-mode .quote-text {
-  color: #e2e8f0;
-}
-
-body.dark-mode .quote-author {
-  color: #90cdf4;
-}
+body.dark-mode .quote-text { color: #e2e8f0; }
+body.dark-mode .quote-author { color: var(--highlight-yellow); }
 
 body.dark-mode .empty-basket {
   background: #2d3748;
@@ -233,9 +220,7 @@ body.dark-mode .empty-basket {
   color: #f0f0f0;
 }
 
-body.dark-mode .empty-basket i {
-  color: #a0aec0;
-}
+body.dark-mode .empty-basket i { color: var(--highlight-yellow); }
 
 body.dark-mode .form-control,
 body.dark-mode .form-select {
@@ -246,5 +231,5 @@ body.dark-mode .form-select {
 
 body.dark-mode .form-control:focus,
 body.dark-mode .form-select:focus {
-  border-color: #667eea;
+  border-color: var(--highlight-yellow);
 }
