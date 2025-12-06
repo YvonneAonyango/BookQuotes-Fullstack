@@ -18,8 +18,6 @@ export class BookFormComponent implements OnInit {
   isEdit = false;
   bookId?: number;
   isLoading = false;
-
-  // ✅ Added this to fix template error
   showBackButton = true;
 
   private meta = inject(Meta);
@@ -39,27 +37,23 @@ export class BookFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Set page title
-    this.titleService.setTitle(this.isEdit ? 'Edit Book - BookWebApp' : 'Add Book - BookWebApp');
-
-    // Add viewport meta (fix zoom issue)
-    this.meta.updateTag({
-      name: 'viewport',
-      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-    });
-
-    // Optional: SEO description
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Add or edit books in your personal library with BookWebApp.'
-    });
-
+    // Check if it's edit mode FIRST
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.isEdit = true;
         this.bookId = +params['id'];
         this.loadBook();
       }
+      
+      // Set page title AFTER determining edit mode
+      this.titleService.setTitle(this.isEdit ? 'Edit Book - BookWebApp' : 'Add Book - BookWebApp');
+    });
+
+    // REMOVE the viewport meta tag - only in navbar component
+    // SEO description
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Add or edit books in your personal library with BookWebApp.'
     });
   }
 

@@ -7,7 +7,6 @@ import { catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -28,7 +27,14 @@ export class RegisterComponent {
   ) {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern(/(?=.*[a-z])/),
+        Validators.pattern(/(?=.*[A-Z])/),
+        Validators.pattern(/(?=.*\d)/),
+        Validators.pattern(/(?=.*[!@#$%^&*])/)
+      ]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
   }
@@ -36,12 +42,25 @@ export class RegisterComponent {
   passwordMatchValidator(form: AbstractControl) {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
-    
+
     if (password && confirmPassword && password.value !== confirmPassword.value) {
       confirmPassword.setErrors({ passwordMismatch: true });
       return { passwordMismatch: true };
     }
     return null;
+  }
+
+  get passwordErrors() {
+    const password = this.registerForm.get('password');
+    if (!password) return {};
+    const value = password.value || '';
+    return {
+      hasLowercase: /[a-z]/.test(value),
+      hasUppercase: /[A-Z]/.test(value),
+      hasNumber: /\d/.test(value),
+      hasSymbol: /[!@#$%^&*]/.test(value),
+      minLength: value.length >= 6
+    };
   }
 
   onSubmit() {
@@ -54,7 +73,7 @@ export class RegisterComponent {
     this.isLoading = true;
     this.errorMessage = '';
     this.successMessage = '';
-    
+
     const registerData = {
       username: this.registerForm.get('username')?.value,
       password: this.registerForm.get('password')?.value,
@@ -80,13 +99,13 @@ export class RegisterComponent {
       .subscribe({
         next: (response) => {
           this.successMessage = response.message || 'Registration successful!';
-          
+
           if (response.token) {
             localStorage.setItem('authToken', response.token);
             localStorage.setItem('username', response.username);
             localStorage.setItem('role', response.role);
           }
-          
+
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 2000);

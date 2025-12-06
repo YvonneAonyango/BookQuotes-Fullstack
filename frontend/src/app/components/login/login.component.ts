@@ -32,20 +32,14 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Set page title
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/books']);
+      return;
+    }
+
     this.titleService.setTitle('BookWebApp - Login');
-
-    // Add viewport meta (fix zoom issue)
-    this.meta.updateTag({
-      name: 'viewport',
-      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-    });
-
-    // Optional: SEO description
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Login to your BookWebApp account to manage your personal library.'
-    });
+    this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
+    this.meta.updateTag({ name: 'description', content: 'Login to your BookWebApp account.' });
   }
 
   onSubmit(): void {
@@ -58,8 +52,8 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
 
     const loginData: LoginRequest = {
-      username: this.loginForm.get('username')?.value.trim(),
-      password: this.loginForm.get('password')?.value.trim()
+      username: this.loginForm.value.username.trim(),
+      password: this.loginForm.value.password.trim()
     };
 
     this.authService.login(loginData).subscribe({

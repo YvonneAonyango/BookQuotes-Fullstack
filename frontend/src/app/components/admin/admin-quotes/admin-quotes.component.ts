@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environment'; // use environment
 
-// Define Quote interface here
+// Define Quote interface
 export interface Quote {
   id?: number;
   text: string;
@@ -38,7 +39,7 @@ export class AdminQuotesComponent implements OnInit {
   loadQuotes(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     const token = this.authService.getToken();
     if (!token) {
       this.errorMessage = 'Not authenticated. Please login.';
@@ -51,7 +52,7 @@ export class AdminQuotesComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    this.http.get<Quote[]>('http://localhost:5298/api/admin/quotes', { headers })
+    this.http.get<Quote[]>(`${environment.apiUrl}/api/admin/quotes`, { headers })
       .subscribe({
         next: (quotes) => {
           this.quotes = quotes;
@@ -83,10 +84,9 @@ export class AdminQuotesComponent implements OnInit {
         'Content-Type': 'application/json'
       });
 
-      this.http.delete<void>(`http://localhost:5298/api/admin/quotes/${id}`, { headers })
+      this.http.delete<void>(`${environment.apiUrl}/api/admin/quotes/${id}`, { headers })
         .subscribe({
           next: () => {
-            // Remove from local array
             this.quotes = this.quotes.filter(quote => quote.id !== id);
           },
           error: (error) => {
@@ -103,7 +103,6 @@ export class AdminQuotesComponent implements OnInit {
     return text.substring(0, maxLength) + '...';
   }
 
-  // Helper method to check if user is admin
   isAdminUser(): boolean {
     return this.authService.isAdmin();
   }

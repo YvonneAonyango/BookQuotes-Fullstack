@@ -65,13 +65,13 @@ export class NavbarComponent implements OnInit {
     this.currentLanguage = this.translationService.getCurrentLanguage();
     this.currentFlag = this.currentLanguage === 'en' ? '🇬🇧' : '🇸🇪';
 
-    // Set viewport & meta tags for all pages
+    // Updated viewport meta tag - removed restrictive settings
     this.meta.updateTag({
       name: 'viewport',
-      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+      content: 'width=device-width, initial-scale=1.0'
     });
 
-    this.titleService.setTitle('BookWebApp'); // default title
+    this.titleService.setTitle('BookWebApp');
     this.meta.updateTag({
       name: 'description',
       content: 'BookWebApp - Manage your personal library with books and quotes.'

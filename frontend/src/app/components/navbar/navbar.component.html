@@ -31,13 +31,20 @@
             Quotes
           </a>
         </li>
+
+        <!-- ✅ Admin Links -->
+        <li class="nav-item" *ngIf="authService.isAdmin()">
+          <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
+            <fa-icon [icon]="faBook" class="me-1"></fa-icon>
+            Admin Dashboard
+          </a>
+        </li>
       </ul>
 
       <div class="d-flex align-items-center gap-2 gap-sm-3">
         <!-- Language Dropdown -->
         <div class="dropdown" ngbDropdown>
-          <button class="btn-language" ngbDropdownToggle id="languageDropdown"
-                  [title]="'switchLanguage' | translate">
+          <button class="btn-language" ngbDropdownToggle id="languageDropdown">
             <fa-icon [icon]="faGlobe" class="me-1"></fa-icon>
             <span class="d-none d-md-inline">{{ currentFlag }}</span>
           </button>
@@ -52,7 +59,7 @@
         </div>
 
         <!-- Dark Mode Toggle -->
-        <button class="btn-darkmode" (click)="toggleDarkMode()" [title]="(isDarkMode ? 'switchToLight' : 'switchToDark') | translate">
+        <button class="btn-darkmode" (click)="toggleDarkMode()">
           <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
         </button>
 
@@ -69,6 +76,9 @@
             <span class="d-sm-none">
               <fa-icon [icon]="faUserPlus"></fa-icon>
             </span>
+          </a>
+          <a class="btn btn-outline-warning btn-sm" routerLink="/admin/login" *ngIf="!authService.isAdmin()">
+            <span class="d-none d-sm-inline">Admin Login</span>
           </a>
         </div>
 

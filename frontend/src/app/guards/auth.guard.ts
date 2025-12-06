@@ -1,45 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+export class AuthGuard {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const requiresGuest = route.data['requiresGuest'] || false;
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    
     const isAuthenticated = this.authService.isAuthenticated();
+    const requiresGuest = route.data['requiresGuest'] || false;
     
-    console.log('🔒 AuthGuard checking:');
-    console.log('  - Route:', route.routeConfig?.path);
-    console.log('  - Requires guest:', requiresGuest);
-    console.log('  - Is authenticated:', isAuthenticated);
-    
-    // If route requires guest (login/register pages)
-    if (requiresGuest) {
-      if (isAuthenticated) {
-        // Already logged in, redirect to appropriate page
-        const userRole = this.authService.getUserRole();
-        if (userRole === 'Admin') {
-          this.router.navigate(['/admin/dashboard']);
-        } else {
-          this.router.navigate(['/books']);
-        }
-        return false;
-      }
-      return true; // Allow access to login/register if not authenticated
+    // If route requires guest (login/register) and user is already logged in
+    if (requiresGuest && isAuthenticated) {
+      return this.router.createUrlTree(['/books']);
     }
     
-    // If route requires authentication
-    if (!isAuthenticated) {
-      console.log('❌ Not authenticated, redirecting to login');
-      this.router.navigate(['/login']);
-      return false;
+    // If route is protected and user is not logged in
+    if (!requiresGuest && !isAuthenticated) {
+      return this.router.createUrlTree(['/login']);
     }
     
-    console.log('✅ Access granted');
+    // Allow access
     return true;
   }
 }

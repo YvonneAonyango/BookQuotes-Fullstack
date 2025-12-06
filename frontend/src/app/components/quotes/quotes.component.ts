@@ -43,13 +43,8 @@ export class QuotesComponent implements OnInit {
     // Set page title
     this.titleService.setTitle('BookWebApp - Quotes');
 
-    // Add viewport meta (fix zoom issue)
-    this.meta.updateTag({
-      name: 'viewport',
-      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-    });
-
-    // Optional: SEO description
+    // REMOVED the viewport meta tag - only in navbar component
+    // SEO description
     this.meta.updateTag({
       name: 'description',
       content: 'Browse, add, and manage quotes in your personal library with BookWebApp.'

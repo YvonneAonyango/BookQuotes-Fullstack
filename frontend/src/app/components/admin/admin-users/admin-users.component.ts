@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environment';
 
-// Define User interface here
+// Define User interface
 export interface User {
   id: number;
   username: string;
@@ -39,7 +40,7 @@ export class AdminUsersComponent implements OnInit {
   loadUsers(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     const token = this.authService.getToken();
     if (!token) {
       this.errorMessage = 'Not authenticated. Please login.';
@@ -52,7 +53,7 @@ export class AdminUsersComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    this.http.get<User[]>('http://localhost:5298/api/admin/users', { headers })
+    this.http.get<User[]>(`${environment.apiUrl}/api/admin/users`, { headers })
       .subscribe({
         next: (users) => {
           this.users = users;
@@ -84,10 +85,9 @@ export class AdminUsersComponent implements OnInit {
         'Content-Type': 'application/json'
       });
 
-      this.http.delete<void>(`http://localhost:5298/api/admin/users/${id}`, { headers })
+      this.http.delete<void>(`${environment.apiUrl}/api/admin/users/${id}`, { headers })
         .subscribe({
           next: () => {
-            // Remove from local array
             this.users = this.users.filter(user => user.id !== id);
           },
           error: (error) => {
@@ -100,7 +100,7 @@ export class AdminUsersComponent implements OnInit {
 
   toggleUserRole(user: User): void {
     const newRole = user.role === 'Admin' ? 'User' : 'Admin';
-    
+
     if (confirm(`Change ${user.username}'s role from ${user.role} to ${newRole}?`)) {
       const token = this.authService.getToken();
       if (!token) {
@@ -113,12 +113,12 @@ export class AdminUsersComponent implements OnInit {
         'Content-Type': 'application/json'
       });
 
-      this.http.put<User>(`http://localhost:5298/api/admin/users/${user.id}/role`, 
-        { role: newRole }, 
+      this.http.put<User>(
+        `${environment.apiUrl}/api/admin/users/${user.id}/role`,
+        { role: newRole },
         { headers }
       ).subscribe({
         next: (updatedUser) => {
-          // Update local array
           const index = this.users.findIndex(u => u.id === user.id);
           if (index !== -1) {
             this.users[index] = updatedUser;
@@ -136,7 +136,6 @@ export class AdminUsersComponent implements OnInit {
     return role === 'Admin' ? 'badge bg-danger' : 'badge bg-success';
   }
 
-  // Helper method to check if user is admin
   isAdminUser(): boolean {
     return this.authService.isAdmin();
   }

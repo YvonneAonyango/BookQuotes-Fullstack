@@ -1,7 +1,7 @@
 <div class="container-fluid py-4 py-md-5">
   <div class="row justify-content-center align-items-center min-vh-75">
     <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-      <div class="card shadow-lg border-0">
+      <div class="card shadow-lg border-0 register-card">
         <div class="card-header bg-primary text-white text-center py-4">
           <div class="d-flex align-items-center justify-content-center mb-3">
             <i class="bi bi-person-plus fs-1 me-3"></i>
@@ -32,7 +32,7 @@
                      formControlName="username"
                      placeholder="Enter your username"
                      [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
-                     [class.is-valid]="registerForm.get('username')?.valid">
+                     [class.is-valid]="registerForm.get('username')?.valid && registerForm.get('username')?.touched">
               <div class="invalid-feedback d-block" 
                    *ngIf="registerForm.get('username')?.errors?.['required'] && registerForm.get('username')?.touched">
                 <i class="bi bi-exclamation-circle me-1"></i>
@@ -62,21 +62,36 @@
                      formControlName="password"
                      placeholder="Create a password"
                      [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-                     [class.is-valid]="registerForm.get('password')?.valid">
+                     [class.is-valid]="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
+
+              <!-- Password Requirements -->
+              <ul class="text-muted small mt-2 mb-0" *ngIf="registerForm.get('password')?.touched">
+                <li [class.text-success]="passwordErrors.minLength" [class.text-danger]="!passwordErrors.minLength">
+                  Minimum 6 characters
+                </li>
+                <li [class.text-success]="passwordErrors.hasLowercase" [class.text-danger]="!passwordErrors.hasLowercase">
+                  At least one lowercase letter
+                </li>
+                <li [class.text-success]="passwordErrors.hasUppercase" [class.text-danger]="!passwordErrors.hasUppercase">
+                  At least one uppercase letter
+                </li>
+                <li [class.text-success]="passwordErrors.hasNumber" [class.text-danger]="!passwordErrors.hasNumber">
+                  At least one number
+                </li>
+                <li [class.text-success]="passwordErrors.hasSymbol" [class.text-danger]="!passwordErrors.hasSymbol">
+                  At least one special character (!@#$%^&*)
+                </li>
+              </ul>
+
               <div class="invalid-feedback d-block" 
                    *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
                 <i class="bi bi-exclamation-circle me-1"></i>
                 Password is required
               </div>
-              <div class="invalid-feedback d-block" 
-                   *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched">
-                <i class="bi bi-exclamation-circle me-1"></i>
-                Password must be at least 6 characters long
-              </div>
               <div class="valid-feedback d-block" 
                    *ngIf="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
                 <i class="bi bi-check-circle me-1"></i>
-                Password is strong!
+                Password looks strong!
               </div>
             </div>
 

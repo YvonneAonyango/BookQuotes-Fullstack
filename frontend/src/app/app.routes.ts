@@ -1,4 +1,3 @@
-// app-routing.module.ts or your routes file
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -17,74 +16,39 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
-  // Public routes (no authentication required)
-  { 
-    path: '', 
-    component: HomeComponent 
-  },
+  // Public routes
+  { path: '', component: HomeComponent },
   { 
     path: 'login', 
     component: LoginComponent,
-    canActivate: [AuthGuard], // Redirect if already logged in
-    data: { requiresGuest: true }
+    canActivate: [AuthGuard], 
+    data: { requiresGuest: true } // redirect if already logged in
   },
   { 
     path: 'register', 
     component: RegisterComponent,
-    canActivate: [AuthGuard], // Redirect if already logged in
-    data: { requiresGuest: true }
+    canActivate: [AuthGuard], 
+    data: { requiresGuest: true } // redirect if already logged in
   },
-  
-  // Protected routes (require authentication, any role)
-  { 
-    path: 'books', 
-    component: BooksComponent,
-    canActivate: [AuthGuard]  // Must be logged in
-  },
-  { 
-    path: 'books/new', 
-    component: BookFormComponent,
-    canActivate: [AuthGuard]  // Must be logged in
-  },
-  { 
-    path: 'books/edit/:id', 
-    component: BookFormComponent,
-    canActivate: [AuthGuard]  // Must be logged in
-  },
-  { 
-    path: 'quotes', 
-    component: QuotesComponent,
-    canActivate: [AuthGuard]  // Must be logged in
-  },
-  
-  // Admin Routes (require Admin role)
+
+  // Protected routes (authenticated users)
+  { path: 'books', component: BooksComponent, canActivate: [AuthGuard] },
+  { path: 'books/new', component: BookFormComponent, canActivate: [AuthGuard] },
+  { path: 'books/edit/:id', component: BookFormComponent, canActivate: [AuthGuard] },
+  { path: 'quotes', component: QuotesComponent, canActivate: [AuthGuard] },
+
+  // Admin routes
   { 
     path: 'admin/login', 
     component: AdminLoginComponent,
-    canActivate: [AuthGuard], // Redirect if already logged in
+    canActivate: [AuthGuard], 
     data: { requiresGuest: true }
   },
-  { 
-    path: 'admin/dashboard', 
-    component: AdminDashboardComponent,
-    canActivate: [AdminGuard]  // Must be Admin
-  },
-  { 
-    path: 'admin/users', 
-    component: AdminUsersComponent,
-    canActivate: [AdminGuard]  // Must be Admin
-  },
-  { 
-    path: 'admin/books', 
-    component: AdminBooksComponent,
-    canActivate: [AdminGuard]  // Must be Admin
-  },
-  { 
-    path: 'admin/quotes', 
-    component: AdminQuotesComponent,
-    canActivate: [AdminGuard]  // Must be Admin
-  },
-  
-  // Redirect unknown paths to home
+  { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },
+  { path: 'admin/users', component: AdminUsersComponent, canActivate: [AdminGuard] },
+  { path: 'admin/books', component: AdminBooksComponent, canActivate: [AdminGuard] },
+  { path: 'admin/quotes', component: AdminQuotesComponent, canActivate: [AdminGuard] },
+
+  // Redirect unknown paths
   { path: '**', redirectTo: '' }
 ];

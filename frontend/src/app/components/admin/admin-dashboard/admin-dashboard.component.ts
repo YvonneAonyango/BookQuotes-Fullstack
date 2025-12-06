@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environment'; 
 
-// Define Stats interface here since we removed AdminAuthService
+// Define Stats interface
 export interface Stats {
   totalUsers: number;
   totalBooks: number;
@@ -45,7 +46,7 @@ export class AdminDashboardComponent implements OnInit {
   loadStats(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     const token = this.authService.getToken();
     if (!token) {
       this.errorMessage = 'Not authenticated. Please login.';
@@ -58,7 +59,7 @@ export class AdminDashboardComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    this.http.get<Stats>('http://localhost:5298/api/admin/stats', { headers })
+    this.http.get<Stats>(`${environment.apiUrl}/api/admin/stats`, { headers })
       .subscribe({
         next: (stats) => {
           this.stats = stats;
@@ -72,7 +73,6 @@ export class AdminDashboardComponent implements OnInit {
       });
   }
 
-  // Optional: Add a method to check if user is admin
   isAdminUser(): boolean {
     return this.authService.isAdmin();
   }

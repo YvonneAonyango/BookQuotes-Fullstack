@@ -36,13 +36,7 @@ export class BooksComponent implements OnInit {
     // Set page title
     this.titleService.setTitle('BookWebApp - Books');
 
-    // Add viewport meta (fix zoom issue)
-    this.meta.updateTag({
-      name: 'viewport',
-      content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-    });
-
-    // Optional: SEO description
+    // SEO description only - REMOVED viewport meta
     this.meta.updateTag({
       name: 'description',
       content: 'Browse, manage, and edit your books in your personal library with BookWebApp.'

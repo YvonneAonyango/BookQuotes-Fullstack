@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environment'; // use environment
 
-// Define Book interface here
+// Define Book interface
 export interface Book {
   id: number;
   title: string;
@@ -41,7 +42,7 @@ export class AdminBooksComponent implements OnInit {
   loadBooks(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     const token = this.authService.getToken();
     if (!token) {
       this.errorMessage = 'Not authenticated. Please login.';
@@ -54,7 +55,7 @@ export class AdminBooksComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    this.http.get<Book[]>('http://localhost:5298/api/admin/books', { headers })
+    this.http.get<Book[]>(`${environment.apiUrl}/api/admin/books`, { headers })
       .subscribe({
         next: (books) => {
           this.books = books;
@@ -69,7 +70,6 @@ export class AdminBooksComponent implements OnInit {
   }
 
   editBook(id: number): void {
-    // Navigate to book edit page
     this.router.navigate(['/books/edit', id]);
   }
 
@@ -91,10 +91,9 @@ export class AdminBooksComponent implements OnInit {
         'Content-Type': 'application/json'
       });
 
-      this.http.delete<void>(`http://localhost:5298/api/admin/books/${id}`, { headers })
+      this.http.delete<void>(`${environment.apiUrl}/api/admin/books/${id}`, { headers })
         .subscribe({
           next: () => {
-            // Remove from local array
             this.books = this.books.filter(book => book.id !== id);
           },
           error: (error) => {
@@ -107,7 +106,7 @@ export class AdminBooksComponent implements OnInit {
 
   formatDate(dateString: string): string {
     if (!dateString) return 'N/A';
-    
+
     try {
       const date = new Date(dateString);
       return date.toLocaleDateString('en-US', {
@@ -120,7 +119,6 @@ export class AdminBooksComponent implements OnInit {
     }
   }
 
-  // Helper method to check if user is admin
   isAdminUser(): boolean {
     return this.authService.isAdmin();
   }

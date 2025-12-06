@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
 
 export interface LoginRequest {
   username: string;
@@ -33,7 +32,8 @@ export interface UserInfo {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl;
+  // ✅ Updated backend URL
+  private apiUrl = 'https://bookquotes-back-nxld.onrender.com/api/auth';
   private TOKEN_KEY = 'authToken';
   private USER_KEY = 'currentUser';
 
@@ -48,60 +48,50 @@ export class AuthService {
   public isAdmin$ = this.adminStatusSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    this.checkAuthStatus();
+    this.updateAuthStatus();
   }
 
   /** Login for users */
   login(user: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, user)
-      .pipe(
-        tap(response => {
-          this.storeAuthData(response);
-          this.updateAuthStatus();
-        }),
-        catchError(error => throwError(() => error))
-      );
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, user).pipe(
+      tap(response => {
+        this.storeAuthData(response);
+        this.updateAuthStatus();
+      }),
+      catchError(error => throwError(() => error))
+    );
   }
 
   /** Admin login */
   adminLogin(user: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/admin/login`, user)
-      .pipe(
-        tap(response => {
-          this.storeAuthData(response);
-          this.updateAuthStatus();
-        }),
-        catchError(error => throwError(() => error))
-      );
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, user).pipe( // Backend endpoint is same
+      tap(response => {
+        this.storeAuthData(response);
+        this.updateAuthStatus();
+      }),
+      catchError(error => throwError(() => error))
+    );
   }
 
   /** Register a new user */
   register(user: RegisterRequest): Observable<AuthResponse> {
-    const registrationData = {
-      username: user.username,
-      password: user.password,
-      confirmPassword: user.confirmPassword,
-      role: user.role || 'User'
-    };
-
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, registrationData)
-      .pipe(
-        tap(response => {
-          this.storeAuthData(response);
-          this.updateAuthStatus();
-        }),
-        catchError(error => throwError(() => error))
-      );
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, user).pipe(
+      tap(response => {
+        this.storeAuthData(response);
+        this.updateAuthStatus();
+      }),
+      catchError(error => throwError(() => error))
+    );
   }
 
-  /** Setup initial admin user */
-  setupAdmin(username: string, password: string, confirmPassword: string): Observable<any> {
-    const setupData = { username, password, confirmPassword };
-    return this.http.post<any>(`${this.apiUrl}/setup-admin`, setupData)
-      .pipe(catchError(error => throwError(() => error)));
+  /** Logout user */
+  logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.USER_KEY);
+    this.updateAuthStatus();
   }
 
-  /** Store token and user info in localStorage */
+  /** Store token and user info */
   private storeAuthData(response: AuthResponse): void {
     localStorage.setItem(this.TOKEN_KEY, response.token);
     const userInfo: UserInfo = { username: response.username, role: response.role, token: response.token };
@@ -119,10 +109,9 @@ export class AuthService {
     return userJson ? JSON.parse(userJson) : null;
   }
 
-  /** Get user role (fixes AuthGuard error) */
+  /** Get user role */
   getUserRole(): string | null {
-    const user = this.getCurrentUser();
-    return user?.role || null;
+    return this.getCurrentUser()?.role || null;
   }
 
   /** Check if user is admin */
@@ -135,17 +124,7 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  /** Check status and update BehaviorSubjects */
-  private checkAuthStatus(): void {
-    const token = this.getToken();
-    const user = this.getCurrentUser();
-    this.tokenSubject.next(token);
-    this.userSubject.next(user);
-    this.authStatusSubject.next(!!token);
-    this.adminStatusSubject.next(user?.role === 'Admin');
-  }
-
-  /** Update BehaviorSubjects after login/register */
+  /** Update BehaviorSubjects */
   private updateAuthStatus(): void {
     const token = this.getToken();
     const user = this.getCurrentUser();
@@ -153,15 +132,5 @@ export class AuthService {
     this.userSubject.next(user);
     this.authStatusSubject.next(!!token);
     this.adminStatusSubject.next(user?.role === 'Admin');
-  }
-
-  /** Logout user and clear storage */
-  logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
-    this.tokenSubject.next(null);
-    this.userSubject.next(null);
-    this.authStatusSubject.next(false);
-    this.adminStatusSubject.next(false);
   }
 }
