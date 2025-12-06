@@ -23,9 +23,6 @@ public class AuthController : ControllerBase
         _logger = logger;
     }
 
-    // -------------------------
-    // Test endpoint - check if API is working
-    // -------------------------
     [HttpGet("test")]
     public IActionResult Test()
     {
@@ -36,9 +33,6 @@ public class AuthController : ControllerBase
         });
     }
 
-    // -------------------------
-    // Setup initial admin user (call this once)
-    // -------------------------
     [HttpPost("setup-admin")]
     public async Task<IActionResult> SetupAdmin([FromBody] SetupAdminDto model)
     {
@@ -74,9 +68,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -------------------------
-    // Register a new user - UPDATED WITH ROLE SUPPORT
-    // -------------------------
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto model)
     {
@@ -84,7 +75,6 @@ public class AuthController : ControllerBase
         {
             _logger.LogInformation("Registration attempt for user: {Username} with role: {Role}", model.Username, model.Role);
 
-            // Input validation
             if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
                 return BadRequest(new { message = "Username and password are required" });
 
@@ -94,15 +84,12 @@ public class AuthController : ControllerBase
             if (model.Password.Length < 6)
                 return BadRequest(new { message = "Password must be at least 6 characters long" });
 
-            // Set default role if not provided
             if (string.IsNullOrEmpty(model.Role))
                 model.Role = "User";
 
-            // Validate role
             if (model.Role != "User" && model.Role != "Admin")
                 return BadRequest(new { message = "Invalid role. Must be 'User' or 'Admin'" });
 
-            // Call Register with string role
             var user = await _authService.Register(model.Username, model.Password, model.Role);
             if (user == null)
             {
@@ -110,7 +97,6 @@ public class AuthController : ControllerBase
                 return BadRequest(new { message = "Username already exists" });
             }
 
-            // Generate JWT token
             var token = GenerateJwtToken(user);
             
             _logger.LogInformation("User registered successfully: {Username} with role: {Role}", model.Username, user.Role);
@@ -129,9 +115,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -------------------------
-    // Login (JWT Token)
-    // -------------------------
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto model)
     {
@@ -149,7 +132,6 @@ public class AuthController : ControllerBase
                 return Unauthorized(new { message = "Invalid credentials" });
             }
 
-            // Generate JWT token
             var token = GenerateJwtToken(user);
             
             _logger.LogInformation("User logged in successfully: {Username} with role: {Role}", model.Username, user.Role);
@@ -168,9 +150,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -------------------------
-    // ADMIN LOGIN (JWT Token - same as regular login but role check)
-    // -------------------------
     [HttpPost("admin/login")]
     public async Task<IActionResult> AdminLogin([FromBody] LoginDto model)
     {
@@ -185,7 +164,6 @@ public class AuthController : ControllerBase
                 return Unauthorized(new { message = "Invalid admin credentials" });
             }
 
-            // Generate JWT token
             var token = GenerateJwtToken(user);
             
             _logger.LogInformation("Admin logged in successfully: {Username}", model.Username);
@@ -204,32 +182,21 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -------------------------
-    // Logout (JWT - client removes token)
-    // -------------------------
     [HttpPost("logout")]
     public IActionResult Logout()
     {
         return Ok(new { message = "Logged out successfully. Please remove token client-side." });
     }
 
-    // -------------------------
-    // Check current user status
-    // -------------------------
     [HttpGet("current-user")]
     public IActionResult GetCurrentUser()
     {
-        // For JWT, this would require [Authorize] attribute
-        // and reading from HttpContext.User
         return Ok(new { 
             message = "Use token validation on protected endpoints",
             note = "Client should store and send token in Authorization header"
         });
     }
 
-    // -------------------------
-    // Validate token (optional)
-    // -------------------------
     [HttpPost("validate-token")]
     public IActionResult ValidateToken([FromBody] ValidateTokenDto model)
     {
@@ -267,9 +234,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -------------------------
-    // Test endpoint - check if user exists
-    // -------------------------
     [HttpGet("check/{username}")]
     public async Task<IActionResult> CheckUserExists(string username)
     {
@@ -284,9 +248,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -------------------------
-    // JWT Token Generator
-    // -------------------------
     private string GenerateJwtToken(User user)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -302,7 +263,6 @@ public class AuthController : ControllerBase
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        // Token valid for 24 hours
         var token = new JwtSecurityToken(
             issuer: _config["Jwt:Issuer"] ?? "BookWebApp",
             audience: _config["Jwt:Audience"] ?? "BookWebAppUsers",
@@ -314,9 +274,6 @@ public class AuthController : ControllerBase
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    // -------------------------
-    // Debug endpoint - get user info (requires authorization)
-    // -------------------------
     [HttpGet("user-info")]
     [Microsoft.AspNetCore.Authorization.Authorize]
     public async Task<IActionResult> GetUserInfo()
@@ -338,9 +295,6 @@ public class AuthController : ControllerBase
     }
 }
 
-// -------------------------
-// DTOs for requests - MAKE SURE RegisterDto HAS ROLE PROPERTY
-// -------------------------
 public class RegisterDto
 {
     public string Username { get; set; } = "";

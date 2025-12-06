@@ -5,23 +5,21 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-// Create builder
+// ------------------------
+// CREATE BUILDER
+// ------------------------
 var builder = WebApplication.CreateBuilder(args);
 
-// =========================
+// ------------------------
 // CONFIGURATION
-// =========================
-
-// Load appsettings.json and environment variables
+// ------------------------
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-// =========================
+// ------------------------
 // DATABASE
-// =========================
-
-// SQLite for development; change to PostgreSQL if needed for production
+// ------------------------
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connString = builder.Configuration.GetConnectionString("DefaultConnection") 
@@ -29,43 +27,24 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlite(connString);
 });
 
-// =========================
+// ------------------------
 // SERVICES
-// =========================
+// ------------------------
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddControllers();
 
-// =========================
+// ------------------------
 // SWAGGER
-// =========================
+// ------------------------
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// =========================
+// ------------------------
 // JWT AUTHENTICATION
-// =========================
-
-// Read JWT Key with priority: Env Variable > Appsettings
+// ------------------------
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
-             ?? builder.Configuration["Jwt:Key"];
-
-if (string.IsNullOrEmpty(jwtKey))
-{
-    if (builder.Environment.IsDevelopment())
-    {
-        // Load development key
-        builder.Configuration.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
-        jwtKey = builder.Configuration["Jwt:Key"] 
-                 ?? "DEVELOPMENT_KEY_ONLY_CHANGE_FOR_PRODUCTION";
-        Console.WriteLine("⚠️ WARNING: Using development JWT key.");
-    }
-    else
-    {
-        throw new InvalidOperationException(
-            "JWT Key not configured. Set JWT_KEY environment variable or configure in appsettings.Production.json"
-        );
-    }
-}
+             ?? builder.Configuration["Jwt:Key"]
+             ?? "DEVELOPMENT_KEY_ONLY_CHANGE_FOR_PRODUCTION";
 
 var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") 
              ?? builder.Configuration["Jwt:Issuer"] 
@@ -91,42 +70,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ClockSkew = TimeSpan.Zero
         };
-
-        // Optional: debug events
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine($"JWT Authentication Failed: {context.Exception.Message}");
-                return Task.CompletedTask;
-            },
-            OnTokenValidated = context =>
-            {
-                Console.WriteLine($"JWT Token Validated for user: {context.Principal?.Identity?.Name}");
-                return Task.CompletedTask;
-            }
-        };
     });
 
-// =========================
+// ------------------------
 // CORS
-// =========================
-builder.Services.AddCors(opt =>
+// ------------------------
+builder.Services.AddCors(options =>
 {
-    opt.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
         policy.WithOrigins(
-                "http://localhost:4200",        // Angular dev
-                "http://localhost:5298",        // API dev
-                "https://your-frontend-domain"  // Replace with deployed frontend
-              )
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials());
+                "http://localhost:4200",                          // Angular dev
+                "https://book-quotes-web-app-frontend.onrender.com" // Deployed frontend
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+    );
 });
 
-// =========================
+// ------------------------
 // BUILD APP
-// =========================
+// ------------------------
 var app = builder.Build();
 
 // Initialize database
@@ -137,14 +101,14 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("Database initialized");
 }
 
-// =========================
+// ------------------------
 // MIDDLEWARE
-// =========================
-app.UseCors("AllowAll");
+// ------------------------
+app.UseCors("AllowFrontend"); // MUST be before Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Swagger only in development
+// Swagger in dev only
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -155,17 +119,13 @@ if (app.Environment.IsDevelopment())
     });
     Console.WriteLine("🔓 Development Mode: Swagger UI enabled at /swagger");
 }
-else
-{
-    Console.WriteLine("🔒 Production Mode: Swagger UI disabled");
-}
 
 // Map controllers
 app.MapControllers();
 
-// =========================
+// ------------------------
 // LOG STARTUP INFO
-// =========================
+// ------------------------
 Console.WriteLine("========================================");
 Console.WriteLine(" BookWebApp API running!");
 Console.WriteLine($" Environment: {app.Environment.EnvironmentName}");
