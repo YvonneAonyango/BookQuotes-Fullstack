@@ -13,4 +13,7 @@ public class Book
     public string Author { get; set; } = "";
 
     public DateTime? PublishDate { get; set; }
+
+    // Navigation
+    public ICollection<Quote> Quotes { get; set; } = new List<Quote>();
 }

@@ -18,16 +18,20 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // initial admin user (credentials can change)
-        modelBuilder.Entity<User>().HasData(
-            new User
-            {
-                Id = 1,
-                Username = "admin",
-                PasswordHash = new byte[64], //  actual hash needed
-                PasswordSalt = new byte[128], //  actual salt needed
-                Role = UserRole.Admin
-            }
-        );
+        // Book -> Quote (one-to-many)
+        modelBuilder.Entity<Book>()
+            .HasMany(b => b != null ? b.Quotes : null) // safe navigation; EF will ignore null in compile-time model
+            .WithOne(q => q.Book)
+            .HasForeignKey(q => q.BookId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // User -> Quote (one-to-many)
+        modelBuilder.Entity<User>()
+            .HasMany(u => u != null ? u.Quotes : null)
+            .WithOne(q => q.User)
+            .HasForeignKey(q => q.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // NOTE: you may seed data using migrations or an administrative endpoint.
     }
 }

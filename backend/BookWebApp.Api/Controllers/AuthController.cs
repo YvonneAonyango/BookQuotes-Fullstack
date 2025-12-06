@@ -23,16 +23,23 @@ public class AuthController : ControllerBase
         _logger = logger;
     }
 
+    // -----------------------------------------------
+    // TEST ENDPOINT
+    // -----------------------------------------------
     [HttpGet("test")]
     public IActionResult Test()
     {
-        return Ok(new { 
-            message = "Auth API is working!", 
+        return Ok(new
+        {
+            message = "Auth API is working!",
             timestamp = DateTime.UtcNow,
             jwtConfigured = !string.IsNullOrEmpty(_config["Jwt:Key"])
         });
     }
 
+    // -----------------------------------------------
+    // SETUP ADMIN ACCOUNT (ONE TIME USE)
+    // -----------------------------------------------
     [HttpPost("setup-admin")]
     public async Task<IActionResult> SetupAdmin([FromBody] SetupAdminDto model)
     {
@@ -50,30 +57,31 @@ public class AuthController : ControllerBase
                 return BadRequest(new { message = "Password must be at least 6 characters long" });
 
             var success = await _authService.CreateAdminUser(model.Username, model.Password);
-            
+
             if (success)
             {
-                _logger.LogInformation("Admin user setup successfully: {Username}", model.Username);
+                _logger.LogInformation("Admin created: {Username}", model.Username);
                 return Ok(new { message = "Admin user created successfully" });
             }
-            else
-            {
-                return BadRequest(new { message = "Failed to create admin user" });
-            }
+
+            return BadRequest(new { message = "Failed to create admin user" });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error setting up admin user: {Username}", model.Username);
-            return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            _logger.LogError(ex, "Error setting up admin user");
+            return StatusCode(500, new { message = ex.Message });
         }
     }
 
+    // -----------------------------------------------
+    // REGISTER USER
+    // -----------------------------------------------
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto model)
     {
         try
         {
-            _logger.LogInformation("Registration attempt for user: {Username} with role: {Role}", model.Username, model.Role);
+            _logger.LogInformation("Register attempt for {Username}", model.Username);
 
             if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
                 return BadRequest(new { message = "Username and password are required" });
@@ -84,6 +92,7 @@ public class AuthController : ControllerBase
             if (model.Password.Length < 6)
                 return BadRequest(new { message = "Password must be at least 6 characters long" });
 
+            // Default role to User
             if (string.IsNullOrEmpty(model.Role))
                 model.Role = "User";
 
@@ -92,120 +101,109 @@ public class AuthController : ControllerBase
 
             var user = await _authService.Register(model.Username, model.Password, model.Role);
             if (user == null)
-            {
-                _logger.LogWarning("Registration failed - username already exists: {Username}", model.Username);
                 return BadRequest(new { message = "Username already exists" });
-            }
 
             var token = GenerateJwtToken(user);
-            
-            _logger.LogInformation("User registered successfully: {Username} with role: {Role}", model.Username, user.Role);
-            
-            return Ok(new { 
-                token = token,
+
+            return Ok(new
+            {
+                token,
                 username = user.Username,
                 role = user.Role.ToString(),
-                message = "Registration successful" 
+                message = "Registration successful"
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during registration for user: {Username}", model.Username);
-            return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            _logger.LogError(ex, "Error during registration");
+            return StatusCode(500, new { message = ex.Message });
         }
     }
 
+    // -----------------------------------------------
+    // LOGIN USER
+    // -----------------------------------------------
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto model)
     {
         try
         {
-            _logger.LogInformation("Login attempt for user: {Username}", model.Username);
+            _logger.LogInformation("Login attempt for {Username}", model.Username);
 
             if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
                 return BadRequest(new { message = "Username and password are required" });
 
             var user = await _authService.Login(model.Username, model.Password);
             if (user == null)
-            {
-                _logger.LogWarning("Login failed for user: {Username}", model.Username);
                 return Unauthorized(new { message = "Invalid credentials" });
-            }
 
             var token = GenerateJwtToken(user);
-            
-            _logger.LogInformation("User logged in successfully: {Username} with role: {Role}", model.Username, user.Role);
-            
-            return Ok(new { 
-                token = token,
+
+            return Ok(new
+            {
+                token,
                 username = user.Username,
                 role = user.Role.ToString(),
-                message = "Login successful" 
+                message = "Login successful"
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during login for user: {Username}", model.Username);
-            return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            _logger.LogError(ex, "Error during login");
+            return StatusCode(500, new { message = ex.Message });
         }
     }
 
+    // -----------------------------------------------
+    // LOGIN ADMIN ONLY
+    // -----------------------------------------------
     [HttpPost("admin/login")]
     public async Task<IActionResult> AdminLogin([FromBody] LoginDto model)
     {
         try
         {
-            _logger.LogInformation("Admin login attempt for user: {Username}", model.Username);
-
             var user = await _authService.Login(model.Username, model.Password);
+
             if (user == null || user.Role != UserRole.Admin)
-            {
-                _logger.LogWarning("Admin login failed for user: {Username}", model.Username);
                 return Unauthorized(new { message = "Invalid admin credentials" });
-            }
 
             var token = GenerateJwtToken(user);
-            
-            _logger.LogInformation("Admin logged in successfully: {Username}", model.Username);
-            
-            return Ok(new { 
-                token = token,
+
+            return Ok(new
+            {
+                token,
                 username = user.Username,
                 role = user.Role.ToString(),
-                message = "Admin login successful" 
+                message = "Admin login successful"
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during admin login for user: {Username}", model.Username);
-            return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            return StatusCode(500, new { message = ex.Message });
         }
     }
 
+    // -----------------------------------------------
+    // LOGOUT
+    // -----------------------------------------------
     [HttpPost("logout")]
     public IActionResult Logout()
     {
-        return Ok(new { message = "Logged out successfully. Please remove token client-side." });
+        return Ok(new { message = "Logged out successfully. Remove token client-side." });
     }
 
-    [HttpGet("current-user")]
-    public IActionResult GetCurrentUser()
-    {
-        return Ok(new { 
-            message = "Use token validation on protected endpoints",
-            note = "Client should store and send token in Authorization header"
-        });
-    }
-
+    // -----------------------------------------------
+    // JWT VALIDATION
+    // -----------------------------------------------
     [HttpPost("validate-token")]
     public IActionResult ValidateToken([FromBody] ValidateTokenDto model)
     {
         try
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var handler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
-            
-            tokenHandler.ValidateToken(model.Token, new TokenValidationParameters
+
+            handler.ValidateToken(model.Token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -215,17 +213,16 @@ public class AuthController : ControllerBase
                 ValidAudience = _config["Jwt:Audience"],
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
-            }, out SecurityToken validatedToken);
+            }, out SecurityToken validated);
 
-            var jwtToken = (JwtSecurityToken)validatedToken;
-            var username = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
-            var role = jwtToken.Claims.First(x => x.Type == ClaimTypes.Role).Value;
-            
-            return Ok(new {
+            var jwt = (JwtSecurityToken)validated;
+
+            return Ok(new
+            {
                 valid = true,
-                username = username,
-                role = role,
-                expires = jwtToken.ValidTo
+                username = jwt.Claims.First(c => c.Type == ClaimTypes.Name).Value,
+                role = jwt.Claims.First(c => c.Type == ClaimTypes.Role).Value,
+                expires = jwt.ValidTo
             });
         }
         catch
@@ -234,52 +231,15 @@ public class AuthController : ControllerBase
         }
     }
 
-    [HttpGet("check/{username}")]
-    public async Task<IActionResult> CheckUserExists(string username)
-    {
-        try
-        {
-            var exists = await _authService.UserExists(username);
-            return Ok(new { username, exists });
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { message = $"Error checking user: {ex.Message}" });
-        }
-    }
-
-    private string GenerateJwtToken(User user)
-    {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-            _config["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured")));
-        
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.Role.ToString()),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        var token = new JwtSecurityToken(
-            issuer: _config["Jwt:Issuer"] ?? "BookWebApp",
-            audience: _config["Jwt:Audience"] ?? "BookWebAppUsers",
-            claims: claims,
-            expires: DateTime.Now.AddHours(24),
-            signingCredentials: creds
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-
+    // -----------------------------------------------
+    // GET CURRENT USER WITH TOKEN
+    // -----------------------------------------------
     [HttpGet("user-info")]
     [Microsoft.AspNetCore.Authorization.Authorize]
     public async Task<IActionResult> GetUserInfo()
     {
         var username = User.Identity?.Name;
-        if (string.IsNullOrEmpty(username))
+        if (username == null)
             return Unauthorized();
 
         var user = await _authService.GetUserByUsername(username);
@@ -293,14 +253,45 @@ public class AuthController : ControllerBase
             role = user.Role.ToString()
         });
     }
+
+    // -----------------------------------------------
+    // JWT TOKEN GENERATION
+    // -----------------------------------------------
+    private string GenerateJwtToken(User user)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? throw new Exception("Missing JWT key")));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.Role.ToString()),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        var token = new JwtSecurityToken(
+            issuer: _config["Jwt:Issuer"],
+            audience: _config["Jwt:Audience"],
+            claims: claims,
+            expires: DateTime.UtcNow.AddHours(24),
+            signingCredentials: creds
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
 }
+
+// ---------------------------------------------------
+// DTOs
+// ---------------------------------------------------
 
 public class RegisterDto
 {
     public string Username { get; set; } = "";
     public string Password { get; set; } = "";
     public string ConfirmPassword { get; set; } = "";
-    public string Role { get; set; } = "User"; 
+    public string Role { get; set; } = "User";
 }
 
 public class LoginDto

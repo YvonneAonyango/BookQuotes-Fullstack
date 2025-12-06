@@ -1,26 +1,29 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BookWebApp.Api.Models;
-
-public class User
+namespace BookWebApp.Api.Models
 {
-    public int Id { get; set; }
+    public class User
+    {
+        public int Id { get; set; }
 
-    [Required]
-    public string Username { get; set; } = string.Empty;
+        [Required]
+        public string Username { get; set; } = string.Empty;
 
-    [Required]
-    public required byte[] PasswordHash { get; set; }
+        [Required]
+        public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
 
-    [Required]
-    public required byte[] PasswordSalt { get; set; }
+        [Required]
+        public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
 
-    //  Role property for admin system
-    public UserRole Role { get; set; } = UserRole.User;
-}
+        public UserRole Role { get; set; } = UserRole.User;
 
-public enum UserRole
-{
-    User = 0,
-    Admin = 1
+        // Navigation
+        public ICollection<Quote> Quotes { get; set; } = new List<Quote>();
+    }
+
+    public enum UserRole
+    {
+        User = 0,
+        Admin = 1
+    }
 }
