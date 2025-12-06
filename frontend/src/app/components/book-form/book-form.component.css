@@ -1,6 +1,6 @@
 /* Global card styling */
 .card {
-  background-color: #f3d9b1; /* light warm orange */
+  background-color: #f3d9b1;
   color: #4b2e2e;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   border-radius: 12px;
@@ -36,6 +36,7 @@
   border-radius: 6px;
   transition: all 0.2s ease;
   width: 100%;
+  font-size: 16px; /* Prevent iOS zoom */
 }
 
 .form-control:focus {
@@ -58,6 +59,7 @@
   border-color: #ff9f1c;
   color: #1b1b1b;
   font-weight: 500;
+  font-size: 16px; /* Prevent iOS zoom */
   transition: all 0.2s ease;
 }
 
@@ -72,6 +74,7 @@
   border-color: #caa978;
   color: #4b2e2e;
   font-weight: 500;
+  font-size: 16px; /* Prevent iOS zoom */
 }
 
 .btn-secondary:hover {
@@ -85,6 +88,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  font-size: 16px; /* Prevent iOS zoom */
 }
 
 /* Feedback messages */
@@ -109,40 +113,17 @@
   margin: 0 auto;
 }
 
-@media (min-width: 576px) {
-  .container-fluid {
-    padding: 1.5rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .container-fluid {
-    padding: 2rem;
-  }
-}
+@media (min-width: 576px) { .container-fluid { padding: 1.5rem; } }
+@media (min-width: 768px) { .container-fluid { padding: 2rem; } }
 
 /* Responsive heading */
 .responsive-heading {
   font-size: 1.3rem;
 }
 
-@media (min-width: 576px) {
-  .responsive-heading {
-    font-size: 1.5rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .responsive-heading {
-    font-size: 1.7rem;
-  }
-}
-
-@media (min-width: 1200px) {
-  .responsive-heading {
-    font-size: 1.9rem;
-  }
-}
+@media (min-width: 576px) { .responsive-heading { font-size: 1.5rem; } }
+@media (min-width: 768px) { .responsive-heading { font-size: 1.7rem; } }
+@media (min-width: 1200px) { .responsive-heading { font-size: 1.9rem; } }
 
 /* Form button grid for small screens */
 .d-grid.gap-2.d-md-flex {
@@ -150,10 +131,7 @@
 }
 
 @media (max-width: 768px) {
-  .d-md-flex .btn {
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
+  .d-md-flex .btn { width: 100%; margin-bottom: 0.5rem; }
 }
 
 /* Dark mode support */
@@ -184,36 +162,12 @@ body.dark-mode .form-label {
 
 /* Mobile responsiveness */
 @media (max-width: 576px) {
-  .card {
-    margin: 0.5rem;
-  }
-
-  .card-body {
-    padding: 1rem;
-  }
-
-  .btn {
-    font-size: 0.85rem;
-  }
-
-  .form-control {
-    font-size: 0.9rem;
-  }
+  .card { margin: 0.5rem; }
+  .card-body { padding: 1rem; }
 }
 
 @media (max-width: 480px) {
-  .responsive-heading {
-    font-size: 1.1rem;
-  }
-
-  .btn {
-    font-size: 0.8rem;
-    padding: 0.45rem 0.7rem;
-  }
-
-  .form-control {
-    font-size: 0.85rem;
-  }
+  .responsive-heading { font-size: 1.1rem; }
 }
 
 /* Quick help card */

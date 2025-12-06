@@ -1,6 +1,3 @@
-/* =========================
-   LOGIN PAGE - THEME CONSISTENT
-======================== */
 
 /* Container */
 .container {
@@ -48,12 +45,12 @@
   margin-bottom: 0.3rem;
 }
 
-/* Form Controls */
+/* Form Controls - set min font-size 16px to prevent iOS zoom */
 .form-control {
   width: 100%;
   min-height: 45px;
   padding: 0.5rem 0.75rem;
-  font-size: 1rem;
+  font-size: 16px; /* updated */
   border-radius: 8px;
   border: 1px solid #dee2e6;
   transition: border 0.3s, box-shadow 0.3s;
@@ -69,10 +66,11 @@
   font-size: 0.85rem;
 }
 
-/* Button */
+/* Button - set min font-size 16px */
 .d-grid button {
   width: 100%;
   padding: 0.6rem 1.2rem;
+  font-size: 16px; /* updated */
   font-weight: 600;
   border-radius: 8px;
   background-color: #667eea;
@@ -136,13 +134,13 @@
   }
 
   .form-control {
-    font-size: 0.95rem;
+    font-size: 16px; /* prevent zoom */
     min-height: 42px;
   }
 
   .d-grid button {
     padding: 0.5rem 1rem;
-    font-size: 0.95rem;
+    font-size: 16px; /* prevent zoom */
   }
   
   .text-center p {
@@ -150,9 +148,6 @@
   }
 }
 
-/* =========================
-   DARK MODE
-======================== */
 body.dark-mode .card {
   background: #2d3748;
   color: #e2e8f0;

@@ -64,7 +64,7 @@ body.dark-mode .register-card .card-header {
 /* Form styling */
 .form-control {
   padding: 0.65rem 1rem;
-  font-size: 1rem;
+  font-size: 16px; /* updated for mobile-friendly zoom */
   border-radius: 8px;
   transition: all 0.2s ease;
 }
@@ -72,21 +72,22 @@ body.dark-mode .register-card .card-header {
 .form-label {
   font-weight: 600;
   margin-bottom: 0.5rem;
+  font-size: 14px; /* slightly larger for mobile readability */
 }
 
 /* Buttons */
-.btn-primary {
-  width: 100%;
-  font-size: 1rem;
-  padding: 0.75rem;
-  border-radius: 8px;
-}
-
+.btn-primary,
 .btn-outline-primary {
   width: 100%;
-  font-size: 1rem;
+  font-size: 16px; /* updated */
   padding: 0.75rem;
   border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-outline-primary:hover {
+  transform: translateY(-1px);
 }
 
 /* Alerts */
@@ -101,18 +102,42 @@ body.dark-mode .register-card .card-header {
   .register-card {
     margin: 0 0.5rem;
   }
+
   .register-card .card-header h2 {
     font-size: 1.3rem;
   }
+
   .register-card .card-body {
     padding: 1rem;
   }
+
   .form-control {
-    font-size: 0.95rem;
+    font-size: 15px; /* slightly smaller for narrow screens */
     padding: 0.55rem 0.75rem;
   }
-  .btn-primary, .btn-outline-primary {
-    font-size: 0.95rem;
+
+  .form-label {
+    font-size: 13px;
+  }
+
+  .btn-primary,
+  .btn-outline-primary {
+    font-size: 15px;
     padding: 0.65rem;
+  }
+}
+
+/* Touch devices adjustments */
+@media (hover: none) and (pointer: coarse) {
+  .register-card:hover,
+  .btn-primary:hover,
+  .btn-outline-primary:hover {
+    transform: none;
+  }
+
+  .register-card:active,
+  .btn-primary:active,
+  .btn-outline-primary:active {
+    transform: scale(0.98);
   }
 }
