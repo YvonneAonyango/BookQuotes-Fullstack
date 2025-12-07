@@ -7,12 +7,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-// Translation loader - CORRECTED VERSION
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,13 +25,15 @@ export const appConfig: ApplicationConfig = {
       multi: true
     },
 
-    // ngx-translate (standalone-compatible) - CORRECTED
+    // ngx-translate (standalone-compatible)
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'en',
         loader: {
           provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
+          useFactory: (http: HttpClient) => ({
+            getTranslation: (lang: string) => http.get(`./assets/i18n/${lang}.json`)
+          }),
           deps: [HttpClient]
         }
       })
