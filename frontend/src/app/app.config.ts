@@ -8,6 +8,18 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
+// FINAL WORKING TRANSLATION LOADER
+export function createTranslateLoader(http: HttpClient) {
+  console.log('Creating TranslateLoader...');
+  return {
+    getTranslation: (lang: string) => {
+      const url = `/assets/i18n/${lang}.json`;
+      console.log(`Loading translation from: ${url}`);
+      return http.get(url);
+    }
+  };
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -25,17 +37,16 @@ export const appConfig: ApplicationConfig = {
       multi: true
     },
 
-    // ngx-translate (standalone-compatible)
+    // ngx-translate - FINAL WORKING CONFIG
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'en',
         loader: {
           provide: TranslateLoader,
-          useFactory: (http: HttpClient) => ({
-            getTranslation: (lang: string) => http.get(`./assets/i18n/${lang}.json`)
-          }),
+          useFactory: createTranslateLoader,
           deps: [HttpClient]
-        }
+        },
+        useDefaultLang: true
       })
     )
   ]
