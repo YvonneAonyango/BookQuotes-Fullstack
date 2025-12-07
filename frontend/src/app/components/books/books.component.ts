@@ -1,16 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book, BookService } from '../../services/book.service';
-import { TranslationService } from '../../services/translation.service';
-import { TranslationPipe } from '../../pipes/translation.pipe';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslationPipe],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
@@ -22,7 +21,7 @@ export class BooksComponent implements OnInit {
   private titleService = inject(Title);
   private bookService = inject(BookService);
   private router = inject(Router);
-  translationService = inject(TranslationService);
+  private translate = inject(TranslateService);
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Books');
@@ -57,19 +56,15 @@ export class BooksComponent implements OnInit {
   }
 
   deleteBook(bookId: number): void {
-    const msg = this.translationService.translate('confirmDeleteBook');
-    
-    if (confirm(msg)) {
-      this.bookService.deleteBook(bookId).subscribe({
-        next: () => {
-          this.books = this.books.filter(book => book.id !== bookId);
-        },
-        error: err => console.error('Error deleting book:', err)
-      });
-    }
-  }
-
-  changeLanguage(lang: 'en' | 'sv'): void {
-    this.translationService.setLanguage(lang);
+    this.translate.get('confirmDeleteBook').subscribe((translated: string) => {
+      if (confirm(translated)) {
+        this.bookService.deleteBook(bookId).subscribe({
+          next: () => {
+            this.books = this.books.filter(book => book.id !== bookId);
+          },
+          error: err => console.error('Error deleting book:', err)
+        });
+      }
+    });
   }
 }

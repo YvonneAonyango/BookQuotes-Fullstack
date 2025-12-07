@@ -1,14 +1,18 @@
-<!-- LANGUAGE SWITCH -->
-<div style="display: flex; gap: 10px; margin-bottom: 15px;">
-  <button (click)="changeLanguage('en')">🇺🇸 English</button>
-  <button (click)="changeLanguage('sv')">🇸🇪 Svenska</button>
-</div>
-
 <div class="books-page">
   <!-- Page Header - Lowered and translated -->
   <div class="page-header mb-4">
-    <h1>{{ 'myBooks' | translate }}</h1>
-    <p class="lead">{{ 'manageBookCollection' | translate }}</p>
+    <div>
+      <h1>{{ 'myBooks' | translate }}</h1>
+      <p class="lead">{{ 'manageBookCollection' | translate }}</p>
+    </div>
+    
+    <!-- Single "Add New Book" button when books exist -->
+    <div *ngIf="!isLoading && books.length > 0" class="mb-4">
+      <button class="btn btn-primary add-book-btn" (click)="addBook()">
+        <i class="bi bi-plus-circle me-2"></i>
+        {{ 'addNewBook' | translate }}
+      </button>
+    </div>
   </div>
 
   <!-- Loading State - Translated -->
@@ -32,14 +36,6 @@
 
   <!-- Books Grid - When there are books -->
   <div *ngIf="!isLoading && books.length > 0">
-    <!-- Single "Add New Book" button when books exist -->
-    <div class="mb-4">
-      <button class="btn btn-primary" (click)="addBook()">
-        <i class="bi bi-plus-circle me-2"></i>
-        {{ 'addNewBook' | translate }}
-      </button>
-    </div>
-
     <!-- Books Grid -->
     <div class="books-grid">
       <div *ngFor="let book of books" class="book-card">

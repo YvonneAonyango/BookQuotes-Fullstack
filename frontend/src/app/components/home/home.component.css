@@ -1,4 +1,3 @@
-/* ===== HOME PAGE - DESKTOP ALIGNMENT FIX ===== */
 .home-container {
   display: flex;
   min-height: calc(100vh - 52px);
@@ -6,7 +5,7 @@
   width: 100%;
 }
 
-/* SIDEBAR - Clean version */
+/* SIDEBAR - Clean version without scroll */
 .sidebar {
   background: #122442;
   color: white;
@@ -17,61 +16,30 @@
   bottom: 0;
   padding: 1rem;
   z-index: 900;
-  overflow-y: auto; /* Allow scrolling if needed */
+  overflow-y: visible; /* Changed from auto to visible to prevent scroll bar */
+  height: calc(100vh - 52px); /* Full height minus navbar */
 }
 
 .dashboard-card {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 1rem;
+  height: auto; /* Changed to auto to fit content */
+  overflow: visible; /* No scroll */
 }
 
-/* Remove stats from HTML first */
-.quick-access {
-  margin-top: 1rem;
-}
-
-.quick-access-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  color: #ffd36b;
-}
-
-.access-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.access-link {
-  display: flex;
-  align-items: center;
-  color: white;
-  padding: 0.5rem 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-}
-
-.access-link:hover {
-  background: rgba(255, 211, 107, 0.2);
-  transform: translateX(3px);
-}
-
-/* FEATURED QUOTES */
+/* FEATURED QUOTES ONLY */
 .featured-quotes {
-  margin-top: 1.5rem;
+  margin-top: 0; /* Removed margin since this is the only content */
 }
 
 .featured-quotes-title {
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
   font-size: 0.85rem;
   color: #ffd36b;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .quote-card {
@@ -79,6 +47,12 @@
   padding: 0.75rem;
   border-radius: 0.5rem;
   margin-bottom: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.quote-card:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .quote-text {
@@ -86,12 +60,19 @@
   font-size: 0.85rem;
   color: #fff;
   line-height: 1.4;
+  margin-bottom: 0.5rem;
 }
 
 .quote-author {
   text-align: right;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #ccc;
+  font-style: italic;
+}
+
+.quote-author em {
+  color: #ffd36b;
+  font-style: normal;
 }
 
 /* MAIN CONTENT - DESKTOP FIXES */
@@ -291,6 +272,8 @@
     width: 100%;
     top: 0;
     margin-bottom: 1rem;
+    height: auto;
+    padding: 1rem;
   }
   
   .main-content {
@@ -308,5 +291,15 @@
     width: 100%;
     max-width: 250px;
     margin: 0 auto;
+  }
+  
+  .featured-quotes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .quote-card {
+    margin-bottom: 0;
   }
 }

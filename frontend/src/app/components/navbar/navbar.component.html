@@ -6,24 +6,19 @@
       {{ 'brand' | translate }}
     </a>
 
-    <!-- Hamburger -->
-    <button class="navbar-toggler" type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#navbarContent"
+    <!-- Hamburger - only visible on mobile -->
+    <button class="navbar-toggler d-lg-none" type="button" 
+            (click)="toggleMenu()"
             aria-controls="navbarContent" 
             aria-expanded="false" 
-            [attr.aria-label]="'Toggle navigation'">
+            [attr.aria-label]="'Toggle navigation' | translate">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Collapsible Menu -->
-    <div class="collapse navbar-collapse" id="navbarContent">
+    <div class="collapse navbar-collapse" [ngClass]="{'show': !isCollapsed}" id="navbarContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/home" routerLinkActive="active">
-            {{ 'home' | translate }}
-          </a>
-        </li>
+        <!-- Removed Home link since logo already serves as home -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/books" routerLinkActive="active">
             {{ 'books' | translate }}
@@ -44,7 +39,7 @@
       </ul>
 
       <div class="d-flex align-items-center gap-2 gap-sm-3">
-        <!-- Language Dropdown -->
+        <!-- Language Dropdown - Single dropdown only -->
         <div class="dropdown" ngbDropdown>
           <button class="btn-language" ngbDropdownToggle id="languageDropdown">
             <fa-icon [icon]="faGlobe" class="me-1"></fa-icon>

@@ -4,13 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Book, BookService } from '../../services/book.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { TranslationPipe } from '../../pipes/translation.pipe';
-import { TranslationService } from '../../services/translation.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-book-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslationPipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.css']
 })
@@ -24,7 +23,7 @@ export class BookFormComponent implements OnInit {
 
   private meta = inject(Meta);
   private titleService = inject(Title);
-  translationService = inject(TranslationService);
+  private translate = inject(TranslateService);
 
   constructor(
     private fb: FormBuilder,
@@ -47,16 +46,17 @@ export class BookFormComponent implements OnInit {
         this.loadBook();
       }
 
-      this.titleService.setTitle(
-        this.isEdit
-          ? this.translationService.translate('editBook') + ' - BookWebApp'
-          : this.translationService.translate('addBook') + ' - BookWebApp'
-      );
+      // Set page title
+      const title = this.isEdit ? 'Edit Book - BookWebApp' : 'Add Book - BookWebApp';
+      this.titleService.setTitle(title);
     });
 
-    this.meta.updateTag({
-      name: 'description',
-      content: this.translationService.translate('bookFormDescription')
+    // Set meta description
+    this.translate.get('bookFormDescription').subscribe((translated: string) => {
+      this.meta.updateTag({
+        name: 'description',
+        content: translated || 'Add or edit book details in your personal library.'
+      });
     });
   }
 
@@ -104,9 +104,5 @@ export class BookFormComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate(['/books']);
-  }
-
-  changeLanguage(lang: 'en' | 'sv'): void {
-    this.translationService.setLanguage(lang);
   }
 }

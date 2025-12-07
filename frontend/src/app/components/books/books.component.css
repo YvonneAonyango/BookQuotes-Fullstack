@@ -8,17 +8,62 @@
 .page-header {
   margin-top: 1rem; /* Added to lower header */
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .page-header h1 {
   font-size: 2rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 .page-header .lead {
   color: #6c757d;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+/* Single "Add New Book" button styling - IMPROVED */
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.btn-primary.add-book-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.625rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  min-width: 160px;
+  height: 45px;
+}
+
+.btn-primary.add-book-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4090 100%);
+}
+
+.btn-primary.add-book-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary.add-book-btn i {
   font-size: 1.1rem;
 }
 
@@ -36,6 +81,8 @@
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .book-card:hover {
@@ -59,6 +106,7 @@
 
 .book-card-body {
   padding: 1rem;
+  flex-grow: 1;
 }
 
 .book-title {
@@ -92,8 +140,29 @@
 
 .book-card-footer .btn {
   flex: 1;
-  padding: 0.375rem;
+  padding: 0.375rem 0.5rem;
   font-size: 0.875rem;
+  border-radius: 6px;
+}
+
+.book-card-footer .btn-outline-primary {
+  color: #667eea;
+  border-color: #667eea;
+}
+
+.book-card-footer .btn-outline-primary:hover {
+  background: #667eea;
+  color: white;
+}
+
+.book-card-footer .btn-outline-danger {
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.book-card-footer .btn-outline-danger:hover {
+  background: #e74c3c;
+  color: white;
 }
 
 /* Empty state - Improved styling */
@@ -127,20 +196,49 @@
 }
 
 .empty-state-card .btn-primary {
-  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 2rem;
   font-size: 1.1rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  min-width: 180px;
+  height: 50px;
 }
 
-/* Single "Add New Book" button styling */
-.mb-4 .btn-primary {
-  padding: 0.6rem 1.2rem;
-  font-weight: 500;
+.empty-state-card .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4090 100%);
+}
+
+/* Loading State */
+.text-center.py-5 {
+  padding: 3rem 0;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25em;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .books-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
   
   .page-header h1 {
@@ -151,6 +249,11 @@
     padding: 2rem 1rem;
     margin: 1rem;
   }
+  
+  .btn-primary.add-book-btn {
+    width: 100%;
+    max-width: 200px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -160,5 +263,14 @@
   
   .empty-state-card i {
     font-size: 2.5rem;
+  }
+  
+  .book-card-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .book-card-footer .btn {
+    width: 100%;
   }
 }

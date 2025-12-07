@@ -6,13 +6,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { TranslationPipe } from '../../pipes/translation.pipe';
-import { TranslationService } from '../../services/translation.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslationPipe],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -22,7 +21,7 @@ export class RegisterComponent {
   errorMessage = '';
   successMessage = '';
   
-  private translationService = inject(TranslationService);
+  private translate = inject(TranslateService);
 
   constructor(
     private fb: FormBuilder,
@@ -70,7 +69,9 @@ export class RegisterComponent {
   onSubmit() {
     if (!this.registerForm.valid) {
       this.registerForm.markAllAsTouched();
-      this.errorMessage = this.translationService.translate('Please fill in all fields correctly.');
+      this.translate.get('Please fill in all fields correctly.').subscribe((translated: string) => {
+        this.errorMessage = translated;
+      });
       return;
     }
 
@@ -88,13 +89,21 @@ export class RegisterComponent {
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 400) {
-            this.errorMessage = error.error?.message || this.translationService.translate('Registration failed. Please check your information.');
+            this.translate.get('Registration failed. Please check your information.').subscribe((translated: string) => {
+              this.errorMessage = error.error?.message || translated;
+            });
           } else if (error.status === 401) {
-            this.errorMessage = this.translationService.translate('Invalid credentials');
+            this.translate.get('Invalid credentials').subscribe((translated: string) => {
+              this.errorMessage = translated;
+            });
           } else if (error.status === 500) {
-            this.errorMessage = this.translationService.translate('Server error. Please try again later.');
+            this.translate.get('Server error. Please try again later.').subscribe((translated: string) => {
+              this.errorMessage = translated;
+            });
           } else {
-            this.errorMessage = `${this.translationService.translate('An error occurred:')} ${error.message}`;
+            this.translate.get('An error occurred:').subscribe((translated: string) => {
+              this.errorMessage = `${translated} ${error.message}`;
+            });
           }
           return throwError(() => new Error(this.errorMessage));
         }),
@@ -102,7 +111,9 @@ export class RegisterComponent {
       )
       .subscribe({
         next: (response) => {
-          this.successMessage = response.message || this.translationService.translate('Registration successful!');
+          this.translate.get('Registration successful!').subscribe((translated: string) => {
+            this.successMessage = response.message || translated;
+          });
 
           if (response.token) {
             localStorage.setItem('authToken', response.token);
@@ -123,9 +134,5 @@ export class RegisterComponent {
   clearMessages() {
     this.errorMessage = '';
     this.successMessage = '';
-  }
-
-  changeLanguage(lang: 'en' | 'sv'): void {
-    this.translationService.setLanguage(lang);
   }
 }

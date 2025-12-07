@@ -1,33 +1,8 @@
-<!-- LANGUAGE SWITCH -->
-<div style="display: flex; gap: 10px; margin-bottom: 15px;">
-  <button (click)="changeLanguage('en')">🇺🇸 English</button>
-  <button (click)="changeLanguage('sv')">🇸🇪 Svenska</button>
-</div>
-
 <div class="home-container">
   <aside class="sidebar">
     <div class="sidebar-content">
       <div class="dashboard-card">
-        <!-- QUICK ACCESS - Moved to top since no stats -->
-        <div class="quick-access">
-          <h6 class="quick-access-title">{{ 'quickAccess' | translate }}</h6>
-          <div class="access-links">
-            <a class="access-link" routerLink="/books">
-              <i class="bi bi-book me-2"></i>
-              {{ 'browseBooks' | translate }}
-            </a>
-            <a class="access-link" routerLink="/books/new">
-              <i class="bi bi-plus-circle me-2"></i>
-              {{ 'addNewBook' | translate }}
-            </a>
-            <a class="access-link" routerLink="/quotes">
-              <i class="bi bi-collection me-2"></i>
-              {{ 'myQuotes' | translate }}
-            </a>
-          </div>
-        </div>
-
-        <!-- FEATURED QUOTES -->
+        <!-- FEATURED QUOTES ONLY -->
         <div class="featured-quotes">
           <h6 class="featured-quotes-title">{{ 'featuredQuotes' | translate }}</h6>
           
@@ -36,9 +11,14 @@
             <p class="quote-author">— J.K. Rowling, <em>Harry Potter and the Chamber of Secrets</em></p>
           </div>
 
-          <div class="quote-card">
+          <div class="quote-card mb-3">
             <p class="quote-text">"All we have to decide is what to do with the time that is given us."</p>
             <p class="quote-author">— J.R.R. Tolkien, <em>The Lord of the Rings</em></p>
+          </div>
+          
+          <div class="quote-card">
+            <p class="quote-text">"The more that you read, the more things you will know. The more that you learn, the more places you'll go."</p>
+            <p class="quote-author">— Dr. Seuss, <em>I Can Read With My Eyes Shut!</em></p>
           </div>
         </div>
       </div>

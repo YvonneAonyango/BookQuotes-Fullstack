@@ -3,12 +3,12 @@ import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { TranslationService, Language } from '../../services/translation.service';
 import { ThemeService } from '../../services/theme.service';
-import { TranslationPipe } from '../../pipes/translation.pipe';
+import { LanguageService, Language } from '../../services/language.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Meta, Title } from '@angular/platform-browser';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import {
   faSun,
@@ -18,7 +18,8 @@ import {
   faGlobe,
   faSignInAlt,
   faUserPlus,
-  faHeart
+  faHeart,
+  faBars
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -29,7 +30,7 @@ import {
     RouterModule,
     FontAwesomeModule,
     NgbDropdownModule,
-    TranslationPipe
+    TranslateModule
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
@@ -43,14 +44,17 @@ export class NavbarComponent implements OnInit {
   faSignInAlt = faSignInAlt;
   faUserPlus = faUserPlus;
   faHeart = faHeart;
+  faBars = faBars;
 
   currentLanguage: Language = 'en';
   currentFlag = '🇬🇧';
+  isCollapsed = true;
 
   authService = inject(AuthService);
-  translationService = inject(TranslationService);
+  languageService = inject(LanguageService);
   themeService = inject(ThemeService);
   private router = inject(Router);
+  private translate = inject(TranslateService);
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -58,16 +62,18 @@ export class NavbarComponent implements OnInit {
   isHomePage = false;
 
   ngOnInit(): void {
-    this.currentLanguage = this.translationService.getCurrentLanguage();
+    this.currentLanguage = this.languageService.getCurrentLanguage();
     this.currentFlag = this.currentLanguage === 'en' ? '🇬🇧' : '🇸🇪';
 
     // Meta tags
     this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
-    this.titleService.setTitle(this.translationService.translate('brand') || 'Book Quotes Buddy');
+    
+    // Set title
+    this.titleService.setTitle('Book Quotes Buddy');
+    
     this.meta.updateTag({
       name: 'description',
-      content: this.translationService.translate('personalLibrary') || 
-               'Your personal library companion for managing books and quotes.'
+      content: 'Your personal library companion for managing books and quotes.'
     });
 
     // Check initial route
@@ -94,11 +100,16 @@ export class NavbarComponent implements OnInit {
   switchLanguage(language: Language): void {
     this.currentLanguage = language;
     this.currentFlag = language === 'en' ? '🇬🇧' : '🇸🇪';
-    this.translationService.setLanguage(language);
+    this.languageService.setLanguage(language);
   }
 
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  // Toggle mobile menu
+  toggleMenu() {
+    this.isCollapsed = !this.isCollapsed;
   }
 }

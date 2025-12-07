@@ -1,175 +1,112 @@
-<!-- LANGUAGE SWITCH -->
-<div style="display: flex; gap: 10px; margin-bottom: 15px; justify-content: center;">
-  <button (click)="changeLanguage('en')">🇺🇸 English</button>
-  <button (click)="changeLanguage('sv')">🇸🇪 Svenska</button>
-</div>
-
-<div class="container-fluid py-4 py-md-5">
-  <div class="row justify-content-center align-items-center min-vh-75">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-      <div class="card shadow-lg border-0 register-card">
-        <div class="card-header bg-primary text-white text-center py-4">
-          <div class="d-flex align-items-center justify-content-center mb-3">
-            <i class="bi bi-person-plus fs-1 me-3"></i>
-            <h1 class="h3 mb-0 fw-bold">{{ 'Create Account' | translate }}</h1>
-          </div>
-          <p class="mb-0 opacity-75">{{ 'Join Book Quotes Buddy today' | translate }}</p>
-        </div>
-        
-        <div class="card-body p-4 p-md-5">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
-            
-            <!-- Error Message -->
-            <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center">
-              <i class="bi bi-exclamation-triangle me-2"></i>
-              <span class="flex-grow-1">{{ errorMessage }}</span>
-              <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
-            </div>
-
-            <!-- Success Message -->
-            <div *ngIf="successMessage" class="alert alert-success d-flex align-items-center">
-              <i class="bi bi-check-circle me-2"></i>
-              <span class="flex-grow-1">{{ successMessage }}</span>
-              <button type="button" class="btn-close" (click)="successMessage = ''"></button>
-            </div>
-
-            <!-- Username Field -->
-            <div class="mb-4">
-              <label for="username" class="form-label fw-semibold">
-                <i class="bi bi-person me-2 text-primary"></i>
-                {{ 'Username' | translate }}
-              </label>
-              <input type="text" 
-                     class="form-control form-control-lg" 
-                     id="username" 
-                     formControlName="username"
-                     [placeholder]="'Enter your username' | translate"
-                     [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
-                     [class.is-valid]="registerForm.get('username')?.valid && registerForm.get('username')?.touched">
-              <div class="invalid-feedback d-block" 
-                   *ngIf="registerForm.get('username')?.errors?.['required'] && registerForm.get('username')?.touched">
-                <i class="bi bi-exclamation-circle me-1"></i>
-                {{ 'Username is required' | translate }}
-              </div>
-              <div class="invalid-feedback d-block" 
-                   *ngIf="registerForm.get('username')?.errors?.['minlength'] && registerForm.get('username')?.touched">
-                <i class="bi bi-exclamation-circle me-1"></i>
-                {{ 'Username must be at least 3 characters long' | translate }}
-              </div>
-              <div class="valid-feedback d-block" 
-                   *ngIf="registerForm.get('username')?.valid && registerForm.get('username')?.touched">
-                <i class="bi bi-check-circle me-1"></i>
-                {{ 'Username looks good!' | translate }}
-              </div>
-            </div>
-
-            <!-- Password Field -->
-            <div class="mb-4">
-              <label for="password" class="form-label fw-semibold">
-                <i class="bi bi-lock me-2 text-primary"></i>
-                {{ 'Password' | translate }}
-              </label>
-              <input type="password" 
-                     class="form-control form-control-lg" 
-                     id="password" 
-                     formControlName="password"
-                     [placeholder]="'Create a password' | translate"
-                     [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-                     [class.is-valid]="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
-
-              <!-- Password Requirements -->
-              <ul class="text-muted small mt-2 mb-0" *ngIf="registerForm.get('password')?.touched">
-                <li [class.text-success]="passwordErrors.minLength" [class.text-danger]="!passwordErrors.minLength">
-                  {{ 'Minimum 6 characters' | translate }}
-                </li>
-                <li [class.text-success]="passwordErrors.hasLowercase" [class.text-danger]="!passwordErrors.hasLowercase">
-                  {{ 'At least one lowercase letter' | translate }}
-                </li>
-                <li [class.text-success]="passwordErrors.hasUppercase" [class.text-danger]="!passwordErrors.hasUppercase">
-                  {{ 'At least one uppercase letter' | translate }}
-                </li>
-                <li [class.text-success]="passwordErrors.hasNumber" [class.text-danger]="!passwordErrors.hasNumber">
-                  {{ 'At least one number' | translate }}
-                </li>
-                <li [class.text-success]="passwordErrors.hasSymbol" [class.text-danger]="!passwordErrors.hasSymbol">
-                  {{ 'At least one special character (!@#$%^&*)' | translate }}
-                </li>
-              </ul>
-
-              <div class="invalid-feedback d-block" 
-                   *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
-                <i class="bi bi-exclamation-circle me-1"></i>
-                {{ 'Password is required' | translate }}
-              </div>
-              <div class="valid-feedback d-block" 
-                   *ngIf="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
-                <i class="bi bi-check-circle me-1"></i>
-                {{ 'Password looks strong!' | translate }}
-              </div>
-            </div>
-
-            <!-- Confirm Password Field -->
-            <div class="mb-4">
-              <label for="confirmPassword" class="form-label fw-semibold">
-                <i class="bi bi-lock me-2 text-primary"></i>
-                {{ 'Confirm Password' | translate }}
-              </label>
-              <input type="password" 
-                     class="form-control form-control-lg" 
-                     id="confirmPassword" 
-                     formControlName="confirmPassword"
-                     [placeholder]="'Confirm your password' | translate"
-                     [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
-                     [class.is-valid]="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.touched">
-              <div class="invalid-feedback d-block" 
-                   *ngIf="registerForm.get('confirmPassword')?.errors?.['required'] && registerForm.get('confirmPassword')?.touched">
-                <i class="bi bi-exclamation-circle me-1"></i>
-                {{ 'Please confirm your password' | translate }}
-              </div>
-              <div class="invalid-feedback d-block" 
-                   *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched">
-                <i class="bi bi-exclamation-circle me-1"></i>
-                {{ 'Passwords do not match' | translate }}
-              </div>
-              <div class="valid-feedback d-block" 
-                   *ngIf="registerForm.get('confirmPassword')?.valid && registerForm.get('confirmPassword')?.touched">
-                <i class="bi bi-check-circle me-1"></i>
-                {{ 'Passwords match!' | translate }}
-              </div>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="d-grid mb-4">
-              <button type="submit" 
-                      class="btn btn-primary btn-lg fw-semibold py-3"
-                      [disabled]="registerForm.invalid || isLoading">
-                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                <i class="bi bi-person-plus me-2" *ngIf="!isLoading"></i>
-                {{ isLoading ? ('Creating Account...' | translate) : ('Create Account' | translate) }}
-              </button>
-            </div>
-
-            <!-- Login Link -->
-            <div class="text-center">
-              <p class="mb-2">{{ 'Already have an account?' | translate }}</p>
-              <a routerLink="/login" class="btn btn-outline-primary btn-lg w-100">
-                <i class="bi bi-box-arrow-in-right me-2"></i>
-                {{ 'Login to Your Account' | translate }}
-              </a>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- Additional Info Card -->
-      <div class="card mt-4 border-0 bg-light">
-        <div class="card-body text-center p-3">
-          <small class="text-muted">
-            <i class="bi bi-shield-check me-1"></i>
-            {{ 'Your data is secure and encrypted' | translate }}
-          </small>
-        </div>
-      </div>
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header text-center mb-4">
+      <i class="bi bi-person-plus register-icon"></i>
+      <h2>{{ 'Create Account' | translate }}</h2>
+      <p class="text-muted">{{ 'Join Book Quotes Buddy today' | translate }}</p>
     </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Close"></button>
+    </div>
+
+    <!-- Success Alert -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ successMessage }}
+      <button type="button" class="btn-close" (click)="clearMessages()" aria-label="Close"></button>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <!-- Username Field -->
+      <div class="mb-3">
+        <label for="username" class="form-label">{{ 'Enter your username' | translate }}</label>
+        <input 
+          type="text" 
+          id="username" 
+          formControlName="username" 
+          class="form-control" 
+          [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+          placeholder="{{ 'Enter your username' | translate }}"
+        >
+        <div class="form-text">{{ 'Username looks good!' | translate }}</div>
+        <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="invalid-feedback">
+          <div *ngIf="registerForm.get('username')?.errors?.['required']">
+            {{ 'Username is required' | translate }}
+          </div>
+          <div *ngIf="registerForm.get('username')?.errors?.['minlength']">
+            {{ 'Username must be at least 3 characters long' | translate }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Password Field with Requirements -->
+      <div class="mb-3">
+        <label for="password" class="form-label">{{ 'Create a password' | translate }}</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          class="form-control" 
+          [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+          placeholder="{{ 'Create a password' | translate }}"
+        >
+        <div class="password-requirements mt-2">
+          <small class="d-block" [class.text-success]="passwordErrors.minLength">{{ 'Minimum 6 characters' | translate }}</small>
+          <small class="d-block" [class.text-success]="passwordErrors.hasLowercase">{{ 'At least one lowercase letter' | translate }}</small>
+          <small class="d-block" [class.text-success]="passwordErrors.hasUppercase">{{ 'At least one uppercase letter' | translate }}</small>
+          <small class="d-block" [class.text-success]="passwordErrors.hasNumber">{{ 'At least one number' | translate }}</small>
+          <small class="d-block" [class.text-success]="passwordErrors.hasSymbol">{{ 'At least one special character (!@#$%^&*)' | translate }}</small>
+        </div>
+        <div class="form-text">{{ 'Password looks strong!' | translate }}</div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="mb-4">
+        <label for="confirmPassword" class="form-label">{{ 'Confirm Password' | translate }}</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          formControlName="confirmPassword" 
+          class="form-control" 
+          [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+          placeholder="{{ 'Confirm your password' | translate }}"
+        >
+        <div class="form-text">{{ 'Passwords match!' | translate }}</div>
+        <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched" class="invalid-feedback">
+          <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">
+            {{ 'Please confirm your password' | translate }}
+          </div>
+          <div *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">
+            {{ 'Passwords do not match' | translate }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Note -->
+      <div class="alert alert-info mb-4">
+        <i class="bi bi-shield-check me-2"></i>
+        {{ 'Your data is secure and encrypted' | translate }}
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="btn btn-primary w-100 mb-3"
+        [disabled]="registerForm.invalid || isLoading"
+      >
+        <span *ngIf="!isLoading">{{ 'Create Account' | translate }}</span>
+        <span *ngIf="isLoading">{{ 'Creating Account...' | translate }}</span>
+      </button>
+
+      <!-- Login Link -->
+      <div class="text-center">
+        <p class="mb-0">
+          {{ 'Already have an account?' | translate }}
+          <a routerLink="/login" class="text-decoration-none">{{ 'Login to Your Account' | translate }}</a>
+        </p>
+      </div>
+    </form>
   </div>
 </div>

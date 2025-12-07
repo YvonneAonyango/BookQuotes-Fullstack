@@ -1,9 +1,3 @@
-<!-- LANGUAGE SWITCH -->
-<div style="display: flex; gap: 10px; margin-bottom: 15px; justify-content: center;">
-  <button (click)="changeLanguage('en')">🇺🇸 English</button>
-  <button (click)="changeLanguage('sv')">🇸🇪 Svenska</button>
-</div>
-
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
@@ -14,7 +8,7 @@
         <div class="card-body">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div *ngIf="errorMessage" class="alert alert-danger">
-              {{ errorMessage | translate }}
+              {{ errorMessage }}
             </div>
 
             <div class="mb-3">

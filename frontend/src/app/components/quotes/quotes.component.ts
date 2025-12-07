@@ -3,10 +3,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Quote, QuoteService } from '../../services/quote.service';
 import { Book, BookService } from '../../services/book.service';
-import { TranslationService } from '../../services/translation.service'; 
-import { TranslationPipe } from '../../pipes/translation.pipe'; 
 import { Meta, Title } from '@angular/platform-browser';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-quotes',
@@ -14,8 +13,8 @@ import { TruncatePipe } from '../../pipes/truncate.pipe';
   imports: [
     CommonModule, 
     ReactiveFormsModule,
-    TranslationPipe,
-    TruncatePipe
+    TruncatePipe,
+    TranslateModule
   ],
   templateUrl: './quotes.component.html',
   styleUrls: ['./quotes.component.css']
@@ -32,7 +31,7 @@ export class QuotesComponent implements OnInit {
 
   private meta = inject(Meta);
   private titleService = inject(Title);
-  private translationService = inject(TranslationService);
+  private translate = inject(TranslateService);
 
   constructor(
     private quoteService: QuoteService,
@@ -47,12 +46,13 @@ export class QuotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle(this.translationService.translate('quotes') + ' - BookWebApp');
+    this.titleService.setTitle('BookWebApp - Quotes');
     
-    this.meta.updateTag({
-      name: 'description',
-      content: this.translationService.translate('quoteCollectionDesc') || 
-               'Save and manage your favorite quotes from books.'
+    this.translate.get('quoteCollectionDesc').subscribe((translated: string) => {
+      this.meta.updateTag({
+        name: 'description',
+        content: translated || 'Save and manage your favorite quotes from books.'
+      });
     });
 
     this.loadQuotes();
@@ -192,24 +192,21 @@ export class QuotesComponent implements OnInit {
   }
 
   deleteQuote(id: number): void {
-    const confirmMessage = this.translationService.translate('confirmDeleteQuote') || 
-                          'Are you sure you want to delete this quote?';
-    if (confirm(confirmMessage)) {
-      this.quoteService.deleteQuote(id).subscribe({
-        next: () => {
-          this.quotes = this.quotes.filter(q => q.id !== id);
-          this.addedQuotes = this.addedQuotes.filter(q => q.id !== id);
-          this.saveBasketToStorage();
-          if (this.selectedQuoteId === id) this.resetForm();
-        },
-        error: (error) => {
-          console.error('Error deleting quote:', error);
-        }
-      });
-    }
-  }
-
-  changeLanguage(lang: 'en' | 'sv'): void {
-    this.translationService.setLanguage(lang);
+    this.translate.get('confirmDeleteQuote').subscribe((translated: string) => {
+      const confirmMessage = translated || 'Are you sure you want to delete this quote?';
+      if (confirm(confirmMessage)) {
+        this.quoteService.deleteQuote(id).subscribe({
+          next: () => {
+            this.quotes = this.quotes.filter(q => q.id !== id);
+            this.addedQuotes = this.addedQuotes.filter(q => q.id !== id);
+            this.saveBasketToStorage();
+            if (this.selectedQuoteId === id) this.resetForm();
+          },
+          error: (error) => {
+            console.error('Error deleting quote:', error);
+          }
+        });
+      }
+    });
   }
 }

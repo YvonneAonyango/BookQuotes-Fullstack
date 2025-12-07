@@ -4,13 +4,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService, LoginRequest } from '../../services/auth.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { TranslationPipe } from '../../pipes/translation.pipe';
-import { TranslationService } from '../../services/translation.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslationPipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -21,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   private meta = inject(Meta);
   private titleService = inject(Title);
-  private translationService = inject(TranslationService);
+  private translate = inject(TranslateService);
 
   constructor(
     private fb: FormBuilder,
@@ -40,11 +39,15 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    // Use translation service for dynamic titles
-    this.titleService.setTitle(this.translationService.translate('login'));
-    this.meta.updateTag({
-      name: 'description',
-      content: this.translationService.translate('loginDescription')
+    // Set page title
+    this.titleService.setTitle('BookWebApp - Login');
+    
+    // Use translation service for description
+    this.translate.get('loginDescription').subscribe((translated: string) => {
+      this.meta.updateTag({
+        name: 'description',
+        content: translated || 'Login to access your personal library and manage your books and quotes.'
+      });
     });
   }
 
@@ -69,7 +72,9 @@ export class LoginComponent implements OnInit {
       },
       error: err => {
         this.isLoading = false;
-        this.errorMessage = err.error?.message || 'invalidCredentials';
+        this.translate.get('invalidCredentials').subscribe((translated: string) => {
+          this.errorMessage = err.error?.message || translated;
+        });
       }
     });
   }
@@ -77,9 +82,5 @@ export class LoginComponent implements OnInit {
   hasError(controlName: string): boolean {
     const control = this.loginForm.get(controlName);
     return control ? control.invalid && control.touched : false;
-  }
-
-  changeLanguage(lang: 'en' | 'sv'): void {
-    this.translationService.setLanguage(lang);
   }
 }
