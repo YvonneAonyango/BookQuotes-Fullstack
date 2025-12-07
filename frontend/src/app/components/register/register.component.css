@@ -1,181 +1,186 @@
-/* ===== REGISTER COMPONENT RESPONSIVE CSS ===== */
-:host {
-  display: block;
-}
-
-/* Base container */
+/* Container */
 .register-container {
-  min-height: calc(100vh - 52px); /* Account for fixed navbar */
-  padding: 2rem 1rem;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f7fa;
-  font-family: 'Inter', 'Helvetica', sans-serif;
-  margin-top: 52px; /* Added for navbar offset */
+  padding: 1rem;
+  background-color: var(--bg-light);
+  margin-top: 0;
 }
 
 body.dark-mode .register-container {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background-color: var(--bg-dark);
 }
 
-/* Card styling */
+/* Card */
 .register-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
   width: 100%;
   max-width: 450px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
   transition: all 0.3s ease;
-  padding: 2rem;
+  background-color: var(--card-light);
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 body.dark-mode .register-card {
-  background: #2d3748;
+  background-color: var(--card-dark);
+  border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  color: #e2e8f0;
 }
 
-/* Card header */
-.register-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-body.dark-mode .register-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.register-icon {
-  font-size: 3rem;
-  color: #667eea;
-  margin-bottom: 1rem;
-}
-
-body.dark-mode .register-icon {
-  color: #805ad5;
-}
-
-.register-header h2 {
-  font-weight: 700;
-  font-size: 1.4rem;
-  margin: 0 0 0.5rem 0;
-  color: #333;
-}
-
-body.dark-mode .register-header h2 {
-  color: #e2e8f0;
-}
-
-.register-header p {
-  font-size: 0.95rem;
-  opacity: 0.9;
-  color: #666;
-  margin: 0;
-}
-
-body.dark-mode .register-header p {
-  color: #a0aec0;
-}
-
-/* Form styling */
-.form-control {
-  padding: 0.65rem 1rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  border: 1px solid #dee2e6;
-  background: white;
-  color: #333;
-}
-
-body.dark-mode .form-control {
-  background: #4a5568;
-  border-color: #718096;
-  color: #e2e8f0;
-}
-
-.form-control:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
-}
-
-body.dark-mode .form-control:focus {
-  border-color: #805ad5;
-  box-shadow: 0 0 0 0.25rem rgba(128, 90, 213, 0.25);
-}
-
-.form-label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-body.dark-mode .form-label {
-  color: #e2e8f0;
-}
-
-/* Password requirements */
-.password-requirements {
-  margin-top: 0.5rem;
-}
-
-.password-requirements small {
-  display: block;
-  font-size: 0.85rem;
-  color: #6c757d;
-  transition: color 0.3s ease;
-}
-
-body.dark-mode .password-requirements small {
-  color: #a0aec0;
-}
-
-.password-requirements .text-success {
-  color: #28a745 !important;
-  font-weight: 500;
-}
-
-/* Buttons */
-.btn-primary {
+/* Card Header */
+.register-card .card-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  width: 100%;
-  font-size: 1rem;
-  padding: 0.75rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  font-weight: 500;
   color: white;
+  border-bottom: none;
+  padding: 1.5rem;
+  text-align: center;
 }
 
-body.dark-mode .btn-primary {
+body.dark-mode .register-card .card-header {
   background: linear-gradient(135deg, #4c51bf 0%, #805ad5 100%);
 }
 
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+.register-card .card-header h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
 }
 
-.btn-primary:disabled {
+/* Card Body */
+.register-card .card-body {
+  padding: 2rem;
+  background-color: transparent;
+}
+
+/* Form Inputs */
+.register-card .form-control,
+.register-card .form-select,
+.register-card textarea.form-control {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: var(--input-light);
+  color: var(--text-light);
+}
+
+body.dark-mode .register-card .form-control,
+body.dark-mode .register-card .form-select,
+body.dark-mode .register-card textarea.form-control {
+  background-color: var(--input-dark);
+  border-color: var(--border-dark);
+  color: var(--text-dark);
+}
+
+.register-card .form-control:focus,
+.register-card .form-select:focus,
+.register-card textarea.form-control:focus {
+  border-color: var(--highlight-yellow);
+  box-shadow: 0 0 0 0.25rem rgba(215,155,31,0.25);
+  outline: none;
+}
+
+/* Form Labels */
+.register-card .form-label {
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+body.dark-mode .register-card .form-label {
+  color: var(--text-dark);
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  margin-top: 0.5rem;
+}
+
+.password-requirement {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.requirement-met {
+  color: #28a745;
+}
+
+.requirement-not-met {
+  color: #dc3545;
+}
+
+body.dark-mode .requirement-met {
+  color: #68d391;
+}
+
+body.dark-mode .requirement-not-met {
+  color: #fc8181;
+}
+
+/* Buttons */
+.register-card .btn {
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border: none;
+}
+
+.register-card .btn-primary {
+  background: linear-gradient(135deg, var(--highlight-yellow) 0%, #d79b1f 100%);
+  color: var(--text-dark);
+  font-weight: 600;
+  width: 100%;
+}
+
+.register-card .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #d79b1f 0%, #b8860b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(215, 155, 31, 0.4);
+}
+
+.register-card .btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
+.register-card .btn-outline-primary {
+  background-color: transparent;
+  border: 1px solid var(--highlight-yellow);
+  color: var(--highlight-yellow);
+}
+
+.register-card .btn-outline-primary:hover {
+  background-color: var(--highlight-yellow);
+  color: var(--text-dark);
+}
+
 /* Alerts */
-.alert {
-  font-size: 0.9rem;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
+.register-card .alert {
   border-radius: 8px;
   border: none;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+body.dark-mode .alert-success {
+  background-color: #22543d;
+  color: #c6f6d5;
 }
 
 .alert-danger {
@@ -188,167 +193,75 @@ body.dark-mode .alert-danger {
   color: #f8d7da;
 }
 
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-body.dark-mode .alert-success {
-  background-color: #1c4532;
-  color: #d4edda;
-}
-
-.alert-info {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: none;
-}
-
-body.dark-mode .alert-info {
-  background-color: #2d4a53;
-  color: #d1ecf1;
-}
-
-/* Form text and validation */
-.form-text {
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin-top: 0.25rem;
-}
-
-body.dark-mode .form-text {
-  color: #a0aec0;
-}
-
-.invalid-feedback {
-  font-size: 0.85rem;
-  color: #e74c3c;
-}
-
-body.dark-mode .invalid-feedback {
-  color: #fc8181;
-}
-
-.form-control.is-invalid {
-  border-color: #e74c3c;
-}
-
-.form-control.is-invalid:focus {
-  box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
-}
-
 /* Links */
-a {
-  color: #667eea;
-  text-decoration: none;
+.register-card a {
+  color: var(--highlight-yellow);
   font-weight: 500;
+  text-decoration: none;
 }
 
-body.dark-mode a {
-  color: #805ad5;
-}
-
-a:hover {
+.register-card a:hover {
   text-decoration: underline;
 }
 
-/* Text muted */
-.text-muted {
-  color: #6c757d !important;
+/* Login Link */
+.register-card .login-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--text-muted-light);
 }
 
-body.dark-mode .text-muted {
-  color: #a0aec0 !important;
+body.dark-mode .register-card .login-link {
+  color: var(--text-muted-dark);
 }
 
-/* Responsive adjustments */
+.register-card .login-link a {
+  margin-left: 0.25rem;
+}
+
+/* Spinner */
+.spinner-border {
+  vertical-align: middle;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .register-container {
-    padding: 1rem;
-    margin-top: 52px;
+  .register-card .card-header h2 {
+    font-size: 1.3rem;
   }
-  
-  .register-card {
-    max-width: 90%;
+
+  .register-card .card-body {
     padding: 1.5rem;
   }
 
-  .register-header h2 {
-    font-size: 1.25rem;
-  }
-
-  .form-control {
-    font-size: 0.95rem;
-    padding: 0.55rem 0.75rem;
-  }
-
-  .form-label {
-    font-size: 0.9rem;
-  }
-
-  .btn-primary {
+  .register-card .btn {
     font-size: 0.95rem;
     padding: 0.65rem;
-  }
-  
-  .register-icon {
-    font-size: 2.5rem;
   }
 }
 
 @media (max-width: 576px) {
-  .register-container {
-    padding: 0.5rem;
-  }
-  
   .register-card {
+    max-width: 90%;
+  }
+
+  .register-card .card-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .register-card .card-body {
     padding: 1.25rem;
-    margin: 0 0.5rem;
   }
 
-  .register-header h2 {
-    font-size: 1.1rem;
+  .register-card .form-control,
+  .register-card .form-select,
+  .register-card textarea.form-control {
+    font-size: 0.95rem;
+    padding: 0.65rem 0.9rem;
   }
 
-  .form-control {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.7rem;
-  }
-
-  .form-label {
-    font-size: 0.85rem;
-  }
-
-  .btn-primary {
+  .register-card .btn {
     font-size: 0.9rem;
     padding: 0.6rem;
-  }
-  
-  .register-icon {
-    font-size: 2rem;
-  }
-  
-  .alert {
-    padding: 0.6rem 0.75rem;
-    font-size: 0.85rem;
-  }
-}
-
-/* Touch devices adjustments */
-@media (hover: none) and (pointer: coarse) {
-  .register-card:hover {
-    transform: none;
-  }
-
-  .btn-primary:hover {
-    transform: none;
-  }
-
-  .register-card:active {
-    transform: scale(0.98);
-  }
-
-  .btn-primary:active {
-    transform: scale(0.98);
   }
 }

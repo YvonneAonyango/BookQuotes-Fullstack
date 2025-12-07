@@ -14,7 +14,7 @@ import {
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 import { Meta, Title } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -38,15 +38,18 @@ export class HomeComponent implements OnInit {
 
   private meta = inject(Meta);
   private titleService = inject(Title);
+  private translate = inject(TranslateService);
 
   ngOnInit(): void {
     // Set page title
     this.titleService.setTitle('BookWebApp - Home');
 
-    // SEO description
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Manage your personal library with BookWebApp. Add books, save quotes, and enjoy reading!'
+    // SEO description using translation
+    this.translate.get('homeDescription').subscribe((translated: string) => {
+      this.meta.updateTag({
+        name: 'description',
+        content: translated
+      });
     });
   }
 }

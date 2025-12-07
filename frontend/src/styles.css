@@ -9,7 +9,7 @@
   --highlight-yellow: #d79b1f;
   --navbar-light: linear-gradient(135deg, #1f3b5f 0%, #2c5282 100%);
   --navbar-dark: linear-gradient(135deg, #1a314f, #223f6b);
-  
+
   /* New variables for consistent sizing */
   --font-size-xs: 0.75rem;   /* 12px */
   --font-size-sm: 0.875rem;  /* 14px */
@@ -18,7 +18,7 @@
   --font-size-lg: 1.125rem;  /* 18px */
   --font-size-xl: 1.25rem;   /* 20px */
   --font-size-2xl: 1.5rem;   /* 24px */
-  
+
   --spacing-xs: 0.25rem;     /* 4px */
   --spacing-sm: 0.5rem;      /* 8px */
   --spacing-md: 0.75rem;     /* 12px */
@@ -163,6 +163,21 @@ body.dark-mode .warm-navbar {
   height: 38px !important;
   padding: var(--spacing-xs) !important;
   border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* ===== NAVBAR BRAND SIZE FIX (Added) ===== */
+.navbar-brand {
+  padding: 0.25rem 0 !important;
+}
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1rem !important;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 /* ===== BUTTONS ===== */
@@ -441,18 +456,18 @@ fa-icon, .fa-icon {
     --font-size-xl: 1.125rem;
     --font-size-2xl: 1.25rem;
   }
-  
+
   .container, .container-fluid {
     padding-left: var(--spacing-sm);
     padding-right: var(--spacing-sm);
   }
-  
+
   .btn {
-    min-height: 40px; /* Slightly larger for mobile touch */
+    min-height: 40px;
   }
-  
+
   .form-control, .form-select {
-    min-height: 44px; /* Larger for mobile */
+    min-height: 44px;
   }
 }
 
@@ -461,10 +476,10 @@ fa-icon, .fa-icon {
     --font-size-base: 0.8125rem;
     --font-size-sm: 0.75rem;
   }
-  
+
   .btn {
     padding: var(--spacing-sm) !important;
-    width: 100%; /* Full width buttons on very small screens */
+    width: 100%;
   }
 }
 
@@ -473,13 +488,13 @@ fa-icon, .fa-icon {
   .navbar, .btn, .no-print {
     display: none !important;
   }
-  
+
   body {
     font-size: 12pt;
     background: white !important;
     color: black !important;
   }
-  
+
   .card {
     border: 1px solid #000 !important;
     background: white !important;

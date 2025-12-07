@@ -125,5 +125,6 @@
   "cancel": "Cancel",
   "updateBook": "Update Book",
   "fillAllRequiredFields": "Please fill in all required fields.",
-  "bookFormDescription": "Add or edit book details in your personal library."
+  "bookFormDescription": "Add or edit book details in your personal library.",
+  "homeDescription": "Manage your personal library with BookWebApp. Add books, save quotes, and enjoy reading!"
 }

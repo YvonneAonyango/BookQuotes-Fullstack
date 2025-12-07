@@ -1,25 +1,35 @@
 :host {
   display: block;
-  min-height: calc(100vh - 52px);
-  margin-top: 52px; /* Offset for fixed navbar */
+  min-height: 100vh;
+  background-color: var(--bg-light);
+}
+
+body.dark-mode :host {
+  background-color: var(--bg-dark);
 }
 
 .container {
-  min-height: calc(100vh - 52px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  margin-top: 0;
 }
 
 .card {
   border: none;
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  background: white;
+  width: 100%;
+  max-width: 400px;
+  background: var(--card-light);
+  transition: all 0.3s ease;
 }
 
 body.dark-mode .card {
-  background: #2d3748;
+  background: var(--card-dark);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
@@ -28,6 +38,7 @@ body.dark-mode .card {
   color: white;
   border-bottom: none;
   padding: 1.5rem;
+  text-align: center;
 }
 
 body.dark-mode .card-header {
@@ -41,26 +52,29 @@ body.dark-mode .card-header {
 }
 
 .card-body {
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .form-control {
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--border-light);
   font-size: 1rem;
   transition: all 0.2s ease;
+  background: var(--input-light);
+  color: var(--text-light);
 }
 
 body.dark-mode .form-control {
-  background: #4a5568;
-  border-color: #718096;
-  color: #e2e8f0;
+  background: var(--input-dark);
+  border-color: var(--border-dark);
+  color: var(--text-dark);
 }
 
 .form-control:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+  outline: none;
 }
 
 body.dark-mode .form-control:focus {
@@ -79,11 +93,11 @@ body.dark-mode .form-control:focus {
 .form-label {
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--text-light);
 }
 
 body.dark-mode .form-label {
-  color: #e2e8f0;
+  color: var(--text-dark);
 }
 
 .invalid-feedback {
@@ -99,13 +113,15 @@ body.dark-mode .form-label {
   font-size: 1rem;
   border-radius: 8px;
   transition: all 0.3s ease;
+  width: 100%;
+  color: white;
 }
 
 body.dark-mode .btn-primary {
   background: linear-gradient(135deg, #4c51bf 0%, #805ad5 100%);
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
@@ -122,6 +138,7 @@ body.dark-mode .btn-primary {
   border: none;
   padding: 0.75rem 1rem;
   font-size: 0.9rem;
+  margin-bottom: 1rem;
 }
 
 .alert-danger {
@@ -149,23 +166,32 @@ a:hover {
 }
 
 .text-center p {
-  color: #666;
+  color: var(--text-muted-light);
   margin-bottom: 0;
+  margin-top: 1rem;
 }
 
 body.dark-mode .text-center p {
-  color: #a0aec0;
+  color: var(--text-muted-dark);
+}
+
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+
+.d-grid {
+  margin-top: 1.5rem;
+}
+
+.spinner-border {
+  vertical-align: middle;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  :host {
-    min-height: calc(100vh - 52px);
-    margin-top: 52px;
-  }
-  
   .container {
     padding: 1rem;
+    margin-top: 0;
   }
   
   .card {
@@ -174,6 +200,10 @@ body.dark-mode .text-center p {
   
   .card-header h3 {
     font-size: 1.25rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
   }
   
   .form-control {
@@ -206,13 +236,6 @@ body.dark-mode .text-center p {
     padding: 0.65rem 0.9rem;
     font-size: 0.85rem;
   }
-}
-
-/* Base font size adjustments */
-html {
-  font-size: 16px;
-  font-family: 'Inter', sans-serif;
-  line-height: 1.5;
 }
 
 /* Prevent iOS zoom on inputs */
