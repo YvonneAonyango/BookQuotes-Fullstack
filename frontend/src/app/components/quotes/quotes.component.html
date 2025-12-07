@@ -10,7 +10,7 @@
     <!-- Left Column: Form & Favourites -->
     <div class="left-column">
       <!-- Quote Form Section -->
-      <div class="quote-form-section">
+      <div #quoteFormSection class="quote-form-section">
         <div class="card">
           <div class="card-header">
             <h5 class="mb-0">
@@ -19,7 +19,63 @@
             </h5>
           </div>
           <div class="card-body">
-            <!-- Your form here -->
+            <!-- Quote Form -->
+            <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+              <!-- Text field -->
+              <div class="mb-3">
+                <label for="text" class="form-label">Quote Text</label>
+                <textarea 
+                  class="form-control" 
+                  id="text" 
+                  formControlName="text"
+                  rows="4"
+                  placeholder="Enter the quote text..."
+                  [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched"></textarea>
+                <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required'] && quoteForm.get('text')?.touched">
+                  Quote text is required
+                </div>
+              </div>
+
+              <!-- Author field -->
+              <div class="mb-3">
+                <label for="author" class="form-label">Author</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="author" 
+                  formControlName="author"
+                  placeholder="Enter author name..."
+                  [class.is-invalid]="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
+                <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required'] && quoteForm.get('author')?.touched">
+                  Author is required
+                </div>
+              </div>
+
+              <!-- Book selection -->
+              <div class="mb-3">
+                <label for="bookId" class="form-label">Book (Optional)</label>
+                <select 
+                  class="form-select" 
+                  id="bookId" 
+                  formControlName="bookId">
+                  <option value="">Select a book (optional)</option>
+                  <option *ngFor="let book of books" [value]="book.id">
+                    {{ book.title }} - {{ book.author }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Submit buttons -->
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary flex-grow-1" [disabled]="quoteForm.invalid || isLoading">
+                  <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                  {{ isEdit ? 'Update Quote' : 'Add Quote' }}
+                </button>
+                <button *ngIf="isEdit" type="button" class="btn btn-secondary" (click)="cancelEdit()">
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -121,7 +177,7 @@
         <i class="bi bi-chat-quote"></i>
         <h4>No quotes yet</h4>
         <p>Add your first quote using the form on the left</p>
-        <button class="btn btn-primary mt-2" (click)="document.querySelector('.quote-form-section')?.scrollIntoView({ behavior: 'smooth' })">
+        <button class="btn btn-primary mt-2" (click)="scrollToQuoteForm()">
           <i class="bi bi-plus-circle me-2"></i>Add First Quote
         </button>
       </div>
