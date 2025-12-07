@@ -1,3 +1,9 @@
+<!-- LANGUAGE SWITCH -->
+<div style="display: flex; gap: 10px; margin-bottom: 15px; justify-content: center;">
+  <button (click)="changeLanguage('en')">🇺🇸 English</button>
+  <button (click)="changeLanguage('sv')">🇸🇪 Svenska</button>
+</div>
+
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
@@ -8,14 +14,14 @@
         <div class="card-body">
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div *ngIf="errorMessage" class="alert alert-danger">
-              {{ errorMessage }}
+              {{ errorMessage | translate }}
             </div>
 
             <div class="mb-3">
               <label for="username" class="form-label">{{ 'Username' | translate }}</label>
               <input type="text" class="form-control" id="username" formControlName="username"
-                     [placeholder]="'Enter your username' | translate"
-                     [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+                     [placeholder]="'Username' | translate"
+                     [class.is-invalid]="hasError('username')">
               <div class="invalid-feedback" *ngIf="loginForm.get('username')?.errors?.['required']">
                 {{ 'Username is required' | translate }}
               </div>
@@ -24,8 +30,8 @@
             <div class="mb-3">
               <label for="password" class="form-label">{{ 'Password' | translate }}</label>
               <input type="password" class="form-control" id="password" formControlName="password"
-                     [placeholder]="'Enter your password' | translate"
-                     [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                     [placeholder]="'Password' | translate"
+                     [class.is-invalid]="hasError('password')">
               <div class="invalid-feedback" *ngIf="loginForm.get('password')?.errors?.['required']">
                 {{ 'Password is required' | translate }}
               </div>
@@ -39,7 +45,7 @@
             </div>
 
             <div class="text-center mt-3">
-              <p>{{ "Don't have an account?" | translate }} <a routerLink="/register">{{ 'Register here' | translate }}</a></p>
+              <p>{{ 'dontHaveAccount' | translate }} <a routerLink="/register">{{ 'register' | translate }}</a></p>
             </div>
           </form>
         </div>

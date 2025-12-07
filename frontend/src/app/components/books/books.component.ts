@@ -22,6 +22,7 @@ export class BooksComponent implements OnInit {
   private titleService = inject(Title);
   private bookService = inject(BookService);
   private router = inject(Router);
+  translationService = inject(TranslationService);
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Books');
@@ -56,7 +57,7 @@ export class BooksComponent implements OnInit {
   }
 
   deleteBook(bookId: number): void {
-    const msg = 'Are you sure you want to delete this book?';
+    const msg = this.translationService.translate('confirmDeleteBook');
     
     if (confirm(msg)) {
       this.bookService.deleteBook(bookId).subscribe({
@@ -66,5 +67,9 @@ export class BooksComponent implements OnInit {
         error: err => console.error('Error deleting book:', err)
       });
     }
+  }
+
+  changeLanguage(lang: 'en' | 'sv'): void {
+    this.translationService.setLanguage(lang);
   }
 }

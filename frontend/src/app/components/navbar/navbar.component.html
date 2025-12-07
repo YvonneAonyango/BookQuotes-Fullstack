@@ -3,7 +3,7 @@
     <!-- Brand/Logo -->
     <a class="navbar-brand" routerLink="/" [ngClass]="{'brand-large': isHomePage}">
       <fa-icon [icon]="faHome" class="me-2"></fa-icon>
-      Book Quotes Buddy
+      {{ 'brand' | translate }}
     </a>
 
     <!-- Hamburger -->
@@ -12,7 +12,7 @@
             data-bs-target="#navbarContent"
             aria-controls="navbarContent" 
             aria-expanded="false" 
-            aria-label="Toggle navigation">
+            [attr.aria-label]="'Toggle navigation'">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -20,20 +20,25 @@
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active">
+            {{ 'home' | translate }}
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" routerLink="/books" routerLinkActive="active">
-            Books
+            {{ 'books' | translate }}
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/quotes" routerLinkActive="active">
-            Quotes
+            {{ 'quotes' | translate }}
           </a>
         </li>
 
-        <!-- Admin Links (only visible to admins) -->
+        <!-- Admin Links -->
         <li class="nav-item" *ngIf="authService.isAdmin()">
           <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
-            Admin Dashboard
+            {{ 'adminDashboard' | translate }}
           </a>
         </li>
       </ul>
@@ -46,43 +51,37 @@
             <span class="d-none d-md-inline">{{ currentFlag }}</span>
           </button>
           <div ngbDropdownMenu aria-labelledby="languageDropdown" class="dropdown-menu-end">
-            <button ngbDropdownItem (click)="switchLanguage('en')" [class.active]="currentLanguage === 'en'" class="dropdown-item">
-              🇬🇧 English
+            <button ngbDropdownItem (click)="switchLanguage('en')" [class.active]="currentLanguage === 'en'">
+              🇬🇧 {{ 'English' | translate }}
             </button>
-            <button ngbDropdownItem (click)="switchLanguage('sv')" [class.active]="currentLanguage === 'sv'" class="dropdown-item">
-              🇸🇪 Svenska
+            <button ngbDropdownItem (click)="switchLanguage('sv')" [class.active]="currentLanguage === 'sv'">
+              🇸🇪 {{ 'Swedish' | translate }}
             </button>
           </div>
         </div>
 
         <!-- Dark Mode Toggle -->
-        <button class="btn-darkmode" (click)="toggleDarkMode()">
+        <button class="btn-darkmode" (click)="toggleDarkMode()" [attr.aria-label]="isDarkMode ? ('switchToLight' | translate) : ('switchToDark' | translate)">
           <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
         </button>
 
         <!-- Auth Buttons -->
         <div class="d-flex gap-2" *ngIf="!authService.isAuthenticated()">
           <a class="btn btn-outline-light btn-sm" routerLink="/login">
-            <span class="d-none d-sm-inline">Login</span>
-            <span class="d-sm-none">
-              <fa-icon [icon]="faSignInAlt"></fa-icon>
-            </span>
+            <span class="d-none d-sm-inline">{{ 'login' | translate }}</span>
+            <span class="d-sm-none"><fa-icon [icon]="faSignInAlt"></fa-icon></span>
           </a>
           <a class="btn btn-light btn-sm" routerLink="/register">
-            <span class="d-none d-sm-inline">Register</span>
-            <span class="d-sm-none">
-              <fa-icon [icon]="faUserPlus"></fa-icon>
-            </span>
+            <span class="d-none d-sm-inline">{{ 'register' | translate }}</span>
+            <span class="d-sm-none"><fa-icon [icon]="faUserPlus"></fa-icon></span>
           </a>
         </div>
 
         <!-- Logout Button -->
         <button class="btn btn-outline-light btn-sm" (click)="logout()" *ngIf="authService.isAuthenticated()">
           <fa-icon [icon]="faSignOutAlt" class="me-1 d-none d-sm-inline"></fa-icon>
-          <span class="d-none d-sm-inline">Logout</span>
-          <span class="d-sm-none">
-            <fa-icon [icon]="faSignOutAlt"></fa-icon>
-          </span>
+          <span class="d-none d-sm-inline">{{ 'logout' | translate }}</span>
+          <span class="d-sm-none"><fa-icon [icon]="faSignOutAlt"></fa-icon></span>
         </button>
       </div>
     </div>

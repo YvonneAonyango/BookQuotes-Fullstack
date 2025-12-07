@@ -1,50 +1,35 @@
+<!-- LANGUAGE SWITCH -->
+<div style="display: flex; gap: 10px; margin-bottom: 15px;">
+  <button (click)="changeLanguage('en')">🇺🇸 English</button>
+  <button (click)="changeLanguage('sv')">🇸🇪 Svenska</button>
+</div>
+
 <div class="home-container">
   <aside class="sidebar">
     <div class="sidebar-content">
       <div class="dashboard-card">
-        <div class="text-center mb-3">
-          <i class="bi bi-graph-up-arrow dashboard-icon"></i>
-          <h4>{{ currentTranslations['libraryOverview'] }}</h4>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stat-box">
-            <div class="stat-icon"><i class="bi bi-book"></i></div>
-            <div class="stat-content">
-              <div class="stat-number">{{ stats.books }}</div>
-              <div class="stat-label">{{ currentTranslations['books'] }}</div>
-            </div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-icon"><i class="bi bi-chat-quote"></i></div>
-            <div class="stat-content">
-              <div class="stat-number">{{ stats.quotes }}</div>
-              <div class="stat-label">{{ currentTranslations['quotes'] }}</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="quick-access mt-3">
-          <h6 class="quick-access-title">{{ currentTranslations['quickAccess'] }}</h6>
+        <!-- QUICK ACCESS - Moved to top since no stats -->
+        <div class="quick-access">
+          <h6 class="quick-access-title">{{ 'quickAccess' | translate }}</h6>
           <div class="access-links">
             <a class="access-link" routerLink="/books">
               <i class="bi bi-book me-2"></i>
-              {{ currentTranslations['browseBooks'] }}
+              {{ 'browseBooks' | translate }}
             </a>
             <a class="access-link" routerLink="/books/new">
               <i class="bi bi-plus-circle me-2"></i>
-              {{ currentTranslations['addNewBook'] }}
+              {{ 'addNewBook' | translate }}
             </a>
             <a class="access-link" routerLink="/quotes">
               <i class="bi bi-collection me-2"></i>
-              {{ currentTranslations['myQuotes'] }}
+              {{ 'myQuotes' | translate }}
             </a>
           </div>
         </div>
 
         <!-- FEATURED QUOTES -->
-        <div class="featured-quotes mt-4">
-          <h6 class="featured-quotes-title">{{ currentTranslations['featuredQuotes'] || 'Featured Quotes' }}</h6>
+        <div class="featured-quotes">
+          <h6 class="featured-quotes-title">{{ 'featuredQuotes' | translate }}</h6>
           
           <div class="quote-card mb-3">
             <p class="quote-text">"It is our choices, Harry, that show what we truly are, far more than our abilities."</p>
@@ -56,58 +41,56 @@
             <p class="quote-author">— J.R.R. Tolkien, <em>The Lord of the Rings</em></p>
           </div>
         </div>
-
       </div>
     </div>
   </aside>
 
   <main class="main-content">
-    <!-- Hero Section -->
+    <!-- HERO SECTION -->
     <section class="hero-section text-center mb-4">
-      <h1 class="hero-title">{{ currentTranslations['brand'] }}</h1>
-      <p class="hero-subtitle">{{ currentTranslations['personalLibrary'] }}</p>
+      <h1 class="hero-title">{{ 'brand' | translate }}</h1>
+      <p class="hero-subtitle">{{ 'personalLibrary' | translate }}</p>
     </section>
 
-    <!-- Features Grid -->
+    <!-- FEATURES GRID -->
     <section class="features-section mb-4">
       <div class="row g-3 justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-3" *ngFor="let feature of ['bookManagement','quoteCollection','personalLibraryTitle']; let i = index">
           <div class="feature-card h-100">
             <i class="bi feature-icon" 
                [ngClass]="feature==='bookManagement' ? 'bi-book' : feature==='quoteCollection' ? 'bi-chat-quote' : 'bi-person'"></i>
-            <h5 class="feature-title">{{ currentTranslations[feature] }}</h5>
-            <p class="feature-description">{{ currentTranslations[feature+'Desc'] }}</p>
+            <h5 class="feature-title">{{ feature | translate }}</h5>
+            <p class="feature-description">{{ feature+'Desc' | translate }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- How it Works -->
+    <!-- HOW IT WORKS -->
     <section class="how-it-works mb-4">
-      <h3 class="section-title">{{ currentTranslations['howItWorks'] }}</h3>
+      <h3 class="section-title">{{ 'howItWorks' | translate }}</h3>
       <div class="row g-3">
         <div class="col-12 col-md-6 mb-3" *ngFor="let step of ['addYourBooks','manageQuotes','editUpdate','enjoyReading']; let i = index">
           <div class="step-card h-100">
             <div class="step-number">{{ i + 1 }}</div>
-            <h5 class="step-title">{{ currentTranslations[step] }}</h5>
-            <p class="step-description">{{ currentTranslations[step+'Desc'] }}</p>
+            <h5 class="step-title">{{ step | translate }}</h5>
+            <p class="step-description">{{ step+'Desc' | translate }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
+    <!-- CTA SECTION -->
     <section class="cta-section">
       <div class="cta-card">
         <i class="bi bi-lightbulb cta-icon"></i>
-        <h4 class="cta-title">{{ currentTranslations['readyToStart'] }}</h4>
-        <p class="cta-description">{{ currentTranslations['join our other users'] }}</p>
+        <h4 class="cta-title">{{ 'readyToStart' | translate }}</h4>
         <div class="cta-buttons">
           <button class="btn-cta-primary" routerLink="/register">
-            {{ currentTranslations['getStarted'] }}
+            {{ 'getStarted' | translate }}
           </button>
           <button class="btn-cta-secondary" routerLink="/books">
-            {{ currentTranslations['browseLibrary'] }}
+            {{ 'browseLibrary' | translate }}
           </button>
         </div>
       </div>

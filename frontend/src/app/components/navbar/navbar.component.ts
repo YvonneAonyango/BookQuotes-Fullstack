@@ -61,22 +61,17 @@ export class NavbarComponent implements OnInit {
     this.currentLanguage = this.translationService.getCurrentLanguage();
     this.currentFlag = this.currentLanguage === 'en' ? '🇬🇧' : '🇸🇪';
 
-    // Updated viewport meta tag - removed restrictive settings
-    this.meta.updateTag({
-      name: 'viewport',
-      content: 'width=device-width, initial-scale=1.0'
-    });
-
-    this.titleService.setTitle('BookWebApp');
+    // Meta tags
+    this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
+    this.titleService.setTitle(this.translationService.translate('brand') || 'Book Quotes Buddy');
     this.meta.updateTag({
       name: 'description',
-      content: 'BookWebApp - Manage your personal library with books and quotes.'
+      content: this.translationService.translate('personalLibrary') || 
+               'Your personal library companion for managing books and quotes.'
     });
 
-    // Set initial route
+    // Check initial route
     this.checkRoute(this.router.url);
-
-    // Listen to route changes
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.checkRoute(event.urlAfterRedirects);

@@ -1,9 +1,15 @@
 /* ===== BOOKS PAGE STYLES ===== */
 .books-page {
   padding: 20px;
+  margin-top: 10px; /* Added to lower everything */
 }
 
-/* Page Header */
+/* Page Header - Lowered */
+.page-header {
+  margin-top: 1rem; /* Added to lower header */
+  margin-bottom: 2rem;
+}
+
 .page-header h1 {
   font-size: 2rem;
   font-weight: 700;
@@ -90,30 +96,45 @@
   font-size: 0.875rem;
 }
 
-/* Empty state */
+/* Empty state - Improved styling */
 .empty-state-card {
   background: #f8f9fa;
-  border-radius: 12px;
-  padding: 3rem;
+  border-radius: 16px;
+  padding: 3rem 2rem;
   text-align: center;
   margin-top: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .empty-state-card i {
   color: #adb5bd;
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .empty-state-card h3 {
   color: #333;
   font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .empty-state-card p {
   color: #6c757d;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.empty-state-card .btn-primary {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+}
+
+/* Single "Add New Book" button styling */
+.mb-4 .btn-primary {
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
 }
 
 /* Responsive */
@@ -125,10 +146,19 @@
   .page-header h1 {
     font-size: 1.5rem;
   }
+  
+  .empty-state-card {
+    padding: 2rem 1rem;
+    margin: 1rem;
+  }
 }
 
 @media (max-width: 576px) {
   .book-icon {
     font-size: 2rem;
+  }
+  
+  .empty-state-card i {
+    font-size: 2.5rem;
   }
 }

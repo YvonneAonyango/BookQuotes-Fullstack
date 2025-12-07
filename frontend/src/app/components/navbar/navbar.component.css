@@ -1,4 +1,4 @@
-/* ===== FIXED NAVBAR SETUP ===== */
+
 :host {
   display: block;
   position: fixed;
@@ -39,6 +39,8 @@ body {
   align-items: center;
   gap: 0.3rem;
   transition: color 0.2s ease;
+  height: 40px; /* Fixed height */
+  line-height: 40px; /* Match height */
 }
 
 .brand-large { 
@@ -51,28 +53,40 @@ body {
 
 .navbar-brand fa-icon {
   font-size: 1rem !important;
-}
-
-/* NAV LINKS - Fixed alignment and reduced size */
-.navbar-nav {
   display: flex;
   align-items: center;
+}
+
+/* NAV LINKS - FIXED ALIGNMENT */
+.navbar-nav {
+  display: flex;
+  align-items: center; /* This aligns items vertically center */
   flex-wrap: nowrap;
   gap: 0.25rem;
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center; /* Ensure nav items are centered */
+  height: 40px; /* Fixed height to match others */
 }
 
 .navbar-nav .nav-link {
   color: #fff !important;
-  font-size: 0.85rem !important; /* Reduced from 0.9rem */
+  font-size: 0.85rem !important;
   font-weight: 500;
-  padding: 0.25rem 0.5rem !important; /* Reduced padding */
+  padding: 0.5rem 0.75rem !important; /* Adjusted padding for better alignment */
   border-radius: 6px;
   transition: all 0.25s ease;
   display: flex;
-  align-items: center;
-  line-height: 1.2; /* Better line height */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center content */
+  line-height: 1; 
+  height: 36px; /* Fixed height for consistent alignment */
+  text-align: center; /* Center text */
+  vertical-align: middle; /* Force vertical alignment */
 }
 
 .navbar-nav .nav-link:hover {
@@ -87,28 +101,39 @@ body {
 }
 
 .navbar-nav .nav-link fa-icon {
-  font-size: 0.8rem !important; /* Reduced icon size */
-  margin-right: 0.25rem; /* Smaller margin */
+  font-size: 0.8rem !important;
+  margin-right: 0.25rem;
+  display: flex;
+  align-items: center;
 }
 
-/* BUTTONS - Reduced size */
+/* BUTTONS - All aligned */
 .btn-sm,
 .btn-language,
 .btn-darkmode {
-  font-size: 0.8rem !important; /* Reduced from 0.85rem */
-  padding: 0.25rem 0.6rem !important; /* Reduced padding */
-  min-height: 30px !important; /* Reduced height */
-  border-radius: 6px; /* Slightly smaller radius */
+  font-size: 0.8rem !important;
+  padding: 0.4rem 0.75rem !important; /* Adjusted padding for better alignment */
+  min-height: 36px !important; /* Consistent height */
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.25s ease;
 }
 
+/* Container for right-side buttons */
+.d-flex.align-items-center.gap-2.gap-sm-3 {
+  display: flex;
+  align-items: center;
+  height: 40px; /* Match navbar height */
+}
+
 .btn-sm fa-icon,
 .btn-language fa-icon,
 .btn-darkmode fa-icon {
-  font-size: 0.85em !important; /* Smaller icons */
+  font-size: 0.85em !important;
+  display: flex;
+  align-items: center;
 }
 
 .btn-outline-light {
@@ -145,8 +170,8 @@ body {
   background: rgba(255,255,255,0.1);
   border: none;
   color: #fff;
-  font-size: 0.9rem !important; /* Reduced */
-  padding: 0.25rem 0.7rem !important; /* Reduced */
+  font-size: 0.9rem !important;
+  padding: 0.4rem 0.8rem !important; /* Adjusted */
 }
 
 .btn-darkmode:hover {
@@ -154,33 +179,38 @@ body {
 }
 
 .btn-darkmode fa-icon {
-  font-size: 0.9rem !important; /* Reduced */
+  font-size: 0.9rem !important;
+  display: flex;
+  align-items: center;
 }
 
 /* TOGGLER */
 .navbar-toggler {
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 6px;
-  width: 36px !important; /* Smaller */
-  height: 36px !important; /* Smaller */
-  padding: 0.2rem !important; /* Reduced */
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0.2rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar-toggler-icon {
   filter: brightness(0) invert(1);
-  width: 1.1em !important; /* Smaller */
-  height: 1.1em !important; /* Smaller */
+  width: 1.1em !important;
+  height: 1.1em !important;
 }
 
 /* DROPDOWNS */
 .dropdown-menu {
-  font-size: 0.85rem !important; /* Reduced */
-  min-width: 110px; /* Smaller */
+  font-size: 0.85rem !important;
+  min-width: 110px;
 }
 
 .dropdown-item {
-  padding: 0.3rem 0.9rem !important; /* Reduced */
-  font-size: 0.85rem !important; /* Reduced */
+  padding: 0.3rem 0.9rem !important;
+  font-size: 0.85rem !important;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -191,7 +221,7 @@ body {
     left: 0;
     right: 0;
     background: linear-gradient(135deg, #1f3b5f, #2c5282);
-    padding: 0.8rem; /* Reduced */
+    padding: 0.8rem;
     border-radius: 0 0 8px 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
@@ -200,61 +230,93 @@ body {
     text-align: center;
     flex-direction: column;
     width: 100%;
-    gap: 0.4rem; /* Reduced gap */
-    padding-top: 0.4rem; /* Reduced */
+    gap: 0.4rem;
+    padding-top: 0.4rem;
+  }
+
+  .nav-item {
+    width: 100%;
+    height: auto; /* Reset height for mobile */
+    justify-content: center;
   }
 
   .navbar-nav .nav-link {
-    padding: 0.3rem 0.5rem !important; /* Reduced */
-    font-size: 0.85rem !important; /* Reduced */
-    margin: 0.05rem 0; /* Reduced margin */
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85rem !important;
+    margin: 0.05rem 0;
+    width: 100%;
+    justify-content: center;
+    height: auto; /* Reset height for mobile */
   }
 
   .btn-sm,
   .btn-language,
   .btn-darkmode {
-    font-size: 0.8rem !important; /* Reduced */
-    padding: 0.25rem 0.6rem !important; /* Reduced */
-    min-height: 28px !important; /* Reduced */
+    font-size: 0.8rem !important;
+    padding: 0.4rem 0.75rem !important;
+    min-height: 36px !important;
+    width: 100%; /* Full width on mobile */
+    justify-content: center;
   }
 
   .d-flex.gap-2 {
-    gap: 0.4rem !important; /* Reduced */
+    gap: 0.4rem !important;
+    width: 100%;
+    justify-content: center;
   }
 }
 
 @media (max-width: 575px) {
   .navbar-brand { 
-    font-size: 1.1rem !important; /* Adjusted */
+    font-size: 1.1rem !important;
   }
   
   .brand-large { 
-    font-size: 1.15rem !important; /* Adjusted */
+    font-size: 1.15rem !important;
   }
 
   .btn-sm,
   .btn-language,
   .btn-darkmode {
-    font-size: 0.75rem !important; /* Reduced */
-    padding: 0.2rem 0.5rem !important; /* Reduced */
-    min-height: 26px !important; /* Reduced */
+    font-size: 0.75rem !important;
+    padding: 0.35rem 0.6rem !important;
+    min-height: 34px !important;
   }
 
   .btn-darkmode {
-    padding: 0.2rem 0.6rem !important; /* Reduced */
+    padding: 0.35rem 0.7rem !important;
   }
 
   .navbar-toggler {
-    width: 34px !important; /* Smaller */
-    height: 34px !important; /* Smaller */
+    width: 34px !important;
+    height: 34px !important;
   }
 }
 
-/* UNIVERSAL */
+/* UNIVERSAL ALIGNMENT FIX */
 .navbar * {
   box-sizing: border-box;
+  display: flex;
+  align-items: center; /* Force everything to align center */
 }
 
 button, a {
-  line-height: 1.1 !important; /* Better line height */
+  line-height: 1 !important; /
+}
+
+/* Force all text to baseline alignment */
+.navbar-nav .nav-link,
+.navbar-brand,
+.btn-sm,
+.btn-language,
+.btn-darkmode {
+  vertical-align: middle !important;
+}
+
+/* SPECIFIC FIX FOR BOOKS/QUOTES ALIGNMENT */
+.navbar-nav .nav-link[routerLink="/books"],
+.navbar-nav .nav-link[routerLink="/quotes"] {
+  line-height: 1 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }

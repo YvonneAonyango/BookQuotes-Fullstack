@@ -1,65 +1,76 @@
+<!-- LANGUAGE SWITCH -->
+<div style="display: flex; gap: 10px; margin-bottom: 15px;">
+  <button (click)="changeLanguage('en')">🇺🇸 English</button>
+  <button (click)="changeLanguage('sv')">🇸🇪 Svenska</button>
+</div>
+
 <div class="books-page">
-  <!-- Page Header -->
+  <!-- Page Header - Lowered and translated -->
   <div class="page-header mb-4">
-    <h1>My Books</h1>
-    <p class="lead">Manage your book collection</p>
+    <h1>{{ 'myBooks' | translate }}</h1>
+    <p class="lead">{{ 'manageBookCollection' | translate }}</p>
   </div>
 
-  <!-- Add Book Button -->
-  <div class="mb-4">
-    <button class="btn btn-primary" (click)="addBook()">
-      <i class="bi bi-plus-circle me-2"></i>
-      Add New Book
-    </button>
-  </div>
-
-  <!-- Loading State -->
+  <!-- Loading State - Translated -->
   <div *ngIf="isLoading" class="text-center py-5">
     <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+      <span class="visually-hidden">{{ 'loading' | translate }}</span>
     </div>
+    <p class="mt-2 text-muted">{{ 'loadingBooks' | translate }}</p>
   </div>
 
-  <!-- Empty State -->
+  <!-- Empty State - Single button, translated -->
   <div *ngIf="!isLoading && books.length === 0" class="empty-state-card text-center py-5">
     <i class="bi bi-book text-muted" style="font-size: 3rem;"></i>
-    <h3 class="mt-3">No Books Yet</h3>
-    <p class="text-muted">Start by adding your first book to your collection</p>
-    <button class="btn btn-primary mt-2" (click)="addBook()">
-      <i class="bi bi-plus me-2"></i>
-      Add First Book
+    <h3 class="mt-3">{{ 'noBooksYet' | translate }}</h3>
+    <p class="text-muted">{{ 'startByAddingFirstBook' | translate }}</p>
+    <button class="btn btn-primary btn-lg mt-2" (click)="addBook()">
+      <i class="bi bi-plus-circle me-2"></i>
+      {{ 'addNewBook' | translate }}
     </button>
   </div>
 
-  <!-- Books Grid -->
-  <div class="books-grid" *ngIf="!isLoading && books.length > 0">
-    <div *ngFor="let book of books" class="book-card">
-      <div class="book-card-header">
-        <div>
-          <i class="bi bi-book book-icon"></i>
+  <!-- Books Grid - When there are books -->
+  <div *ngIf="!isLoading && books.length > 0">
+    <!-- Single "Add New Book" button when books exist -->
+    <div class="mb-4">
+      <button class="btn btn-primary" (click)="addBook()">
+        <i class="bi bi-plus-circle me-2"></i>
+        {{ 'addNewBook' | translate }}
+      </button>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="books-grid">
+      <div *ngFor="let book of books" class="book-card">
+        <div class="book-card-header">
+          <div>
+            <i class="bi bi-book book-icon"></i>
+          </div>
         </div>
-      </div>
-      <div class="book-card-body">
-        <h5 class="book-title">{{ book.title }}</h5>
-        <p class="book-author" *ngIf="book.author">
-          <i class="bi bi-person me-1"></i>by {{ book.author }}
-        </p>
-        <div class="book-meta">
-          <small *ngIf="book.publicationDate" class="text-muted">
-            <i class="bi bi-calendar me-1"></i>
-            {{ book.publicationDate | date:'mediumDate' }}
-          </small>
+        <div class="book-card-body">
+          <h5 class="book-title">{{ book.title }}</h5>
+          <p class="book-author" *ngIf="book.author">
+            <i class="bi bi-person me-1"></i>
+            {{ 'by' | translate }} {{ book.author }}
+          </p>
+          <div class="book-meta">
+            <small *ngIf="book.publicationDate" class="text-muted">
+              <i class="bi bi-calendar me-1"></i>
+              {{ book.publicationDate | date:'mediumDate' }}
+            </small>
+          </div>
         </div>
-      </div>
-      <div class="book-card-footer">
-        <button class="btn btn-outline-primary btn-sm" 
-                (click)="editBook(book.id!)">
-          <i class="bi bi-pencil"></i> Edit
-        </button>
-        <button class="btn btn-outline-danger btn-sm" 
-                (click)="deleteBook(book.id!)">
-          <i class="bi bi-trash"></i> Delete
-        </button>
+        <div class="book-card-footer">
+          <button class="btn btn-outline-primary btn-sm" 
+                  (click)="editBook(book.id!)">
+            <i class="bi bi-pencil me-1"></i> {{ 'editItem' | translate }}
+          </button>
+          <button class="btn btn-outline-danger btn-sm" 
+                  (click)="deleteBook(book.id!)">
+            <i class="bi bi-trash me-1"></i> {{ 'deleteItem' | translate }}
+          </button>
+        </div>
       </div>
     </div>
   </div>

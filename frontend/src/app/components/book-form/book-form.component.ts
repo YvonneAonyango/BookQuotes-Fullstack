@@ -4,12 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Book, BookService } from '../../services/book.service';
 import { Meta, Title } from '@angular/platform-browser';
-import { TranslationPipe } from '../../pipes/translation.pipe'; // ADDED
+import { TranslationPipe } from '../../pipes/translation.pipe';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-book-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslationPipe], // ADDED TranslationPipe
+  imports: [CommonModule, ReactiveFormsModule, TranslationPipe],
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.css']
 })
@@ -23,6 +24,7 @@ export class BookFormComponent implements OnInit {
 
   private meta = inject(Meta);
   private titleService = inject(Title);
+  translationService = inject(TranslationService);
 
   constructor(
     private fb: FormBuilder,
@@ -38,23 +40,23 @@ export class BookFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Check if it's edit mode FIRST
     this.route.params.subscribe(params => {
       if (params['id']) {
         this.isEdit = true;
         this.bookId = +params['id'];
         this.loadBook();
       }
-      
-      // Set page title AFTER determining edit mode
-      this.titleService.setTitle(this.isEdit ? 'Edit Book - BookWebApp' : 'Add Book - BookWebApp');
+
+      this.titleService.setTitle(
+        this.isEdit
+          ? this.translationService.translate('editBook') + ' - BookWebApp'
+          : this.translationService.translate('addBook') + ' - BookWebApp'
+      );
     });
 
-  
-    // SEO description
     this.meta.updateTag({
       name: 'description',
-      content: 'Add or edit books in your personal library with BookWebApp.'
+      content: this.translationService.translate('bookFormDescription')
     });
   }
 
@@ -62,7 +64,7 @@ export class BookFormComponent implements OnInit {
     if (this.bookId) {
       this.isLoading = true;
       this.bookService.getBook(this.bookId).subscribe({
-        next: (book) => {
+        next: book => {
           this.bookForm.patchValue({
             title: book.title,
             author: book.author,
@@ -70,7 +72,7 @@ export class BookFormComponent implements OnInit {
           });
           this.isLoading = false;
         },
-        error: (error) => {
+        error: error => {
           console.error('Error loading book:', error);
           this.isLoading = false;
         }
@@ -92,7 +94,7 @@ export class BookFormComponent implements OnInit {
           this.isLoading = false;
           this.router.navigate(['/books']);
         },
-        error: (error) => {
+        error: error => {
           console.error('Error saving book:', error);
           this.isLoading = false;
         }
@@ -102,5 +104,9 @@ export class BookFormComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate(['/books']);
+  }
+
+  changeLanguage(lang: 'en' | 'sv'): void {
+    this.translationService.setLanguage(lang);
   }
 }

@@ -1,277 +1,312 @@
-/* ===== HOME PAGE - NO SCROLLING ===== */
+/* ===== HOME PAGE - DESKTOP ALIGNMENT FIX ===== */
 .home-container {
   display: flex;
-  min-height: calc(100vh - 52px); /* Updated to match navbar height */
-  margin-top: 52px; /* Updated to match navbar height */
+  min-height: calc(100vh - 52px);
+  margin-top: 52px;
   width: 100%;
-  font-size: 14px; /* Smaller base font */
-  overflow: hidden; /* Prevent any scrolling */
 }
 
-/* SIDEBAR - No scrolling */
+/* SIDEBAR - Clean version */
 .sidebar {
   background: #122442;
   color: white;
-  width: 220px; /* Reduced from 250px */
+  width: 220px;
   position: fixed;
-  top: 52px; /* Updated to match navbar */
+  top: 52px;
   left: 0;
   bottom: 0;
-  padding: 0.8rem; /* Reduced padding */
+  padding: 1rem;
   z-index: 900;
-  overflow: hidden; /* Remove scrolling */
+  overflow-y: auto; /* Allow scrolling if needed */
 }
 
-.sidebar-content {
-  height: 100%;
-  overflow: hidden; /* Remove scrolling */
-  display: flex;
-  flex-direction: column;
-}
-
-/* DASHBOARD CARDS - Fit without scrolling */
 .dashboard-card {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px; /* Smaller radius */
-  padding: 0.8rem; /* Reduced further */
-  flex: 1; /* Take available space */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* Prevent internal scrolling */
+  border-radius: 10px;
+  padding: 1rem;
 }
 
-/* Make stats section more compact */
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem; /* Reduced gap */
-  margin: 0.5rem 0; /* Reduced margin */
-}
-
-.stat-box {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 8px; /* Smaller radius */
-  padding: 0.5rem; /* Reduced padding */
-  text-align: center;
-}
-
-.stat-number {
-  font-size: 1.1rem; /* Reduced size */
-  font-weight: 700;
-  color: #ffd36b;
-  margin-bottom: 0.1rem; /* Reduced spacing */
-}
-
-/* QUICK ACCESS - More compact */
+/* Remove stats from HTML first */
 .quick-access {
-  margin-top: 0.5rem; /* Reduced */
-  flex-shrink: 0; /* Don't shrink */
+  margin-top: 1rem;
 }
 
 .quick-access-title {
-  font-size: 0.85rem; /* Smaller */
+  font-size: 0.9rem;
   font-weight: 600;
-  margin-bottom: 0.5rem; /* Reduced */
+  margin-bottom: 0.75rem;
   color: #ffd36b;
 }
 
 .access-links {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem; /* Reduced gap */
+  gap: 0.5rem;
 }
 
 .access-link {
   display: flex;
   align-items: center;
   color: white;
-  padding: 0.4rem 0.5rem; /* Reduced padding */
+  padding: 0.5rem 0.75rem;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 5px; /* Smaller radius */
+  border-radius: 6px;
   text-decoration: none;
+  font-size: 0.85rem;
   transition: all 0.3s ease;
-  font-size: 0.8rem; /* Smaller font */
 }
 
-/* FEATURED QUOTES - More compact */
+.access-link:hover {
+  background: rgba(255, 211, 107, 0.2);
+  transform: translateX(3px);
+}
+
+/* FEATURED QUOTES */
 .featured-quotes {
-  margin-top: 0.5rem; /* Reduced */
-  flex-shrink: 0; /* Don't shrink */
+  margin-top: 1.5rem;
 }
 
 .featured-quotes-title {
   font-weight: 600;
-  margin-bottom: 0.5rem; /* Reduced */
-  font-size: 0.8rem; /* Smaller */
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
   color: #ffd36b;
   text-transform: uppercase;
 }
 
 .quote-card {
   background-color: rgba(255, 255, 255, 0.08);
-  padding: 0.5rem 0.6rem; /* Reduced padding */
-  border-radius: 0.3rem; /* Smaller radius */
-  margin-bottom: 0.4rem; /* Reduced margin */
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .quote-text {
   font-style: italic;
-  margin-bottom: 0.2rem; /* Reduced */
-  font-size: 0.75rem; /* Smaller */
+  font-size: 0.85rem;
   color: #fff;
-  line-height: 1.2; /* Tighter line height */
+  line-height: 1.4;
 }
 
 .quote-author {
   text-align: right;
-  font-size: 0.7rem; /* Smaller */
+  font-size: 0.8rem;
   color: #ccc;
 }
 
-/* MAIN CONTENT - No scrolling needed */
+/* MAIN CONTENT - DESKTOP FIXES */
 .main-content {
   flex: 1;
-  margin-left: 220px; /* Match reduced sidebar width */
-  padding: 1rem; /* Reduced padding */
+  margin-left: 220px;
+  padding: 2rem 2.5rem;
   background: #f8f9fa;
-  min-height: calc(100vh - 52px); /* Updated */
-  overflow-y: auto; /* Allow main content to scroll if needed */
+  min-height: calc(100vh - 52px);
 }
 
-/* Reduce spacing in main content sections */
+/* HERO SECTION */
 .hero-section {
-  margin-bottom: 1rem; /* Reduced */
+  text-align: center;
+  margin-bottom: 2.5rem;
 }
 
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #2c5282;
+  margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+/* DESKTOP GRID FIX - This is the main fix */
 .features-section,
-.how-it-works,
-.cta-section {
-  margin-bottom: 1rem; /* Reduced */
+.how-it-works {
+  margin-bottom: 2.5rem;
 }
 
-/* Make feature cards more compact */
+.features-section .row,
+.how-it-works .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.75rem; /* Negative margin to offset column padding */
+}
+
+.features-section .col-12,
+.how-it-works .col-12,
+.features-section .col-md-6,
+.how-it-works .col-md-6,
+.features-section .col-lg-4,
+.how-it-works .col-lg-4 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Desktop column widths */
+@media (min-width: 992px) {
+  .features-section .col-lg-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  
+  .how-it-works .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* CARDS - Equal height fix */
 .feature-card,
 .step-card {
   background: white;
-  border-radius: 8px; /* Smaller radius */
-  padding: 0.8rem; /* Reduced padding */
-  text-align: center;
-  height: 100%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Smaller shadow */
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%; /* This makes cards equal height */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
 }
 
 .feature-icon {
-  font-size: 1.8rem; /* Reduced */
+  font-size: 2.5rem;
   color: #667eea;
-  margin-bottom: 0.5rem; /* Reduced */
+  margin-bottom: 1rem;
 }
 
 .feature-title,
 .step-title {
-  font-size: 0.9rem; /* Reduced */
+  font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 0.3rem; /* Reduced */
+  margin-bottom: 0.75rem;
+  color: #333;
 }
 
 .feature-description,
 .step-description {
-  font-size: 0.8rem; /* Smaller */
+  font-size: 0.95rem;
   color: #666;
-  line-height: 1.3; /* Tighter line height */
+  line-height: 1.5;
+  flex-grow: 1; /* Pushes content to fill space */
 }
 
-/* CTA Section more compact */
+.step-number {
+  width: 40px;
+  height: 40px;
+  background: #667eea;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin: 0 auto 1rem;
+}
+
+/* CTA SECTION - Center on desktop */
+.cta-section {
+  max-width: 800px;
+  margin: 0 auto 2.5rem;
+}
+
 .cta-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 10px; /* Smaller */
-  padding: 1rem; /* Reduced */
+  border-radius: 16px;
+  padding: 2.5rem;
   text-align: center;
   color: white;
 }
 
 .cta-icon {
-  font-size: 2rem; /* Reduced */
+  font-size: 3rem;
   color: #ffd36b;
-  margin-bottom: 0.5rem; /* Reduced */
+  margin-bottom: 1rem;
 }
 
 .cta-title {
-  font-size: 1.2rem; /* Reduced */
+  font-size: 1.8rem;
   font-weight: 700;
-  margin-bottom: 0.3rem; /* Reduced */
+  margin-bottom: 0.75rem;
 }
 
 .cta-description {
-  font-size: 0.85rem; /* Reduced */
+  font-size: 1.1rem;
   opacity: 0.9;
-  margin-bottom: 0.8rem; /* Reduced */
+  margin-bottom: 1.5rem;
 }
 
 .cta-buttons {
   display: flex;
-  gap: 0.5rem; /* Reduced */
+  gap: 1rem;
   justify-content: center;
 }
 
 .btn-cta-primary,
 .btn-cta-secondary {
-  padding: 0.5rem 1rem; /* Reduced */
-  border-radius: 5px; /* Smaller */
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 0.85rem; /* Smaller */
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* RESPONSIVE DESIGN */
+.btn-cta-primary {
+  background: #ffd36b;
+  color: #1f3b5f;
+}
+
+.btn-cta-primary:hover {
+  background: #ffc745;
+  transform: translateY(-3px);
+}
+
+.btn-cta-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+/* RESPONSIVE - Keep mobile working */
 @media (max-width: 992px) {
   .home-container {
     flex-direction: column;
-    overflow: visible; /* Allow scrolling on mobile */
   }
   
   .sidebar {
     position: relative;
     width: 100%;
     top: 0;
-    margin-bottom: 0.5rem;
-    padding: 0.8rem;
-    height: auto; /* Auto height on mobile */
-    overflow: visible;
+    margin-bottom: 1rem;
   }
   
   .main-content {
     margin-left: 0;
-    padding: 1rem;
-    overflow: visible;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 1.5rem; /* Smaller on mobile */
+    padding: 1.5rem;
   }
   
-  .hero-subtitle {
-    font-size: 0.85rem; /* Smaller on mobile */
+  .cta-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
   }
   
-  .section-title {
-    font-size: 1.2rem; /* Smaller on mobile */
+  .btn-cta-primary,
+  .btn-cta-secondary {
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
   }
-}
-
-/* GRID SYSTEM - Tighter spacing */
-.row {
-  margin-left: -0.3rem;
-  margin-right: -0.3rem;
-}
-
-.col-12,
-.col-md-6,
-.col-lg-4 {
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-}
-
-.g-3 { 
-  gap: 0.5rem !important; /* Tighter gap */
 }

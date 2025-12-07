@@ -1,3 +1,9 @@
+<!-- LANGUAGE SWITCH -->
+<div style="display: flex; gap: 10px; margin-bottom: 15px; justify-content: center;">
+  <button (click)="changeLanguage('en')">🇺🇸 English</button>
+  <button (click)="changeLanguage('sv')">🇸🇪 Svenska</button>
+</div>
+
 <div class="container-fluid py-3 py-md-4 px-3 px-md-4">
   <div class="row justify-content-center">
     <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
@@ -7,11 +13,11 @@
             <button *ngIf="showBackButton" 
                     class="btn btn-light btn-sm me-3 d-md-none"
                     (click)="onCancel()"
-                    aria-label="Go back">
+                    [attr.aria-label]="'goBack' | translate">
               <i class="bi bi-arrow-left"></i>
             </button>
             <h1 class="h4 mb-0 text-center flex-grow-1 responsive-heading">
-              {{ isEdit ? 'Edit Book' : 'Add New Book' }}
+              {{ isEdit ? ('editBook' | translate) : ('addBook' | translate) }}
             </h1>
           </div>
         </div>
@@ -22,51 +28,51 @@
             <!-- Title Field -->
             <div class="mb-3 mb-md-4">
               <label for="title" class="form-label fw-semibold fs-6">
-                <i class="bi bi-bookmark me-2"></i>Title
+                <i class="bi bi-bookmark me-2"></i>{{ 'bookTitle' | translate }}
               </label>
               <input type="text" 
                      class="form-control form-control-lg" 
                      id="title" 
                      formControlName="title"
-                     placeholder="Enter book title"
+                     [placeholder]="'enterBookTitle' | translate"
                      [class.is-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
                      [class.is-valid]="bookForm.get('title')?.valid">
               <div class="invalid-feedback d-block" 
                    *ngIf="bookForm.get('title')?.errors?.['required'] && bookForm.get('title')?.touched">
-                📖 Title is required
+                {{ 'titleRequired' | translate }}
               </div>
               <div class="valid-feedback d-block" 
                    *ngIf="bookForm.get('title')?.valid && bookForm.get('title')?.touched">
-                ✓ Looks good!
+                {{ 'looksGood' | translate }}
               </div>
             </div>
 
             <!-- Author Field -->
             <div class="mb-3 mb-md-4">
               <label for="author" class="form-label fw-semibold fs-6">
-                <i class="bi bi-person me-2"></i>Author
+                <i class="bi bi-person me-2"></i>{{ 'author' | translate }}
               </label>
               <input type="text" 
                      class="form-control form-control-lg" 
                      id="author" 
                      formControlName="author"
-                     placeholder="Enter author name"
+                     [placeholder]="'enterAuthorName' | translate"
                      [class.is-invalid]="bookForm.get('author')?.invalid && bookForm.get('author')?.touched"
                      [class.is-valid]="bookForm.get('author')?.valid">
               <div class="invalid-feedback d-block" 
                    *ngIf="bookForm.get('author')?.errors?.['required'] && bookForm.get('author')?.touched">
-                👤 Author is required
+                {{ 'authorRequired' | translate }}
               </div>
               <div class="valid-feedback d-block" 
                    *ngIf="bookForm.get('author')?.valid && bookForm.get('author')?.touched">
-                ✓ Perfect!
+                {{ 'perfect' | translate }}
               </div>
             </div>
 
             <!-- Publication Date Field -->
             <div class="mb-4 mb-md-5">
               <label for="publicationDate" class="form-label fw-semibold fs-6">
-                <i class="bi bi-calendar me-2"></i>Publication Date
+                <i class="bi bi-calendar me-2"></i>{{ 'publicationDate' | translate }}
               </label>
               <input type="date" 
                      class="form-control form-control-lg" 
@@ -76,11 +82,11 @@
                      [class.is-valid]="bookForm.get('publicationDate')?.valid">
               <div class="invalid-feedback d-block" 
                    *ngIf="bookForm.get('publicationDate')?.errors?.['required'] && bookForm.get('publicationDate')?.touched">
-                📅 Publication date is required
+                {{ 'publicationDateRequired' | translate }}
               </div>
               <div class="valid-feedback d-block" 
                    *ngIf="bookForm.get('publicationDate')?.valid && bookForm.get('publicationDate')?.touched">
-                ✓ Date looks good!
+                {{ 'dateLooksGood' | translate }}
               </div>
             </div>
 
@@ -89,21 +95,19 @@
               <button type="button" 
                       class="btn btn-secondary btn-lg flex-fill flex-md-grow-0 order-2 order-md-1 me-md-2"
                       (click)="onCancel()">
-                <i class="bi bi-x-circle me-2"></i>
-                <span class="d-none d-sm-inline">Cancel</span>
+                <i class="bi bi-x-circle me-2"></i>{{ 'cancel' | translate }}
               </button>
               
               <button type="submit" 
                       class="btn btn-primary btn-lg flex-fill flex-md-grow-0 order-1 order-md-2"
                       [disabled]="bookForm.invalid || isLoading">
-                <span *ngIf="isLoading" 
-                      class="spinner-border spinner-border-sm me-2"></span>
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                 <i *ngIf="!isLoading" 
                    class="bi" 
                    [class.bi-check-circle]="!isEdit" 
                    [class.bi-pencil]="isEdit"></i>
                 <span class="ms-2">
-                  {{ isEdit ? 'Update' : 'Add' }} Book
+                  {{ isEdit ? ('updateBook' | translate) : ('addBook' | translate) }}
                 </span>
               </button>
             </div>
@@ -112,18 +116,18 @@
             <div *ngIf="bookForm.invalid && bookForm.touched" 
                  class="alert alert-warning mt-3 mb-0 d-flex align-items-center">
               <i class="bi bi-exclamation-triangle me-2"></i>
-              <small>Please fill in all required fields correctly.</small>
+              <small>{{ 'fillAllRequiredFields' | translate }}</small>
             </div>
           </form>
         </div>
       </div>
       
-      <!-- Quick Help Card (Visible on larger screens) -->
+      <!-- Quick Help Card -->
       <div class="card mt-3 d-none d-md-block">
         <div class="card-body py-2">
           <small class="text-muted">
             <i class="bi bi-info-circle me-1"></i>
-            Tip: Fill in all fields to add a new book to your collection.
+            {{ 'bookFormTip' | translate }}
           </small>
         </div>
       </div>

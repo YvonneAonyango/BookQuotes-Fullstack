@@ -47,11 +47,12 @@ export class QuotesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('BookWebApp - Quotes');
+    this.titleService.setTitle(this.translationService.translate('quotes') + ' - BookWebApp');
     
     this.meta.updateTag({
       name: 'description',
-      content: 'Browse, add, and manage quotes in your personal library with BookWebApp.'
+      content: this.translationService.translate('quoteCollectionDesc') || 
+               'Save and manage your favorite quotes from books.'
     });
 
     this.loadQuotes();
@@ -90,7 +91,6 @@ export class QuotesComponent implements OnInit {
     return book ? book.title : '';
   }
 
-  // BADGE/BASKET SYSTEM METHODS
   addToBasket(quote: Quote): void {
     if (!this.isInBasket(quote.id!)) {
       this.addedQuotes.push(quote);
@@ -119,7 +119,6 @@ export class QuotesComponent implements OnInit {
       author: quote.author,
       bookId: quote.bookId || ''
     });
-    // Scroll to form
     document.querySelector('.quote-form-section')?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -138,24 +137,18 @@ export class QuotesComponent implements OnInit {
     }
   }
 
-  // FORM METHODS
   onSubmit(): void {
     if (this.quoteForm.valid) {
       this.isLoading = true;
       const quoteData: Quote = this.quoteForm.value;
 
       if (this.isEdit && this.editingQuoteId) {
-        // Update existing quote
         this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
           next: (updatedQuote) => {
-            // Update in main list
             const index = this.quotes.findIndex(q => q.id === this.editingQuoteId);
             if (index !== -1) this.quotes[index] = updatedQuote;
-            
-            // Update in basket if present
             const basketIndex = this.addedQuotes.findIndex(q => q.id === this.editingQuoteId);
             if (basketIndex !== -1) this.addedQuotes[basketIndex] = updatedQuote;
-            
             this.resetForm();
             this.saveBasketToStorage();
             this.isLoading = false;
@@ -166,11 +159,10 @@ export class QuotesComponent implements OnInit {
           }
         });
       } else {
-        // Add new quote
         this.quoteService.createQuote(quoteData).subscribe({
           next: (newQuote) => {
             this.quotes.push(newQuote);
-            this.addedQuotes.push(newQuote); // Add to basket
+            this.addedQuotes.push(newQuote);
             this.resetForm();
             this.saveBasketToStorage();
             this.isLoading = false;
@@ -195,7 +187,6 @@ export class QuotesComponent implements OnInit {
     this.resetForm();
   }
 
-  // EXISTING METHODS
   editQuote(quote: Quote): void {
     this.editQuoteFromBadge(quote);
   }
@@ -203,21 +194,22 @@ export class QuotesComponent implements OnInit {
   deleteQuote(id: number): void {
     const confirmMessage = this.translationService.translate('confirmDeleteQuote') || 
                           'Are you sure you want to delete this quote?';
-    
     if (confirm(confirmMessage)) {
       this.quoteService.deleteQuote(id).subscribe({
         next: () => {
           this.quotes = this.quotes.filter(q => q.id !== id);
           this.addedQuotes = this.addedQuotes.filter(q => q.id !== id);
           this.saveBasketToStorage();
-          if (this.selectedQuoteId === id) {
-            this.resetForm();
-          }
+          if (this.selectedQuoteId === id) this.resetForm();
         },
         error: (error) => {
           console.error('Error deleting quote:', error);
         }
       });
     }
+  }
+
+  changeLanguage(lang: 'en' | 'sv'): void {
+    this.translationService.setLanguage(lang);
   }
 }
