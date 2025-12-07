@@ -18,23 +18,25 @@
     <!-- Collapsible Menu -->
     <div class="collapse navbar-collapse" [ngClass]="{'show': !isCollapsed}" id="navbarContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- Removed Home link since logo already serves as home -->
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/books" routerLinkActive="active">
+        <!-- Books Link with Container -->
+        <li class="nav-item nav-link-container">
+          <a class="nav-link nav-link-btn" routerLink="/books" routerLinkActive="active">
             <fa-icon [icon]="faBook" class="me-1"></fa-icon>
             {{ 'books' | translate }}
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/quotes" routerLinkActive="active">
+        
+        <!-- Quotes Link with Container -->
+        <li class="nav-item nav-link-container">
+          <a class="nav-link nav-link-btn" routerLink="/quotes" routerLinkActive="active">
             <fa-icon [icon]="faQuoteRight" class="me-1"></fa-icon>
             {{ 'quotes' | translate }}
           </a>
         </li>
 
-        <!-- Admin Links -->
-        <li class="nav-item" *ngIf="authService.isAdmin()">
-          <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
+        <!-- Admin Links with Container -->
+        <li class="nav-item nav-link-container" *ngIf="authService.isAdmin()">
+          <a class="nav-link nav-link-btn" routerLink="/admin/dashboard" routerLinkActive="active">
             {{ 'adminDashboard' | translate }}
           </a>
         </li>

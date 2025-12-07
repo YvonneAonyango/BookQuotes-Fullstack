@@ -39,10 +39,8 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    // Set page title
     this.titleService.setTitle('BookWebApp - Login');
     
-    // Use translation service for description
     this.translate.get('loginDescription').subscribe((translated: string) => {
       this.meta.updateTag({
         name: 'description',

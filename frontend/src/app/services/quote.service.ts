@@ -3,19 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-// =========================
-// QUOTE MODEL
-// =========================
+
 export interface Quote {
   id?: number;
   text: string;
-  author: string; // Make sure author exists
-  bookId?: number; // Added bookId property for book-quote association
+  author: string;
+  bookId?: number | null;  // can be null
 }
 
-// =========================
-// QUOTE SERVICE
-// =========================
 @Injectable({
   providedIn: 'root'
 })
@@ -23,10 +18,6 @@ export class QuoteService {
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
-
-  // =========================
-  // HELPER FUNCTIONS
-  // =========================
 
   /** Get token from local storage */
   private getToken(): string | null {
@@ -47,10 +38,6 @@ export class QuoteService {
     return new HttpHeaders(headersConfig);
   }
 
-  // =========================
-  // API METHODS
-  // =========================
-
   /** Fetch all quotes */
   getQuotes(): Observable<Quote[]> {
     return this.http.get<Quote[]>(`${this.apiUrl}/quotes`, { headers: this.getAuthHeaders() });
@@ -63,12 +50,22 @@ export class QuoteService {
 
   /** Create a new quote */
   createQuote(quote: Quote): Observable<Quote> {
-    return this.http.post<Quote>(`${this.apiUrl}/quotes`, quote, { headers: this.getAuthHeaders(true) });
+    // Ensure bookId is properly formatted (null if empty)
+    const payload = {
+      ...quote,
+      bookId: quote.bookId || null
+    };
+    return this.http.post<Quote>(`${this.apiUrl}/quotes`, payload, { headers: this.getAuthHeaders(true) });
   }
 
   /** Update an existing quote */
   updateQuote(id: number, quote: Quote): Observable<Quote> {
-    return this.http.put<Quote>(`${this.apiUrl}/quotes/${id}`, quote, { headers: this.getAuthHeaders(true) });
+    // ✅ Ensure bookId is properly formatted (null if empty)
+    const payload = {
+      ...quote,
+      bookId: quote.bookId || null
+    };
+    return this.http.put<Quote>(`${this.apiUrl}/quotes/${id}`, payload, { headers: this.getAuthHeaders(true) });
   }
 
   /** Delete a quote by ID */
@@ -76,7 +73,7 @@ export class QuoteService {
     return this.http.delete<void>(`${this.apiUrl}/quotes/${id}`, { headers: this.getAuthHeaders() });
   }
 
-  /** Fetch quotes by book ID (optional, if your backend supports it) */
+  /** Fetch quotes by book ID */
   getQuotesByBookId(bookId: number): Observable<Quote[]> {
     return this.http.get<Quote[]>(`${this.apiUrl}/books/${bookId}/quotes`, { headers: this.getAuthHeaders() });
   }

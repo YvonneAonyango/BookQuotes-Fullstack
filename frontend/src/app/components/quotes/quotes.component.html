@@ -1,5 +1,5 @@
 <div class="quotes-page">
-  <!-- Fixed Page Header - Lowered and translated -->
+  <!-- Page Header -->
   <div class="page-header mb-4">
     <h1>{{ 'myQuotes' | translate }}</h1>
     <p class="lead">{{ 'saveAndManageQuotes' | translate }}</p>
@@ -8,7 +8,7 @@
   <!-- Quote Form Section -->
   <div class="quote-form-section mb-4">
     <div class="card">
-      <div class="card-header bg-primary text-white">
+      <div class="card-header">
         <h5 class="mb-0">
           <i class="bi bi-chat-quote me-2"></i>
           {{ isEdit ? ('editQuote' | translate) : ('addNewQuote' | translate) }}
@@ -47,9 +47,10 @@
             </div>
             
             <div class="col-md-6">
-              <label for="bookId" class="form-label">{{ 'fromBookOptional' | translate }}</label>
+              <!-- ✅ Updated translation key -->
+              <label for="bookId" class="form-label">{{ 'fromSavedBooksOptional' | translate }}</label>
               <select class="form-select" id="bookId" formControlName="bookId">
-                <option value="">{{ 'selectBook' | translate }}</option>
+                <option [value]="null">{{ 'selectBookOptional' | translate }}</option>
                 <option *ngFor="let book of books" [value]="book.id">{{ book.title }}</option>
               </select>
             </div>
@@ -74,7 +75,7 @@
   <!-- Quote Basket Section -->
   <div class="quote-basket-section mb-4" *ngIf="addedQuotes.length > 0">
     <div class="card">
-      <div class="card-header bg-info text-white">
+      <div class="card-header">
         <h5 class="mb-0">
           <i class="bi bi-basket me-2"></i>
           {{ 'yourQuoteBasket' | translate }} ({{ addedQuotes.length }})
@@ -114,7 +115,7 @@
       <div *ngFor="let quote of quotes" class="quote-card">
         <div class="quote-card-header">
           <i class="bi bi-chat-quote quote-icon"></i>
-          <button class="btn btn-sm btn-outline-success add-to-basket-btn" (click)="addToBasket(quote)" [disabled]="isInBasket(quote.id!)">
+          <button class="btn btn-sm add-to-basket-btn" (click)="addToBasket(quote)" [disabled]="isInBasket(quote.id!)">
             <i class="bi bi-plus"></i> {{ 'addToBasket' | translate }}
           </button>
         </div>

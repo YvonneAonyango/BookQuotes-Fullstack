@@ -21,7 +21,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class QuotesComponent implements OnInit {
   quotes: Quote[] = [];
-  addedQuotes: Quote[] = []; // Badge list of added quotes
+  addedQuotes: Quote[] = [];
   books: Book[] = [];
   quoteForm: FormGroup;
   isLoading = false;
@@ -41,7 +41,7 @@ export class QuotesComponent implements OnInit {
     this.quoteForm = this.fb.group({
       text: ['', [Validators.required, Validators.minLength(10)]],
       author: ['', Validators.required],
-      bookId: ['']
+      bookId: [null]  // ✅ Initialize with null instead of empty string
     });
   }
 
@@ -85,7 +85,7 @@ export class QuotesComponent implements OnInit {
     });
   }
 
-  getBookTitle(bookId?: number): string {
+  getBookTitle(bookId?: number | null): string {
     if (!bookId) return '';
     const book = this.books.find(b => b.id === bookId);
     return book ? book.title : '';
@@ -114,11 +114,14 @@ export class QuotesComponent implements OnInit {
     this.selectedQuoteId = quote.id;
     this.isEdit = true;
     this.editingQuoteId = quote.id;
+    
+    // ✅ Handle null bookId properly
     this.quoteForm.patchValue({
       text: quote.text,
       author: quote.author,
-      bookId: quote.bookId || ''
+      bookId: quote.bookId || null  // Convert to null if empty/undefined
     });
+    
     document.querySelector('.quote-form-section')?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -140,11 +143,23 @@ export class QuotesComponent implements OnInit {
   onSubmit(): void {
     if (this.quoteForm.valid) {
       this.isLoading = true;
-      const quoteData: Quote = this.quoteForm.value;
+      const formValue = this.quoteForm.value;
+      
+      // ✅ Properly format bookId (null if empty)
+      const quoteData: Quote = {
+        text: formValue.text,
+        author: formValue.author,
+        bookId: formValue.bookId && formValue.bookId !== '' 
+          ? Number(formValue.bookId) 
+          : null
+      };
+
+      console.log('Sending quote data:', quoteData); // Debug
 
       if (this.isEdit && this.editingQuoteId) {
         this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
           next: (updatedQuote) => {
+            console.log('Update successful:', updatedQuote);
             const index = this.quotes.findIndex(q => q.id === this.editingQuoteId);
             if (index !== -1) this.quotes[index] = updatedQuote;
             const basketIndex = this.addedQuotes.findIndex(q => q.id === this.editingQuoteId);
@@ -155,12 +170,14 @@ export class QuotesComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error updating quote:', error);
+            console.error('Error details:', error.error);
             this.isLoading = false;
           }
         });
       } else {
         this.quoteService.createQuote(quoteData).subscribe({
           next: (newQuote) => {
+            console.log('Create successful:', newQuote);
             this.quotes.push(newQuote);
             this.addedQuotes.push(newQuote);
             this.resetForm();
@@ -169,6 +186,7 @@ export class QuotesComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error adding quote:', error);
+            console.error('Error details:', error.error);
             this.isLoading = false;
           }
         });
@@ -177,7 +195,11 @@ export class QuotesComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.quoteForm.reset();
+    this.quoteForm.reset({
+      text: '',
+      author: '',
+      bookId: null  // ✅ Reset to null
+    });
     this.isEdit = false;
     this.editingQuoteId = undefined;
     this.selectedQuoteId = undefined;

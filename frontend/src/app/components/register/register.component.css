@@ -1,8 +1,8 @@
-/* Container */
+/* Container - CHANGED HERE: align-items: flex-start */
 .register-container {
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Changed from center to flex-start */
   justify-content: center;
   padding: 1rem;
   background-color: var(--bg-light);
