@@ -1,13 +1,13 @@
 <div class="books-page">
   <!-- Page Header - Lowered and translated -->
-  <div class="page-header mb-4">
-    <div>
+  <div class="page-header">
+    <div class="header-content">
       <h1>{{ 'myBooks' | translate }}</h1>
       <p class="lead">{{ 'manageBookCollection' | translate }}</p>
     </div>
     
     <!-- Single "Add New Book" button when books exist -->
-    <div *ngIf="!isLoading && books.length > 0" class="mb-4">
+    <div *ngIf="!isLoading && books.length > 0" class="add-book-container">
       <button class="btn btn-primary add-book-btn" (click)="addBook()">
         <i class="bi bi-plus-circle me-2"></i>
         {{ 'addNewBook' | translate }}

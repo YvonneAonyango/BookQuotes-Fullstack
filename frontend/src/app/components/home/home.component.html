@@ -2,18 +2,18 @@
   <aside class="sidebar">
     <div class="sidebar-content">
       <div class="dashboard-card">
-        <!-- FEATURED QUOTES - Only 2 quotes now -->
+        <!-- FEATURED QUOTES - Shorter quotes -->
         <div class="featured-quotes">
           <h5 class="featured-quotes-title">{{ 'featuredQuotes' | translate }}</h5>
           
           <div class="quote-card">
-            <p class="quote-text">"It is our choices, Harry, that show what we truly are, far more than our abilities."</p>
-            <p class="quote-author">— J.K. Rowling, <em>Harry Potter and the Chamber of Secrets</em></p>
+            <p class="quote-text">"Choose wisely - it defines you more than ability."</p>
+            <p class="quote-author">— J.K. Rowling</p>
           </div>
 
           <div class="quote-card">
-            <p class="quote-text">"All we have to decide is what to do with the time that is given us."</p>
-            <p class="quote-author">— J.R.R. Tolkien, <em>The Lord of the Rings</em></p>
+            <p class="quote-text">"Decide what to do with your time."</p>
+            <p class="quote-author">— J.R.R. Tolkien</p>
           </div>
         </div>
       </div>
@@ -21,53 +21,129 @@
   </aside>
 
   <main class="main-content">
-    <!-- HERO SECTION -->
-    <section class="hero-section text-center mb-4">
-      <h1 class="hero-title">{{ 'brand' | translate }}</h1>
-      <p class="hero-subtitle">{{ 'personalLibrary' | translate }}</p>
-    </section>
-
-    <!-- FEATURES GRID -->
-    <section class="features-section mb-4">
-      <div class="row g-3 justify-content-center">
-        <div class="col-12 col-md-6 col-lg-4 mb-3" *ngFor="let feature of ['bookManagement','quoteCollection','personalLibraryTitle']; let i = index">
-          <div class="feature-card h-100">
-            <i class="bi feature-icon" 
-               [ngClass]="feature==='bookManagement' ? 'bi-book' : feature==='quoteCollection' ? 'bi-chat-quote' : 'bi-person'"></i>
-            <h5 class="feature-title">{{ feature | translate }}</h5>
-            <p class="feature-description">{{ feature+'Desc' | translate }}</p>
+    <!-- ENHANCED HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">{{ 'brand' | translate }}</h1>
+        <p class="hero-subtitle">Your personal digital library for organizing books and capturing meaningful quotes</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">📚</span>
+            <span class="stat-text">Organize Books</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">💭</span>
+            <span class="stat-text">Save Quotes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">🌟</span>
+            <span class="stat-text">Discover Insights</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="how-it-works mb-4">
-      <h3 class="section-title">{{ 'howItWorks' | translate }}</h3>
-      <div class="row g-3">
-        <div class="col-12 col-md-6 mb-3" *ngFor="let step of ['addYourBooks','manageQuotes','editUpdate','enjoyReading']; let i = index">
-          <div class="step-card h-100">
-            <div class="step-number">{{ i + 1 }}</div>
-            <h5 class="step-title">{{ step | translate }}</h5>
-            <p class="step-description">{{ step+'Desc' | translate }}</p>
-          </div>
+    <!-- WHAT WE OFFER SECTION -->
+    <section class="offer-section">
+      <h2 class="section-heading">What BookWebApp Offers</h2>
+      <p class="section-subtitle">Transform your reading experience with our powerful features</p>
+      
+      <div class="offer-cards">
+        <div class="offer-card">
+          <div class="offer-icon">📖</div>
+          <h3>Smart Book Management</h3>
+          <p>Add, categorize, and track all your books in one beautiful digital library.</p>
+        </div>
+        
+        <div class="offer-card">
+          <div class="offer-icon">💬</div>
+          <h3>Quote Collection</h3>
+          <p>Capture and organize your favorite quotes from every book you read.</p>
+        </div>
+        
+        <div class="offer-card">
+          <div class="offer-icon">📊</div>
+          <h3>Reading Insights</h3>
+          <p>Track your reading habits and discover patterns in your literary journey.</p>
         </div>
       </div>
     </section>
 
-    <!-- CTA SECTION -->
+    <!-- HOW IT WORKS - SIMPLIFIED -->
+    <section class="works-section">
+      <h2 class="section-heading">How It Works</h2>
+      <p class="section-subtitle">Get started in just three simple steps</p>
+      
+      <div class="works-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Add Your Books</h3>
+          <p>Start by adding your books to your personal digital library.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Save Your Quotes</h3>
+          <p>Highlight and save meaningful quotes as you read.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Enjoy & Explore</h3>
+          <p>Review your collection and discover reading patterns.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIAL SECTION -->
+    <section class="testimonial-section">
+      <h2 class="section-heading">Loved by Readers</h2>
+      <p class="section-subtitle">See what our community is saying</p>
+      
+      <div class="testimonials">
+        <div class="testimonial">
+          <p class="testimonial-text">"Finally, a beautiful way to organize my book collection and remember those amazing quotes!"</p>
+          <p class="testimonial-author">— Sarah, Book Lover</p>
+        </div>
+        
+        <div class="testimonial">
+          <p class="testimonial-text">"The quote management feature alone makes this app worth it. My favorite literary moments, all in one place."</p>
+          <p class="testimonial-author">— Michael, Literature Student</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENHANCED CTA SECTION -->
     <section class="cta-section">
-      <div class="cta-card">
-        <i class="bi bi-lightbulb cta-icon"></i>
-        <h4 class="cta-title">{{ 'readyToStart' | translate }}</h4>
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to Build Your Digital Library?</h2>
+        <p class="cta-subtitle">Join thousands of readers who are organizing their literary journey</p>
+        
+        <div class="cta-features">
+          <div class="cta-feature">
+            <span class="feature-check">✓</span>
+            <span>Free to get started</span>
+          </div>
+          <div class="cta-feature">
+            <span class="feature-check">✓</span>
+            <span>No credit card required</span>
+          </div>
+          <div class="cta-feature">
+            <span class="feature-check">✓</span>
+            <span>Use on any device</span>
+          </div>
+        </div>
+        
         <div class="cta-buttons">
           <button class="btn-cta-primary" routerLink="/register">
-            {{ 'getStarted' | translate }}
+            Start Free Now
           </button>
           <button class="btn-cta-secondary" routerLink="/books">
-            {{ 'browseLibrary' | translate }}
+            Explore Library
           </button>
         </div>
+        
+        <p class="cta-note">Already have an account? <a routerLink="/login" class="login-link">Sign in here</a></p>
       </div>
     </section>
   </main>

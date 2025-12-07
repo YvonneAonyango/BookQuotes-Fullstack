@@ -21,11 +21,13 @@
         <!-- Removed Home link since logo already serves as home -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/books" routerLinkActive="active">
+            <fa-icon [icon]="faBook" class="me-1"></fa-icon>
             {{ 'books' | translate }}
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/quotes" routerLinkActive="active">
+            <fa-icon [icon]="faQuoteRight" class="me-1"></fa-icon>
             {{ 'quotes' | translate }}
           </a>
         </li>

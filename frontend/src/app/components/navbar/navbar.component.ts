@@ -19,7 +19,9 @@ import {
   faSignInAlt,
   faUserPlus,
   faHeart,
-  faBars
+  faBars,
+  faBook,
+  faQuoteRight
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -45,6 +47,8 @@ export class NavbarComponent implements OnInit {
   faUserPlus = faUserPlus;
   faHeart = faHeart;
   faBars = faBars;
+  faBook = faBook;
+  faQuoteRight = faQuoteRight;
 
   currentLanguage: Language = 'en';
   currentFlag = '🇬🇧';
