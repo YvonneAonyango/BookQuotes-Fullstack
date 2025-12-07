@@ -16,6 +16,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 export class BooksComponent implements OnInit {
   books: Book[] = [];
   isLoading = false;
+  errorMessage: string = '';
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -35,6 +36,8 @@ export class BooksComponent implements OnInit {
 
   loadBooks(): void {
     this.isLoading = true;
+    this.errorMessage = '';
+    
     this.bookService.getBooks().subscribe({
       next: books => {
         this.books = books;
@@ -42,6 +45,7 @@ export class BooksComponent implements OnInit {
       },
       error: error => {
         console.error('Error loading books:', error);
+        this.errorMessage = 'Failed to load books. Please try again.';
         this.isLoading = false;
       }
     });
@@ -62,9 +66,26 @@ export class BooksComponent implements OnInit {
           next: () => {
             this.books = this.books.filter(book => book.id !== bookId);
           },
-          error: err => console.error('Error deleting book:', err)
+          error: err => {
+            console.error('Error deleting book:', err);
+            alert('Failed to delete book. Please try again.');
+          }
         });
       }
     });
+  }
+
+  // Helper method to format date
+  formatDate(dateString: string): string {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return dateString; // Return original string if parsing fails
+    }
   }
 }

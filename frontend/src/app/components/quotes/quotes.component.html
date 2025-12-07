@@ -1,157 +1,130 @@
 <div class="quotes-page">
-  <!-- Page Header -->
-  <div class="page-header mb-4">
-    <h1>{{ 'myQuotes' | translate }}</h1>
-    <p class="lead">{{ 'saveAndManageQuotes' | translate }}</p>
+  <!-- Page Header - Lowered position -->
+  <div class="page-header">
+    <h1>My Quotes</h1>
+    <p class="lead">Save and manage my quotes</p>
   </div>
 
-  <!-- Quote Form Section -->
-  <div class="quote-form-section mb-4">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="mb-0">
-          <i class="bi bi-chat-quote me-2"></i>
-          {{ isEdit ? ('editQuote' | translate) : ('addNewQuote' | translate) }}
-        </h5>
-      </div>
-      <div class="card-body">
-        <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-          <div class="row g-3">
-            <div class="col-12">
-              <label for="text" class="form-label">{{ 'quoteText' | translate }} *</label>
-              <textarea class="form-control" 
-                        id="text" 
-                        formControlName="text"
-                        rows="4"
-                        [placeholder]="'enterQuoteText' | translate"
-                        [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched"></textarea>
-              <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required']">
-                {{ 'quoteTextRequired' | translate }}
-              </div>
-              <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['minlength']">
-                {{ 'quoteMinLength' | translate }}
-              </div>
-            </div>
-            
-            <div class="col-md-6">
-              <label for="author" class="form-label">{{ 'author' | translate }} *</label>
-              <input type="text" 
-                     class="form-control" 
-                     id="author" 
-                     formControlName="author"
-                     [placeholder]="'enterAuthorName' | translate"
-                     [class.is-invalid]="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
-              <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required']">
-                {{ 'authorRequired' | translate }}
-              </div>
-            </div>
-            
-            <div class="col-md-6">
-              <!-- ✅ Updated translation key -->
-              <label for="bookId" class="form-label">{{ 'fromSavedBooksOptional' | translate }}</label>
-              <select class="form-select" id="bookId" formControlName="bookId">
-                <option [value]="null">{{ 'selectBookOptional' | translate }}</option>
-                <option *ngFor="let book of books" [value]="book.id">{{ book.title }}</option>
-              </select>
-            </div>
-            
-            <div class="col-12">
-              <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary" [disabled]="quoteForm.invalid || isLoading">
-                  <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                  {{ isEdit ? ('updateQuote' | translate) : ('saveQuote' | translate) }}
-                </button>
-                <button type="button" class="btn btn-secondary" (click)="cancelForm()" *ngIf="isEdit">
-                  {{ 'cancel' | translate }}
-                </button>
-              </div>
-            </div>
+  <!-- Main Content Container -->
+  <div class="quotes-container">
+    <!-- Left Column: Form & Favourites -->
+    <div class="left-column">
+      <!-- Quote Form Section -->
+      <div class="quote-form-section">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="bi bi-chat-quote me-2"></i>
+              {{ isEdit ? 'Edit Quote' : 'Add New Quote' }}
+            </h5>
           </div>
-        </form>
+          <div class="card-body">
+            <!-- Your form here -->
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Quote Basket Section -->
-  <div class="quote-basket-section mb-4" *ngIf="addedQuotes.length > 0">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="mb-0">
-          <i class="bi bi-basket me-2"></i>
-          {{ 'yourQuoteBasket' | translate }} ({{ addedQuotes.length }})
-          <small class="float-end">{{ 'clickToEdit' | translate }}</small>
-        </h5>
-      </div>
-      <div class="card-body">
-        <div class="quote-badges">
-          <div *ngFor="let quote of addedQuotes" class="quote-badge" (click)="editQuoteFromBadge(quote)" [class.selected]="selectedQuoteId === quote.id">
-            <div class="badge-content">
-              <div class="quote-text">"{{ quote.text | truncate:80 }}"</div>
-              <div class="quote-meta">
-                <span class="author">— {{ quote.author }}</span>
-                <span class="book" *ngIf="getBookTitle(quote.bookId)">
-                  • {{ 'from' | translate }} {{ getBookTitle(quote.bookId) }}
-                </span>
+      <!-- Favourite Quotes List -->
+      <div class="favourite-quotes-section">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="bi bi-heart me-2"></i>
+              Your Favourite Quotes List
+              <span class="count-badge">{{ favouriteQuotes.length }}</span>
+            </h5>
+          </div>
+          <div class="card-body">
+            <!-- Favourites List -->
+            <div *ngIf="favouriteQuotes.length > 0" class="favourite-quotes-list">
+              <div *ngFor="let quote of favouriteQuotes" class="favourite-quote-item">
+                <div class="favourite-quote-content">
+                  <div class="favourite-quote-text">
+                    "{{ quote.text | slice:0:100 }}{{ quote.text.length > 100 ? '...' : '' }}"
+                  </div>
+                  <div class="favourite-quote-meta">
+                    <div class="favourite-quote-author">— {{ quote.author }}</div>
+                    <div *ngIf="getBookTitle(quote.bookId)" class="favourite-quote-book">
+                      <i class="bi bi-book me-1"></i>{{ getBookTitle(quote.bookId) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="favourite-quote-actions">
+                  <button class="btn btn-sm btn-outline-primary" (click)="editQuote(quote)">
+                    <i class="bi bi-pencil"></i> Edit
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="removeFromFavourites(quote.id!)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
               </div>
             </div>
-            <div class="badge-actions">
-              <button class="btn btn-sm btn-outline-primary" (click)="editQuoteFromBadge(quote); $event.stopPropagation()">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger" (click)="removeFromBasket(quote.id!); $event.stopPropagation()">
-                <i class="bi bi-trash"></i>
-              </button>
+            
+            <!-- Empty Favourites State -->
+            <div *ngIf="favouriteQuotes.length === 0" class="empty-favourites-state">
+              <i class="bi bi-heart"></i>
+              <h4>No favourite quotes yet</h4>
+              <p>Add quotes to your favourites list from the collection below</p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Existing Quotes Section -->
-  <div class="existing-quotes-section" *ngIf="!isLoading && quotes.length > 0">
-    <h3 class="mb-3">{{ 'allQuotes' | translate }}</h3>
-    <div class="quotes-grid">
-      <div *ngFor="let quote of quotes" class="quote-card">
-        <div class="quote-card-header">
-          <i class="bi bi-chat-quote quote-icon"></i>
-          <button class="btn btn-sm add-to-basket-btn" (click)="addToBasket(quote)" [disabled]="isInBasket(quote.id!)">
-            <i class="bi bi-plus"></i> {{ 'addToBasket' | translate }}
-          </button>
-        </div>
-        <div class="quote-card-body">
-          <p class="quote-text">"{{ quote.text }}"</p>
-          <div class="quote-footer">
-            <span class="quote-author">— {{ quote.author }}</span>
-            <span class="quote-book" *ngIf="getBookTitle(quote.bookId)">
-              <i class="bi bi-book me-1"></i>{{ getBookTitle(quote.bookId) }}
-            </span>
+    <!-- Right Column: All Quotes -->
+    <div class="all-quotes-section">
+      <h3>
+        <i class="bi bi-collection me-2"></i>
+        All Quotes
+        <span class="count-badge">{{ allQuotes.length }}</span>
+      </h3>
+      
+      <!-- Quotes Grid -->
+      <div *ngIf="allQuotes.length > 0" class="quotes-grid">
+        <div *ngFor="let quote of allQuotes" class="quote-card">
+          <div class="quote-card-header">
+            <i class="bi bi-chat-quote quote-icon"></i>
+            <button class="add-to-favourites-btn" 
+                    [class.in-favourites]="isInFavourites(quote.id!)"
+                    [disabled]="isInFavourites(quote.id!)"
+                    (click)="addToFavourites(quote)">
+              <i class="bi" [class.bi-heart-fill]="isInFavourites(quote.id!)" [class.bi-heart]="!isInFavourites(quote.id!)"></i>
+              {{ isInFavourites(quote.id!) ? 'Favourited' : 'Add to Favourites' }}
+            </button>
+          </div>
+          
+          <div class="quote-card-body">
+            <p class="quote-text">"{{ quote.text }}"</p>
+            
+            <div class="quote-footer">
+              <div class="quote-author">— {{ quote.author }}</div>
+              <div *ngIf="getBookTitle(quote.bookId)" class="quote-book">
+                <i class="bi bi-book"></i>
+                {{ getBookTitle(quote.bookId) }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="quote-card-footer">
+            <button class="btn btn-primary" (click)="editQuote(quote)">
+              <i class="bi bi-pencil me-1"></i> Edit
+            </button>
+            <button class="btn btn-danger" (click)="deleteQuote(quote.id!)">
+              <i class="bi bi-trash me-1"></i> Delete
+            </button>
           </div>
         </div>
-        <div class="quote-card-footer">
-          <button class="btn btn-sm btn-primary" (click)="editQuoteFromBadge(quote)">
-            <i class="bi bi-pencil"></i> {{ 'editItem' | translate }}
-          </button>
-          <button class="btn btn-sm btn-danger" (click)="deleteQuote(quote.id!)">
-            <i class="bi bi-trash"></i> {{ 'deleteItem' | translate }}
-          </button>
-        </div>
+      </div>
+      
+      <!-- Empty Quotes State -->
+      <div *ngIf="allQuotes.length === 0" class="empty-quotes-state">
+        <i class="bi bi-chat-quote"></i>
+        <h4>No quotes yet</h4>
+        <p>Add your first quote using the form on the left</p>
+        <button class="btn btn-primary mt-2" (click)="document.querySelector('.quote-form-section')?.scrollIntoView({ behavior: 'smooth' })">
+          <i class="bi bi-plus-circle me-2"></i>Add First Quote
+        </button>
       </div>
     </div>
-  </div>
-
-  <!-- Loading State -->
-  <div *ngIf="isLoading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">{{ 'loading' | translate }}</span>
-    </div>
-    <p class="mt-2">{{ 'loadingQuotes' | translate }}</p>
-  </div>
-
-  <!-- Empty State -->
-  <div *ngIf="!isLoading && quotes.length === 0 && addedQuotes.length === 0" class="empty-state text-center py-5">
-    <i class="bi bi-chat-quote text-muted" style="font-size: 4rem;"></i>
-    <h3 class="mt-3">{{ 'noQuotesYet' | translate }}</h3>
-    <p class="text-muted">{{ 'startAddingFirstQuote' | translate }}</p>
   </div>
 </div>

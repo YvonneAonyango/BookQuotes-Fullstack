@@ -1,12 +1,13 @@
-/* Container - CHANGED HERE: align-items: flex-start */
+/* Container - Adjusted to position form lower */
 .register-container {
-  min-height: 100vh;
+  min-height: calc(100vh - 60px); /* Subtract navbar height */
   display: flex;
-  align-items: flex-start; /* Changed from center to flex-start */
+  align-items: flex-start; /* Changed from center */
   justify-content: center;
   padding: 1rem;
+  padding-top: 2rem; /* Added padding to lower the form */
   background-color: var(--bg-light);
-  margin-top: 0;
+  margin-top: 60px; /* Push below navbar */
 }
 
 body.dark-mode .register-container {
@@ -22,6 +23,7 @@ body.dark-mode .register-container {
   transition: all 0.3s ease;
   background-color: var(--card-light);
   border: 1px solid rgba(0,0,0,0.1);
+  margin-top: 2rem; /* Additional margin */
 }
 
 body.dark-mode .register-card {
@@ -80,8 +82,8 @@ body.dark-mode .register-card textarea.form-control {
 .register-card .form-control:focus,
 .register-card .form-select:focus,
 .register-card textarea.form-control:focus {
-  border-color: var(--highlight-yellow);
-  box-shadow: 0 0 0 0.25rem rgba(215,155,31,0.25);
+  border-color: #3b82f6; /* Changed from yellow to blue */
+  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
   outline: none;
 }
 
@@ -113,7 +115,7 @@ body.dark-mode .register-card .form-label {
 }
 
 .requirement-not-met {
-  color: #dc3545;
+  color: #6c757d;
 }
 
 body.dark-mode .requirement-met {
@@ -121,10 +123,10 @@ body.dark-mode .requirement-met {
 }
 
 body.dark-mode .requirement-not-met {
-  color: #fc8181;
+  color: #a0aec0;
 }
 
-/* Buttons */
+/* Buttons - FIXED: Changed to visible colors for both modes */
 .register-card .btn {
   font-size: 1rem;
   padding: 0.75rem;
@@ -132,37 +134,39 @@ body.dark-mode .requirement-not-met {
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   border: none;
+  font-weight: 600;
 }
 
 .register-card .btn-primary {
-  background: linear-gradient(135deg, var(--highlight-yellow) 0%, #d79b1f 100%);
-  color: var(--text-dark);
-  font-weight: 600;
+  /* Blue gradient that works in both modes */
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
   width: 100%;
 }
 
 .register-card .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #d79b1f 0%, #b8860b 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(215, 155, 31, 0.4);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 .register-card .btn-primary:disabled {
+  background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
+  color: white;
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
-.register-card .btn-outline-primary {
-  background-color: transparent;
-  border: 1px solid var(--highlight-yellow);
-  color: var(--highlight-yellow);
+body.dark-mode .register-card .btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
 }
 
-.register-card .btn-outline-primary:hover {
-  background-color: var(--highlight-yellow);
-  color: var(--text-dark);
+body.dark-mode .register-card .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
 }
 
 /* Alerts */
@@ -195,13 +199,17 @@ body.dark-mode .alert-danger {
 
 /* Links */
 .register-card a {
-  color: var(--highlight-yellow);
+  color: #3b82f6; /* Changed from yellow to blue */
   font-weight: 500;
   text-decoration: none;
 }
 
 .register-card a:hover {
   text-decoration: underline;
+}
+
+body.dark-mode .register-card a {
+  color: #60a5fa;
 }
 
 /* Login Link */
@@ -222,10 +230,37 @@ body.dark-mode .register-card .login-link {
 /* Spinner */
 .spinner-border {
   vertical-align: middle;
+  color: white;
+}
+
+/* Form Validation Feedback */
+.invalid-feedback {
+  color: #dc3545;
+}
+
+body.dark-mode .invalid-feedback {
+  color: #fc8181;
+}
+
+.valid-feedback {
+  color: #28a745;
+}
+
+body.dark-mode .valid-feedback {
+  color: #68d391;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .register-container {
+    padding-top: 1.5rem;
+    margin-top: 56px; /* Adjust for mobile navbar if different */
+  }
+  
+  .register-card {
+    margin-top: 1rem;
+  }
+  
   .register-card .card-header h2 {
     font-size: 1.3rem;
   }
@@ -241,8 +276,14 @@ body.dark-mode .register-card .login-link {
 }
 
 @media (max-width: 576px) {
+  .register-container {
+    padding: 0.75rem;
+    padding-top: 1.5rem;
+  }
+  
   .register-card {
-    max-width: 90%;
+    max-width: 95%;
+    margin-top: 0.5rem;
   }
 
   .register-card .card-header h2 {

@@ -7,12 +7,12 @@
           <h5 class="featured-quotes-title">{{ 'featuredQuotes' | translate }}</h5>
           
           <div class="quote-card">
-            <p class="quote-text">"Choose wisely - it defines you more than ability."</p>
+            <p class="quote-text">"{{ 'chooseWiselyItDefinesYou' | translate }}"</p>
             <p class="quote-author">— J.K. Rowling</p>
           </div>
 
           <div class="quote-card">
-            <p class="quote-text">"Decide what to do with your time."</p>
+            <p class="quote-text">"{{ 'decideWhatToDoWithYourTime' | translate }}"</p>
             <p class="quote-author">— J.R.R. Tolkien</p>
           </div>
         </div>
@@ -25,19 +25,19 @@
     <section class="hero-section">
       <div class="hero-content">
         <h1 class="hero-title">{{ 'brand' | translate }}</h1>
-        <p class="hero-subtitle">Your personal digital library for organizing books and capturing meaningful quotes</p>
+        <p class="hero-subtitle">{{ 'personalLibrary' | translate }}</p>
         <div class="hero-stats">
           <div class="stat-item">
             <span class="stat-number">📚</span>
-            <span class="stat-text">Organize Books</span>
+            <span class="stat-text">{{ 'organizeBooks' | translate }}</span>
           </div>
           <div class="stat-item">
             <span class="stat-number">💭</span>
-            <span class="stat-text">Save Quotes</span>
+            <span class="stat-text">{{ 'saveQuotes' | translate }}</span>
           </div>
           <div class="stat-item">
             <span class="stat-number">🌟</span>
-            <span class="stat-text">Discover Insights</span>
+            <span class="stat-text">{{ 'discoverInsights' | translate }}</span>
           </div>
         </div>
       </div>
@@ -45,52 +45,52 @@
 
     <!-- WHAT WE OFFER SECTION -->
     <section class="offer-section">
-      <h2 class="section-heading">What BookWebApp Offers</h2>
-      <p class="section-subtitle">Transform your reading experience with our powerful features</p>
+      <h2 class="section-heading">{{ 'whatBookWebAppOffers' | translate }}</h2>
+      <p class="section-subtitle">{{ 'transformYourReadingExperience' | translate }}</p>
       
       <div class="offer-cards">
         <div class="offer-card">
           <div class="offer-icon">📖</div>
-          <h3>Smart Book Management</h3>
-          <p>Add, categorize, and track all your books in one beautiful digital library.</p>
+          <h3>{{ 'bookManagement' | translate }}</h3>
+          <p>{{ 'bookManagementDesc' | translate }}</p>
         </div>
         
         <div class="offer-card">
           <div class="offer-icon">💬</div>
-          <h3>Quote Collection</h3>
-          <p>Capture and organize your favorite quotes from every book you read.</p>
+          <h3>{{ 'quoteCollection' | translate }}</h3>
+          <p>{{ 'quoteCollectionDesc' | translate }}</p>
         </div>
         
         <div class="offer-card">
           <div class="offer-icon">📊</div>
-          <h3>Reading Insights</h3>
-          <p>Track your reading habits and discover patterns in your literary journey.</p>
+          <h3>{{ 'readingInsights' | translate }}</h3>
+          <p>{{ 'trackYourReadingHabits' | translate }}</p>
         </div>
       </div>
     </section>
 
     <!-- HOW IT WORKS - SIMPLIFIED -->
     <section class="works-section">
-      <h2 class="section-heading">How It Works</h2>
-      <p class="section-subtitle">Get started in just three simple steps</p>
+      <h2 class="section-heading">{{ 'howItWorks' | translate }}</h2>
+      <p class="section-subtitle">{{ 'getStartedInThreeSimpleSteps' | translate }}</p>
       
       <div class="works-steps">
         <div class="step">
           <div class="step-number">1</div>
-          <h3>Add Your Books</h3>
-          <p>Start by adding your books to your personal digital library.</p>
+          <h3>{{ 'addYourBooks' | translate }}</h3>
+          <p>{{ 'addYourBooksDesc' | translate }}</p>
         </div>
         
         <div class="step">
           <div class="step-number">2</div>
-          <h3>Save Your Quotes</h3>
-          <p>Highlight and save meaningful quotes as you read.</p>
+          <h3>{{ 'manageQuotes' | translate }}</h3>
+          <p>{{ 'manageQuotesDesc' | translate }}</p>
         </div>
         
         <div class="step">
           <div class="step-number">3</div>
-          <h3>Enjoy & Explore</h3>
-          <p>Review your collection and discover reading patterns.</p>
+          <h3>{{ 'editUpdate' | translate }}</h3>
+          <p>{{ 'editUpdateDesc' | translate }}</p>
         </div>
       </div>
     </section>
@@ -98,33 +98,33 @@
     <!-- ENHANCED CTA SECTION -->
     <section class="cta-section">
       <div class="cta-content">
-        <h2 class="cta-title">Ready to Build Your Digital Library?</h2>
+        <h2 class="cta-title">{{ 'readyToStartYourJourney' | translate }}</h2>
         
         <div class="cta-features">
           <div class="cta-feature">
             <span class="feature-check">✓</span>
-            <span>Free to get started</span>
+            <span>{{ 'freeToGetStarted' | translate }}</span>
           </div>
           <div class="cta-feature">
             <span class="feature-check">✓</span>
-            <span>No credit card required</span>
+            <span>{{ 'noCreditCardRequired' | translate }}</span>
           </div>
           <div class="cta-feature">
             <span class="feature-check">✓</span>
-            <span>Use on any device</span>
+            <span>{{ 'useOnAnyDevice' | translate }}</span>
           </div>
         </div>
         
         <div class="cta-buttons">
           <button class="btn-cta-primary" routerLink="/register">
-            Start Free Now
+            {{ 'getStarted' | translate }}
           </button>
           <button class="btn-cta-secondary" routerLink="/books">
-            Explore Library
+            {{ 'browseLibrary' | translate }}
           </button>
         </div>
         
-        <p class="cta-note">Already have an account? <a routerLink="/login" class="login-link">Sign in here</a></p>
+        <p class="cta-note">{{ 'alreadyHaveAnAccount' | translate }} <a routerLink="/login" class="login-link">{{ 'loginToYourAccount' | translate }}</a></p>
       </div>
     </section>
   </main>
