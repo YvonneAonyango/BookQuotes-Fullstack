@@ -1,3 +1,26 @@
-# JWT Secrets
+# Build folders
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Compiled files
+*.dll
+*.exe
+*.pdb
+
+# Database
+*.db
+
+# Logs and cache
+*.log
+*.cache
+*.json.cache
+
+# JWT / secret config files
+appsettings.json
 appsettings.Development.json
 appsettings.json.backup
