@@ -18,16 +18,17 @@ namespace BookWebApp.Api.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Book -> Quote (one-to-many)
+            // Book -> Quote (one-to-many) - Make BookId optional
             modelBuilder.Entity<Book>()
-                .HasMany(b => b.Quotes)       // Direct property access
+                .HasMany(b => b.Quotes)
                 .WithOne(q => q.Book)
                 .HasForeignKey(q => q.BookId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .IsRequired(false)                   // Make the foreign key optional
+                .OnDelete(DeleteBehavior.SetNull);   // Set BookId to null if Book is deleted
 
             // User -> Quote (one-to-many)
             modelBuilder.Entity<User>()
-                .HasMany(u => u.Quotes)       // Direct property access
+                .HasMany(u => u.Quotes)
                 .WithOne(q => q.User)
                 .HasForeignKey(q => q.UserId)
                 .OnDelete(DeleteBehavior.Cascade);

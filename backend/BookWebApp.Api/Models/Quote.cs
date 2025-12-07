@@ -9,12 +9,12 @@ public class Quote
     [Required]
     public string Text { get; set; } = "";
 
-    // Link to Book
-    [Required]
-    public int BookId { get; set; }
+    [Required]  // ← This line
+    public string Author { get; set; } = "";  // ← This property
+
+    public int? BookId { get; set; }  // ← Note the ? (nullable)
     public Book? Book { get; set; }
 
-    // Link to User (owner)
     [Required]
     public int UserId { get; set; }
     public User? User { get; set; }

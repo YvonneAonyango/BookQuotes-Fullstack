@@ -20,13 +20,10 @@ public class QuotesController : ControllerBase
     }
 
     // GET: api/quotes
-    // optional query params:
-    //   ?bookId=123  -> quotes for that book
-    //   ?mine=true   -> quotes for current user
     [HttpGet]
     public async Task<IEnumerable<Quote>> GetAll([FromQuery] int? bookId, [FromQuery] bool? mine)
     {
-        var query = _context.Quotes.AsQueryable();
+        var query = _context.Quotes.Include(q => q.Book).AsQueryable();
 
         if (bookId.HasValue)
             query = query.Where(q => q.BookId == bookId.Value);
@@ -41,33 +38,49 @@ public class QuotesController : ControllerBase
         return await query.ToListAsync();
     }
 
-    // GET single
     [HttpGet("{id}")]
     public async Task<ActionResult<Quote>> Get(int id)
     {
-        var quote = await _context.Quotes.FindAsync(id);
+        var quote = await _context.Quotes.Include(q => q.Book).FirstOrDefaultAsync(q => q.Id == id);
         if (quote == null) return NotFound();
         return quote;
     }
 
-    // POST: create; client should provide Text and BookId (UserId set from token)
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Quote q)
     {
         var userId = GetCurrentUserId();
         if (userId == null) return Unauthorized();
 
-        // ensure Book exists
-        var bookExists = await _context.Books.AnyAsync(b => b.Id == q.BookId);
-        if (!bookExists) return BadRequest(new { message = "BookId references non-existent book" });
+        // Validate required fields
+        if (string.IsNullOrWhiteSpace(q.Text))
+            return BadRequest(new { message = "Text is required" });
+            
+        if (string.IsNullOrWhiteSpace(q.Author))
+            return BadRequest(new { message = "Author is required" });
+
+        // Check Book exists ONLY if BookId is provided (not null and not 0)
+        if (q.BookId.HasValue && q.BookId.Value != 0)
+        {
+            var bookExists = await _context.Books.AnyAsync(b => b.Id == q.BookId.Value);
+            if (!bookExists) 
+                return BadRequest(new { message = "BookId references non-existent book" });
+        }
+        else
+        {
+            // If no book provided, set to null
+            q.BookId = null;
+        }
 
         q.UserId = userId.Value;
         _context.Quotes.Add(q);
         await _context.SaveChangesAsync();
+        
+        // Load the Book relation for the response
+        await _context.Entry(q).Reference(q => q.Book).LoadAsync();
         return Ok(q);
     }
 
-    // PUT: update - only owner or admin
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] Quote updated)
     {
@@ -77,20 +90,40 @@ public class QuotesController : ControllerBase
         var userId = GetCurrentUserId();
         if (!IsOwnerOrAdmin(quote.UserId, userId)) return Forbid();
 
-        // allow updating text and (optionally) BookId
+        // Validate required fields
+        if (string.IsNullOrWhiteSpace(updated.Text))
+            return BadRequest(new { message = "Text is required" });
+            
+        if (string.IsNullOrWhiteSpace(updated.Author))
+            return BadRequest(new { message = "Author is required" });
+
         quote.Text = updated.Text;
-        if (updated.BookId != 0 && updated.BookId != quote.BookId)
+        quote.Author = updated.Author; // Don't forget Author!
+        
+        // Handle BookId update - it can be null now
+        if (updated.BookId.HasValue && updated.BookId.Value != 0)
         {
-            var bookExists = await _context.Books.AnyAsync(b => b.Id == updated.BookId);
-            if (!bookExists) return BadRequest(new { message = "New BookId does not exist" });
-            quote.BookId = updated.BookId;
+            if (updated.BookId.Value != quote.BookId)
+            {
+                var bookExists = await _context.Books.AnyAsync(b => b.Id == updated.BookId.Value);
+                if (!bookExists) 
+                    return BadRequest(new { message = "New BookId does not exist" });
+                quote.BookId = updated.BookId.Value;
+            }
+        }
+        else
+        {
+            // Allow setting BookId to null
+            quote.BookId = null;
         }
 
         await _context.SaveChangesAsync();
+        
+        // Load the Book relation for the response
+        await _context.Entry(quote).Reference(q => q.Book).LoadAsync();
         return Ok(quote);
     }
 
-    // DELETE - only owner or admin
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -117,7 +150,6 @@ public class QuotesController : ControllerBase
     {
         if (currentUserId == null) return false;
         if (resourceOwnerUserId == currentUserId) return true;
-        // admin?
         var role = User.FindFirst(ClaimTypes.Role)?.Value;
         if (role == "Admin") return true;
         return false;

@@ -3,6 +3,7 @@ using System;
 using BookWebApp.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookWebApp.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251207190907_MakeBookIdNullableAndAddAuthorToQuotes")]
+    partial class MakeBookIdNullableAndAddAuthorToQuotes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -25,6 +28,7 @@ namespace BookWebApp.Api.Migrations
 
                     b.Property<string>("Author")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("PublishDate")
@@ -32,6 +36,7 @@ namespace BookWebApp.Api.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -47,6 +52,7 @@ namespace BookWebApp.Api.Migrations
 
                     b.Property<string>("Author")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("BookId")
@@ -54,6 +60,7 @@ namespace BookWebApp.Api.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
+                        .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
@@ -99,7 +106,7 @@ namespace BookWebApp.Api.Migrations
                     b.HasOne("BookWebApp.Api.Models.Book", "Book")
                         .WithMany("Quotes")
                         .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BookWebApp.Api.Models.User", "User")
                         .WithMany("Quotes")
