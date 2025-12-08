@@ -6,18 +6,26 @@ and the backend uses a .NET 9 API deployed via Render with a PostgreSQL database
 ### Frontend (Angular)
 #### Structure
 Components:
-books
-quotes
-dashboard
-bookform
-homepage
-navbar
+books,
+
+quotes,
+
+dashboard,
+
+bookform,
+
+homepage, 
+
+navbar,
 
 #### Services:
-Book service
-Quote service
-Theme
-Translations
+Book service, 
+
+Quote service,
+
+Theme,
+
+Translations (eng/sv)
 
 #### Features:
 Crud for both books and quotes independently
@@ -26,18 +34,24 @@ Admin dashboard functionalities
 
 ### Backend (.NET 9 API)
 #### Models:
-Book
-Quote
+Book,
+
+Quote,
+
 User
 
 #### Controllers:
-BooksController
-QuotesController
-UserController
+BooksController,
+
+QuotesController,
+
+UserController,
 
 #### API configuration
-EF Core setup
-JWT auth
+EF Core setup,
+
+JWT auth,
+
 CORS policy
 
 #### Database
