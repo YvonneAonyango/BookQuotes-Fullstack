@@ -1,19 +1,39 @@
- /* General Container */
+/* ==============================
+   General Container
+============================== */
 .container-fluid {
   padding: 1rem 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0b1e3b; /* dark blue background */
-  color: #ffffff;
+  background-color: #f9fafb; /* Light mode background */
+  color: #1f2937;
   min-height: 100vh;
 }
 
-/* Header */
-h1.h3 {
-  font-weight: 600;
-  color: #ffffff;
+body.dark-mode .container-fluid {
+  background-color: #0f172a;
+  color: #e0e7ff;
 }
 
-/* Buttons */
+/* ==============================
+   Page Header
+============================== */
+.d-flex.justify-content-between.align-items-center.mb-4 {
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+h1.h3 {
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+body.dark-mode h1.h3 {
+  color: #60a5fa;
+}
+
+/* ==============================
+   Buttons
+============================== */
 .btn-outline-primary,
 .btn-outline-success,
 .btn-outline-info {
@@ -23,59 +43,69 @@ h1.h3 {
 }
 
 .btn-outline-primary:hover {
-  background-color: #1e3a5f;
+  background-color: #3b82f6;
   color: #ffffff;
-  border-color: #1e3a5f;
+  border-color: #3b82f6;
 }
 
 .btn-outline-success:hover {
-  background-color: #2b6a4a;
+  background-color: #22c55e;
   color: #ffffff;
-  border-color: #2b6a4a;
+  border-color: #22c55e;
 }
 
 .btn-outline-info:hover {
-  background-color: #3a7ca5;
+  background-color: #0ea5e9;
   color: #ffffff;
-  border-color: #3a7ca5;
+  border-color: #0ea5e9;
 }
 
-/* Cards */
+/* ==============================
+   Stats Cards
+============================== */
+.row.mb-4 {
+  gap: 1rem;
+}
+
 .card {
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+body.dark-mode .card {
+  background-color: #1e293b;
+  color: #e0e7ff;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
-/* Card Titles */
-.card-title, .card-subtitle {
-  font-weight: 600;
-}
-
-/* Stats Cards Backgrounds */
+/* Card background gradients */
 .card.bg-primary {
-  background: linear-gradient(135deg, #1e3a5f, #3a5c87);
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: #fff;
 }
 
 .card.bg-success {
-  background: linear-gradient(135deg, #2b6a4a, #4a9363);
+  background: linear-gradient(135deg, #22c55e, #4ade80);
+  color: #fff;
 }
 
 .card.bg-info {
-  background: linear-gradient(135deg, #3a7ca5, #5ba0c8);
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: #fff;
 }
 
 .card.bg-warning {
-  background: linear-gradient(135deg, #d4a017, #f0c75e);
-  color: #0b1e3b;
+  background: linear-gradient(135deg, #facc15, #fde68a);
+  color: #1f2937;
 }
 
-/* Card Icons */
 .card i {
   opacity: 0.6;
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -86,49 +116,58 @@ h1.h3 {
   transform: scale(1.1);
 }
 
-/* Spinner */
-.spinner-border {
-  width: 3rem;
-  height: 3rem;
-  border-width: 0.3rem;
-  color: #1e3a5f;
-}
-
-/* Quick Actions Buttons */
+/* ==============================
+   Quick Action Buttons
+============================== */
 .card-body .btn-lg {
   border-radius: 12px;
   font-size: 1.1rem;
   padding: 1rem 0.5rem;
+  width: 100%;
 }
 
-/* Responsive adjustments */
+.card-body .btn-lg i {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+/* ==============================
+   Responsive Layout
+============================== */
+@media (max-width: 1200px) {
+  .row.mb-4 {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .row.mb-4 {
+    flex-wrap: wrap;
+  }
+
+  .d-flex.justify-content-between.align-items-center.mb-4 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
-  .card i {
-    font-size: 1.5rem !important;
-  }
-
-  .card-title {
-    font-size: 1.25rem;
-  }
-
-  .card-subtitle {
-    font-size: 0.9rem;
-  }
-
-  .btn-lg {
-    font-size: 1rem;
-    padding: 0.8rem 0.5rem;
+  .row.mb-4 .col-md-3 {
+    flex: 0 0 48%;
+    max-width: 48%;
   }
 }
 
 @media (max-width: 576px) {
-  .d-flex.justify-content-between {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .row > .col-md-3 {
+  .row.mb-4 .col-md-3 {
     flex: 0 0 100%;
     max-width: 100%;
+  }
+
+  .card-body .btn-lg {
+    font-size: 1rem;
+    padding: 0.8rem 0.5rem;
   }
 }

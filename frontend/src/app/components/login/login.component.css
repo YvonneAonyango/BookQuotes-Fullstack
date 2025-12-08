@@ -1,3 +1,4 @@
+/* Login Page Container */
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -11,9 +12,10 @@ body.dark-mode .login-page {
   background: #1a1a1a;
 }
 
+/* Login Card */
 .login-card {
   width: 100%;
-  max-width: 400px;
+  max-width: 500px; /* Increased max width for desktop */
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -25,7 +27,7 @@ body.dark-mode .login-card {
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-/* Card header - warm dark blue */
+/* Card Header */
 .card-header {
   background: #4264a2;
   color: white;
@@ -39,7 +41,7 @@ body.dark-mode .card-header {
 
 .card-header h2 {
   margin: 0 0 10px 0;
-  font-size: 24px;
+  font-size: 26px;
 }
 
 .subtitle {
@@ -48,6 +50,7 @@ body.dark-mode .card-header {
   font-size: 14px;
 }
 
+/* Card Body */
 .card-body {
   padding: 30px;
 }
@@ -58,6 +61,7 @@ form {
   gap: 20px;
 }
 
+/* Form Groups */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -74,7 +78,7 @@ body.dark-mode label {
 }
 
 input {
-  padding: 12px;
+  padding: 14px;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 16px;
@@ -118,6 +122,7 @@ body.dark-mode .error-text {
   color: #ff6b81;
 }
 
+/* Error Alerts */
 .alert-danger {
   background: #ffebee;
   color: #c62828;
@@ -131,6 +136,7 @@ body.dark-mode .alert-danger {
   color: #ff8a80;
 }
 
+/* Buttons */
 .btn-login {
   background: #375181;
   color: white;
@@ -164,6 +170,7 @@ body.dark-mode .btn-login:hover:not(:disabled) {
   cursor: not-allowed;
 }
 
+/* Spinner */
 .spinner {
   width: 18px;
   height: 18px;
@@ -177,6 +184,7 @@ body.dark-mode .btn-login:hover:not(:disabled) {
   to { transform: rotate(360deg); }
 }
 
+/* Register Link */
 .register-link {
   text-align: center;
   padding-top: 20px;
@@ -211,29 +219,62 @@ body.dark-mode .register-link a {
   text-decoration: underline;
 }
 
-/* Responsive */
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark-mode .theme-toggle-btn {
+  background: #3a3a3a;
+  color: #ddd;
+  border-color: #555;
+}
+
+.theme-toggle-btn:hover {
+  background: #f0f0f0;
+}
+
+body.dark-mode .theme-toggle-btn:hover {
+  background: #4a4a4a;
+}
+
+/* Responsive Styles */
+
+/* Mobile phones (<480px) */
 @media (max-width: 480px) {
-  .login-page {
-    padding: 15px;
-  }
-  
-  .card-header {
-    padding: 25px 15px;
-  }
-  
-  .card-header h2 {
-    font-size: 22px;
-  }
-  
-  .card-body {
-    padding: 25px;
-  }
-  
-  form {
-    gap: 18px;
-  }
-  
-  input, .btn-login {
-    padding: 12px;
-  }
+  .login-page { padding: 15px; }
+  .card-header { padding: 25px 15px; }
+  .card-header h2 { font-size: 22px; }
+  .card-body { padding: 25px; }
+  form { gap: 18px; }
+  input, .btn-login { padding: 12px; font-size: 14px; }
+  .theme-toggle-btn { padding: 8px 12px; font-size: 13px; }
+}
+
+/* Small tablets (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .login-card { max-width: 450px; }
+  .card-header h2 { font-size: 24px; }
+  input, .btn-login { padding: 13px; font-size: 15px; }
+}
+
+/* Large tablets / small desktops (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .login-card { max-width: 480px; }
+  .card-header h2 { font-size: 25px; }
+  input, .btn-login { padding: 14px; font-size: 16px; }
+}
+
+/* Large desktops (>1024px) */
+@media (min-width: 1025px) {
+  .login-card { max-width: 500px; }
+  .card-header h2 { font-size: 26px; }
 }

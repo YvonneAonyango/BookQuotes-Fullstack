@@ -1,17 +1,20 @@
 /* ==============================
-   General Page Styles
+   Page Styles
 ============================== */
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #0f172a; /* Warm dark-blue background */
-  color: #e0e7ff;
-  margin: 0;
-  padding: 0;
-}
-
 .quotes-page {
   padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
   min-height: 100vh;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  color: #1f2937; /* Dark text for light mode */
+  background-color: #f8fafc; /* Light page background */
+}
+
+body.dark-mode .quotes-page {
+  color: #e0e7ff;
+  background-color: #0f172a;
 }
 
 /* ==============================
@@ -25,32 +28,29 @@ body {
 .page-header h1 {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 0.5rem;
+  color: #1e3a8a;
+}
+
+body.dark-mode .page-header h1 {
+  color: #60a5fa;
 }
 
 .page-header .lead {
   font-size: 1.2rem;
+  color: #6b7280;
+}
+
+body.dark-mode .page-header .lead {
   color: #c7d2fe;
 }
 
 /* ==============================
-   Layout: Quotes Container
+   Quotes Container Grid
 ============================== */
 .quotes-container {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-@media (max-width: 1200px) {
-  .quotes-container {
-    grid-template-columns: 1fr 1.5fr;
-  }
 }
 
 @media (max-width: 1024px) {
@@ -60,50 +60,59 @@ body {
 }
 
 /* ==============================
-   Left Column: Quote Form
+   Quote Form Card
 ============================== */
-.left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.card {
-  background-color: #1e293b;
+.quote-form-card {
+  background-color: #ffffff;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+body.dark-mode .quote-form-card {
+  background-color: #1e293b;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
 }
 
-.card-header h5 {
+.quote-form-card .card-header h5 {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+body.dark-mode .quote-form-card .card-header h5 {
   color: #60a5fa;
 }
 
-.card-body textarea,
-.card-body input,
-.card-body select {
+/* Form Inputs */
+.quote-form-card input,
+.quote-form-card textarea,
+.quote-form-card select {
   width: 100%;
   padding: 0.5rem;
   border-radius: 8px;
-  border: 1px solid #334155;
-  background-color: #0f172a;
-  color: #e0e7ff;
+  border: 1px solid #cbd5e1;
   font-size: 0.95rem;
-}
-
-.invalid-feedback {
-  color: #f87171;
-  font-size: 0.875rem;
   margin-top: 0.25rem;
 }
 
-.d-flex.gap-2 button {
+body.dark-mode .quote-form-card input,
+body.dark-mode .quote-form-card textarea,
+body.dark-mode .quote-form-card select {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #e0e7ff;
+}
+
+.invalid-feedback {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* Form Buttons */
+.form-buttons button {
+  flex: 1;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   border: none;
@@ -114,201 +123,138 @@ body {
   transition: all 0.3s ease;
 }
 
-.d-flex.gap-2 button:hover:not(:disabled) {
+.form-buttons button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(59,130,246,0.3);
 }
 
-.d-flex.gap-2 button:disabled {
-  background-color: #334155;
+.form-buttons button:disabled {
+  background-color: #cbd5e1;
   cursor: not-allowed;
 }
 
 /* ==============================
-   Favourite Quotes Section
+   Quotes List Cards
 ============================== */
-.favourite-quotes-section .favourite-quote-item {
-  background-color: #1e293b;
-  border-radius: 12px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: all 0.3s ease;
-}
-
-.favourite-quote-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-}
-
-.favourite-quote-text {
-  font-style: italic;
-  color: #e0e7ff;
-}
-
-.favourite-quote-author {
-  color: #60a5fa;
-  font-weight: 600;
-}
-
-.favourite-quote-book {
-  color: #3b82f6;
-  font-size: 0.9rem;
-}
-
-.favourite-quote-actions button {
-  padding: 0.4rem 0.75rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: 500;
-  cursor: pointer;
-  background: linear-gradient(90deg, #ef4444, #f87171);
-  color: #fff;
-  transition: all 0.3s ease;
-}
-
-.favourite-quote-actions button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239,68,68,0.3);
-}
-
-/* ==============================
-   Right Column: All Quotes
-============================== */
-.all-quotes-section h3 {
-  font-size: 1.6rem;
-  margin-bottom: 1.5rem;
-  color: #c7d2fe;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.count-badge {
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
-  color: #fff;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
 .quotes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
 .quote-card {
-  background-color: #1e293b;
-  padding: 1.5rem;
+  background-color: #ffffff;
   border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
-  color: #e0e7ff;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
   transition: all 0.3s ease;
+}
+
+body.dark-mode .quote-card {
+  background-color: #1e293b;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
 }
 
 .quote-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
 .quote-text {
   font-style: italic;
   font-size: 1rem;
   margin-bottom: 0.75rem;
+  color: #1f2937;
+}
+
+body.dark-mode .quote-text {
+  color: #e0e7ff;
 }
 
 .quote-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
 .quote-author {
-  color: #3b82f6;
   font-weight: 600;
+  color: #2563eb;
+}
+
+body.dark-mode .quote-author {
+  color: #60a5fa;
 }
 
 .quote-book {
-  color: #60a5fa;
-  font-size: 0.9rem;
+  color: #3b82f6;
 }
 
-/* Quote Card Actions */
-.quote-card-footer {
+body.dark-mode .quote-book {
+  color: #93c5fd;
+}
+
+/* Quote Card Buttons */
+.quote-card-actions {
   display: flex;
   gap: 0.5rem;
-  margin-top: auto;
 }
 
-.quote-card-footer button {
+.quote-card-actions button {
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 8px;
-  font-weight: 600;
   border: none;
   cursor: pointer;
-  color: #fff;
+  font-weight: 600;
   transition: all 0.3s ease;
+  color: #fff;
 }
 
-.quote-card-footer button:nth-child(1) {
+.quote-card-actions button:first-child {
   background: linear-gradient(90deg, #3b82f6, #60a5fa);
 }
 
-.quote-card-footer button:nth-child(1):hover {
+.quote-card-actions button:first-child:hover {
   background: linear-gradient(90deg, #2563eb, #3b82f6);
 }
 
-.quote-card-footer button:nth-child(2) {
+.quote-card-actions button:last-child {
   background: linear-gradient(90deg, #ef4444, #f87171);
 }
 
-.quote-card-footer button:nth-child(2):hover {
+.quote-card-actions button:last-child:hover {
   background: linear-gradient(90deg, #dc2626, #ef4444);
 }
 
-/* ==============================
-   Empty States
-============================== */
-.empty-favourites-state,
+/* Empty State */
 .empty-quotes-state {
   text-align: center;
   padding: 2rem;
   border-radius: 12px;
-  background: rgba(30,41,59,0.5);
-  border: 2px dashed #334155;
+  border: 2px dashed #cbd5e1;
+  color: #6b7280;
+}
+
+body.dark-mode .empty-quotes-state {
+  border-color: #334155;
   color: #c7d2fe;
 }
 
-/* ==============================
-   Responsive Adjustments
-============================== */
+/* Responsive */
 @media (max-width: 768px) {
   .quotes-container {
-    padding: 1rem;
+    grid-template-columns: 1fr;
   }
 
-  .page-header h1 {
-    font-size: 2rem;
-  }
-
-  .card-body textarea,
-  .card-body input,
-  .card-body select {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .quote-card-footer {
+  .form-buttons {
     flex-direction: column;
   }
 
-  .quote-card-footer button {
+  .form-buttons button {
     width: 100%;
   }
 }

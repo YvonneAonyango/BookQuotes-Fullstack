@@ -4,6 +4,10 @@
     <div class="card-header">
       <h2>{{ 'login' | translate }}</h2>
       <p class="subtitle">{{ 'loginSubtitle' | translate }}</p>
+      <!-- Theme Toggle -->
+      <button class="theme-toggle-btn" (click)="toggleTheme()">
+        {{ isDarkMode() ? 'Switch to Light' : 'Switch to Dark' }}
+      </button>
     </div>
 
     <div class="card-body">

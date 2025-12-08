@@ -73,7 +73,7 @@
               </button>
               <button type="submit" class="btn btn-primary flex-grow-1 py-3" [disabled]="bookForm.invalid || isLoading">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                <i *ngIf="!isLoading" class="bi me-2" [class.bi-plus-circle]="!isEdit" [class.bi-pencil-square]="isEdit"></i>
+                <i *ngIf="!isLoading && isEdit" class="bi bi-pencil-square me-2"></i>
                 {{ isEdit ? ('updateBook' | translate) : ('addBook' | translate) }}
               </button>
             </div>
