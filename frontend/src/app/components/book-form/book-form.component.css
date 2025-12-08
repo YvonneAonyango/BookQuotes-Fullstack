@@ -8,6 +8,7 @@
   min-height: calc(100vh - 60px); /* adjust if you have a navbar */
   background-color: #f8f9fa;
   padding: 1rem;
+  box-sizing: border-box;
 }
 
 body.dark-mode :host {
@@ -47,6 +48,8 @@ body.dark-mode .card-header {
 /* Card body */
 .card-body {
   padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Form controls */
@@ -55,6 +58,7 @@ body.dark-mode .card-header {
   border: 1px solid #dee2e6;
   padding: 0.75rem;
   transition: all 0.2s ease;
+  font-size: 1rem;
 }
 
 body.dark-mode .form-control {
@@ -90,6 +94,16 @@ body.dark-mode .form-label {
   border-radius: 6px;
   font-weight: 600;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* spacing between icon and text */
+  font-size: 1rem;
+}
+
+.btn i {
+  font-size: 1rem; /* fixes huge + icon */
+  vertical-align: middle;
 }
 
 .btn-primary {
@@ -171,6 +185,9 @@ body.dark-mode .btn-light {
 /* Spinner */
 .spinner-border {
   vertical-align: middle;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-width: 0.2em;
 }
 
 /* Responsive adjustments */
@@ -178,11 +195,11 @@ body.dark-mode .btn-light {
   :host {
     padding: 0.5rem;
   }
-  
+
   .card-body {
     padding: 1rem;
   }
-  
+
   .btn {
     width: 100%;
     margin-bottom: 0.5rem;
@@ -193,11 +210,11 @@ body.dark-mode .btn-light {
   :host {
     padding: 0.25rem;
   }
-  
+
   .card-body {
     padding: 0.75rem;
   }
-  
+
   .form-control {
     padding: 0.6rem;
   }

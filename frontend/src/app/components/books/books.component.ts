@@ -20,7 +20,7 @@ export class BooksComponent implements OnInit {
 
   showFormModal = false;
   editingBook?: Book;
-  isEditMode = false; // Added to track edit mode
+  isEditMode = false;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -50,18 +50,14 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  // Open form modal for adding or editing
   openForm(book?: Book): void {
     this.isEditMode = !!book;
 
-    if (book) {
-      // Map backend PublishDate → frontend publishDate if needed
-      if ((book as any).PublishDate && !book.publishDate) {
-        book.publishDate = (book as any).PublishDate;
-      }
+    if (book && (book as any).PublishDate && !book.publishDate) {
+      book.publishDate = (book as any).PublishDate;
     }
 
-    this.editingBook = book ? { ...book } : undefined; // clone to avoid modifying original
+    this.editingBook = book ? { ...book } : undefined;
     this.showFormModal = true;
   }
 
@@ -73,6 +69,11 @@ export class BooksComponent implements OnInit {
   }
 
   addBook(): void {
+    if (!this.isLoggedIn()) {
+      alert(this.translate.instant('loginRequired'));
+      this.router.navigate(['/login']);
+      return;
+    }
     this.openForm();
   }
 
@@ -100,5 +101,9 @@ export class BooksComponent implements OnInit {
     } catch {
       return dateString;
     }
+  }
+
+  private isLoggedIn(): boolean {
+    return !!localStorage.getItem('token'); // or use AuthService
   }
 }
