@@ -13,13 +13,13 @@ bookform
 homepage
 navbar
 
-####Services:
+#### Services:
 Book service
 Quote service
 Theme
 Translations
 
-####Features:
+#### Features:
 Crud for both books and quotes independently
 JWT Authentication (login/register)
 Admin dashboard functionalities
