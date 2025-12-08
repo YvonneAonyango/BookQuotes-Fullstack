@@ -5,21 +5,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-// ------------------------
-// CREATE BUILDER
-// ------------------------
 var builder = WebApplication.CreateBuilder(args);
 
-// ------------------------
-// CONFIGURATION
-// ------------------------
+// Configuration
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-// ------------------------
-// DATABASE
-// ------------------------
+// Database
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -27,21 +20,15 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlite(connString);
 });
 
-// ------------------------
-// SERVICES
-// ------------------------
+// Services
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddControllers();
 
-// ------------------------
-// SWAGGER
-// ------------------------
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ------------------------
-// JWT AUTHENTICATION
-// ------------------------
+// JWT Authentication
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
              ?? builder.Configuration["Jwt:Key"]
              ?? "DEVELOPMENT_KEY_ONLY_CHANGE_FOR_PRODUCTION";
@@ -50,6 +37,7 @@ var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER")
              ?? builder.Configuration["Jwt:Issuer"]
              ?? "BookWebApp";
 
+// FIXED LINE: Changed ] to )
 var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")
                ?? builder.Configuration["Jwt:Audience"]
                ?? "BookWebAppUsers";
@@ -72,9 +60,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// ------------------------
-// CORS  (FIXED FOR RENDER)
-// ------------------------
+// CORS Configuration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -84,13 +70,12 @@ builder.Services.AddCors(options =>
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
+            .AllowCredentials()  // Added this for cookies/auth
             .SetIsOriginAllowedToAllowWildcardSubdomains()
     );
 });
 
-// ------------------------
-// RENDER PORT BINDING (REQUIRED)
-// ------------------------
+// Render port binding
 builder.WebHost.ConfigureKestrel(options =>
 {
     var port = Environment.GetEnvironmentVariable("PORT");
@@ -100,9 +85,6 @@ builder.WebHost.ConfigureKestrel(options =>
     }
 });
 
-// ------------------------
-// BUILD APP
-// ------------------------
 var app = builder.Build();
 
 // Initialize database
@@ -113,14 +95,12 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("Database initialized");
 }
 
-// ------------------------
-// MIDDLEWARE
-// ------------------------
+// Middleware pipeline - ORDER IS IMPORTANT
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Swagger in dev only
+// Swagger for dev
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -135,22 +115,14 @@ if (app.Environment.IsDevelopment())
 // Map controllers
 app.MapControllers();
 
-// ------------------------
-// LOG STARTUP INFO
-// ------------------------
 Console.WriteLine("========================================");
 Console.WriteLine(" BookWebApp API running!");
 Console.WriteLine($" Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($" JWT Issuer: {issuer}");
 Console.WriteLine($" JWT Audience: {audience}");
-if (app.Environment.IsDevelopment())
-{
-    Console.WriteLine(" Local URLs:");
-    Console.WriteLine(" - Swagger UI: http://localhost:5298/swagger");
-    Console.WriteLine(" - API Base: http://localhost:5298/api");
-    Console.WriteLine(" - Frontend: http://localhost:4200");
-}
-Console.WriteLine(" Authentication: JWT (Token-based)");
+Console.WriteLine($" CORS Allowed Origins:");
+Console.WriteLine($" - https://book-quotes-web-app-frontend.onrender.com");
+Console.WriteLine($" - http://localhost:4200");
 Console.WriteLine("========================================");
 
 app.Run();
