@@ -11,14 +11,10 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import {
-  faSun,
-  faMoon,
-  faSignOutAlt,
   faHome,
   faGlobe,
   faSignInAlt,
   faUserPlus,
-  faHeart,
   faBars,
   faBook,
   faQuoteRight
@@ -38,14 +34,10 @@ import {
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  faSun = faSun;
-  faMoon = faMoon;
-  faSignOutAlt = faSignOutAlt;
   faHome = faHome;
   faGlobe = faGlobe;
   faSignInAlt = faSignInAlt;
   faUserPlus = faUserPlus;
-  faHeart = faHeart;
   faBars = faBars;
   faBook = faBook;
   faQuoteRight = faQuoteRight;
@@ -59,7 +51,6 @@ export class NavbarComponent implements OnInit {
   themeService = inject(ThemeService);
   private router = inject(Router);
   private translate = inject(TranslateService);
-
   private meta = inject(Meta);
   private titleService = inject(Title);
 
@@ -91,14 +82,6 @@ export class NavbarComponent implements OnInit {
 
   private checkRoute(url: string) {
     this.isHomePage = url === '/' || url === '/home';
-  }
-
-  get isDarkMode(): boolean {
-    return this.themeService.isDarkMode();
-  }
-
-  toggleDarkMode(): void {
-    this.themeService.toggleTheme();
   }
 
   switchLanguage(language: Language): void {

@@ -45,11 +45,6 @@
           </div>
         </div>
 
-        <!-- Dark Mode Toggle -->
-        <button class="btn-darkmode" (click)="toggleDarkMode()" aria-label="Toggle Dark Mode">
-          <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
-        </button>
-
         <!-- Auth Buttons -->
         <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
           <a class="btn btn-outline-light btn-sm" routerLink="/login" aria-label="Login">
@@ -61,7 +56,7 @@
         </ng-container>
         <ng-template #loggedIn>
           <button class="btn btn-outline-light btn-sm" (click)="logout()" aria-label="Logout">
-            <fa-icon [icon]="faSignOutAlt"></fa-icon>
+            Logout
           </button>
         </ng-template>
       </div>
