@@ -1,6 +1,6 @@
 ## Project Overview
 This project is a full‑stack application where users can register, log in, add and store books, and document their favourite quotes. 
-Quotes are not required to be associated with books. The frontend is built with Angular, 
+Quotes are not required to be associated with books. The frontend is built with Angular 20, 
 and the backend uses a .NET 9 API deployed via Render with a PostgreSQL database.
 
 ### Frontend (Angular)
