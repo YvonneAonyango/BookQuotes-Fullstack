@@ -7,24 +7,16 @@ and the backend uses a .NET 9 API deployed via Render with a PostgreSQL database
 #### Structure
 Components:
 books,
-
 quotes,
-
 dashboard,
-
 bookform,
-
 homepage, 
-
 navbar,
 
 #### Services:
 Book service, 
-
 Quote service,
-
 Theme,
-
 Translations (eng/sv)
 
 #### Features:
@@ -35,23 +27,17 @@ Admin dashboard functionalities
 ### Backend (.NET 9 API)
 #### Models:
 Book,
-
 Quote,
-
 User
 
 #### Controllers:
 BooksController,
-
 QuotesController,
-
 UserController,
 
 #### API configuration
 EF Core setup,
-
 JWT auth,
-
 CORS policy
 
 #### Database
