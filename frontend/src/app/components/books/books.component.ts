@@ -30,7 +30,6 @@ export class BooksComponent implements OnInit {
       name: 'description',
       content: 'Browse and manage your books in your personal library with BookWebApp.'
     });
-
     this.loadBooks();
   }
 
@@ -75,7 +74,6 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  // Helper method to format date
   formatDate(dateString: string): string {
     try {
       const date = new Date(dateString);
@@ -84,8 +82,8 @@ export class BooksComponent implements OnInit {
         month: 'long',
         day: 'numeric'
       });
-    } catch (error) {
-      return dateString; // Return original string if parsing fails
+    } catch {
+      return dateString;
     }
   }
 }

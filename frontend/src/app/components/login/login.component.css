@@ -1,3 +1,5 @@
+/* ===== LOGIN PAGE ===== */
+
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -25,15 +27,16 @@ body.dark-mode .login-card {
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
+/* Card header - warm dark blue */
 .card-header {
-  background: #4a6bff;
+  background: #1f3b6f;
   color: white;
   padding: 30px 20px;
   text-align: center;
 }
 
 body.dark-mode .card-header {
-  background: #3a5bd9;
+  background: #16305a;
 }
 
 .card-header h2 {
@@ -90,13 +93,13 @@ body.dark-mode input {
 
 input:focus {
   outline: none;
-  border-color: #4a6bff;
-  box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
+  border-color: #1f3b6f;
+  box-shadow: 0 0 0 2px rgba(31, 59, 111, 0.2);
 }
 
 body.dark-mode input:focus {
-  border-color: #3a5bd9;
-  box-shadow: 0 0 0 2px rgba(58, 91, 217, 0.3);
+  border-color: #16305a;
+  box-shadow: 0 0 0 2px rgba(22, 48, 90, 0.3);
 }
 
 input.is-invalid {
@@ -130,8 +133,9 @@ body.dark-mode .alert-danger {
   color: #ff8a80;
 }
 
+/* Buttons */
 .btn-login {
-  background: #4a6bff;
+  background: #1f3b6f;
   color: white;
   border: none;
   padding: 14px;
@@ -147,11 +151,11 @@ body.dark-mode .alert-danger {
 }
 
 body.dark-mode .btn-login {
-  background: #3a5bd9;
+  background: #16305a;
 }
 
 .btn-login:hover:not(:disabled) {
-  background: #3a5bd9;
+  background: #16305a;
 }
 
 .btn-login:active:not(:disabled) {
@@ -159,7 +163,7 @@ body.dark-mode .btn-login {
 }
 
 body.dark-mode .btn-login:hover:not(:disabled) {
-  background: #2a4bc9;
+  background: #112744;
 }
 
 .btn-login:disabled {
@@ -201,13 +205,13 @@ body.dark-mode .register-link p {
 }
 
 .register-link a {
-  color: #4a6bff;
+  color: #1f3b6f;
   text-decoration: none;
   font-weight: 500;
 }
 
 body.dark-mode .register-link a {
-  color: #3a5bd9;
+  color: #16305a;
 }
 
 .register-link a:hover {

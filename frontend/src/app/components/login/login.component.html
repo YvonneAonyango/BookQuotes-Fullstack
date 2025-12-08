@@ -1,5 +1,6 @@
 <div class="login-page">
   <div class="login-card">
+    <!-- Card Header -->
     <div class="card-header">
       <h2>{{ 'login' | translate }}</h2>
       <p class="subtitle">{{ 'loginSubtitle' | translate }}</p>
@@ -7,41 +8,47 @@
 
     <div class="card-body">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Error Message -->
         <div *ngIf="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
         </div>
 
+        <!-- Username Field -->
         <div class="form-group">
-          <label for="username">{{ 'Username' | translate }}</label>
+          <label for="username">{{ 'username' | translate }}</label>
           <input type="text" 
                  id="username" 
                  formControlName="username"
                  placeholder="{{ 'enterUsername' | translate }}"
                  [class.is-invalid]="hasError('username')">
           <div class="error-text" *ngIf="hasError('username')">
-            {{ 'Username is required' | translate }}
+            {{ 'usernameRequired' | translate }}
           </div>
         </div>
 
+        <!-- Password Field -->
         <div class="form-group">
-          <label for="password">{{ 'Password' | translate }}</label>
+          <label for="password">{{ 'password' | translate }}</label>
           <input type="password" 
                  id="password" 
                  formControlName="password"
                  placeholder="{{ 'enterPassword' | translate }}"
                  [class.is-invalid]="hasError('password')">
           <div class="error-text" *ngIf="hasError('password')">
-            {{ 'Password is required' | translate }}
+            {{ 'passwordRequired' | translate }}
           </div>
         </div>
 
+        <!-- Login Button -->
         <button type="submit" 
                 class="btn-login" 
                 [disabled]="loginForm.invalid || isLoading">
           <span *ngIf="isLoading" class="spinner"></span>
+          <i *ngIf="!isLoading" class="bi bi-box-arrow-in-right"></i>
           {{ isLoading ? ('loggingIn' | translate) : ('login' | translate) }}
         </button>
 
+        <!-- Register Link -->
         <div class="register-link">
           <p>{{ 'dontHaveAccount' | translate }} 
             <a routerLink="/register">{{ 'register' | translate }}</a>

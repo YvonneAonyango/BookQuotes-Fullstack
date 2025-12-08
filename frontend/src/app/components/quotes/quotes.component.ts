@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Quote, QuoteInput, QuoteService } from '../../services/quote.service';
@@ -18,15 +18,13 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrls: ['./quotes.component.css']
 })
 export class QuotesComponent implements OnInit {
-  allQuotes: Quote[] = [];
-  favouriteQuotes: Quote[] = [];
+  allQuotes: Quote[] = [];  // All quotes from API
+  favouriteQuotes: Quote[] = [];  // Local favourites list
   books: Book[] = [];
   quoteForm: FormGroup;
   isLoading = false;
   isEdit = false;
   editingQuoteId?: number;
-
-  @ViewChild('quoteFormSection') quoteFormSection!: ElementRef;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -40,7 +38,7 @@ export class QuotesComponent implements OnInit {
     this.quoteForm = this.fb.group({
       text: ['', [Validators.required, Validators.minLength(3)]],
       author: ['', Validators.required],
-      bookId: [null]
+      bookId: [null]  // Can be null - quotes don't need books
     });
   }
 
@@ -59,6 +57,7 @@ export class QuotesComponent implements OnInit {
     this.loadFavouritesFromStorage();
   }
 
+  // Load all quotes from API
   loadAllQuotes(): void {
     this.isLoading = true;
     this.quoteService.getQuotes().subscribe({
@@ -73,6 +72,7 @@ export class QuotesComponent implements OnInit {
     });
   }
 
+  // Load books for dropdown
   loadBooks(): void {
     this.bookService.getBooks().subscribe({
       next: (books) => {
@@ -84,12 +84,16 @@ export class QuotesComponent implements OnInit {
     });
   }
 
+  // Get book title for display
   getBookTitle(bookId?: number | null): string {
     if (!bookId) return '';
     const book = this.books.find(b => b.id === bookId);
     return book ? book.title : '';
   }
 
+  // ============ FAVOURITES FUNCTIONALITY ============
+
+  // Add quote to favourites list
   addToFavourites(quote: Quote): void {
     if (!this.isInFavourites(quote.id!)) {
       this.favouriteQuotes.push(quote);
@@ -97,19 +101,23 @@ export class QuotesComponent implements OnInit {
     }
   }
 
+  // Remove quote from favourites list
   removeFromFavourites(quoteId: number): void {
     this.favouriteQuotes = this.favouriteQuotes.filter(q => q.id !== quoteId);
     this.saveFavouritesToStorage();
   }
 
+  // Check if quote is in favourites
   isInFavourites(quoteId: number): boolean {
     return this.favouriteQuotes.some(q => q.id === quoteId);
   }
 
+  // Save favourites to localStorage
   saveFavouritesToStorage(): void {
     localStorage.setItem('favouriteQuotes', JSON.stringify(this.favouriteQuotes));
   }
 
+  // Load favourites from localStorage
   loadFavouritesFromStorage(): void {
     const saved = localStorage.getItem('favouriteQuotes');
     if (saved) {
@@ -121,27 +129,34 @@ export class QuotesComponent implements OnInit {
     }
   }
 
+  // ============ CRUD OPERATIONS ============
+
+  // Submit form for create/update
   onSubmit(): void {
     if (this.quoteForm.valid) {
       this.isLoading = true;
       const formValue = this.quoteForm.value;
       
+      // Prepare quote data - bookId can be null
       const quoteData: QuoteInput = {
         text: formValue.text,
         author: formValue.author,
-        bookId: formValue.bookId || null
+        bookId: formValue.bookId || null  // Explicitly set to null if empty
       };
 
-      console.log('Sending quote data:', quoteData);
+      console.log('Sending quote data:', quoteData); // Debug log
 
       if (this.isEdit && this.editingQuoteId) {
+        // Update existing quote
         this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
           next: (updatedQuote) => {
-            console.log('Quote updated:', updatedQuote);
+            console.log('Quote updated:', updatedQuote); // Debug log
             
+            // Update in all quotes list
             const index = this.allQuotes.findIndex(q => q.id === this.editingQuoteId);
             if (index !== -1) this.allQuotes[index] = updatedQuote;
             
+            // Update in favourites if exists
             const favIndex = this.favouriteQuotes.findIndex(q => q.id === this.editingQuoteId);
             if (favIndex !== -1) this.favouriteQuotes[favIndex] = updatedQuote;
             
@@ -151,20 +166,23 @@ export class QuotesComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error updating quote:', error);
+            // Log more details
             console.error('Error response:', error.error);
             this.isLoading = false;
           }
         });
       } else {
+        // Create new quote
         this.quoteService.createQuote(quoteData).subscribe({
           next: (newQuote) => {
-            console.log('Quote created:', newQuote);
+            console.log('Quote created:', newQuote); // Debug log
             this.allQuotes.push(newQuote);
             this.resetForm();
             this.isLoading = false;
           },
           error: (error) => {
             console.error('Error creating quote:', error);
+            // Log more details
             console.error('Error response:', error.error);
             this.isLoading = false;
           }
@@ -173,6 +191,7 @@ export class QuotesComponent implements OnInit {
     }
   }
 
+  // Edit a quote
   editQuote(quote: Quote): void {
     this.isEdit = true;
     this.editingQuoteId = quote.id;
@@ -183,23 +202,32 @@ export class QuotesComponent implements OnInit {
       bookId: quote.bookId || null
     });
     
-    console.log('Editing quote ID:', quote.id);
-    this.scrollToQuoteForm();
+    console.log('Editing quote ID:', quote.id); // Debug log
+    
+    // Scroll to form
+    document.querySelector('.quote-form-section')?.scrollIntoView({ 
+      behavior: 'smooth' 
+    });
   }
 
+  // Delete a quote
   deleteQuote(quoteId: number): void {
     this.translate.get('confirmDeleteQuote').subscribe((translated: string) => {
       const confirmMessage = translated || 'Are you sure you want to delete this quote?';
       
       if (confirm(confirmMessage)) {
-        console.log('Deleting quote ID:', quoteId);
+        console.log('Deleting quote ID:', quoteId); // Debug log
         this.quoteService.deleteQuote(quoteId).subscribe({
           next: () => {
-            console.log('Quote deleted successfully');
+            console.log('Quote deleted successfully'); // Debug log
             
+            // Remove from all quotes
             this.allQuotes = this.allQuotes.filter(q => q.id !== quoteId);
+            
+            // Remove from favourites
             this.removeFromFavourites(quoteId);
             
+            // Reset form if editing this quote
             if (this.editingQuoteId === quoteId) {
               this.resetForm();
             }
@@ -212,6 +240,7 @@ export class QuotesComponent implements OnInit {
     });
   }
 
+  // Reset form
   resetForm(): void {
     this.quoteForm.reset({
       text: '',
@@ -222,16 +251,8 @@ export class QuotesComponent implements OnInit {
     this.editingQuoteId = undefined;
   }
 
+  // Cancel editing
   cancelEdit(): void {
     this.resetForm();
-  }
-
-  scrollToQuoteForm(): void {
-    if (this.quoteFormSection?.nativeElement) {
-      this.quoteFormSection.nativeElement.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
   }
 }

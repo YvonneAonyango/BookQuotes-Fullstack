@@ -41,10 +41,8 @@ export class HomeComponent implements OnInit {
   private translate = inject(TranslateService);
 
   ngOnInit(): void {
-    // Set page title
     this.titleService.setTitle('BookWebApp - Home');
 
-    // SEO description using translation
     this.translate.get('homeDescription').subscribe((translated: string) => {
       this.meta.updateTag({
         name: 'description',

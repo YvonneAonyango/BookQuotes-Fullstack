@@ -1,13 +1,13 @@
-/* ===== BOOKS PAGE STYLES ===== */
+/* ===== BASE PAGE ===== */
 .books-page {
   padding: 20px;
   margin-top: 10px;
 }
 
-/* Page Header - Lowered with more spacing */
+/* ===== PAGE HEADER ===== */
 .page-header {
-  margin-top: 2rem; /* Increased from 1rem */
-  margin-bottom: 2.5rem; /* Increased from 2rem */
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,7 +23,7 @@
   font-size: 2rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 0.5rem; /* Add spacing below title */
+  margin-bottom: 0.5rem;
 }
 
 .page-header .lead {
@@ -36,41 +36,69 @@
   margin-top: 0.5rem;
 }
 
-/* Single "Add New Book" button styling - FIXED PLUS ICON */
-.btn-primary.add-book-btn {
-  background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.625rem 1.25rem;
-  font-size: 0.95rem;
-  font-weight: 500;
+/* ===== DASHBOARD BUTTONS ===== */
+.btn-dashboard {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.btn-dashboard i {
+  font-size: 1rem;
+}
+
+/* Add / Primary */
+.btn-primary-dashboard {
+  background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+  color: white;
+  border: none;
   box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
   min-width: 140px;
   height: 40px;
 }
 
-.btn-primary.add-book-btn:hover {
+.btn-primary-dashboard:hover {
+  background: linear-gradient(135deg, #2c78c7 0%, #1f4e8c 100%);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(49, 130, 206, 0.4);
-  background: linear-gradient(135deg, #2c78c7 0%, #1f4e8c 100%);
 }
 
-.btn-primary.add-book-btn:active {
+.btn-primary-dashboard:active {
   transform: translateY(0);
   box-shadow: 0 3px 10px rgba(49, 130, 206, 0.3);
 }
 
-.btn-primary.add-book-btn i {
-  font-size: 0.9rem !important;
+/* Edit */
+.btn-edit-dashboard {
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+  color: white;
+  border: none;
 }
 
-/* Books grid */
+.btn-edit-dashboard:hover {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+}
+
+/* Delete */
+.btn-delete-dashboard {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  color: white;
+  border: none;
+}
+
+.btn-delete-dashboard:hover {
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+}
+
+/* ===== BOOKS GRID ===== */
 .books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -133,6 +161,7 @@
   margin-top: 0.25rem;
 }
 
+/* Footer buttons */
 .book-card-footer {
   padding: 0.75rem 1rem;
   background: #f8f9fa;
@@ -148,27 +177,7 @@
   border-radius: 6px;
 }
 
-.book-card-footer .btn-outline-primary {
-  color: #3182ce;
-  border-color: #3182ce;
-}
-
-.book-card-footer .btn-outline-primary:hover {
-  background: #3182ce;
-  color: white;
-}
-
-.book-card-footer .btn-outline-danger {
-  color: #e74c3c;
-  border-color: #e74c3c;
-}
-
-.book-card-footer .btn-outline-danger:hover {
-  background: #e74c3c;
-  color: white;
-}
-
-/* Empty state - Improved styling */
+/* Empty State */
 .empty-state-card {
   background: #f8f9fa;
   border-radius: 16px;
@@ -198,35 +207,13 @@
   font-size: 1rem;
 }
 
-.empty-state-card .btn-primary {
-  background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-size: 1.1rem;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+.empty-state-card .btn-primary-dashboard {
   min-width: 160px;
   height: 45px;
+  font-size: 1.1rem;
 }
 
-.empty-state-card .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(49, 130, 206, 0.4);
-  background: linear-gradient(135deg, #2c78c7 0%, #1f4e8c 100%);
-}
-
-.empty-state-card .btn-primary i {
-  font-size: 1rem !important;
-}
-
-/* Loading State */
+/* Loading */
 .text-center.py-5 {
   padding: 3rem 0;
 }
@@ -237,7 +224,7 @@
   border-width: 0.25em;
 }
 
-/* Responsive */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .books-grid {
     grid-template-columns: 1fr;
@@ -257,9 +244,9 @@
     margin: 1rem;
   }
   
-  .btn-primary.add-book-btn {
+  .btn-dashboard {
     width: 100%;
-    max-width: 200px;
+    justify-content: center;
   }
 }
 
@@ -275,9 +262,5 @@
   .book-card-footer {
     flex-direction: column;
     gap: 0.5rem;
-  }
-  
-  .book-card-footer .btn {
-    width: 100%;
   }
 }

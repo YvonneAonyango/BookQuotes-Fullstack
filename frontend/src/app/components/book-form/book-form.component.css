@@ -1,25 +1,27 @@
-/* Main container - ensures form is below navbar */
+/* ===== BOOK FORM PAGE ===== */
+
+/* Host container - center form vertically */
 :host {
-  display: block;
-  min-height: 100vh;
-}
-
-/* Form container */
-.container-fluid {
-  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px); /* adjust if you have a navbar */
   background-color: #f8f9fa;
+  padding: 1rem;
 }
 
-body.dark-mode .container-fluid {
+body.dark-mode :host {
   background-color: #121212;
 }
 
-/* Card styling - no scroll bars */
+/* Card container */
 .card {
+  width: 100%;
+  max-width: 600px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: none;
-  margin: 1rem auto;
+  margin: 0 auto;
+  background-color: white;
 }
 
 body.dark-mode .card {
@@ -33,13 +35,16 @@ body.dark-mode .card {
   color: white;
   border-bottom: none;
   border-radius: 8px 8px 0 0 !important;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
 }
 
 body.dark-mode .card-header {
   background: linear-gradient(135deg, #4c51bf, #805ad5);
 }
 
-/* Card body - no overflow */
+/* Card body */
 .card-body {
   padding: 1.5rem;
 }
@@ -49,6 +54,7 @@ body.dark-mode .card-header {
   border-radius: 6px;
   border: 1px solid #dee2e6;
   padding: 0.75rem;
+  transition: all 0.2s ease;
 }
 
 body.dark-mode .form-control {
@@ -83,11 +89,13 @@ body.dark-mode .form-label {
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
   font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .btn-primary {
   background: linear-gradient(135deg, #667eea, #764ba2);
   border: none;
+  color: white;
 }
 
 body.dark-mode .btn-primary {
@@ -97,6 +105,7 @@ body.dark-mode .btn-primary {
 .btn-secondary {
   background-color: #6c757d;
   border: none;
+  color: white;
 }
 
 body.dark-mode .btn-secondary {
@@ -105,7 +114,6 @@ body.dark-mode .btn-secondary {
 
 .btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  transition: transform 0.2s;
 }
 
 /* Feedback messages */
@@ -129,7 +137,7 @@ body.dark-mode .valid-feedback {
   color: #68d391;
 }
 
-/* Alert */
+/* Alerts */
 .alert-warning {
   background-color: #fff3cd;
   border-color: #ffeaa7;
@@ -145,9 +153,14 @@ body.dark-mode .alert-warning {
   color: #fed7aa;
 }
 
+.alert-danger {
+  border-radius: 6px;
+}
+
 /* Back button */
 .btn-light {
   background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
 }
 
 body.dark-mode .btn-light {
@@ -160,9 +173,9 @@ body.dark-mode .btn-light {
   vertical-align: middle;
 }
 
-/* Responsive */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .container-fluid {
+  :host {
     padding: 0.5rem;
   }
   
@@ -177,7 +190,7 @@ body.dark-mode .btn-light {
 }
 
 @media (max-width: 576px) {
-  .container-fluid {
+  :host {
     padding: 0.25rem;
   }
   
