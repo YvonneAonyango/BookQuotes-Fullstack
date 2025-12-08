@@ -20,7 +20,7 @@ export class RegisterComponent {
   isLoading = false;
   errorMessage = '';
   successMessage = '';
-  
+
   private translate = inject(TranslateService);
 
   constructor(
@@ -69,9 +69,7 @@ export class RegisterComponent {
   onSubmit() {
     if (!this.registerForm.valid) {
       this.registerForm.markAllAsTouched();
-      this.translate.get('Please fill in all fields correctly.').subscribe((translated: string) => {
-        this.errorMessage = translated;
-      });
+      this.translate.get('fillAllFieldsCorrectly').subscribe(translated => this.errorMessage = translated);
       return;
     }
 
@@ -89,21 +87,15 @@ export class RegisterComponent {
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 400) {
-            this.translate.get('Registration failed. Please check your information.').subscribe((translated: string) => {
+            this.translate.get('registrationFailed').subscribe(translated => {
               this.errorMessage = error.error?.message || translated;
             });
           } else if (error.status === 401) {
-            this.translate.get('Invalid credentials').subscribe((translated: string) => {
-              this.errorMessage = translated;
-            });
+            this.translate.get('invalidCredentials').subscribe(translated => this.errorMessage = translated);
           } else if (error.status === 500) {
-            this.translate.get('Server error. Please try again later.').subscribe((translated: string) => {
-              this.errorMessage = translated;
-            });
+            this.translate.get('serverError').subscribe(translated => this.errorMessage = translated);
           } else {
-            this.translate.get('An error occurred:').subscribe((translated: string) => {
-              this.errorMessage = `${translated} ${error.message}`;
-            });
+            this.translate.get('anErrorOccurred').subscribe(translated => this.errorMessage = `${translated} ${error.message}`);
           }
           return throwError(() => new Error(this.errorMessage));
         }),
@@ -111,9 +103,7 @@ export class RegisterComponent {
       )
       .subscribe({
         next: (response) => {
-          this.translate.get('Registration successful!').subscribe((translated: string) => {
-            this.successMessage = response.message || translated;
-          });
+          this.translate.get('registrationSuccess').subscribe(translated => this.successMessage = response.message || translated);
 
           if (response.token) {
             localStorage.setItem('authToken', response.token);
@@ -121,12 +111,7 @@ export class RegisterComponent {
             localStorage.setItem('role', response.role);
           }
 
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-          }, 2000);
-        },
-        error: () => {
-          // Error message is already set in catchError
+          setTimeout(() => this.router.navigate(['/login']), 2000);
         }
       });
   }

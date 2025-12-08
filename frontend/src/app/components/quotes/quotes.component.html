@@ -5,6 +5,7 @@
   </div>
 
   <div class="quotes-container">
+    <!-- Left Column: Form -->
     <div class="left-column">
       <div class="quote-form-section">
         <div class="card">
@@ -14,12 +15,8 @@
           <div class="card-body">
             <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
               <div class="mb-3">
-                <label for="text" class="form-label">Quote Text</label>
-                <textarea 
-                  id="text" 
-                  formControlName="text"
-                  rows="4"
-                  placeholder="Enter the quote text..."
+                <label>Quote Text</label>
+                <textarea formControlName="text" rows="4" placeholder="Enter quote text..."
                   [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched"></textarea>
                 <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required'] && quoteForm.get('text')?.touched">
                   Quote text is required
@@ -27,12 +24,8 @@
               </div>
 
               <div class="mb-3">
-                <label for="author" class="form-label">Author</label>
-                <input 
-                  type="text" 
-                  id="author" 
-                  formControlName="author"
-                  placeholder="Enter author name..."
+                <label>Author</label>
+                <input type="text" formControlName="author" placeholder="Enter author..."
                   [class.is-invalid]="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
                 <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required'] && quoteForm.get('author')?.touched">
                   Author is required
@@ -40,12 +33,10 @@
               </div>
 
               <div class="mb-3">
-                <label for="bookId" class="form-label">Book (Optional)</label>
-                <select id="bookId" formControlName="bookId">
+                <label>Book (Optional)</label>
+                <select formControlName="bookId">
                   <option value="">Select a book</option>
-                  <option *ngFor="let book of books" [value]="book.id">
-                    {{ book.title }} - {{ book.author }}
-                  </option>
+                  <option *ngFor="let book of books" [value]="book.id">{{ book.title }} - {{ book.author }}</option>
                 </select>
               </div>
 
@@ -60,63 +51,26 @@
           </div>
         </div>
       </div>
-
-      <div class="favourite-quotes-section">
-        <div class="card">
-          <div class="card-header">
-            <h5>Your Favourite Quotes <span class="count-badge">{{ favouriteQuotes.length }}</span></h5>
-          </div>
-          <div class="card-body">
-            <div *ngIf="favouriteQuotes.length > 0" class="favourite-quotes-list">
-              <div *ngFor="let quote of favouriteQuotes" class="favourite-quote-item">
-                <div class="favourite-quote-content">
-                  <div class="favourite-quote-text">
-                    "{{ quote.text | slice:0:100 }}{{ quote.text.length > 100 ? '...' : '' }}"
-                  </div>
-                  <div class="favourite-quote-meta">
-                    <div class="favourite-quote-author">— {{ quote.author }}</div>
-                    <div *ngIf="getBookTitle(quote.bookId)" class="favourite-quote-book">{{ getBookTitle(quote.bookId) }}</div>
-                  </div>
-                </div>
-                <div class="favourite-quote-actions">
-                  <button (click)="editQuote(quote)">Edit</button>
-                  <button (click)="removeFromFavourites(quote.id!)">Delete</button>
-                </div>
-              </div>
-            </div>
-            <div *ngIf="favouriteQuotes.length === 0" class="empty-favourites-state">
-              <h4>No favourite quotes yet</h4>
-              <p>Add quotes from the collection</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
+    <!-- Right Column: Quotes List -->
     <div class="all-quotes-section">
-      <h3>All Quotes <span class="count-badge">{{ allQuotes.length }}</span></h3>
-      <div *ngIf="allQuotes.length > 0" class="quotes-grid">
-        <div *ngFor="let quote of allQuotes" class="quote-card">
-          <div class="quote-card-header">
-            <button [disabled]="isInFavourites(quote.id!)" (click)="addToFavourites(quote)">
-              {{ isInFavourites(quote.id!) ? 'Favourited' : 'Add to Favourites' }}
-            </button>
-          </div>
-          <div class="quote-card-body">
-            <p class="quote-text">"{{ quote.text }}"</p>
-            <div class="quote-footer">
-              <div class="quote-author">— {{ quote.author }}</div>
-              <div *ngIf="getBookTitle(quote.bookId)" class="quote-book">{{ getBookTitle(quote.bookId) }}</div>
-            </div>
+      <h3>All My Quotes <span class="count-badge">{{ quotes.length }}</span></h3>
+      <div *ngIf="quotes.length > 0" class="quotes-grid">
+        <div *ngFor="let quote of quotes" class="quote-card">
+          <p class="quote-text">"{{ quote.text }}"</p>
+          <div class="quote-footer">
+            <div class="quote-author">— {{ quote.author }}</div>
+            <div *ngIf="getBookTitle(quote.bookId)" class="quote-book">{{ getBookTitle(quote.bookId) }}</div>
           </div>
           <div class="quote-card-footer">
-            <button (click)="editQuote(quote)">Edit</button>
-            <button (click)="deleteQuote(quote.id!)">Delete</button>
+            <button *ngIf="canEditOrDelete(quote)" (click)="editQuote(quote)">Edit</button>
+            <button *ngIf="canEditOrDelete(quote)" (click)="deleteQuote(quote.id!)">Delete</button>
           </div>
         </div>
       </div>
 
-      <div *ngIf="allQuotes.length === 0" class="empty-quotes-state">
+      <div *ngIf="quotes.length === 0" class="empty-quotes-state">
         <h4>No quotes yet</h4>
         <p>Add your first quote using the form</p>
       </div>

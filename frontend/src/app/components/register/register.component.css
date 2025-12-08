@@ -1,20 +1,20 @@
-/* Container - Adjusted to position form lower */
+/* --- Container --- */
 .register-container {
-  min-height: calc(100vh - 60px); /* Subtract navbar height */
+  min-height: 100vh; /* Full viewport height */
   display: flex;
-  align-items: flex-start; /* Changed from center */
-  justify-content: center;
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
   padding: 1rem;
-  padding-top: 2rem; /* Added padding to lower the form */
   background-color: var(--bg-light);
-  margin-top: 60px; /* Push below navbar */
+  transition: background-color 0.3s ease;
 }
 
+/* Dark mode background */
 body.dark-mode .register-container {
   background-color: var(--bg-dark);
 }
 
-/* Card */
+/* --- Card --- */
 .register-card {
   width: 100%;
   max-width: 450px;
@@ -23,26 +23,27 @@ body.dark-mode .register-container {
   transition: all 0.3s ease;
   background-color: var(--card-light);
   border: 1px solid rgba(0,0,0,0.1);
-  margin-top: 2rem; /* Additional margin */
+  overflow: hidden;
 }
 
+/* Dark mode card */
 body.dark-mode .register-card {
   background-color: var(--card-dark);
   border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* Card Header */
+/* --- Card Header --- */
 .register-card .card-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2c3351 0%, #374579 100%);
   color: white;
-  border-bottom: none;
   padding: 1.5rem;
   text-align: center;
+  border-bottom: none;
 }
 
 body.dark-mode .register-card .card-header {
-  background: linear-gradient(135deg, #4c51bf 0%, #805ad5 100%);
+  background: linear-gradient(135deg, #2f4168 0%, #373d6b 100%);
 }
 
 .register-card .card-header h2 {
@@ -51,13 +52,13 @@ body.dark-mode .register-card .card-header {
   margin: 0;
 }
 
-/* Card Body */
+/* --- Card Body --- */
 .register-card .card-body {
   padding: 2rem;
   background-color: transparent;
 }
 
-/* Form Inputs */
+/* --- Form Inputs --- */
 .register-card .form-control,
 .register-card .form-select,
 .register-card textarea.form-control {
@@ -66,9 +67,9 @@ body.dark-mode .register-card .card-header {
   padding: 0.75rem 1rem;
   border-radius: 8px;
   border: 1px solid var(--border-light);
-  transition: border-color 0.3s, box-shadow 0.3s;
   background-color: var(--input-light);
   color: var(--text-light);
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
 
 body.dark-mode .register-card .form-control,
@@ -82,12 +83,12 @@ body.dark-mode .register-card textarea.form-control {
 .register-card .form-control:focus,
 .register-card .form-select:focus,
 .register-card textarea.form-control:focus {
-  border-color: #3b82f6; /* Changed from yellow to blue */
+  border-color: #26477d;
   box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
   outline: none;
 }
 
-/* Form Labels */
+/* --- Form Labels --- */
 .register-card .form-label {
   font-weight: 600;
   color: var(--text-light);
@@ -97,7 +98,7 @@ body.dark-mode .register-card .form-label {
   color: var(--text-dark);
 }
 
-/* Password Strength Indicator */
+/* --- Password Strength Indicator --- */
 .password-strength {
   margin-top: 0.5rem;
 }
@@ -111,7 +112,7 @@ body.dark-mode .register-card .form-label {
 }
 
 .requirement-met {
-  color: #28a745;
+  color: #3e6747;
 }
 
 .requirement-not-met {
@@ -119,14 +120,14 @@ body.dark-mode .register-card .form-label {
 }
 
 body.dark-mode .requirement-met {
-  color: #68d391;
+  color: #385b45;
 }
 
 body.dark-mode .requirement-not-met {
   color: #a0aec0;
 }
 
-/* Buttons - FIXED: Changed to visible colors for both modes */
+/* --- Buttons --- */
 .register-card .btn {
   font-size: 1rem;
   padding: 0.75rem;
@@ -138,20 +139,19 @@ body.dark-mode .requirement-not-met {
 }
 
 .register-card .btn-primary {
-  /* Blue gradient that works in both modes */
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #394962 0%, #354360 100%);
   color: white;
   width: 100%;
 }
 
 .register-card .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #3a496b 0%, #3c4868 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
 .register-card .btn-primary:disabled {
-  background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
+  background: linear-gradient(135deg, #405d7e 0%, #304c6e 100%);
   color: white;
   opacity: 0.6;
   cursor: not-allowed;
@@ -160,16 +160,15 @@ body.dark-mode .requirement-not-met {
 }
 
 body.dark-mode .register-card .btn-primary {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  color: white;
+  background: linear-gradient(135deg, #354e75 0%, #3f5284 100%);
 }
 
 body.dark-mode .register-card .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  background: linear-gradient(135deg, #3d517c 0%, #394670 100%);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
 }
 
-/* Alerts */
+/* --- Alerts --- */
 .register-card .alert {
   border-radius: 8px;
   border: none;
@@ -178,13 +177,13 @@ body.dark-mode .register-card .btn-primary:hover:not(:disabled) {
 }
 
 .alert-success {
-  background-color: #d4edda;
+  background-color: #4e905d;
   color: #155724;
 }
 
 body.dark-mode .alert-success {
   background-color: #22543d;
-  color: #c6f6d5;
+  color: #2d8649;
 }
 
 .alert-danger {
@@ -197,9 +196,9 @@ body.dark-mode .alert-danger {
   color: #f8d7da;
 }
 
-/* Links */
+/* --- Links --- */
 .register-card a {
-  color: #3b82f6; /* Changed from yellow to blue */
+  color: #3564b0;
   font-weight: 500;
   text-decoration: none;
 }
@@ -209,10 +208,10 @@ body.dark-mode .alert-danger {
 }
 
 body.dark-mode .register-card a {
-  color: #60a5fa;
+  color: #3d6ba3;
 }
 
-/* Login Link */
+/* --- Login Link --- */
 .register-card .login-link {
   text-align: center;
   margin-top: 1rem;
@@ -227,13 +226,13 @@ body.dark-mode .register-card .login-link {
   margin-left: 0.25rem;
 }
 
-/* Spinner */
+/* --- Spinner --- */
 .spinner-border {
   vertical-align: middle;
   color: white;
 }
 
-/* Form Validation Feedback */
+/* --- Form Validation Feedback --- */
 .invalid-feedback {
   color: #dc3545;
 }
@@ -243,32 +242,21 @@ body.dark-mode .invalid-feedback {
 }
 
 .valid-feedback {
-  color: #28a745;
+  color: #1e814b;
 }
 
 body.dark-mode .valid-feedback {
-  color: #68d391;
+  color: #279c54;
 }
 
-/* Responsive Design */
+/* --- Responsive Design --- */
 @media (max-width: 768px) {
-  .register-container {
-    padding-top: 1.5rem;
-    margin-top: 56px; /* Adjust for mobile navbar if different */
-  }
-  
-  .register-card {
-    margin-top: 1rem;
-  }
-  
   .register-card .card-header h2 {
     font-size: 1.3rem;
   }
-
   .register-card .card-body {
     padding: 1.5rem;
   }
-
   .register-card .btn {
     font-size: 0.95rem;
     padding: 0.65rem;
@@ -276,31 +264,21 @@ body.dark-mode .valid-feedback {
 }
 
 @media (max-width: 576px) {
-  .register-container {
-    padding: 0.75rem;
-    padding-top: 1.5rem;
-  }
-  
   .register-card {
     max-width: 95%;
-    margin-top: 0.5rem;
   }
-
   .register-card .card-header h2 {
     font-size: 1.25rem;
   }
-
   .register-card .card-body {
     padding: 1.25rem;
   }
-
   .register-card .form-control,
   .register-card .form-select,
   .register-card textarea.form-control {
     font-size: 0.95rem;
     padding: 0.65rem 0.9rem;
   }
-
   .register-card .btn {
     font-size: 0.9rem;
     padding: 0.6rem;

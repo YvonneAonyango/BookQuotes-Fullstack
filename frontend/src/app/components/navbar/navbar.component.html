@@ -1,33 +1,27 @@
-<nav class="navbar navbar-expand-lg warm-navbar">
+<nav class="navbar warm-navbar navbar-expand-lg">
   <div class="container-fluid">
     <!-- Brand / Logo -->
-    <a class="navbar-brand" routerLink="/" [ngClass]="{'brand-large': isHomePage}">
+    <a class="navbar-brand" routerLink="/">
       <fa-icon [icon]="faHome" class="me-2"></fa-icon>
       {{ 'brand' | translate }}
     </a>
 
-    <!-- Hamburger for Mobile -->
-    <button class="navbar-toggler" type="button" (click)="toggleMenu()" 
-            aria-controls="navbarContent" 
-            [attr.aria-expanded]="!isCollapsed" 
-            [attr.aria-label]="'Toggle navigation' | translate">
+    <!-- Hamburger for Mobile/Tablet -->
+    <button class="navbar-toggler d-lg-none" type="button" (click)="toggleMenu()">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Collapsible Menu -->
-    <div class="collapse navbar-collapse" [ngClass]="{'show': !isCollapsed}" id="navbarContent">
-      <!-- Left Links -->
+    <!-- Menu -->
+    <div class="collapse navbar-collapse" [ngClass]="{'show': !isCollapsed}">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link nav-link-btn" routerLink="/books" routerLinkActive="active">
-            <fa-icon [icon]="faBook" class="me-1"></fa-icon>
-            {{ 'books' | translate }}
+            <fa-icon [icon]="faBook" class="me-1"></fa-icon>{{ 'books' | translate }}
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link nav-link-btn" routerLink="/quotes" routerLinkActive="active">
-            <fa-icon [icon]="faQuoteRight" class="me-1"></fa-icon>
-            {{ 'quotes' | translate }}
+            <fa-icon [icon]="faQuoteRight" class="me-1"></fa-icon>{{ 'quotes' | translate }}
           </a>
         </li>
         <li class="nav-item" *ngIf="authService.isAdmin()">
@@ -38,46 +32,36 @@
       </ul>
 
       <!-- Right Controls -->
-      <div class="d-flex align-items-center gap-2 gap-sm-3">
-        <!-- Language -->
+      <div class="d-flex align-items-center gap-2">
+        <!-- Language Switch (always visible) -->
         <div class="dropdown" ngbDropdown>
-          <button class="btn-language" ngbDropdownToggle id="languageDropdown">
+          <button class="btn-language" ngbDropdownToggle>
             <fa-icon [icon]="faGlobe" class="me-1"></fa-icon>
             <span class="d-none d-md-inline">{{ currentFlag }}</span>
           </button>
-          <div ngbDropdownMenu aria-labelledby="languageDropdown" class="dropdown-menu-end">
-            <button ngbDropdownItem (click)="switchLanguage('en')" [class.active]="currentLanguage==='en'">
-              🇬🇧 {{ 'English' | translate }}
-            </button>
-            <button ngbDropdownItem (click)="switchLanguage('sv')" [class.active]="currentLanguage==='sv'">
-              🇸🇪 {{ 'Swedish' | translate }}
-            </button>
+          <div ngbDropdownMenu class="dropdown-menu-end">
+            <button ngbDropdownItem (click)="switchLanguage('en')" [class.active]="currentLanguage==='en'">🇬🇧 English</button>
+            <button ngbDropdownItem (click)="switchLanguage('sv')" [class.active]="currentLanguage==='sv'">🇸🇪 Swedish</button>
           </div>
         </div>
 
-        <!-- Dark Mode -->
-        <button class="btn-darkmode" (click)="toggleDarkMode()" 
-                [attr.aria-label]="isDarkMode ? ('switchToLight' | translate) : ('switchToDark' | translate)">
+        <!-- Dark Mode (always visible) -->
+        <button class="btn-darkmode" (click)="toggleDarkMode()">
           <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
         </button>
 
-        <!-- Auth Buttons -->
-        <div class="d-flex gap-2" *ngIf="!authService.isAuthenticated()">
-          <a class="btn btn-outline-light btn-sm" routerLink="/login">
-            <span class="d-none d-sm-inline">{{ 'login' | translate }}</span>
-            <span class="d-sm-none"><fa-icon [icon]="faSignInAlt"></fa-icon></span>
+        <!-- Auth Buttons (desktop hidden, mobile visible) -->
+        <div class="d-lg-none">
+          <a *ngIf="!authService.isAuthenticated()" class="btn btn-outline-light btn-sm me-1" routerLink="/login">
+            <fa-icon [icon]="faSignInAlt"></fa-icon>
           </a>
-          <a class="btn btn-light btn-sm" routerLink="/register">
-            <span class="d-none d-sm-inline">{{ 'register' | translate }}</span>
-            <span class="d-sm-none"><fa-icon [icon]="faUserPlus"></fa-icon></span>
+          <a *ngIf="!authService.isAuthenticated()" class="btn btn-light btn-sm" routerLink="/register">
+            <fa-icon [icon]="faUserPlus"></fa-icon>
           </a>
+          <button *ngIf="authService.isAuthenticated()" class="btn btn-outline-light btn-sm" (click)="logout()">
+            <fa-icon [icon]="faSignOutAlt"></fa-icon>
+          </button>
         </div>
-
-        <button class="btn btn-outline-light btn-sm" (click)="logout()" *ngIf="authService.isAuthenticated()">
-          <fa-icon [icon]="faSignOutAlt" class="me-1 d-none d-sm-inline"></fa-icon>
-          <span class="d-none d-sm-inline">{{ 'logout' | translate }}</span>
-          <span class="d-sm-none"><fa-icon [icon]="faSignOutAlt"></fa-icon></span>
-        </button>
       </div>
     </div>
   </div>

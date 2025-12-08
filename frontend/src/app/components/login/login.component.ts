@@ -39,12 +39,11 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.titleService.setTitle('BookWebApp - Login');
-    
-    this.translate.get('loginDescription').subscribe((translated: string) => {
+    this.translate.get(['login', 'loginDescription']).subscribe(translations => {
+      this.titleService.setTitle(`Book Quotes Buddy - ${translations['login']}`);
       this.meta.updateTag({
         name: 'description',
-        content: translated || 'Login to access your personal library and manage your books and quotes.'
+        content: translations['loginDescription'] || 'Login to access your personal library and manage your books and quotes.'
       });
     });
   }
@@ -70,7 +69,7 @@ export class LoginComponent implements OnInit {
       },
       error: err => {
         this.isLoading = false;
-        this.translate.get('invalidCredentials').subscribe((translated: string) => {
+        this.translate.get('invalidCredentials').subscribe(translated => {
           this.errorMessage = err.error?.message || translated;
         });
       }

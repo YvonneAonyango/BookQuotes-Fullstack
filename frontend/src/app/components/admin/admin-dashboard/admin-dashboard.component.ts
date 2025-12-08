@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
 import { environment } from '../../../../environments/environment'; 
 
-// Define Stats interface
+// Define Stats interface (camelCase)
 export interface Stats {
   totalUsers: number;
   totalBooks: number;
@@ -59,10 +59,16 @@ export class AdminDashboardComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    this.http.get<Stats>(`${environment.apiUrl}/api/admin/stats`, { headers })
+    this.http.get<any>(`${environment.apiUrl}/api/admin/stats`, { headers })
       .subscribe({
         next: (stats) => {
-          this.stats = stats;
+          // Convert PascalCase to camelCase
+          this.stats = {
+            totalUsers: stats.TotalUsers,
+            totalBooks: stats.TotalBooks,
+            totalQuotes: stats.TotalQuotes,
+            adminUsers: stats.AdminUsers
+          };
           this.isLoading = false;
         },
         error: (error) => {

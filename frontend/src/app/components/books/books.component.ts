@@ -1,22 +1,23 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { Book, BookService } from '../../services/book.service';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  imports: [],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
 export class BooksComponent implements OnInit {
   books: Book[] = [];
   isLoading = false;
-  errorMessage: string = '';
+  errorMessage = '';
+
+  showFormModal = false;
+  editingBook?: Book;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -26,62 +27,62 @@ export class BooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Books');
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Browse and manage your books in your personal library with BookWebApp.'
-    });
+    this.meta.updateTag({ name: 'description', content: 'Browse and manage your books in your personal library with BookWebApp.' });
     this.loadBooks();
   }
 
   loadBooks(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    
     this.bookService.getBooks().subscribe({
       next: books => {
         this.books = books;
         this.isLoading = false;
       },
-      error: error => {
-        console.error('Error loading books:', error);
-        this.errorMessage = 'Failed to load books. Please try again.';
+      error: err => {
+        console.error(err);
+        this.errorMessage = this.translate.instant('failedLoadBooks') || 'Failed to load books.';
         this.isLoading = false;
       }
     });
   }
 
+  openForm(book?: Book): void {
+    this.editingBook = book;
+    this.showFormModal = true;
+  }
+
+  closeForm(reload = false): void {
+    this.showFormModal = false;
+    this.editingBook = undefined;
+    if (reload) this.loadBooks();
+  }
+
   addBook(): void {
-    this.router.navigate(['/books/new']);
+    this.openForm();
   }
 
-  editBook(bookId: number): void {
-    this.router.navigate(['/books/edit', bookId]);
+  editBook(id: number): void {
+    const book = this.books.find(b => b.id === id);
+    if (book) this.openForm(book);
   }
 
-  deleteBook(bookId: number): void {
-    this.translate.get('confirmDeleteBook').subscribe((translated: string) => {
-      if (confirm(translated)) {
-        this.bookService.deleteBook(bookId).subscribe({
-          next: () => {
-            this.books = this.books.filter(book => book.id !== bookId);
-          },
-          error: err => {
-            console.error('Error deleting book:', err);
-            alert('Failed to delete book. Please try again.');
-          }
+  deleteBook(id: number): void {
+    this.translate.get('confirmDeleteBook').subscribe(msg => {
+      if (confirm(msg)) {
+        this.bookService.deleteBook(id).subscribe({
+          next: () => this.books = this.books.filter(b => b.id !== id),
+          error: err => alert(this.translate.instant('failedDeleteBook') || 'Failed to delete book.')
         });
       }
     });
   }
 
-  formatDate(dateString: string): string {
+  formatDate(dateString?: string): string {
+    if (!dateString) return '';
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     } catch {
       return dateString;
     }

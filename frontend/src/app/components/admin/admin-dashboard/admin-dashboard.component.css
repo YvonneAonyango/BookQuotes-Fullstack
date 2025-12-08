@@ -1,1 +1,134 @@
- 
+ /* General Container */
+.container-fluid {
+  padding: 1rem 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0b1e3b; /* dark blue background */
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* Header */
+h1.h3 {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Buttons */
+.btn-outline-primary,
+.btn-outline-success,
+.btn-outline-info {
+  border-width: 2px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1e3a5f;
+  color: #ffffff;
+  border-color: #1e3a5f;
+}
+
+.btn-outline-success:hover {
+  background-color: #2b6a4a;
+  color: #ffffff;
+  border-color: #2b6a4a;
+}
+
+.btn-outline-info:hover {
+  background-color: #3a7ca5;
+  color: #ffffff;
+  border-color: #3a7ca5;
+}
+
+/* Cards */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* Card Titles */
+.card-title, .card-subtitle {
+  font-weight: 600;
+}
+
+/* Stats Cards Backgrounds */
+.card.bg-primary {
+  background: linear-gradient(135deg, #1e3a5f, #3a5c87);
+}
+
+.card.bg-success {
+  background: linear-gradient(135deg, #2b6a4a, #4a9363);
+}
+
+.card.bg-info {
+  background: linear-gradient(135deg, #3a7ca5, #5ba0c8);
+}
+
+.card.bg-warning {
+  background: linear-gradient(135deg, #d4a017, #f0c75e);
+  color: #0b1e3b;
+}
+
+/* Card Icons */
+.card i {
+  opacity: 0.6;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover i {
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+/* Spinner */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.3rem;
+  color: #1e3a5f;
+}
+
+/* Quick Actions Buttons */
+.card-body .btn-lg {
+  border-radius: 12px;
+  font-size: 1.1rem;
+  padding: 1rem 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card i {
+    font-size: 1.5rem !important;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .btn-lg {
+    font-size: 1rem;
+    padding: 0.8rem 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .row > .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

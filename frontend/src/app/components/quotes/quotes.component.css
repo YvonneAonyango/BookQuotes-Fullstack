@@ -1,49 +1,67 @@
+/* ==============================
+   General Page Styles
+============================== */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0f172a; /* Warm dark-blue background */
+  color: #e0e7ff;
+  margin: 0;
+  padding: 0;
+}
+
 .quotes-page {
   padding: 2rem;
-  min-height: calc(100vh - 52px);
-  background-color: #f4f6f8;
-  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
 }
 
-body.dark-mode .quotes-page {
-  background-color: #0f172a;
-}
-
+/* ==============================
+   Page Header
+============================== */
 .page-header {
-  margin: 2rem 0 3rem;
   text-align: center;
+  margin-bottom: 2rem;
 }
 
 .page-header h1 {
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 0.5rem;
 }
 
 .page-header .lead {
-  font-size: 1.25rem;
-  color: #64748b;
+  font-size: 1.2rem;
+  color: #c7d2fe;
 }
 
-body.dark-mode .page-header .lead {
-  color: #94a3b8;
-}
-
+/* ==============================
+   Layout: Quotes Container
+============================== */
 .quotes-container {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 2.5rem;
+  gap: 2rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-@media (max-width: 1024px) {
-  .quotes-container { grid-template-columns: 1fr; }
+@media (max-width: 1200px) {
+  .quotes-container {
+    grid-template-columns: 1fr 1.5fr;
+  }
 }
 
+@media (max-width: 1024px) {
+  .quotes-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==============================
+   Left Column: Quote Form
+============================== */
 .left-column {
   display: flex;
   flex-direction: column;
@@ -51,68 +69,93 @@ body.dark-mode .page-header .lead {
 }
 
 .card {
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 1.5rem;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-}
-
-body.dark-mode .card {
   background-color: #1e293b;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.5);
 }
 
-.favourite-quote-item {
-  background: #fefefe;
-  border-radius: 12px;
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+.card-header h5 {
+  color: #60a5fa;
+}
+
+.card-body textarea,
+.card-body input,
+.card-body select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background-color: #0f172a;
+  color: #e0e7ff;
+  font-size: 0.95rem;
+}
+
+.invalid-feedback {
+  color: #f87171;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.d-flex.gap-2 button {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  color: #fff;
   transition: all 0.3s ease;
 }
 
-body.dark-mode .favourite-quote-item {
-  background: #1e293b;
+.d-flex.gap-2 button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.d-flex.gap-2 button:disabled {
+  background-color: #334155;
+  cursor: not-allowed;
+}
+
+/* ==============================
+   Favourite Quotes Section
+============================== */
+.favourite-quotes-section .favourite-quote-item {
+  background-color: #1e293b;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
 }
 
 .favourite-quote-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }
 
 .favourite-quote-text {
   font-style: italic;
-  font-size: 1rem;
-  color: #1e293b;
-}
-
-body.dark-mode .favourite-quote-text {
-  color: #f1f5f9;
+  color: #e0e7ff;
 }
 
 .favourite-quote-author {
-  color: #3b82f6;
+  color: #60a5fa;
   font-weight: 600;
 }
 
-body.dark-mode .favourite-quote-author {
-  color: #60a5fa;
-}
-
 .favourite-quote-book {
-  color: #64748b;
+  color: #3b82f6;
   font-size: 0.9rem;
-}
-
-body.dark-mode .favourite-quote-book {
-  color: #94a3b8;
 }
 
 .favourite-quote-actions button {
@@ -121,9 +164,9 @@ body.dark-mode .favourite-quote-book {
   border: none;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
   background: linear-gradient(90deg, #ef4444, #f87171);
   color: #fff;
+  transition: all 0.3s ease;
 }
 
 .favourite-quote-actions button:hover {
@@ -131,110 +174,20 @@ body.dark-mode .favourite-quote-book {
   box-shadow: 0 4px 12px rgba(239,68,68,0.3);
 }
 
+/* ==============================
+   Right Column: All Quotes
+============================== */
 .all-quotes-section h3 {
   font-size: 1.6rem;
   margin-bottom: 1.5rem;
-  color: #334155;
+  color: #c7d2fe;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-body.dark-mode .all-quotes-section h3 { color: #e2e8f0; }
-
-.quotes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
-}
-
-.quote-card {
-  background: #fff;
-  border-radius: 15px;
-  padding: 1.5rem;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-}
-
-body.dark-mode .quote-card {
-  background: #1e293b;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-}
-
-.quote-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-}
-
-.quote-card-header button {
-  background: linear-gradient(90deg, #10b981, #34d399);
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.quote-card-header button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16,185,129,0.3);
-}
-
-.quote-card-header button:disabled {
-  background: #94a3b8;
-  cursor: not-allowed;
-}
-
-.quote-card-body { flex-grow: 1; margin-bottom: 1.5rem; }
-.quote-text { font-style: italic; line-height: 1.6; color: #1e293b; font-size: 1.05rem; }
-body.dark-mode .quote-text { color: #f1f5f9; }
-
-.quote-author { color: #3b82f6; font-weight: 600; margin-bottom: 0.5rem; }
-body.dark-mode .quote-author { color: #60a5fa; }
-
-.quote-book { color: #64748b; font-size: 0.95rem; }
-body.dark-mode .quote-book { color: #94a3b8; }
-
-.quote-card-footer { display: flex; gap: 0.75rem; margin-top: auto; padding-top: 1rem; }
-.quote-card-footer button {
-  flex: 1;
-  padding: 0.5rem;
-  border-radius: 10px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  color: #fff;
-  transition: all 0.3s ease;
-}
-
-.quote-card-footer button:nth-child(1) { background: #3b82f6; }
-.quote-card-footer button:nth-child(1):hover { background: #2563eb; }
-.quote-card-footer button:nth-child(2) { background: #ef4444; }
-.quote-card-footer button:nth-child(2):hover { background: #dc2626; }
-
-body.dark-mode .quote-card-footer button:nth-child(1) { background: #60a5fa; }
-body.dark-mode .quote-card-footer button:nth-child(2) { background: #f87171; }
-
-.empty-favourites-state, .empty-quotes-state {
-  text-align: center;
-  padding: 2rem;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.5);
-  border: 2px dashed #e2e8f0;
-}
-
-body.dark-mode .empty-favourites-state, body.dark-mode .empty-quotes-state {
-  background: rgba(30,41,59,0.5);
-  border-color: #334155;
-}
-
 .count-badge {
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
   color: #fff;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -242,7 +195,120 @@ body.dark-mode .empty-favourites-state, body.dark-mode .empty-quotes-state {
   font-weight: 600;
 }
 
+.quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.quote-card {
+  background-color: #1e293b;
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  color: #e0e7ff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
+}
+
+.quote-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.quote-text {
+  font-style: italic;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.quote-footer {
+  margin-bottom: 0.5rem;
+}
+
+.quote-author {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.quote-book {
+  color: #60a5fa;
+  font-size: 0.9rem;
+}
+
+/* Quote Card Actions */
+.quote-card-footer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.quote-card-footer button {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.quote-card-footer button:nth-child(1) {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.quote-card-footer button:nth-child(1):hover {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+}
+
+.quote-card-footer button:nth-child(2) {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+.quote-card-footer button:nth-child(2):hover {
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+}
+
+/* ==============================
+   Empty States
+============================== */
+.empty-favourites-state,
+.empty-quotes-state {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+  background: rgba(30,41,59,0.5);
+  border: 2px dashed #334155;
+  color: #c7d2fe;
+}
+
+/* ==============================
+   Responsive Adjustments
+============================== */
+@media (max-width: 768px) {
+  .quotes-container {
+    padding: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .card-body textarea,
+  .card-body input,
+  .card-body select {
+    font-size: 0.9rem;
+  }
+}
+
 @media (max-width: 480px) {
-  .quote-card-footer { flex-direction: column; }
-  .quote-card-footer button { width: 100%; }
+  .quote-card-footer {
+    flex-direction: column;
+  }
+
+  .quote-card-footer button {
+    width: 100%;
+  }
 }
