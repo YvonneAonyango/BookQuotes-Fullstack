@@ -1,4 +1,4 @@
-<nav class="navbar modern-navbar navbar-expand-lg">
+<nav class="navbar warm-navbar navbar-expand-lg" role="navigation" aria-label="Main Navigation">
   <div class="container-fluid">
     <!-- Brand / Logo -->
     <a class="navbar-brand" routerLink="/" aria-label="Home">
@@ -12,29 +12,29 @@
     </button>
 
     <!-- Navbar Menu -->
-    <div class="navbar-collapse" [ngClass]="{'show': !isCollapsed}">
+    <div class="collapse navbar-collapse" [ngClass]="{'show': !isCollapsed}">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/books" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link nav-link-btn" routerLink="/books" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <fa-icon [icon]="faBook" class="me-1"></fa-icon>{{ 'books' | translate }}
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/quotes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link nav-link-btn" routerLink="/quotes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <fa-icon [icon]="faQuoteRight" class="me-1"></fa-icon>{{ 'quotes' | translate }}
           </a>
         </li>
         <li class="nav-item" *ngIf="authService.isAdmin()">
-          <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
+          <a class="nav-link nav-link-btn" routerLink="/admin/dashboard" routerLinkActive="active">
             {{ 'adminDashboard' | translate }}
           </a>
         </li>
       </ul>
 
       <!-- Right Controls -->
-      <div class="navbar-controls">
-        <!-- Language Dropdown -->
-        <div ngbDropdown class="dropdown">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <!-- Language Switch -->
+        <div class="dropdown" ngbDropdown>
           <button class="btn-language" ngbDropdownToggle aria-label="Switch Language">
             <fa-icon [icon]="faGlobe" class="me-1"></fa-icon>
             <span class="d-none d-md-inline">{{ currentFlag }}</span>
@@ -44,6 +44,11 @@
             <button ngbDropdownItem (click)="switchLanguage('sv')" [class.active]="currentLanguage==='sv'">🇸🇪 Swedish</button>
           </div>
         </div>
+
+        <!-- Dark Mode Toggle -->
+        <button class="btn-darkmode" (click)="toggleDarkMode()" aria-label="Toggle Dark Mode">
+          <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
+        </button>
 
         <!-- Auth Buttons -->
         <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
@@ -56,7 +61,7 @@
         </ng-container>
         <ng-template #loggedIn>
           <button class="btn btn-outline-light btn-sm" (click)="logout()" aria-label="Logout">
-            Logout
+            <fa-icon [icon]="faSignOutAlt"></fa-icon>
           </button>
         </ng-template>
       </div>
