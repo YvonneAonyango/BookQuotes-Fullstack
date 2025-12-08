@@ -14,6 +14,9 @@ public class Book
 
     public DateTime? PublishDate { get; set; }
 
+    public int? UserId { get; set; }  // Owner of the book
+
     // Navigation
+    public User? User { get; set; }
     public ICollection<Quote> Quotes { get; set; } = new List<Quote>();
 }
