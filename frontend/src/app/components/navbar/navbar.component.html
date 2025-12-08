@@ -1,35 +1,42 @@
-<nav class="navbar modern-navbar" role="navigation">
-  <div class="container">
-    <!-- Brand -->
-    <a class="navbar-brand" routerLink="/">
-      <fa-icon [icon]="faHome"></fa-icon>
+<nav class="navbar modern-navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <!-- Brand / Logo -->
+    <a class="navbar-brand" routerLink="/" aria-label="Home">
+      <fa-icon [icon]="faHome" class="me-2"></fa-icon>
       {{ 'brand' | translate }}
     </a>
 
-    <!-- Hamburger (mobile only) -->
-    <button class="navbar-toggler d-lg-none" type="button" (click)="toggleMenu()">
+    <!-- Hamburger for Mobile -->
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()" aria-label="Toggle navigation">
       <fa-icon [icon]="faBars"></fa-icon>
     </button>
 
-    <!-- Navbar Links -->
-    <div class="navbar-menu" [ngClass]="{'open': !isCollapsed}">
-      <ul class="navbar-nav">
+    <!-- Navbar Menu -->
+    <div class="navbar-collapse" [ngClass]="{'show': !isCollapsed}">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/books" routerLinkActive="active">{{ 'books' | translate }}</a>
+          <a class="nav-link" routerLink="/books" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <fa-icon [icon]="faBook" class="me-1"></fa-icon>{{ 'books' | translate }}
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/quotes" routerLinkActive="active">{{ 'quotes' | translate }}</a>
+          <a class="nav-link" routerLink="/quotes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <fa-icon [icon]="faQuoteRight" class="me-1"></fa-icon>{{ 'quotes' | translate }}
+          </a>
         </li>
         <li class="nav-item" *ngIf="authService.isAdmin()">
-          <a class="nav-link" routerLink="/admin/dashboard">{{ 'adminDashboard' | translate }}</a>
+          <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">
+            {{ 'adminDashboard' | translate }}
+          </a>
         </li>
       </ul>
 
+      <!-- Right Controls -->
       <div class="navbar-controls">
-        <!-- Language -->
-        <div class="dropdown" ngbDropdown>
-          <button class="btn-control" ngbDropdownToggle>
-            <fa-icon [icon]="faGlobe"></fa-icon>
+        <!-- Language Dropdown -->
+        <div ngbDropdown class="dropdown">
+          <button class="btn-language" ngbDropdownToggle aria-label="Switch Language">
+            <fa-icon [icon]="faGlobe" class="me-1"></fa-icon>
             <span class="d-none d-md-inline">{{ currentFlag }}</span>
           </button>
           <div ngbDropdownMenu class="dropdown-menu-end">
@@ -38,18 +45,24 @@
           </div>
         </div>
 
-        <!-- Dark Mode -->
-        <button class="btn-control" (click)="toggleDarkMode()">
+        <!-- Dark Mode Toggle -->
+        <button class="btn-darkmode" (click)="toggleDarkMode()" aria-label="Toggle Dark Mode">
           <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
         </button>
 
-        <!-- Auth -->
+        <!-- Auth Buttons -->
         <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
-          <a class="btn btn-outline-light btn-sm" routerLink="/login"><fa-icon [icon]="faSignInAlt"></fa-icon></a>
-          <a class="btn btn-light btn-sm" routerLink="/register"><fa-icon [icon]="faUserPlus"></fa-icon></a>
+          <a class="btn btn-outline-light btn-sm" routerLink="/login" aria-label="Login">
+            <fa-icon [icon]="faSignInAlt"></fa-icon>
+          </a>
+          <a class="btn btn-light btn-sm" routerLink="/register" aria-label="Register">
+            <fa-icon [icon]="faUserPlus"></fa-icon>
+          </a>
         </ng-container>
         <ng-template #loggedIn>
-          <button class="btn btn-outline-light btn-sm" (click)="logout()"><fa-icon [icon]="faSignOutAlt"></fa-icon></button>
+          <button class="btn btn-outline-light btn-sm" (click)="logout()" aria-label="Logout">
+            <fa-icon [icon]="faSignOutAlt"></fa-icon>
+          </button>
         </ng-template>
       </div>
     </div>
