@@ -26,7 +26,7 @@
   
   /* Spacing System */
   --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
+  --space-sm: 0.5rem;  /* This is the .gap-2 spacing on right side */
   --space-md: 0.75rem;
   --space-lg: 1rem;
   --space-xl: 1.5rem;
@@ -98,8 +98,8 @@ body {
 /* ===== NAVBAR STYLES ===== */
 .warm-navbar {
   background: var(--navbar-bg);
-  padding: var(--space-sm) 0;
-  min-height: 64px;
+  padding: var(--space-md) 0;
+  min-height: 70px; /* INCREASED: 2px taller */
   box-shadow: var(--shadow-md);
   position: relative;
   z-index: 1030;
@@ -108,13 +108,14 @@ body {
 }
 
 .container-fluid {
-  padding: 0 var(--space-xl);
+  padding: 0 calc(var(--space-2xl) + 0.5rem); /* INCREASED: Extra 0.5rem on each side */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  max-width: 1400px;
+  max-width: 1460px; /* INCREASED: 20px wider */
   margin: 0 auto;
+  width: 100%;
 }
 
 /* Brand/Logo */
@@ -125,8 +126,9 @@ body {
   text-decoration: none;
   display: flex;
   align-items: center;
-  padding: var(--space-xs) 0;
+  padding: var(--space-sm) var(--space-md) var(--space-sm) 0;
   transition: all var(--transition-fast);
+  margin-right: var(--space-lg); /* Space between logo and Books/Quotes */
 }
 
 .navbar-brand:hover {
@@ -151,7 +153,7 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: var(--space-sm); /* Same spacing as between Login/Register buttons */
+  gap: var(--space-sm); /* Matches .gap-2 on right side (0.5rem) */
 }
 
 .nav-item {
@@ -163,7 +165,7 @@ body {
 .nav-link {
   color: var(--navbar-text);
   text-decoration: none;
-  padding: var(--space-xs) var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
   border-radius: 6px;
   font-weight: 600;
   font-size: var(--text-sm);
@@ -171,7 +173,7 @@ body {
   display: flex;
   align-items: center;
   white-space: nowrap;
-  min-height: 40px;
+  min-height: 42px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: transparent;
   cursor: pointer;
@@ -238,24 +240,24 @@ body {
 .d-flex {
   display: flex;
   align-items: center;
-  gap: var(--space-sm); /* Same spacing as navigation links */
+  gap: var(--space-sm); /* This is .gap-2 = 0.5rem */
   flex-wrap: wrap;
 }
 
-/* Language Toggle - Match .btn-outline-light styling */
+/* Language Toggle - Match .btn-outline-light styling, slightly wider */
 .btn-language {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--navbar-text);
-  padding: var(--space-xs) var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all var(--transition-fast);
-  min-width: 44px;
-  min-height: 40px;
+  min-width: 50px; /* INCREASED: 2px wider */
+  min-height: 42px;
   font-weight: 600;
   font-size: var(--text-sm);
   gap: var(--space-xs);
@@ -274,6 +276,7 @@ body {
 
 .btn-language .d-none.d-md-inline {
   font-size: 1em;
+  margin-left: var(--space-xs);
 }
 
 .dropdown-menu-end {
@@ -284,7 +287,7 @@ body {
   background: var(--card-light);
   border-radius: 6px;
   box-shadow: var(--shadow-lg);
-  min-width: 150px;
+  min-width: 160px;
   z-index: 1000;
   display: none;
   overflow: hidden;
@@ -339,20 +342,20 @@ body.dark-mode .dropdown-item.active {
   background: #4a5568;
 }
 
-/* Theme Toggle Button - Match .btn-outline-light styling */
+/* Theme Toggle Button - Match .btn-outline-light styling, slightly wider */
 .btn-darkmode {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--navbar-text);
-  padding: var(--space-xs) var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all var(--transition-fast);
-  min-width: 44px;
-  min-height: 40px;
+  min-width: 46px; /* INCREASED: 2px wider for consistency */
+  min-height: 42px;
   font-weight: 600;
   font-size: var(--text-sm);
 }
@@ -370,7 +373,7 @@ body.dark-mode .dropdown-item.active {
 
 /* ===== AUTH BUTTONS (Login/Register) - Reference Styling ===== */
 .btn {
-  padding: var(--space-xs) var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
   border-radius: 6px;
   font-weight: 600;
   font-size: var(--text-sm);
@@ -381,13 +384,13 @@ body.dark-mode .dropdown-item.active {
   gap: var(--space-xs);
   cursor: pointer;
   transition: all var(--transition-fast);
-  min-height: 40px; /* Books/Quotes/Language/Theme match this */
+  min-height: 42px;
   border: 1px solid transparent;
 }
 
 .btn-sm {
-  padding: var(--space-xs) var(--space-sm);
-  min-height: 36px;
+  padding: var(--space-xs) var(--space-md);
+  min-height: 38px;
   font-size: var(--text-sm);
 }
 
@@ -494,19 +497,27 @@ body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
 /* Tablet and Below */
 @media (max-width: 992px) {
   .container-fluid {
-    padding: 0 var(--space-lg);
+    padding: 0 var(--space-xl);
   }
   
   .navbar-nav {
-    gap: var(--space-xs);
+    gap: var(--space-sm);
   }
   
   .nav-link,
   .btn-language,
   .btn-darkmode {
-    padding: var(--space-xs) var(--space-sm);
+    padding: var(--space-xs) var(--space-md);
     font-size: var(--text-xs);
-    min-height: 36px;
+    min-height: 38px;
+  }
+  
+  .btn-language {
+    min-width: 46px; /* Adjusted for tablet */
+  }
+  
+  .btn-darkmode {
+    min-width: 44px; /* Adjusted for tablet */
   }
 }
 
@@ -555,6 +566,12 @@ body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
   .btn-language .d-none.d-md-inline {
     display: inline !important;
     margin-left: var(--space-xs);
+  }
+  
+  /* Remove logo spacing on mobile */
+  .navbar-brand {
+    margin-right: 0;
+    padding-right: 0;
   }
 }
 
