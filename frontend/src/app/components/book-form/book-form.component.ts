@@ -7,12 +7,13 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-book-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, TranslateModule], // <-- added TranslateModule
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule],
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.css']
 })
 export class BookFormComponent implements OnInit {
   @Input() book?: Book;
+  @Input() isEdit: boolean = false;
   @Output() close = new EventEmitter<boolean>();
 
   bookForm!: FormGroup;
@@ -24,10 +25,20 @@ export class BookFormComponent implements OnInit {
   private translate = inject(TranslateService);
 
   ngOnInit(): void {
+    // Map backend PublishDate → frontend publishDate
+    if (this.book && (this.book as any).PublishDate && !this.book.publishDate) {
+      this.book.publishDate = (this.book as any).PublishDate;
+    }
+
+    this.isEdit = !!this.book;
+
     this.bookForm = this.fb.group({
       title: [this.book?.title || '', [Validators.required, Validators.minLength(2)]],
       author: [this.book?.author || '', [Validators.required, Validators.minLength(2)]],
-      publishDate: [this.book?.publishDate?.split('T')[0] || this.getTodayDate(), Validators.required]
+      publishDate: [
+        this.book?.publishDate?.split('T')[0] || this.getTodayDate(),
+        Validators.required
+      ]
     });
   }
 
@@ -62,6 +73,10 @@ export class BookFormComponent implements OnInit {
     } catch {
       return dateString;
     }
+  }
+
+  formatDateForDisplay(dateString: string): string {
+    return this.formatDate(dateString);
   }
 
   getTodayDate(): string {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, map } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -14,7 +14,7 @@ export interface Book {
   id?: number;
   title: string;
   author: string;
-  publishDate?: string; // camelCase for Angular
+  publishDate?: string; // frontend uses camelCase
   quotes?: Quote[];
 }
 
@@ -39,14 +39,35 @@ export class BookService {
       : new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   }
 
+  // Map backend PublishDate → frontend publishDate
+  private mapBookFromApi(book: any): Book {
+    return {
+      id: book.id,
+      title: book.title,
+      author: book.author,
+      publishDate: book.publishDate ?? book.PublishDate, // handle both
+      quotes: book.quotes
+    };
+  }
+
+  private mapBooksFromApi(books: any[]): Book[] {
+    return books.map(b => this.mapBookFromApi(b));
+  }
+
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.apiUrl, { headers: this.getAuthHeaders() })
-      .pipe(catchError(err => throwError(() => err)));
+    return this.http.get<any[]>(this.apiUrl, { headers: this.getAuthHeaders() })
+      .pipe(
+        map(books => this.mapBooksFromApi(books)),
+        catchError(err => throwError(() => err))
+      );
   }
 
   getBook(id: number): Observable<Book> {
-    return this.http.get<Book>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() })
-      .pipe(catchError(err => throwError(() => err)));
+    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() })
+      .pipe(
+        map(book => this.mapBookFromApi(book)),
+        catchError(err => throwError(() => err))
+      );
   }
 
   createBook(book: Book): Observable<Book> {

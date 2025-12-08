@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { BookFormComponent } from '../book-form/book-form.component';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, TranslateModule], // <-- added CommonModule and TranslateModule
+  imports: [CommonModule, TranslateModule, BookFormComponent],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
@@ -19,6 +20,7 @@ export class BooksComponent implements OnInit {
 
   showFormModal = false;
   editingBook?: Book;
+  isEditMode = false; // Added to track edit mode
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -48,14 +50,25 @@ export class BooksComponent implements OnInit {
     });
   }
 
+  // Open form modal for adding or editing
   openForm(book?: Book): void {
-    this.editingBook = book;
+    this.isEditMode = !!book;
+
+    if (book) {
+      // Map backend PublishDate → frontend publishDate if needed
+      if ((book as any).PublishDate && !book.publishDate) {
+        book.publishDate = (book as any).PublishDate;
+      }
+    }
+
+    this.editingBook = book ? { ...book } : undefined; // clone to avoid modifying original
     this.showFormModal = true;
   }
 
   closeForm(reload = false): void {
     this.showFormModal = false;
     this.editingBook = undefined;
+    this.isEditMode = false;
     if (reload) this.loadBooks();
   }
 

@@ -6,6 +6,7 @@
       <p class="lead">{{ 'manageBookCollection' | translate }}</p>
     </div>
 
+    <!-- Add Book Button -->
     <div *ngIf="!isLoading && books.length > 0" class="add-book-container">
       <button class="btn-dashboard btn-primary-dashboard" (click)="addBook()">
         <i class="bi bi-plus-circle"></i> {{ 'addNewBook' | translate }}
@@ -50,9 +51,9 @@
           {{ 'by' | translate }} {{ book.author }}
         </p>
         <div class="book-meta">
-          <small *ngIf="book.publicationDate" class="text-muted">
+          <small *ngIf="book.publishDate" class="text-muted">
             <i class="bi bi-calendar me-1"></i>
-            {{ formatDate(book.publicationDate) }}
+            {{ formatDate(book.publishDate) }}
           </small>
           <small *ngIf="book.quotes && book.quotes.length > 0" class="text-muted mt-1 d-block">
             <i class="bi bi-chat-quote me-1"></i>
@@ -70,4 +71,12 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal for Book Form -->
+  <app-book-form
+    *ngIf="showFormModal"
+    [book]="editingBook"
+    [isEdit]="isEditMode"
+    (close)="closeForm($event)">
+  </app-book-form>
 </div>
