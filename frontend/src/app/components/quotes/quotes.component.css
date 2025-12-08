@@ -1,15 +1,13 @@
-/* ==============================
-   Page Styles
-============================== */
+/* General Page Wrapper */
 .quotes-page {
-  padding: 2rem;
+  padding: 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
   min-height: 100vh;
-  box-sizing: border-box;
   font-family: 'Inter', sans-serif;
-  color: #1f2937; /* Dark text for light mode */
-  background-color: #f8fafc; /* Light page background */
+  color: #1f2937;
+  background-color: #f8fafc;
+  transition: all 0.3s ease;
 }
 
 body.dark-mode .quotes-page {
@@ -17,16 +15,19 @@ body.dark-mode .quotes-page {
   background-color: #0f172a;
 }
 
-/* ==============================
-   Page Header
-============================== */
+body.dark-mode .quotes-page * {
+  color: #e0e7ff !important;
+  border-color: #334155 !important;
+}
+
+/* Page Header */
 .page-header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
   font-weight: 800;
   color: #1e3a8a;
 }
@@ -36,7 +37,7 @@ body.dark-mode .page-header h1 {
 }
 
 .page-header .lead {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   color: #6b7280;
 }
 
@@ -44,24 +45,28 @@ body.dark-mode .page-header .lead {
   color: #c7d2fe;
 }
 
-/* ==============================
-   Quotes Container Grid
-============================== */
+/* Grid Layout */
 .quotes-container {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 2rem;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .quotes-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 1.5rem;
   }
 }
 
-/* ==============================
-   Quote Form Card
-============================== */
+@media (max-width: 992px) {
+  .quotes-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Quote Form Card */
 .quote-form-card {
   background-color: #ffffff;
   border-radius: 12px;
@@ -84,7 +89,7 @@ body.dark-mode .quote-form-card .card-header h5 {
   color: #60a5fa;
 }
 
-/* Form Inputs */
+/* Inputs */
 .quote-form-card input,
 .quote-form-card textarea,
 .quote-form-card select {
@@ -94,6 +99,9 @@ body.dark-mode .quote-form-card .card-header h5 {
   border: 1px solid #cbd5e1;
   font-size: 0.95rem;
   margin-top: 0.25rem;
+  background-color: #ffffff;
+  color: #1f2937;
+  transition: all 0.3s ease;
 }
 
 body.dark-mode .quote-form-card input,
@@ -107,7 +115,6 @@ body.dark-mode .quote-form-card select {
 .invalid-feedback {
   color: #ef4444;
   font-size: 0.85rem;
-  margin-top: 0.25rem;
 }
 
 /* Form Buttons */
@@ -133,15 +140,14 @@ body.dark-mode .quote-form-card select {
   cursor: not-allowed;
 }
 
-/* ==============================
-   Quotes List Cards
-============================== */
+/* Quote Cards Grid */
 .quotes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
 }
 
+/* Card */
 .quote-card {
   background-color: #ffffff;
   border-radius: 12px;
@@ -164,7 +170,7 @@ body.dark-mode .quote-card {
 
 .quote-text {
   font-style: italic;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
   margin-bottom: 0.75rem;
   color: #1f2937;
 }
@@ -176,8 +182,7 @@ body.dark-mode .quote-text {
 .quote-footer {
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
 }
 
 .quote-author {
@@ -201,17 +206,19 @@ body.dark-mode .quote-book {
 .quote-card-actions {
   display: flex;
   gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .quote-card-actions button {
-  flex: 1;
+  flex: 1 1 auto;
   padding: 0.4rem 0.75rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s ease;
   color: #fff;
+  transition: all 0.3s ease;
 }
 
 .quote-card-actions button:first-child {
@@ -244,7 +251,7 @@ body.dark-mode .empty-quotes-state {
   color: #c7d2fe;
 }
 
-/* Responsive */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .quotes-container {
     grid-template-columns: 1fr;
@@ -256,5 +263,30 @@ body.dark-mode .empty-quotes-state {
 
   .form-buttons button {
     width: 100%;
+  }
+
+  .quote-card-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .quotes-page {
+    padding: 1rem;
+  }
+
+  .quote-form-card,
+  .quote-card {
+    padding: 1rem;
+  }
+
+  .quote-card-actions button {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .quote-footer {
+    flex-direction: column;
+    gap: 0.25rem;
   }
 }

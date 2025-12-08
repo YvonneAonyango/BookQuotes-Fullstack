@@ -14,6 +14,10 @@
   "whatBookWebAppOffers": "Vad BookWebApp erbjuder",
   "transformYourReadingExperience": "Förvandla din läsupplevelse med våra kraftfulla funktioner",
   "readingInsights": "Läsinsikter",
+  "myQuotes": "Mina Citat",
+  "allQuotes": "Alla Citat",
+  "alreadyHaveAccount": "Har du redan ett konto?",
+  "loginToAccount": "Logga in här",
 
   "elevateYourReadingExperience": "Förhöj din läsupplevelse",
   "smartBookManagement": "Smart bokhantering",
@@ -106,7 +110,7 @@
   "confirmPasswordRequired": "Vänligen bekräfta ditt lösenord",
   "passwordsMismatch": "Lösenorden matchar inte",
   "min6Chars": "Minst 6 tecken",
-  
+
   "lowercaseRequired": "Minst en liten bokstav",
   "uppercaseRequired": "Minst en stor bokstav",
   "numberRequired": "Minst en siffra",

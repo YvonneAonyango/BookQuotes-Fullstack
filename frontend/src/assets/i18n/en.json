@@ -8,7 +8,10 @@
   "quoteCollectionDesc": "Capture and organize your favorite quotes from every book you read.",
   "trackYourReadingHabits": "Track your reading habits and discover patterns in your literary journey.",
   "yourPersonalLibraryReimagined": "Your personal library, reimagined",
-
+  "myQuotes": "My Quotes",
+  "allQuotes": "All Quotes",
+  "alreadyHaveAccount": "Already have an account?",
+  "loginToAccount": "Sign in here",
   "curateYourBooks": "Curate your books",
   "captureQuotes": "Capture quotes",
   "unlockInsights": "Unlock insights",
@@ -108,7 +111,7 @@
   "confirmPasswordRequired": "Please confirm your password",
   "passwordsMismatch": "Passwords do not match",
   "min6Chars": "Minimum 6 characters",
-  
+
   "lowercaseRequired": "At least one lowercase letter",
   "uppercaseRequired": "At least one uppercase letter",
   "numberRequired": "At least one number",

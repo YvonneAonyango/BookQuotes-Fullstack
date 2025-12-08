@@ -3,11 +3,8 @@
     <div class="col-12 col-md-8 col-lg-6 col-xl-5">
       <div class="card shadow">
         <!-- Header -->
-        <div class="card-header text-white py-3 d-flex align-items-center">
-          <button class="btn btn-light btn-sm me-2" (click)="onCancel()">
-            <i class="bi bi-arrow-left"></i>
-          </button>
-          <h2 class="h5 mb-0 flex-grow-1 text-center">
+        <div class="card-header text-white py-3 d-flex align-items-center justify-content-center">
+          <h2 class="h5 mb-0 text-center">
             {{ isEdit ? ('editBook' | translate) : ('addBook' | translate) }}
           </h2>
         </div>

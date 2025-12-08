@@ -1,4 +1,3 @@
-/* ===== BASE PAGE ===== */
 .books-page {
   padding: 2rem 1rem;
   max-width: 1200px;
@@ -6,7 +5,7 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* ===== PAGE HEADER ===== */
+/* Page Header */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -27,24 +26,24 @@
   color: #555;
 }
 
+/* Add Book Button - smaller, dark warm blue */
 .btn-add-book {
-  background: linear-gradient(135deg, #3182ce, #2c5282);
+  background: #1e3a8a; /* warm dark blue */
   color: #fff;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
 }
 
 .btn-add-book:hover {
+  background: #2563eb;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(49,130,206,0.3);
 }
 
-/* ===== LOADING ===== */
+/* Loading State */
 .loading-state {
   display: flex;
   flex-direction: column;
@@ -58,43 +57,29 @@
   font-size: 1rem;
 }
 
-/* ===== EMPTY STATE ===== */
-.empty-state {
-  text-align: center;
-  background: #f8f9fa;
-  padding: 3rem 2rem;
-  border-radius: 16px;
-  margin-top: 2rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+/* Books + Form Container */
+.books-content {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
 }
 
-.empty-state i {
-  font-size: 3rem;
-  color: #adb5bd;
-  margin-bottom: 1rem;
-}
-
-.empty-state h3 {
-  font-size: 1.5rem;
-  color: #1f3b5f;
-  margin-bottom: 0.5rem;
-}
-
-.empty-state p {
-  color: #555;
-  margin-bottom: 1.5rem;
-}
-
-/* ===== BOOKS GRID ===== */
+/* Books Grid */
 .books-grid {
+  flex: 2;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
 }
 
-/* ===== BOOK CARD ===== */
+/* Book Form Panel */
+app-book-form {
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+/* Book Card */
 .book-card {
   display: flex;
   flex-direction: column;
@@ -111,7 +96,7 @@
 }
 
 .book-card-header {
-  background: linear-gradient(135deg, #3182ce, #2c5282);
+  background: #2563eb;
   height: 100px;
   display: flex;
   justify-content: center;
@@ -148,7 +133,7 @@
   margin-top: 0.25rem;
 }
 
-/* ===== FOOTER BUTTONS ===== */
+/* Footer Buttons */
 .book-card-footer {
   display: flex;
   gap: 0.5rem;
@@ -183,7 +168,7 @@
   background: linear-gradient(135deg, #f87171, #ef4444);
 }
 
-/* ===== RESPONSIVE ===== */
+/* Responsive */
 @media (max-width: 1024px) {
   .books-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -191,6 +176,14 @@
 }
 
 @media (max-width: 768px) {
+  .books-content {
+    flex-direction: column;
+  }
+
+  app-book-form {
+    max-width: 100%;
+  }
+
   .books-grid {
     grid-template-columns: 1fr;
   }

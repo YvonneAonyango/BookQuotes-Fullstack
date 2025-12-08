@@ -5,7 +5,6 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TruncatePipe } from '../../pipes/truncate.pipe';
 
-// Correct service imports
 import { Quote, QuoteService } from '../../services/quote.service';
 import { Book, BookService } from '../../services/book.service';
 
@@ -59,7 +58,6 @@ export class QuotesComponent implements OnInit {
     this.loadBooks();
   }
 
-  /** Load all quotes for the current user */
   loadQuotes(): void {
     this.isLoading = true;
     this.quoteService.getQuotes().subscribe({
@@ -74,7 +72,6 @@ export class QuotesComponent implements OnInit {
     });
   }
 
-  /** Load books for dropdown selection */
   loadBooks(): void {
     this.bookService.getBooks().subscribe({
       next: (books: Book[]) => this.books = books,
@@ -82,21 +79,18 @@ export class QuotesComponent implements OnInit {
     });
   }
 
-  /** Return book title for a quote */
   getBookTitle(bookId?: number | null): string {
     if (!bookId) return '';
     const book = this.books.find(b => b.id === bookId);
     return book ? book.title : '';
   }
 
-  /** Check if current user can edit/delete a quote */
   canEditOrDelete(quote: Quote): boolean {
     const currentUserId = Number(localStorage.getItem('userId'));
     const isAdmin = localStorage.getItem('isAdmin') === 'true';
-    return isAdmin || quote.userId === currentUserId;
+    return isAdmin || quote.userId === currentUserId || !quote.id;
   }
 
-  /** Start editing a quote */
   editQuote(quote: Quote): void {
     this.isEdit = true;
     this.editingQuoteId = quote.id;
@@ -110,31 +104,29 @@ export class QuotesComponent implements OnInit {
     document.querySelector('.quote-form-section')?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  /** Cancel edit and reset form */
   cancelEdit(): void {
     this.resetForm();
   }
 
-  /** Reset the form */
   resetForm(): void {
     this.quoteForm.reset({ text: '', author: '', bookId: null });
     this.isEdit = false;
     this.editingQuoteId = undefined;
   }
 
-  /** Handle form submission for create/update */
   onSubmit(): void {
     if (!this.quoteForm.valid) return;
 
     this.isLoading = true;
     const formValue = this.quoteForm.value;
-    const quoteData: Quote = {
-      text: formValue.text,
-      author: formValue.author,
-      bookId: formValue.bookId || null
-    };
 
     if (this.isEdit && this.editingQuoteId) {
+      const quoteData: Quote = {
+        text: formValue.text,
+        author: formValue.author,
+        bookId: formValue.bookId || null
+      };
+
       this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
         next: (updated: Quote) => {
           const index = this.quotes.findIndex(q => q.id === this.editingQuoteId);
@@ -148,6 +140,13 @@ export class QuotesComponent implements OnInit {
         }
       });
     } else {
+      const quoteData: Quote = {
+        text: formValue.text,
+        author: formValue.author,
+        bookId: formValue.bookId || null,
+        userId: Number(localStorage.getItem('userId'))
+      };
+
       this.quoteService.createQuote(quoteData).subscribe({
         next: (newQuote: Quote) => {
           this.quotes.push(newQuote);
@@ -162,8 +161,9 @@ export class QuotesComponent implements OnInit {
     }
   }
 
-  /** Delete a quote */
-  deleteQuote(id: number): void {
+  deleteQuote(id: number | undefined): void {
+    if (!id) return;
+
     this.translate.get('confirmDeleteQuote').subscribe((translated: string) => {
       if (!confirm(translated || 'Are you sure you want to delete this quote?')) return;
 

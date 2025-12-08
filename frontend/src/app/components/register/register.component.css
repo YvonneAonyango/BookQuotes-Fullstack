@@ -2,14 +2,14 @@
 .register-page {
   min-height: 100vh;
   display: flex;
-  align-items: center;       /* vertically center if space allows */
-  justify-content: center;   /* horizontally center */
+  align-items: center;
+  justify-content: center;
   background: #f5f5f5;
   padding: 20px;
-  box-sizing: border-box;    /* ensure padding is included in height */
+  box-sizing: border-box;
 }
 
-/* Dark mode */
+/* Dark mode background */
 body.dark-mode .register-page {
   background: #1a1a1a;
 }
@@ -17,18 +17,19 @@ body.dark-mode .register-page {
 /* Card styling */
 .register-card {
   width: 100%;
-  max-width: 450px;
+  max-width: 550px; /* max width for large screens */
   border-radius: 12px;
   background: white;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.1);
   overflow: hidden;
-  margin: 20px;              /* ensures spacing on very small screens */
+  margin: 20px; /* ensures spacing on small screens */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Dark mode card */
 body.dark-mode .register-card {
   background: #2d2d2d;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
 }
 
 /* Card header */
@@ -36,7 +37,7 @@ body.dark-mode .register-card {
   background: #4264a2;
   color: white;
   text-align: center;
-  padding: 25px 20px;
+  padding: 30px 20px;
 }
 
 body.dark-mode .card-header {
@@ -45,37 +46,42 @@ body.dark-mode .card-header {
 
 .card-header h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  word-break: break-word;
 }
 
 /* Card body */
 .card-body {
-  padding: 25px;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Form group */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Inputs */
-.form-control {
+input[type=text], input[type=password] {
   width: 100%;
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+  padding: 14px;
   font-size: 16px;
-  transition: border 0.3s, background 0.3s, color 0.3s;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   box-sizing: border-box;
 }
 
-body.dark-mode .form-control {
+body.dark-mode input[type=text],
+body.dark-mode input[type=password] {
   background: #3a3a3a;
-  border-color: #555;
   color: #ddd;
+  border-color: #555;
 }
 
-.form-control:focus {
+input:focus {
   border-color: #4467a9;
   box-shadow: 0 0 0 2px rgba(31,59,111,0.2);
   outline: none;
@@ -88,6 +94,7 @@ body.dark-mode .is-invalid { border-color: #ff6b81; }
 .invalid-feedback {
   color: #ff4757;
   font-size: 0.875rem;
+  margin-top: 3px;
 }
 body.dark-mode .invalid-feedback { color: #ff6b81; }
 
@@ -96,25 +103,25 @@ body.dark-mode .invalid-feedback { color: #ff6b81; }
 .password-requirement { margin-bottom: 3px; }
 .requirement-met { color: #3e6747; }
 
-/* Button */
+/* Submit Button */
 .btn-register {
   width: 100%;
-  padding: 14px;
-  border-radius: 6px;
+  padding: 16px;
+  border-radius: 8px;
   background: #375181;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
   border: none;
   transition: all 0.3s;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 8px;
 }
 
 body.dark-mode .btn-register { background: #2d4a79; }
-
 .btn-register:hover:not(:disabled) { background: #16305a; }
 
 /* Spinner */
@@ -126,15 +133,14 @@ body.dark-mode .btn-register { background: #2d4a79; }
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Login link */
 .login-link {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 20px;
+  word-wrap: break-word;
 }
-
 .login-link a {
   color: #1f3b6f;
   font-weight: 500;
@@ -144,9 +150,18 @@ body.dark-mode .login-link a { color: #16305a; }
 .login-link a:hover { text-decoration: underline; }
 
 /* Responsive tweaks */
+@media (max-width: 600px) {
+  .register-card {
+    max-width: 95%;
+    margin: 10px;
+  }
+  .card-body { padding: 20px; }
+  .card-header h2 { font-size: 1.5rem; }
+}
+
 @media (max-height: 500px) {
   .register-page {
-    align-items: flex-start;  /* prevent overflow on very short screens */
+    align-items: flex-start;
     padding-top: 20px;
     padding-bottom: 20px;
   }

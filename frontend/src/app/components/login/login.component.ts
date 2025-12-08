@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, effect } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   private translate = inject(TranslateService);
   private themeService = inject(ThemeService);
 
-  // Signal to track dark mode
+  // Access dark mode signal from ThemeService
   isDarkMode = this.themeService.isDarkMode;
 
   constructor(
@@ -44,17 +44,13 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    // Set page title and description for SEO
     this.translate.get(['login', 'loginDescription']).subscribe(translations => {
       this.titleService.setTitle(`Book Quotes Buddy - ${translations['login']}`);
       this.meta.updateTag({
         name: 'description',
-        content: translations['loginDescription'] || 'Login to access your personal library and manage your books and quotes.'
+        content: translations['loginDescription']
       });
-    });
-
-    // Optional: effect to react to theme changes
-    effect(() => {
-      console.log('Current theme is dark?', this.isDarkMode());
     });
   }
 
@@ -89,9 +85,5 @@ export class LoginComponent implements OnInit {
   hasError(controlName: string): boolean {
     const control = this.loginForm.get(controlName);
     return control ? control.invalid && control.touched : false;
-  }
-
-  toggleTheme(): void {
-    this.themeService.toggleTheme();
   }
 }

@@ -30,7 +30,10 @@ export class BooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Books');
-    this.meta.updateTag({ name: 'description', content: 'Browse and manage your books in your personal library with BookWebApp.' });
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Browse and manage your books in your personal library with BookWebApp.'
+    });
     this.loadBooks();
   }
 
@@ -52,11 +55,9 @@ export class BooksComponent implements OnInit {
 
   openForm(book?: Book): void {
     this.isEditMode = !!book;
-
     if (book && (book as any).PublishDate && !book.publishDate) {
       book.publishDate = (book as any).PublishDate;
     }
-
     this.editingBook = book ? { ...book } : undefined;
     this.showFormModal = true;
   }
