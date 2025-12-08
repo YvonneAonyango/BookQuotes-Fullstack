@@ -20,8 +20,8 @@ import {
   faUserPlus,
   faHeart,
   faBars,
-  faBook,           // ADDED: Missing icon
-  faQuoteRight      // ADDED: Missing icon
+  faBook,
+  faQuoteRight
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -48,17 +48,18 @@ export class NavbarComponent implements OnInit {
   faUserPlus = faUserPlus;
   faHeart = faHeart;
   faBars = faBars;
-  faBook = faBook;           // ADDED
-  faQuoteRight = faQuoteRight; // ADDED
+  faBook = faBook;
+  faQuoteRight = faQuoteRight;
 
   currentLanguage: Language = 'en';
   currentFlag = '🇬🇧';
   isCollapsed = true;
+  
+  router = inject(Router); 
 
   authService = inject(AuthService);
   languageService = inject(LanguageService);
   themeService = inject(ThemeService);
-  private router = inject(Router);
   private translate = inject(TranslateService);
 
   private meta = inject(Meta);
