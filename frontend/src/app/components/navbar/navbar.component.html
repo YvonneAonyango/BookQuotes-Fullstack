@@ -15,18 +15,26 @@
     <!-- Navbar Menu -->
     <div class="navbar-collapse" [ngClass]="{'show': !isCollapsed}" id="navbarContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Book Link in Container -->
         <li class="nav-item">
-          <a class="nav-link" routerLink="/books" routerLinkActive="active" 
-             [routerLinkActiveOptions]="{ exact: true }" (click)="isCollapsed = true">
-            <fa-icon [icon]="faBook" class="me-1"></fa-icon>{{ 'books' | translate }}
-          </a>
+          <div class="nav-link-container" [class.active]="router.url === '/books' || router.url.includes('/books/')">
+            <a class="nav-link" routerLink="/books" routerLinkActive="active" 
+               [routerLinkActiveOptions]="{ exact: false }" (click)="isCollapsed = true">
+              <fa-icon [icon]="faBook" class="me-2"></fa-icon>{{ 'books' | translate }}
+            </a>
+          </div>
         </li>
+        
+        <!-- Quotes Link in Container -->
         <li class="nav-item">
-          <a class="nav-link" routerLink="/quotes" routerLinkActive="active" 
-             [routerLinkActiveOptions]="{ exact: true }" (click)="isCollapsed = true">
-            <fa-icon [icon]="faQuoteRight" class="me-1"></fa-icon>{{ 'quotes' | translate }}
-          </a>
+          <div class="nav-link-container" [class.active]="router.url === '/quotes' || router.url.includes('/quotes/')">
+            <a class="nav-link" routerLink="/quotes" routerLinkActive="active" 
+               [routerLinkActiveOptions]="{ exact: false }" (click)="isCollapsed = true">
+              <fa-icon [icon]="faQuoteRight" class="me-2"></fa-icon>{{ 'quotes' | translate }}
+            </a>
+          </div>
         </li>
+        
         <li class="nav-item" *ngIf="authService.isAdmin()">
           <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active" (click)="isCollapsed = true">
             {{ 'adminDashboard' | translate }}

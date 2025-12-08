@@ -1,4 +1,49 @@
-/* ===== CSS VARIABLES ===== */
+/* Apply theme to all pages */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ensure all containers get theme colors */
+.container, 
+.container-fluid,
+.card,
+.modal-content,
+.dropdown-menu,
+.form-control,
+.input-group-text,
+.table,
+.list-group-item {
+  background-color: var(--card-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Form inputs */
+input, 
+textarea, 
+select {
+  background-color: var(--card-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Specific component overrides */
+.alert {
+  background-color: var(--card-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Links */
+a {
+  color: var(--warm-blue-accent);
+}
+
+a:hover {
+  color: var(--warm-blue-hover);
+}
 :root {
   /* Colors */
   --bg-light: #fdfdfd;

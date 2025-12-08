@@ -1,10 +1,43 @@
-/* Basic padding for main content */
-main.container {
-  padding-block-start: 20px;
+/* Apply theme to all pages */
+.app-container {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark mode styling for main content */
-body.dark-mode {
-  background-color: #121212;
-  color: #f0f0f0;
+/* Ensure all form components get theme colors */
+.login-container,
+.register-container,
+.auth-container,
+.form-container,
+.card,
+.modal-content,
+.form-control,
+.input-group-text,
+.table {
+  background-color: var(--card-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Form inputs */
+input, 
+textarea, 
+select {
+  background-color: var(--card-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Specific form styling for login/register pages */
+.login-page,
+.register-page {
+  background-color: var(--bg-primary) !important;
+}
+
+.login-page .card,
+.register-page .card {
+  background-color: var(--card-primary) !important;
+  color: var(--text-primary) !important;
 }

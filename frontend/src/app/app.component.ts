@@ -1,16 +1,15 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, RouterModule, RouterOutlet],
-  template: `
-    <app-navbar></app-navbar>
-    <router-outlet></router-outlet>
-  `,
+  imports: [RouterOutlet, NavbarComponent],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {}
-
+export class AppComponent {
+  themeService = inject(ThemeService);
+}
