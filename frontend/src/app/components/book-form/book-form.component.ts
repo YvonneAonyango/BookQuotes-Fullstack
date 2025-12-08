@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Book, BookService } from '../../services/book.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-book-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, TranslateModule], // <-- added TranslateModule
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.css']
 })
@@ -15,7 +15,7 @@ export class BookFormComponent implements OnInit {
   @Input() book?: Book;
   @Output() close = new EventEmitter<boolean>();
 
-  bookForm!: FormGroup; // fixed strict initialization
+  bookForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
 
@@ -35,7 +35,7 @@ export class BookFormComponent implements OnInit {
     if (!this.bookForm.valid) return;
 
     this.isLoading = true;
-    const data: Book = this.bookForm.value; // includes publishDate
+    const data: Book = this.bookForm.value;
 
     const request = this.book?.id
       ? this.bookService.updateBook(this.book.id, data)
@@ -55,7 +55,6 @@ export class BookFormComponent implements OnInit {
     this.close.emit(false);
   }
 
-  // Helper functions inside component
   formatDate(dateString: string): string {
     try {
       const date = new Date(dateString);

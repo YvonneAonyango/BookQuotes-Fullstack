@@ -14,6 +14,7 @@
   "whatBookWebAppOffers": "Vad BookWebApp erbjuder",
   "transformYourReadingExperience": "Förvandla din läsupplevelse med våra kraftfulla funktioner",
   "readingInsights": "Läsinsikter",
+
   "elevateYourReadingExperience": "Förhöj din läsupplevelse",
   "smartBookManagement": "Smart bokhantering",
   "organizeAndTrackBooks": "Organisera och spåra dina böcker enkelt",
@@ -27,6 +28,7 @@
   "addBooksQuickly": "Lägg till böcker snabbt",
   "curateYourCollectionInMinutes": "Kurera din samling på några minuter",
   "manageQuotes": "Hantera citat",
+
   "manageQuotesDesc": "Spara inspirerande citat från dina läsningar och organisera dem i din personliga citatsamling.",
   "saveAndOrganizeQuotesEasily": "Spara och organisera citat enkelt",
   "editUpdate": "Redigera & Uppdatera",
@@ -40,6 +42,7 @@
   "noCreditCardRequired": "Inget kreditkort krävs",
   "useOnAnyDevice": "Använd på vilken enhet som helst",
   "freeAndEasy": "Gratis och enkelt",
+
   "accessibleAnywhere": "Tillgängligt var som helst",
   "getStarted": "Börja gratis nu",
   "browseLibrary": "Bläddra i biblioteket",
@@ -51,6 +54,7 @@
   "myBooks": "Mina böcker",
   "manageBookCollection": "Hantera din boksamling",
   "addNewBook": "Lägg till ny bok",
+
   "noBooksYet": "Inga böcker än",
   "startByAddingFirstBook": "Börja med att lägga till din första bok",
   "loading": "Laddar...",
@@ -66,6 +70,7 @@
   "enterBookTitle": "Ange boktitel",
   "titleRequired": "Titel krävs",
   "author": "Författare",
+
   "enterAuthorName": "Ange författarnamn",
   "authorRequired": "Författare krävs",
   "publicationDate": "Utgivningsdatum",
@@ -75,6 +80,7 @@
   "bookFormDescription": "Lägg till eller redigera bokdetaljer i ditt personliga bibliotek.",
   "organizeBooks": "Organisera böcker",
   "saveQuotes": "Spara citat",
+
   "discoverInsights": "Upptäck insikter",
   "homeDescription": "BookWebApp - Ditt personliga digitala bibliotek för att organisisera böcker och fånga meningsfulla citat. Förvandla din läsupplevelse med smart bokhantering och citatsamling.",
   "errorLoadingBook": "Det gick inte att ladda bokdetaljer. Försök igen.",
@@ -92,6 +98,7 @@
   "loggingIn": "Loggar in...",
   "dontHaveAccount": "Har du inget konto?",
   "register": "Registrera",
+
   "createAccount": "Skapa konto",
   "usernameMinLength": "Användarnamn måste vara minst 3 tecken",
   "createPassword": "Skapa ett lösenord",
@@ -99,6 +106,7 @@
   "confirmPasswordRequired": "Vänligen bekräfta ditt lösenord",
   "passwordsMismatch": "Lösenorden matchar inte",
   "min6Chars": "Minst 6 tecken",
+  
   "lowercaseRequired": "Minst en liten bokstav",
   "uppercaseRequired": "Minst en stor bokstav",
   "numberRequired": "Minst en siffra",

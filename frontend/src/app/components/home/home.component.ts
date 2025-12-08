@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
   private translate = inject(TranslateService);
 
   ngOnInit(): void {
+    document.body.classList.add('homepage'); // mark homepage for full-width layout
     this.titleService.setTitle('BookWebApp - Home');
 
     this.translate.get('homeDescription').subscribe((translated: string) => {
