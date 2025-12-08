@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TruncatePipe } from '../../pipes/truncate.pipe';
+// REMOVE THIS LINE ↓
+// import { TruncatePipe } from '../../pipes/truncate.pipe';
 
 import { Quote, QuoteService } from '../../services/quote.service';
 import { Book, BookService } from '../../services/book.service';
@@ -14,7 +15,8 @@ import { Book, BookService } from '../../services/book.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TruncatePipe,
+    // REMOVE TruncatePipe from imports array ↓
+    // TruncatePipe,
     TranslateModule
   ],
   templateUrl: './quotes.component.html',
