@@ -22,7 +22,7 @@ builder.Configuration
 // ------------------------
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
-    var connString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    var connString = builder.Configuration.GetConnectionString("DefaultConnection")
                      ?? "Data Source=books.db";
     opt.UseSqlite(connString);
 });
@@ -42,16 +42,16 @@ builder.Services.AddSwaggerGen();
 // ------------------------
 // JWT AUTHENTICATION
 // ------------------------
-var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
+var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
              ?? builder.Configuration["Jwt:Key"]
              ?? "DEVELOPMENT_KEY_ONLY_CHANGE_FOR_PRODUCTION";
 
-var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") 
-             ?? builder.Configuration["Jwt:Issuer"] 
+var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER")
+             ?? builder.Configuration["Jwt:Issuer"]
              ?? "BookWebApp";
 
-var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") 
-               ?? builder.Configuration["Jwt:Audience"] 
+var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")
+               ?? builder.Configuration["Jwt:Audience"]
                ?? "BookWebAppUsers";
 
 var key = Encoding.UTF8.GetBytes(jwtKey);
@@ -73,19 +73,31 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 // ------------------------
-// CORS
+// CORS  (FIXED FOR RENDER)
 // ------------------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
         policy.WithOrigins(
-                "http://localhost:4200",                          // Angular dev
-                "https://book-quotes-web-app-frontend.onrender.com" // Deployed frontend
+                "http://localhost:4200",
+                "https://book-quotes-web-app-frontend.onrender.com"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials()
+            .SetIsOriginAllowedToAllowWildcardSubdomains()
     );
+});
+
+// ------------------------
+// RENDER PORT BINDING (REQUIRED)
+// ------------------------
+builder.WebHost.ConfigureKestrel(options =>
+{
+    var port = Environment.GetEnvironmentVariable("PORT");
+    if (!string.IsNullOrEmpty(port))
+    {
+        options.ListenAnyIP(int.Parse(port));
+    }
 });
 
 // ------------------------
@@ -104,7 +116,7 @@ using (var scope = app.Services.CreateScope())
 // ------------------------
 // MIDDLEWARE
 // ------------------------
-app.UseCors("AllowFrontend"); // MUST be before Authentication & Authorization
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
