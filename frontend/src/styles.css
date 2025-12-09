@@ -12,10 +12,8 @@
   --warm-blue-accent: #4a90e2;
   --warm-blue-hover: #3571c1;
 
-  /* Navbar gradients */
   --navbar-light: linear-gradient(135deg, #1f3b5f, #2c5282);
 
-  /* Spacing */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -23,7 +21,6 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
 
-  /* Typography */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 0.9375rem;
@@ -35,13 +32,15 @@
 
 /* Dark Theme */
 body.dark-mode {
-  --bg-primary: #1b1b22;       /* slightly lighter than #1e1e24 */
-  --card-primary: #25252e;     /* soft charcoal */
-  --text-primary: #e0e0e5;     /* soft white */
-  --text-secondary: #b0b0b5;   /* muted secondary text */
-  --border-primary: #3c3c48;   /* subtle border */
-
-  --navbar-light: linear-gradient(135deg, #182a45, #20355e);
+  --bg-primary: #1f1f27;       /* Softer dark gray-blue */
+  --card-primary: #2a2a38;     /* Slightly lighter card background */
+  --text-primary: #e0e0e5;     /* Soft off-white text */
+  --text-secondary: #b0b0b5;   /* Muted secondary text */
+  --border-primary: #3a3a4a;   /* Softer border */
+  --highlight: #ff9f1c;        /* Accent */
+  --warm-blue-accent: #5aa0ff; /* Lighter blue for links */
+  --warm-blue-hover: #3f80d6;
+  --navbar-light: linear-gradient(135deg, #1d2a45, #24355f);
 }
 
 /* ================= GLOBAL RESET ================= */
@@ -157,7 +156,7 @@ a:hover {
 .form-control:focus, .form-select:focus {
   outline: none;
   border-color: var(--highlight);
-  box-shadow: 0 0 0 2px rgba(215, 155, 31, 0.25);
+  box-shadow: 0 0 0 2px rgba(255, 159, 28, 0.25);
 }
 
 .form-label {
@@ -175,6 +174,8 @@ a:hover {
   border-radius: 8px;
   padding: var(--space-4);
   margin-bottom: var(--space-4);
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
 .card-title {
@@ -184,6 +185,64 @@ a:hover {
 }
 .card-subtitle { font-size: var(--text-md); color: var(--text-secondary); }
 .card-text { font-size: var(--text-base); color: var(--text-primary); }
+
+/* ================= QUOTES PAGE SPECIFIC ================= */
+.quotes-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+}
+
+.quotes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+/* Quote Form Section */
+.quote-form {
+  flex: 1 1 300px;
+  min-width: 280px;
+  max-width: 500px;
+  align-self: flex-start;
+}
+
+/* Quotes List */
+.quotes-list {
+  flex: 2 1 500px;
+  min-width: 300px;
+}
+
+/* Individual Quote Cards */
+.quote-card {
+  background: var(--card-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.quote-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.quote-text {
+  cursor: pointer;
+  margin-bottom: var(--space-2);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.quote-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
 
 /* ================= TABLES ================= */
 table {
@@ -229,6 +288,11 @@ body.dark-mode .alert-info { background: #1e2f3a; color: #7ec8e3; }
 .text-xs { font-size: var(--text-xs) !important; }
 
 /* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .quotes-container { flex-direction: column; }
+  .quote-form, .quotes-list { max-width: 100%; }
+}
+
 @media (max-width: 768px) {
   .container { padding: 0 var(--space-2); }
   h1 { font-size: var(--text-xl); }
@@ -238,24 +302,5 @@ body.dark-mode .alert-info { background: #1e2f3a; color: #7ec8e3; }
 
 @media (max-width: 480px) {
   .btn { width: 100%; }
-}
-
-/* ================= DARK MODE ================= */
-body.dark-mode {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-/* Ensure components inherit dark-mode colors via variables */
-body.dark-mode .container,
-body.dark-mode .card,
-body.dark-mode .modal-content,
-body.dark-mode .dropdown-menu,
-body.dark-mode .form-control,
-body.dark-mode .input-group-text,
-body.dark-mode .table,
-body.dark-mode .list-group-item {
-  background-color: var(--card-primary) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-primary) !important;
+  .quote-card-footer { flex-direction: column; gap: var(--space-1); }
 }

@@ -1,12 +1,12 @@
 <nav class="navbar" [ngClass]="{ 'dark-mode': isDarkMode }">
-  <!-- Left: Logo + Links in one line -->
+  <!-- Left: Logo + Links -->
   <div class="navbar-left">
     <a class="brand" routerLink="/" (click)="closeOnNavigate()">
       <span class="logo-emoji">🏠</span>
       <span>Book Quote Buddy</span>
     </a>
 
-    <!-- Links next to logo -->
+    <!-- Desktop Links -->
     <ul class="nav-links desktop">
       <li><a routerLink="/books" (click)="closeOnNavigate()">Books</a></li>
       <li><a routerLink="/quotes" (click)="closeOnNavigate()">Quotes</a></li>
@@ -18,13 +18,16 @@
     <button class="mini-box" (click)="toggleLanguage()">{{ currentLanguage | uppercase }}</button>
     <button class="mini-box" (click)="toggleDarkMode()">{{ isDarkMode ? '☀️' : '🌙' }}</button>
 
+    <!-- Not logged in -->
     <ng-container *ngIf="!isLoggedIn">
       <a class="btn-outline" routerLink="/login" (click)="closeOnNavigate()">Login</a>
       <a class="btn-primary" routerLink="/register" (click)="closeOnNavigate()">Register</a>
     </ng-container>
 
+    <!-- Logged in -->
     <ng-container *ngIf="isLoggedIn">
-      <a *ngIf="isAdmin" class="btn-primary" routerLink="/admin" (click)="closeOnNavigate()">Admin</a>
+      <!-- Admin dashboard -->
+      <a *ngIf="isAdmin" class="btn-primary" routerLink="/admin/dashboard" (click)="closeOnNavigate()">Admin</a>
       <button class="btn-outline" (click)="logout()">Logout</button>
     </ng-container>
   </div>
@@ -44,9 +47,15 @@
       <li><a routerLink="/quotes" (click)="closeOnNavigate()">Quotes</a></li>
       <li><button (click)="toggleLanguage()">{{ currentLanguage | uppercase }}</button></li>
       <li><button (click)="toggleDarkMode()">{{ isDarkMode ? '☀️' : '🌙' }}</button></li>
+
+      <!-- Not logged in -->
       <li *ngIf="!isLoggedIn"><a routerLink="/login" (click)="closeOnNavigate()">Login</a></li>
       <li *ngIf="!isLoggedIn"><a routerLink="/register" (click)="closeOnNavigate()">Register</a></li>
-      <li *ngIf="isLoggedIn && isAdmin"><a routerLink="/admin" (click)="closeOnNavigate()">Admin</a></li>
+
+      <!-- Logged in -->
+      <li *ngIf="isLoggedIn && isAdmin">
+        <a routerLink="/admin/dashboard" (click)="closeOnNavigate()">Admin</a>
+      </li>
       <li *ngIf="isLoggedIn"><button (click)="logout()">Logout</button></li>
     </ul>
   </div>

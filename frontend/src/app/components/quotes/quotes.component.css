@@ -1,304 +1,227 @@
-/* =========================================================
-   GLOBAL THEME VARIABLES
-   ========================================================= */
+/* ======================================
+   QUOTES — MATCHED TO BOOKS PAGE THEME
+   ====================================== */
 
-:root {
-  /* Light mode variables */
-  --bg-primary: #fdfdfd;
-  --card-primary: #ffffff;
-  --text-primary: #1b2a44;
-  --border-primary: #ddd;
-  --navbar-primary: linear-gradient(135deg, #1f3b5f, #2c5282);
-  --warm-blue-accent: #4a90e2;
-  --warm-blue-hover: #6db3ff;
-
-  /* Dark mode variables */
-  --bg-primary-dark: #111;
-  --card-primary-dark: #1b1b1b;
-  --text-primary-dark: #ffffff;
-  --border-primary-dark: #444;
-  --navbar-primary-dark: linear-gradient(135deg, #1a314f, #223f6b);
-
-  /* Spacing */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-
-  /* Typography */
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 0.9375rem;
-  --text-md: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-}
-
-/* =========================================================
-   BASE STYLES
-   ========================================================= */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-size: 16px;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: var(--text-base);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* DARK MODE */
-body.dark-mode {
-  background-color: var(--bg-primary-dark);
-  color: var(--text-primary-dark);
-}
-
-/* =========================================================
-   THEME APPLY TO KEY COMPONENTS
-   ========================================================= */
-
-.container,
-.container-fluid,
-.card,
-.modal-content,
-.dropdown-menu,
-.form-control,
-.input-group-text,
-.table,
-.list-group-item {
-  background-color: var(--card-primary) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-primary) !important;
-}
-
-body.dark-mode .container,
-body.dark-mode .container-fluid,
-body.dark-mode .card,
-body.dark-mode .modal-content,
-body.dark-mode .dropdown-menu,
-body.dark-mode .form-control,
-body.dark-mode .input-group-text,
-body.dark-mode .table,
-body.dark-mode .list-group-item {
-  background-color: var(--card-primary-dark) !important;
-  color: var(--text-primary-dark) !important;
-  border-color: var(--border-primary-dark) !important;
-}
-
-/* Inputs */
-input, textarea, select {
-  background-color: var(--card-primary) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-primary) !important;
-}
-
-body.dark-mode input,
-body.dark-mode textarea,
-body.dark-mode select {
-  background-color: var(--card-primary-dark) !important;
-  color: var(--text-primary-dark) !important;
-  border-color: var(--border-primary-dark) !important;
-}
-
-/* Alerts */
-.alert {
-  background-color: var(--card-primary) !important;
-  color: var(--text-primary) !important;
-  border-color: var(--border-primary) !important;
-}
-
-body.dark-mode .alert {
-  background-color: var(--card-primary-dark) !important;
-  color: var(--text-primary-dark) !important;
-  border-color: var(--border-primary-dark) !important;
-}
-
-/* Links */
-a {
-  color: var(--warm-blue-accent);
-}
-
-a:hover {
-  color: var(--warm-blue-hover);
-}
-
-/* =========================================================
-   NAVBAR
-   ========================================================= */
-.warm-navbar {
-  background: var(--navbar-primary);
-  padding: var(--space-2) var(--space-4);
+/* ---------- PAGE LAYOUT ---------- */
+.quotes-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
   display: flex;
-  align-items: center;
-  min-height: 56px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-body.dark-mode .warm-navbar {
-  background: var(--navbar-primary-dark);
+/* ---------- QUOTE FORM CARD ---------- */
+.quote-form .card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.navbar-brand {
-  color: white !important;
-  font-size: var(--text-md) !important;
+.quote-form .card-header h5 {
+  font-size: 1.25rem;
   font-weight: 600;
+  color: var(--text-primary);
 }
 
-.navbar-brand:hover {
-  color: #ffb84d !important;
+/* ---------- FORM CONTROLS ---------- */
+.quote-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-/* =========================================================
-   BUTTONS
-   ========================================================= */
+.quote-form textarea,
+.quote-form input,
+.quote-form select {
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--page-border);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
 
-.btn {
-  font-size: var(--text-sm);
-  padding: var(--space-1) var(--space-3);
-  border-radius: 6px;
+.quote-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* ---------- FORM BUTTONS ---------- */
+.quote-form .form-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.quote-form .form-buttons button {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-weight: 600;
   border: none;
   cursor: pointer;
-  min-height: 36px;
-  transition: 0.2s;
 }
 
+/* PRIMARY (same as Books Add button) */
 .btn-primary {
-  background: #ff9f1c;
-  color: white;
+  background-color: var(--btn-primary-bg);
+  color: #fff;
 }
 .btn-primary:hover {
-  background: #e68a1a;
+  background-color: var(--btn-primary-hover);
 }
 
+/* OUTLINE PRIMARY */
 .btn-outline-primary {
-  border: 1px solid #ff9f1c;
-  color: #ff9f1c;
+  background: none;
+  border: 1px solid var(--btn-primary-bg);
+  color: var(--btn-primary-bg);
 }
 .btn-outline-primary:hover {
-  background: #ff9f1c;
-  color: white;
+  background: var(--btn-primary-bg);
+  color: #fff;
 }
 
-/* =========================================================
-   CARDS
-   ========================================================= */
-
-.card {
-  padding: var(--space-4);
-  border-radius: 8px;
-  margin-bottom: var(--space-4);
-  border: 1px solid #eee;
+/* OUTLINE DANGER */
+.btn-outline-danger {
+  background: none;
+  border: 1px solid var(--btn-delete-bg);
+  color: var(--btn-delete-bg);
 }
-body.dark-mode .card {
-  border-color: #333;
+.btn-outline-danger:hover {
+  background: var(--btn-delete-bg);
+  color: #fff;
 }
 
-.card-title {
-  font-size: var(--text-lg);
-  font-weight: 600;
-  margin-bottom: var(--space-2);
+/* ---------- QUOTES GRID ---------- */
+.quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
-/* =========================================================
-   TABLES
-   ========================================================= */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
+/* ---------- QUOTE CARD ---------- */
+.quote-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.25rem;
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
 }
 
-th, td {
-  padding: var(--space-2);
-  border-bottom: 1px solid #eee;
+.quote-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-body.dark-mode th,
-body.dark-mode td {
-  border-color: #333;
+/* Selected (highlighted) */
+.quote-card.selected {
+  border-color: var(--btn-primary-bg);
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
 }
 
-/* =========================================================
-   BOOTSTRAP SIZE FIXES (you had these)
-   ========================================================= */
-
-h1, .h1 { font-size: 1.5rem !important; }
-h2, .h2 { font-size: 1.25rem !important; }
-h3, .h3 { font-size: 1.125rem !important; }
-h4, .h4,
-h5, .h5,
-h6, .h6 { font-size: 1rem !important; }
-
-.form-control-lg, .form-select-lg {
-  font-size: 1rem !important;
-  padding: 0.5rem 0.75rem !important;
+/* ---------- QUOTE TEXT ---------- */
+.quote-text {
+  font-size: 1rem;
+  line-height: 1.4rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  word-break: break-word;
 }
 
-.form-control-sm, .form-select-sm {
-  font-size: 0.875rem !important;
-  padding: 0.25rem 0.5rem !important;
+/* ---------- FOOTER INFO ---------- */
+.quote-footer {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.btn-lg {
-  font-size: 1rem !important;
-  padding: 0.5rem 1rem !important;
+/* ---------- CARD ACTION BUTTONS ---------- */
+.quote-card-footer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
 }
 
-.btn-sm {
-  font-size: 0.875rem !important;
-  padding: 0.25rem 0.5rem !important;
+.quote-card-footer button {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
 }
 
-.table th, .table td {
-  font-size: 0.875rem !important;
-  padding: 0.5rem !important;
+/* Edit button (same as Books) */
+.btn-edit {
+  background-color: var(--btn-edit-bg);
+  color: #fff;
+}
+.btn-edit:hover {
+  background-color: var(--btn-edit-hover);
 }
 
-/* =========================================================
-   UTILITIES
-   ========================================================= */
+/* Delete button (same as Books) */
+.btn-delete {
+  background-color: var(--btn-delete-bg);
+  color: #fff;
+}
+.btn-delete:hover {
+  background-color: var(--btn-delete-hover);
+}
 
-.mb-1 { margin-bottom: var(--space-1) !important; }
-.mb-2 { margin-bottom: var(--space-2) !important; }
-.mb-3 { margin-bottom: var(--space-3) !important; }
-.mb-4 { margin-bottom: var(--space-4) !important; }
-.mb-5 { margin-bottom: var(--space-5) !important; }
+/* ---------- EMPTY & LOADING STATES ---------- */
+.loading-state,
+.empty-quotes-state {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-.mt-1 { margin-top: var(--space-1) !important; }
-.mt-2 { margin-top: var(--space-2) !important; }
-.mt-3 { margin-top: var(--space-3) !important; }
-.mt-4 { margin-top: var(--space-4) !important; }
-.mt-5 { margin-top: var(--space-5) !important; }
-
-.text-small { font-size: var(--text-sm) !important; }
-.text-xs { font-size: var(--text-xs) !important; }
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
+/* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
-  .container {
-    padding: 0 var(--space-2);
+  .quotes-page {
+    padding: 1rem;
   }
 
-  h1 { font-size: var(--text-xl); }
-  h2 { font-size: var(--text-lg); }
-  h3 { font-size: var(--text-md); }
+  .quote-form .card {
+    padding: 1rem;
+  }
+
+  .quotes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
 }
 
 @media (max-width: 480px) {
-  .btn { width: 100%; }
+  .quote-card {
+    padding: 1rem;
+  }
+
+  .quote-footer {
+    font-size: 0.8rem;
+  }
+
+  .quote-card-footer button {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.75rem;
+  }
 }

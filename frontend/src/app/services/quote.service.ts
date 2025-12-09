@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface Quote {
@@ -27,7 +27,11 @@ export class QuoteService {
   constructor(private http: HttpClient) {}
 
   private getToken(): string | null {
-    return localStorage.getItem('authToken') || localStorage.getItem('token');
+    try {
+      return localStorage.getItem('token');
+    } catch {
+      return null;
+    }
   }
 
   private getAuthHeaders(jsonContent: boolean = false): HttpHeaders {
@@ -37,13 +41,13 @@ export class QuoteService {
     const headersConfig: { [key: string]: string } = {
       'Authorization': `Bearer ${token}`
     };
-
     if (jsonContent) headersConfig['Content-Type'] = 'application/json';
-
     return new HttpHeaders(headersConfig);
   }
 
   getQuotes(): Observable<Quote[]> {
+    const token = this.getToken();
+    if (!token) return of([]); // Return empty array if not logged in
     return this.http.get<Quote[]>(`${this.apiUrl}/quotes?mine=true`, {
       headers: this.getAuthHeaders()
     });
