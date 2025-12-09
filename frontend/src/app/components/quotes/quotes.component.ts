@@ -25,6 +25,7 @@ export class QuotesComponent implements OnInit {
   isLoading = false;
   isEdit = false;
   editingQuoteId?: number;
+  errorMessage = '';
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -58,13 +59,15 @@ export class QuotesComponent implements OnInit {
 
   loadQuotes(): void {
     this.isLoading = true;
+    this.errorMessage = '';
     this.quoteService.getQuotes().subscribe({
       next: (quotes: Quote[]) => {
         this.quotes = quotes;
         this.isLoading = false;
       },
-      error: (error: unknown) => {
+      error: (error: any) => {
         console.error('Error loading quotes:', error);
+        this.errorMessage = this.translate.instant('failedLoadQuotes') || 'Failed to load quotes.';
         this.isLoading = false;
       }
     });
@@ -73,7 +76,10 @@ export class QuotesComponent implements OnInit {
   loadBooks(): void {
     this.bookService.getBooks().subscribe({
       next: (books: Book[]) => this.books = books,
-      error: (error: unknown) => console.error('Error loading books:', error)
+      error: (error: any) => {
+        console.error('Error loading books:', error);
+        // Don't show error for books as it's secondary data
+      }
     });
   }
 
@@ -83,14 +89,15 @@ export class QuotesComponent implements OnInit {
     return book ? book.title : '';
   }
 
-  canEditOrDelete(quote: Quote): boolean {
-    const currentUserId = Number(localStorage.getItem('userId'));
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
-    return isAdmin || quote.userId === currentUserId || !quote.id;
-  }
-
   // EDIT QUOTE
   editQuote(quote: Quote): void {
+    // Check if user is logged in
+    if (!this.isLoggedIn()) {
+      alert(this.translate.instant('loginRequired'));
+      // You might want to redirect to login page
+      return;
+    }
+
     this.isEdit = true;
     this.editingQuoteId = quote.id;
 
@@ -100,7 +107,8 @@ export class QuotesComponent implements OnInit {
       bookId: quote.bookId || null
     });
 
-    document.querySelector('.quote-form-section')?.scrollIntoView({ behavior: 'smooth' });
+    // Scroll to form
+    document.querySelector('.quote-form-column')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   cancelEdit(): void {
@@ -116,6 +124,13 @@ export class QuotesComponent implements OnInit {
   // CREATE or UPDATE QUOTE
   onSubmit(): void {
     if (!this.quoteForm.valid) return;
+
+    // Check if user is logged in
+    if (!this.isLoggedIn()) {
+      alert(this.translate.instant('loginRequired'));
+      // You might want to redirect to login page
+      return;
+    }
 
     this.isLoading = true;
     const formValue = this.quoteForm.value;
@@ -135,8 +150,9 @@ export class QuotesComponent implements OnInit {
           this.resetForm();
           this.isLoading = false;
         },
-        error: (err: unknown) => {
+        error: (err: any) => {
           console.error('Error updating quote:', err);
+          this.errorMessage = this.translate.instant('failedUpdateQuote') || 'Failed to update quote.';
           this.isLoading = false;
         }
       });
@@ -146,18 +162,18 @@ export class QuotesComponent implements OnInit {
         text: formValue.text,
         author: formValue.author,
         bookId: formValue.bookId || null,
-        userId: Number(localStorage.getItem('userId'))
+        userId: Number(localStorage.getItem('userId')) || 1 // Fallback for demo
       };
 
       this.quoteService.createQuote(quoteData).subscribe({
         next: (newQuote: Quote) => {
-          // Add new quote to the beginning of the list
           this.quotes.unshift(newQuote);
-          this.resetForm(); // Reset form to add more quotes
+          this.resetForm();
           this.isLoading = false;
         },
-        error: (err: unknown) => {
+        error: (err: any) => {
           console.error('Error creating quote:', err);
+          this.errorMessage = this.translate.instant('failedCreateQuote') || 'Failed to create quote.';
           this.isLoading = false;
         }
       });
@@ -168,16 +184,31 @@ export class QuotesComponent implements OnInit {
   deleteQuote(id: number | undefined): void {
     if (!id) return;
 
+    // Check if user is logged in
+    if (!this.isLoggedIn()) {
+      alert(this.translate.instant('loginRequired'));
+      return;
+    }
+
     this.translate.get('confirmDeleteQuote').subscribe((translated: string) => {
       if (!confirm(translated || 'Are you sure you want to delete this quote?')) return;
 
       this.quoteService.deleteQuote(id).subscribe({
         next: () => {
-          // Remove quote from the list
           this.quotes = this.quotes.filter(q => q.id !== id);
         },
-        error: (err: unknown) => console.error('Error deleting quote:', err)
+        error: (err: any) => {
+          console.error('Error deleting quote:', err);
+          alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.');
+        }
       });
     });
+  }
+
+  private isLoggedIn(): boolean {
+    // Check if user is logged in 
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    return !!(token && userId);
   }
 }

@@ -1,8 +1,16 @@
 <div class="quotes-page">
   <!-- Page Header -->
   <div class="page-header">
-    <h1>{{ 'myQuotes' | translate }}</h1>
-    <p class="lead">{{ 'quoteCollectionDesc' | translate }}</p>
+    <div class="header-content">
+      <h1>{{ 'myQuotes' | translate }}</h1>
+      <p class="lead">{{ 'quoteCollectionDesc' | translate }}</p>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
   </div>
 
   <div class="quotes-container">
@@ -87,6 +95,11 @@
       <!-- Quotes Grid -->
       <div *ngIf="quotes.length > 0" class="quotes-grid">
         <div *ngFor="let quote of quotes" class="quote-card">
+          <!-- Book Badge -->
+          <div *ngIf="getBookTitle(quote.bookId)" class="book-badge">
+            <i class="bi bi-book me-1"></i>{{ getBookTitle(quote.bookId) }}
+          </div>
+          
           <p class="quote-text">"{{ quote.text }}"</p>
           <div class="quote-footer">
             <span class="quote-author">— {{ quote.author }}</span>
@@ -98,13 +111,13 @@
           <!-- Edit/Delete Buttons -->
           <div class="quote-card-actions">
             <button 
-              *ngIf="canEditOrDelete(quote)" 
+              class="btn-edit"
               (click)="editQuote(quote)">
               <i class="bi bi-pencil"></i>
               {{ 'editItem' | translate }}
             </button>
             <button 
-              *ngIf="canEditOrDelete(quote)" 
+              class="btn-delete"
               (click)="deleteQuote(quote.id!)">
               <i class="bi bi-trash"></i>
               {{ 'deleteItem' | translate }}

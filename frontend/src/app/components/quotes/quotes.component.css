@@ -16,30 +16,33 @@
 
 /* ===== PAGE HEADER ===== */
 .page-header {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 2.5rem;
   padding: 0 1rem;
 }
 
-.page-header h1 {
+.header-content h1 {
   font-size: clamp(1.75rem, 2.5vw, 2.5rem);
   font-weight: 700;
   color: #1e3a8a;
   margin-bottom: 0.5rem;
 }
 
-.dark-mode .page-header h1 {
+.dark-mode .header-content h1 {
   color: #60a5fa;
 }
 
-.page-header .lead {
+.header-content .lead {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   color: #6b7280;
   max-width: 600px;
-  margin: 0 auto;
 }
 
-.dark-mode .page-header .lead {
+.dark-mode .header-content .lead {
   color: #94a3b8;
 }
 
@@ -80,7 +83,7 @@
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   color: white;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dark-mode .quote-form-card .card-header {
@@ -216,6 +219,14 @@
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
+.dark-mode .form-buttons button:first-child {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.dark-mode .form-buttons button:first-child:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
 .form-buttons button:last-child {
   background-color: #f1f5f9;
   color: #374151;
@@ -293,6 +304,7 @@
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .dark-mode .quote-card {
@@ -306,6 +318,25 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
+/* BOOK BADGE - Like in books page */
+.book-badge {
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dark-mode .book-badge {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
 .quote-text {
   font-style: italic;
   font-size: 1.125rem;
@@ -313,6 +344,7 @@
   margin-bottom: 1rem;
   color: #374151;
   flex-grow: 1;
+  padding-top: 0.5rem;
 }
 
 .dark-mode .quote-text {
@@ -347,7 +379,7 @@
   color: #94a3b8;
 }
 
-/* ===== QUOTE CARD ACTIONS ===== */
+/* ===== QUOTE CARD ACTIONS (Like books page) ===== */
 .quote-card-actions {
   display: flex;
   gap: 0.75rem;
@@ -379,23 +411,31 @@
   font-size: 1rem;
 }
 
-.quote-card-actions button:first-child {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+.quote-card-actions .btn-edit {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
   color: white;
 }
 
-.quote-card-actions button:first-child:hover {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+.dark-mode .quote-card-actions .btn-edit {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+}
+
+.quote-card-actions .btn-edit:hover {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
   transform: translateY(-2px);
 }
 
-.quote-card-actions button:last-child {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
+.quote-card-actions .btn-delete {
+  background: linear-gradient(135deg, #ef4444, #f87171);
   color: white;
 }
 
-.quote-card-actions button:last-child:hover {
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
+.dark-mode .quote-card-actions .btn-delete {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+
+.quote-card-actions .btn-delete:hover {
+  background: linear-gradient(135deg, #f87171, #ef4444);
   transform: translateY(-2px);
 }
 
@@ -457,6 +497,24 @@
   color: #94a3b8;
 }
 
+/* ===== ERROR ALERT ===== */
+.alert {
+  border-radius: 8px;
+  border: none;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.dark-mode .alert-danger {
+  background-color: #7f1d1d;
+  color: #fecaca;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .quotes-page {
@@ -477,6 +535,11 @@
   
   .form-buttons button {
     width: 100%;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
