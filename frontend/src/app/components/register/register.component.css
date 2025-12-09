@@ -5,119 +5,134 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 40px 20px;
   box-sizing: border-box;
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background: #f5f7fa;
 }
 
 /* ---------- Card ---------- */
 .register-card {
   width: 100%;
-  max-width: 450px;
-  background: var(--card-primary);
-  color: var(--text-primary);
+  max-width: 500px;
+  background: white;
   border-radius: 16px;
   padding: 0;
   overflow: hidden;
-  border: 1px solid var(--border-primary);
-  box-shadow: 0 4px 16px var(--shadow-card);
+  border: 1px solid #e1e5e9;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* ---------- Header ---------- */
 .card-header {
-  background: var(--navbar-primary);
-  color: var(--text-light);
+  background: #1e3a8a;
+  color: white;
   text-align: center;
-  padding: 25px 20px;
+  padding: 32px 20px;
 }
 
 .card-header h2 {
   margin: 0;
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: 600;
 }
 
 /* ---------- Body ---------- */
 .card-body {
-  padding: 25px;
+  padding: 40px;
 }
 
 /* ---------- Form Input ---------- */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #2d3748;
 }
 
 input[type="text"],
 input[type="password"],
 .form-control {
   width: 100%;
-  padding: 12px;
+  padding: 14px 16px;
   border-radius: 10px;
-  border: 1px solid var(--border-primary);
-  background: var(--card-primary);
-  color: var(--text-primary);
+  border: 1px solid #cbd5e0;
+  background: #f8fafc;
+  color: #2d3748;
   font-size: 1rem;
-  transition: border 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition: border 0.2s ease;
   box-sizing: border-box;
 }
 
+input::placeholder {
+  color: #94a3b8;
+}
+
 input:focus {
-  border-color: var(--warm-blue-accent);
-  box-shadow: 0 0 3px var(--warm-blue-accent);
+  border-color: #3b82f6;
+  background: white;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 /* ---------- Validation ---------- */
 .is-invalid {
-  border-color: #ff4757 !important;
+  border-color: #ef4444 !important;
 }
 
 .invalid-feedback {
-  color: #ff4757;
+  color: #ef4444;
   font-size: 0.85rem;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 /* ---------- Password Strength ---------- */
 .password-strength {
-  font-size: 0.85rem;
-  margin-top: 5px;
+  margin-top: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
 }
 
 .password-requirement {
-  margin-bottom: 3px;
-  opacity: 0.7;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: #64748b;
 }
 
 .requirement-met {
-  color: #2ecc71;
-  opacity: 1;
+  color: #10b981;
 }
 
 /* ---------- Button ---------- */
 .btn-register {
   width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  background: var(--warm-blue-accent);
+  padding: 16px;
+  border-radius: 10px;
+  background: #1e3a8a;
   color: white;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.1s ease;
+  transition: background 0.2s ease;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
+  font-size: 1rem;
 }
 
 .btn-register:hover:not(:disabled) {
-  opacity: 0.9;
+  background: #1e40af;
 }
 
-.btn-register:active {
-  transform: scale(0.97);
+.btn-register:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ---------- Spinner ---------- */
@@ -136,20 +151,22 @@ input:focus {
 
 /* ---------- Messages ---------- */
 .alert {
-  padding: 12px;
+  padding: 16px;
   border-radius: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   position: relative;
 }
 
 .alert-danger {
-  background: rgba(255, 71, 87, 0.15);
-  color: #ff4757;
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
 }
 
 .alert-success {
-  background: rgba(46, 204, 113, 0.15);
-  color: #2ecc71;
+  background: #d1fae5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
 }
 
 .btn-close {
@@ -159,18 +176,21 @@ input:focus {
   background: none;
   border: none;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 1.2rem;
+  color: inherit;
+  opacity: 0.7;
 }
 
 /* ---------- Login Link ---------- */
 .login-link {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 24px;
+  color: #64748b;
 }
 
 .login-link a {
-  color: var(--warm-blue-accent);
-  font-weight: 600;
+  color: #3b82f6;
+  font-weight: 500;
   text-decoration: none;
 }
 
@@ -179,58 +199,22 @@ input:focus {
 }
 
 /* ---------- RESPONSIVENESS ---------- */
-
-/* Large phones / small tablets */
 @media (max-width: 480px) {
   .card-header h2 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
-
-  .register-card {
-    max-width: 100%;
-    margin: 0 10px;
-  }
-
+  
   .card-body {
-    padding: 20px;
+    padding: 32px 24px;
   }
-
-  input,
-  .btn-register {
-    padding: 12px;
-    font-size: 0.95rem;
+  
+  .register-card {
+    border-radius: 12px;
   }
 }
 
-/* Short screens (landscape phones) */
 @media (max-height: 600px) {
   .register-page {
-    align-items: flex-start;
-    padding-top: 15px;
-    padding-bottom: 15px;
-  }
-
-  .register-card {
-    margin-top: 10px;
-  }
-
-  .card-header {
-    padding: 18px;
-  }
-}
-
-/* Extra small screens (foldables, old devices) */
-@media (max-width: 360px) {
-  .card-header h2 {
-    font-size: 1.25rem;
-  }
-
-  input {
-    font-size: 0.9rem;
-  }
-
-  .btn-register {
-    font-size: 0.95rem;
-    padding: 12px;
+    padding: 20px;
   }
 }
