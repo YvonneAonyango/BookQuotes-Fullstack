@@ -22,13 +22,14 @@ export class NavbarComponent implements OnInit {
   isMobileMenuOpen = false;
   isDropdownOpen = false;
 
+  // Icons and emojis
   icons = {
-    home: '<i class="fas fa-house"></i>',
-    en: '<i class="flag-icon flag-icon-gb"></i>',
-    sv: '<i class="flag-icon flag-icon-se"></i>',
-    moon: '<i class="fas fa-moon"></i>',
-    sun: '<i class="fas fa-sun"></i>',
-    menu: '<i class="fas fa-bars"></i>'
+    home: '🏠',
+    en: '🇬🇧',
+    sv: '🇸🇪',
+    moon: '🌙',
+    sun: '☀️',
+    menu: '☰'
   };
 
   router = inject(Router);
