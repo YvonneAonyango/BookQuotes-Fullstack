@@ -1,127 +1,91 @@
 <div class="quotes-page">
+
   <!-- Page Header -->
-  <div class="page-header">
-    <div class="header-content">
-      <h1>{{ 'myQuotes' | translate }}</h1>
-      <p class="lead">{{ 'quoteCollectionDesc' | translate }}</p>
-    </div>
-  </div>
+  <header class="page-header">
+    <h1>{{ 'myQuotes' | translate }}</h1>
+    <p class="lead">{{ 'quoteCollectionDesc' | translate }}</p>
+  </header>
 
   <!-- Error Alert -->
-  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
     {{ errorMessage }}
     <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
   </div>
 
   <div class="quotes-container">
-    <!-- Quote Form Column -->
-    <div class="quote-form-column">
-      <div class="card quote-form-card">
+    <!-- Quote Form -->
+    <section class="quote-form">
+      <div class="card">
         <div class="card-header">
           <h5>{{ isEdit ? ('editQuote' | translate) : ('addNewQuote' | translate) }}</h5>
         </div>
         <div class="card-body">
           <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-            <!-- Quote Text -->
             <div class="form-group">
               <label>{{ 'quoteText' | translate }}</label>
-              <textarea 
-                formControlName="text" 
-                rows="4" 
-                placeholder="{{ 'enterQuoteText' | translate }}"
+              <textarea formControlName="text" rows="4" placeholder="{{ 'enterQuoteText' | translate }}"
                 [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched">
               </textarea>
-              <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required'] && quoteForm.get('text')?.touched">
+              <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required']">
                 {{ 'quoteRequired' | translate }}
               </div>
             </div>
 
-            <!-- Author -->
             <div class="form-group">
               <label>{{ 'author' | translate }}</label>
-              <input 
-                type="text" 
-                formControlName="author" 
-                placeholder="{{ 'enterAuthor' | translate }}"
+              <input type="text" formControlName="author" placeholder="{{ 'enterAuthor' | translate }}"
                 [class.is-invalid]="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
-              <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required'] && quoteForm.get('author')?.touched">
+              <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required']">
                 {{ 'authorRequired' | translate }}
               </div>
             </div>
 
-            <!-- Book Selection -->
             <div class="form-group">
               <label>{{ 'bookOptional' | translate }}</label>
               <select formControlName="bookId">
                 <option value="">{{ 'selectBook' | translate }}</option>
-                <option *ngFor="let book of books" [value]="book.id">
-                  {{ book.title }} - {{ book.author }}
-                </option>
+                <option *ngFor="let book of books" [value]="book.id">{{ book.title }} - {{ book.author }}</option>
               </select>
             </div>
 
-            <!-- Form Buttons -->
             <div class="form-buttons">
-              <button 
-                type="submit" 
-                [disabled]="quoteForm.invalid || isLoading">
+              <button type="submit" [disabled]="quoteForm.invalid || isLoading">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                 {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
               </button>
-              <button 
-                *ngIf="isEdit" 
-                type="button" 
-                (click)="cancelEdit()">
-                {{ 'cancel' | translate }}
-              </button>
+              <button *ngIf="isEdit" type="button" (click)="cancelEdit()">{{ 'cancel' | translate }}</button>
             </div>
           </form>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Quotes List Column -->
-    <div class="quotes-list-column">
+    <!-- Quotes List -->
+    <section class="quotes-list">
       <h3>{{ 'allQuotes' | translate }} <span class="count-badge">{{ quotes.length }}</span></h3>
 
       <!-- Loading State -->
       <div *ngIf="isLoading && quotes.length === 0" class="loading-state">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
+        <div class="spinner-border" role="status"></div>
         <p>{{ 'loading' | translate }}...</p>
       </div>
 
       <!-- Quotes Grid -->
       <div *ngIf="quotes.length > 0" class="quotes-grid">
         <div *ngFor="let quote of quotes" class="quote-card">
-          <!-- Book Badge -->
           <div *ngIf="getBookTitle(quote.bookId)" class="book-badge">
             <i class="bi bi-book me-1"></i>{{ getBookTitle(quote.bookId) }}
           </div>
-          
+
           <p class="quote-text">"{{ quote.text }}"</p>
           <div class="quote-footer">
             <span class="quote-author">— {{ quote.author }}</span>
-            <span *ngIf="getBookTitle(quote.bookId)" class="quote-book">
-              From: {{ getBookTitle(quote.bookId) }}
-            </span>
+            <span *ngIf="getBookTitle(quote.bookId)" class="quote-book">From: {{ getBookTitle(quote.bookId) }}</span>
           </div>
-          
-          <!-- Edit/Delete Buttons -->
+
           <div class="quote-card-actions">
-            <button 
-              class="btn-edit"
-              (click)="editQuote(quote)">
-              <i class="bi bi-pencil"></i>
-              {{ 'editItem' | translate }}
-            </button>
-            <button 
-              class="btn-delete"
-              (click)="deleteQuote(quote.id!)">
-              <i class="bi bi-trash"></i>
-              {{ 'deleteItem' | translate }}
-            </button>
+            <button class="btn-edit" (click)="editQuote(quote)"><i class="bi bi-pencil"></i> {{ 'editItem' | translate }}</button>
+            <button class="btn-delete" (click)="deleteQuote(quote.id!)"><i class="bi bi-trash"></i> {{ 'deleteItem' | translate }}</button>
           </div>
         </div>
       </div>
@@ -132,6 +96,6 @@
         <h4>{{ 'noQuotesYet' | translate }}</h4>
         <p>{{ 'startByAddingQuote' | translate }}</p>
       </div>
-    </div>
+    </section>
   </div>
 </div>
