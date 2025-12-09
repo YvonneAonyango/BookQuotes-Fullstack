@@ -1,110 +1,239 @@
-/* Navbar container */
+/* -------------------------
+  Navbar Base
+------------------------- */
 .navbar {
-  width: 100%;
-  background-color: #ffffff;
-  padding: 15px 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 1000;
-}
-
-/* Flex layout */
-.nav-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #1C3F72; /* warm dark blue */
+  color: #FFFFFF; /* white text */
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  border-bottom: 2px solid #16365A;
+  z-index: 100;
+  min-height: 70px;
 }
 
-/* Logo */
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-  color: #16365A;
+.navbar.dark-mode {
+  background-color: #142A50; /* darker warm blue */
+  color: #FFFFFF;
+  border-bottom: 2px solid #0D1D3A;
 }
 
-/* Desktop Links */
-.nav-links,
-.navbar-right {
+/* -------------------------
+  Left: logo + links
+------------------------- */
+.navbar-left {
   display: flex;
   align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-.nav-links a,
-.navbar-right a,
-.navbar-right button {
-  padding: 8px 16px;
-  margin-left: 10px;
+.brand {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: bold;
   text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+.logo-emoji {
+  margin-right: 10px;
+}
+
+/* -------------------------
+  Nav links as containers (Books & Quotes)
+------------------------- */
+.nav-links.desktop {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 12px;
+}
+
+.nav-links.desktop li {
+  flex: 0 0 auto;
+}
+
+.nav-links.desktop li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #FFFFFF; /* white text */
+  font-weight: 600;
   font-size: 1rem;
-  border-radius: 5px;
-  transition: 0.2s;
-  color: #16365A;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background-color: transparent; /* transparent background */
+  border: 1px solid #BF7D3F; /* burnt yellow lining */
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+  min-width: 80px;
+  text-align: center;
 }
 
-.nav-links a:hover,
-.navbar-right a:hover,
-.navbar-right button:hover {
-  background-color: #16365A;
-  color: white;
+.nav-links.desktop li a:hover {
+  background-color: rgba(191, 125, 63, 0.2); /* subtle burnt yellow overlay */
+  color: #1C3F72; /* dark text on hover */
+  transform: translateY(-1px);
 }
 
-/* Burger Menu Button (Hidden by Default) */
+/* -------------------------
+  Right: controls (buttons, login/register)
+------------------------- */
+.navbar-right.desktop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.navbar-right.desktop button,
+.navbar-right.desktop a {
+  margin-left: 5px;
+  padding: 7px 14px;
+  border-radius: 6px;
+  background-color: transparent; /* transparent for general controls */
+  color: #FFFFFF; /* white text */
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  min-width: 80px;
+  text-align: center;
+  border: 1px solid transparent; /* default invisible */
+  transition: background 0.2s, color 0.2s, transform 0.2s, border 0.2s;
+}
+
+.navbar-right.desktop button:hover,
+.navbar-right.desktop a:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* subtle hover */
+  border: 1px solid #FFFFFF; /* optional hover border for general controls */
+}
+
+/* -------------------------
+  Mini-box controls (Theme & Language)
+------------------------- */
+.navbar-right.desktop .mini-box {
+  border: 1px solid #BF7D3F; /* burnt yellow lining */
+  background-color: transparent;
+  color: #FFFFFF;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.navbar-right.desktop .mini-box:hover {
+  background-color: rgba(191, 125, 63, 0.2); /* subtle burnt yellow hover */
+  color: #1C3F72; /* dark text on hover */
+  transform: translateY(-1px);
+}
+
+/* Login/Register buttons keep original burnt yellow style */
+.navbar-right.desktop a.btn-primary {
+  background-color: #BF7D3F;
+  color: #1C3F72;
+  border: none;
+}
+
+.navbar-right.desktop a.btn-outline {
+  background: none;
+  border: 1px solid #BF7D3F;
+  color: #BF7D3F;
+}
+
+/* -------------------------
+  Hamburger: mobile
+------------------------- */
 .hamburger.mobile {
   display: none;
   flex-direction: column;
-  background: none;
-  border: none;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
   cursor: pointer;
-  padding: 10px;
 }
 
-.hamburger .bar {
-  width: 25px;
+.hamburger.mobile span {
+  display: block;
   height: 3px;
-  background-color: #16365A;
-  margin: 4px 0;
+  background-color: currentColor;
   border-radius: 2px;
 }
 
-/* ------------ MOBILE MENU ------------- */
-
-/* Mobile menu stays HIDDEN unless Angular shows it with *ngIf */
+/* -------------------------
+  Mobile menu
+------------------------- */
 .mobile-menu {
   display: none;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: inherit;
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
-  padding: 10px 0;
   border-top: 2px solid #16365A;
-  z-index: 999;
 }
 
-.mobile-menu a,
-.mobile-menu button {
-  padding: 12px 20px;
-  text-align: left;
+.navbar.dark-mode .mobile-menu {
+  border-top: 2px solid #0D1D3A;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-menu ul li a,
+.mobile-menu ul li button {
+  display: block;
   width: 100%;
-  background: none;
-  border: none;
-  color: #16365A;
+  text-align: center;
+  padding: 12px 20px;
+  font-weight: 600;
   font-size: 1.1rem;
+  border-radius: 6px;
   text-decoration: none;
+  color: #FFFFFF;
+  background-color: transparent;
+  border: 1px solid #BF7D3F; /* burnt yellow lining */
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
-.mobile-menu a:hover,
-.mobile-menu button:hover {
-  background-color: #16365A;
-  color: white;
+.mobile-menu ul li a:hover,
+.mobile-menu ul li button:hover {
+  background-color: rgba(191, 125, 63, 0.2);
+  color: #1C3F72;
+  transform: translateY(-1px);
 }
 
-/* ------------ RESPONSIVE BREAKPOINTS ------------- */
+/* -------------------------
+  Responsive: tablets & phones
+------------------------- */
+@media (max-width: 1024px) {
+  .navbar-left {
+    gap: 15px;
+  }
+  .nav-links.desktop li a {
+    font-size: 0.95rem;
+    padding: 4px 10px;
+  }
+  .navbar-right.desktop button,
+  .navbar-right.desktop a {
+    font-size: 0.95rem;
+    padding: 6px 12px;
+  }
+}
 
 @media (max-width: 768px) {
   .nav-links.desktop,
@@ -113,6 +242,28 @@
   }
 
   .hamburger.mobile {
-    display: flex; /* show burger only on mobile */
+    display: flex;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 1.2rem;
+  }
+
+  .nav-links.desktop li a {
+    font-size: 0.9rem;
+    padding: 4px 8px;
+  }
+
+  .navbar-right.desktop button,
+  .navbar-right.desktop a {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    min-width: 70px;
   }
 }
