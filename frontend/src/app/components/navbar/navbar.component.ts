@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, HostListener, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -21,14 +21,17 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class NavbarComponent implements OnInit {
   @ViewChild('dropdown') dropdown!: ElementRef;
-  
+
   currentLanguage: Language = 'en';
-  currentFlag: string = '🇬🇧'; // Explicit string type with flag emoji
   isCollapsed = true;
   showDropdown = false;
   isHomePage = false;
-  
-  router = inject(Router); 
+
+  // Emoji flags
+  flagEn: string = '🇬🇧';
+  flagSv: string = '🇸🇪';
+
+  router = inject(Router);
   authService = inject(AuthService);
   languageService = inject(LanguageService);
   themeService = inject(ThemeService);
@@ -38,17 +41,13 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentLanguage = this.languageService.getCurrentLanguage();
-    // Set flag emojis directly
-    this.currentFlag = this.currentLanguage === 'en' ? '🇬🇧' : '🇸🇪';
+    this.setFlag();
 
     // Set meta tags
     this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
-    
-    // Set title using translation
     this.translate.get('brand').subscribe((translated: string) => {
       this.titleService.setTitle(translated || 'Book Quotes Buddy');
     });
-    
     this.translate.get('personalLibrary').subscribe((translated: string) => {
       this.meta.updateTag({
         name: 'description',
@@ -56,7 +55,7 @@ export class NavbarComponent implements OnInit {
       });
     });
 
-    // Check initial route
+    // Listen for route changes
     this.checkRoute(this.router.url);
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -79,10 +78,14 @@ export class NavbarComponent implements OnInit {
 
   switchLanguage(language: Language): void {
     this.currentLanguage = language;
-    // Set the flag emoji directly
-    this.currentFlag = language === 'en' ? '🇬🇧' : '🇸🇪';
+    this.setFlag();
     this.languageService.setLanguage(language);
     this.showDropdown = false;
+  }
+
+  private setFlag(): void {
+    this.flagEn = '🇬🇧';
+    this.flagSv = '🇸🇪';
   }
 
   logout(): void {
@@ -92,33 +95,30 @@ export class NavbarComponent implements OnInit {
 
   toggleMenu(): void {
     this.isCollapsed = !this.isCollapsed;
-    // Close dropdown when mobile menu toggles
-    if (!this.isCollapsed) {
-      this.showDropdown = false;
-    }
+    if (!this.isCollapsed) this.showDropdown = false;
   }
 
   toggleDropdown(): void {
     this.showDropdown = !this.showDropdown;
   }
 
+  closeOnNavigate(): void {
+    this.isCollapsed = true;
+    this.showDropdown = false;
+  }
+
   // Close dropdown when clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    
-    // Check if click is inside dropdown
     if (this.dropdown && !this.dropdown.nativeElement.contains(target)) {
       this.showDropdown = false;
     }
-    
-    // Close mobile menu when clicking outside on mobile
     if (window.innerWidth <= 768 && !target.closest('.navbar-container') && !this.isCollapsed) {
       this.isCollapsed = true;
     }
   }
 
-  // Close menu on escape key
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.isCollapsed = true;

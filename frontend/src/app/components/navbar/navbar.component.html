@@ -18,17 +18,17 @@
       <!-- Language -->
       <div class="language-switcher" #dropdown>
         <button class="language-btn" (click)="toggleDropdown()" aria-haspopup="true" [attr.aria-expanded]="showDropdown">
-          <span class="flag-wrap" [innerHTML]="currentFlagSvg"></span>
+          <span class="flag-wrap">{{ currentLanguage === 'en' ? flagEn : flagSv }}</span>
           <span class="sr-only">{{ currentLanguage }}</span>
         </button>
 
         <div class="language-dropdown" [class.show]="showDropdown" role="menu" aria-label="Languages">
           <button class="language-option" (click)="switchLanguage('en')" role="menuitem" [attr.aria-current]="currentLanguage === 'en' ? 'true' : null">
-            <span class="flag-wrap" [innerHTML]="flagEn"></span>
+            <span class="flag-wrap">{{ flagEn }}</span>
             <span class="option-text">English</span>
           </button>
           <button class="language-option" (click)="switchLanguage('sv')" role="menuitem" [attr.aria-current]="currentLanguage === 'sv' ? 'true' : null">
-            <span class="flag-wrap" [innerHTML]="flagSv"></span>
+            <span class="flag-wrap">{{ flagSv }}</span>
             <span class="option-text">Svenska</span>
           </button>
         </div>
@@ -63,15 +63,15 @@
   <!-- Mobile menu panel -->
   <div class="mobile-menu" [class.open]="!isCollapsed" role="dialog" aria-label="Mobile menu">
     <div class="mobile-links">
-      <a routerLink="/books" routerLinkActive="active" class="nav-link" (click)="closeOnNavigate()"> {{ 'books' | translate }} </a>
-      <a routerLink="/quotes" routerLinkActive="active" class="nav-link" (click)="closeOnNavigate()"> {{ 'quotes' | translate }} </a>
+      <a routerLink="/books" routerLinkActive="active" class="nav-link" (click)="closeOnNavigate()">{{ 'books' | translate }}</a>
+      <a routerLink="/quotes" routerLinkActive="active" class="nav-link" (click)="closeOnNavigate()">{{ 'quotes' | translate }}</a>
       <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="nav-link" (click)="closeOnNavigate()">{{ 'adminDashboard' | translate }}</a>
     </div>
 
     <div class="mobile-controls">
       <div class="language-row">
-        <button class="language-option" (click)="switchLanguage('en')"><span class="flag-wrap" [innerHTML]="flagEn"></span> English</button>
-        <button class="language-option" (click)="switchLanguage('sv')"><span class="flag-wrap" [innerHTML]="flagSv"></span> Svenska</button>
+        <button class="language-option" (click)="switchLanguage('en')">{{ flagEn }} English</button>
+        <button class="language-option" (click)="switchLanguage('sv')">{{ flagSv }} Svenska</button>
       </div>
 
       <div class="mobile-auth">
