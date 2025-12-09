@@ -12,24 +12,71 @@
 
     <!-- RIGHT: desktop links & hamburger -->
     <div class="navbar-right">
+      <!-- Desktop buttons for non-mobile -->
+      <button class="mini-box desktop-only" (click)="toggleLanguage()">
+        {{ currentLanguage === 'en' ? 'EN' : 'SE' }}
+      </button>
+      <button class="mini-box desktop-only" (click)="toggleDarkMode()">
+        {{ isDarkMode ? '☀️' : '🌙' }}
+      </button>
+      
+      <!-- Desktop auth buttons -->
+      <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+        <!-- Logged in: Show user menu or logout -->
+        <button class="btn-outline desktop-only" (click)="logout()">
+          {{ 'logout' | translate }}
+        </button>
+        
+        <!-- Admin dashboard -->
+        <a *ngIf="isAdmin" routerLink="/admin" class="btn-primary desktop-only" (click)="closeOnNavigate()">
+          {{ 'dashboard' | translate }}
+        </a>
+      </ng-container>
+      
+      <ng-template #notLoggedIn>
+        <!-- Not logged in: Show login/register -->
+        <a routerLink="/login" class="btn-outline desktop-only" (click)="closeOnNavigate()">
+          {{ 'login' | translate }}
+        </a>
+        <a routerLink="/register" class="btn-primary desktop-only" (click)="closeOnNavigate()">
+          {{ 'register' | translate }}
+        </a>
+      </ng-template>
+
       <!-- Mobile Hamburger -->
       <div class="mobile-toggle-container">
-        <button class="mobile-toggle" (click)="toggleMobileMenu()">☰</button>
+        <button class="mobile-toggle" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen">
+          ☰
+        </button>
       </div>
-
-      <!-- Admin dashboard desktop (if admin) -->
-      <a *ngIf="isAdmin" routerLink="/admin" class="btn-outline" (click)="closeOnNavigate()">Dashboard</a>
     </div>
   </div>
 
-  <!-- MOBILE MENU: translation/theme/login/register/admin -->
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" *ngIf="isMobileMenuOpen">
-    <button class="mini-box" (click)="toggleLanguage()">{{ currentLanguage === 'en' ? 'EN' : 'SE' }}</button>
-    <button class="mini-box" (click)="toggleDarkMode()">{{ isDarkMode ? '☀️' : '🌙' }}</button>
+    <button class="mini-box" (click)="toggleLanguage()">
+      {{ currentLanguage === 'en' ? 'EN' : 'SE' }}
+    </button>
+    <button class="mini-box" (click)="toggleDarkMode()">
+      {{ isDarkMode ? '☀️' : '🌙' }}
+    </button>
     
-    <a routerLink="/login" *ngIf="!isLoggedIn" (click)="closeOnNavigate()">Login</a>
-    <a routerLink="/register" *ngIf="!isLoggedIn" (click)="closeOnNavigate()">Register</a>
-
-    <a *ngIf="isAdmin" routerLink="/admin" (click)="closeOnNavigate()">Dashboard</a>
+    <ng-container *ngIf="isLoggedIn; else mobileNotLoggedIn">
+      <button class="nav-link" (click)="logout(); closeOnNavigate()">
+        {{ 'logout' | translate }}
+      </button>
+      <a *ngIf="isAdmin" routerLink="/admin" class="nav-link" (click)="closeOnNavigate()">
+        {{ 'dashboard' | translate }}
+      </a>
+    </ng-container>
+    
+    <ng-template #mobileNotLoggedIn>
+      <a routerLink="/login" class="nav-link" (click)="closeOnNavigate()">
+        {{ 'login' | translate }}
+      </a>
+      <a routerLink="/register" class="nav-link" (click)="closeOnNavigate()">
+        {{ 'register' | translate }}
+      </a>
+    </ng-template>
   </div>
 </nav>

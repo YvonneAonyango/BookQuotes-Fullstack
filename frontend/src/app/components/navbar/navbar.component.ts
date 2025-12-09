@@ -21,6 +21,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
   private destroy$ = new Subject<void>();
 
+  // Auth status properties
+  isLoggedIn = false;
+  isAdmin = false;
+
   router = inject(Router);
   authService = inject(AuthService);
   languageService = inject(LanguageService);
@@ -34,16 +38,38 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
     this.translate.get('brand').subscribe(t => this.titleService.setTitle(t || 'Book Quotes Buddy'));
 
+    // Initialize auth status using isAuthenticated()
+    this.updateAuthStatus();
+
     this.router.events
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => { if (event instanceof NavigationEnd) this.closeOnNavigate(); });
+      .subscribe(event => { 
+        if (event instanceof NavigationEnd) {
+          this.closeOnNavigate();
+          // Re-check auth status on navigation
+          this.updateAuthStatus();
+        }
+      });
   }
 
-  ngOnDestroy(): void { this.destroy$.next(); this.destroy$.complete(); }
+  ngOnDestroy(): void { 
+    this.destroy$.next(); 
+    this.destroy$.complete(); 
+  }
 
-  get isDarkMode(): boolean { return this.themeService.isDarkMode(); }
+  // UPDATE THIS METHOD: Use isAuthenticated() instead of isLoggedIn()
+  private updateAuthStatus(): void {
+    this.isLoggedIn = this.authService.isAuthenticated(); // ✅ Using isAuthenticated()
+    this.isAdmin = this.authService.isAdmin();
+  }
 
-  toggleDarkMode(): void { this.themeService.toggleTheme(); }
+  get isDarkMode(): boolean { 
+    return this.themeService.isDarkMode(); 
+  }
+
+  toggleDarkMode(): void { 
+    this.themeService.toggleTheme(); 
+  }
 
   toggleLanguage(): void {
     const newLang = this.currentLanguage === 'en' ? 'sv' : 'en';
@@ -51,15 +77,23 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.languageService.setLanguage(newLang);
   }
 
-  toggleMobileMenu(): void { this.isMobileMenuOpen = !this.isMobileMenuOpen; }
+  toggleMobileMenu(): void { 
+    this.isMobileMenuOpen = !this.isMobileMenuOpen; 
+  }
 
-  closeOnNavigate(): void { this.isMobileMenuOpen = false; }
+  closeOnNavigate(): void { 
+    this.isMobileMenuOpen = false; 
+  }
 
   logout(): void {
     this.authService.logout();
+    this.isLoggedIn = false; // Update immediately
+    this.isAdmin = false; // Update immediately
     this.router.navigate(['/login']);
   }
 
   @HostListener('document:keydown.escape')
-  onEscape(): void { this.isMobileMenuOpen = false; }
+  onEscape(): void { 
+    this.isMobileMenuOpen = false; 
+  }
 }

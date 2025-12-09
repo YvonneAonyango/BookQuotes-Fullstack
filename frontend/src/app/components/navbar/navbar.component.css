@@ -48,6 +48,16 @@
   cursor: pointer;
   transition: all 0.2s ease;
   box-sizing: border-box;
+  border: none;
+  font-family: inherit;
+}
+
+/* Remove default button styling for button elements */
+.navbar button {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .home-link {
@@ -110,6 +120,11 @@
   border: none;
   font-size: 1.4rem;
   color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobile-menu {
@@ -117,11 +132,32 @@
   top: 60px;
   right: 0;
   width: 220px;
-  background: rgba(30, 58, 95, 0.95);
-  display: flex;
+  background: rgba(30, 58, 95, 0.98);
+  backdrop-filter: blur(10px);
+  display: none; /* Hidden by default */
   flex-direction: column;
   padding: 10px 0;
   z-index: 999;
+  border-radius: 0 0 0 12px;
+  box-shadow: -4px 8px 24px rgba(0, 0, 0, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+.mobile-menu.show {
+  display: flex;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .mobile-menu a,
@@ -129,12 +165,46 @@
   padding: 12px 20px;
   color: #fff;
   text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .mobile-menu a:hover,
 .mobile-menu button:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #ffc107;
+  padding-left: 24px;
+}
+
+/* ====================== DESKTOP-ONLY CLASS ====================== */
+.desktop-only {
+  display: inline-flex;
+}
+
+/* ====================== ACTIVE LINK STATE ====================== */
+.nav-link.active,
+.home-link.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffc107;
+  font-weight: 600;
+}
+
+/* ====================== FOCUS STATES FOR ACCESSIBILITY ====================== */
+.nav-link:focus,
+.home-link:focus,
+.mini-box:focus,
+.btn-outline:focus,
+.btn-primary:focus,
+.mobile-toggle:focus {
+  outline: 2px solid #ffc107;
+  outline-offset: 2px;
 }
 
 /* ====================== RESPONSIVE ====================== */
@@ -143,11 +213,76 @@
 }
 
 @media (max-width: 768px) {
-  .navbar-right > *:not(.mobile-toggle-container) { display: none; }
-  .mobile-toggle-container { display: flex; margin-left: auto; }
-  .navbar-left { gap: 10px; overflow-x: auto; }
+  .navbar-right > .desktop-only { 
+    display: none !important; 
+  }
+  .mobile-toggle-container { 
+    display: flex; 
+    margin-left: auto; 
+  }
+  .navbar-left { 
+    gap: 10px; 
+    overflow-x: auto;
+    padding-right: 10px;
+  }
+  
+  /* Hide scrollbar for navbar-left */
+  .navbar-left::-webkit-scrollbar {
+    display: none;
+  }
+  .navbar-left {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @media (max-width: 480px) {
-  .navbar-left { gap: 6px; }
+  .navbar-left { 
+    gap: 6px; 
+  }
+  .navbar-container {
+    padding: 0 12px;
+  }
+  .nav-link,
+  .home-link,
+  .mini-box,
+  .btn-outline,
+  .btn-primary {
+    padding: 0 10px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+  .mobile-menu {
+    width: 200px;
+  }
+}
+
+/* ====================== ANIMATION FOR LOGO/ICON ====================== */
+.home-link .icon {
+  transition: transform 0.3s ease;
+}
+
+.home-link:hover .icon {
+  transform: scale(1.1);
+}
+
+/* ====================== LOGOUT BUTTON SPECIFIC ====================== */
+button[type="button"].btn-outline {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.5);
+}
+
+button[type="button"].btn-outline:hover {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff5252;
+}
+
+/* ====================== ADMIN BADGE STYLE ====================== */
+.btn-primary.admin {
+  background: linear-gradient(135deg, #9d4edd, #7b2cbf);
+  border-color: #c77dff;
+}
+
+.btn-primary.admin:hover {
+  background: linear-gradient(135deg, #7b2cbf, #5a189a);
 }
