@@ -18,7 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   currentLanguage: Language = 'en';
-  isMobileMenuOpen: boolean = false;
+  isMobileMenuOpen = false;
   private destroy$ = new Subject<void>();
 
   router = inject(Router);
@@ -36,9 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(takeUntil(this.destroy$))
-      .subscribe(event => {
-        if (event instanceof NavigationEnd) this.closeOnNavigate();
-      });
+      .subscribe(event => { if (event instanceof NavigationEnd) this.closeOnNavigate(); });
   }
 
   ngOnDestroy(): void { this.destroy$.next(); this.destroy$.complete(); }

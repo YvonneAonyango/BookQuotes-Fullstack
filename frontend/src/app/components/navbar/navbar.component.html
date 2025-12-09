@@ -3,87 +3,72 @@
     
     <!-- LEFT GROUP: Home + Books + Quotes -->
     <div class="nav-group left-group">
-      <!-- Home - Bigger, no individual container -->
       <a routerLink="/" class="group-item home-item" (click)="closeOnNavigate()">
         <span class="icon">🏠</span>
         <span class="text">{{ 'brand' | translate }}</span>
       </a>
-      
-      <!-- Divider -->
-      <span class="group-divider"></span>
-      
-      <!-- Books -->
+
       <a routerLink="/books" class="group-item" (click)="closeOnNavigate()">
         {{ 'books' | translate | titlecase }}
       </a>
-      
-      <!-- Divider -->
-      <span class="group-divider"></span>
-      
-      <!-- Quotes -->
+
       <a routerLink="/quotes" class="group-item" (click)="closeOnNavigate()">
         {{ 'quotes' | translate | titlecase }}
       </a>
     </div>
-    
-    <!-- RIGHT GROUP: Login + Register (Language & Theme moved for mobile) -->
+
+    <!-- RIGHT GROUP: Theme + Login + Register + Language -->
     <div class="nav-group right-group">
+      
+      <!-- Theme Toggle -->
+      <button class="group-item theme-item" (click)="toggleDarkMode()">
+        {{ isDarkMode ? '☀️' : '🌙' }}
+      </button>
+
       <!-- Login -->
       <a routerLink="/login" class="group-item btn-outline" (click)="closeOnNavigate()">
         {{ 'login' | translate | titlecase }}
       </a>
-      
-      <!-- Divider -->
-      <span class="group-divider"></span>
-      
+
       <!-- Register -->
       <a routerLink="/register" class="group-item btn-primary" (click)="closeOnNavigate()">
         {{ 'register' | translate | titlecase }}
       </a>
+
+      <!-- Language Flag -->
+      <button class="group-item lang-item" (click)="toggleLanguage()">
+        <img 
+          [src]="currentLanguage === 'en' ? 'assets/flags/gb.png' : 'assets/flags/se.png'" 
+          alt="Language Flag" 
+          class="lang-flag"
+        >
+      </button>
     </div>
 
-    <!-- MOBILE EXTRA: Language + Theme always visible -->
-    <div class="mobile-extra-container">
-      <!-- Language -->
-      <button class="group-item lang-item" (click)="toggleLanguage()" aria-label="Toggle language">
-        <span class="flag">{{ currentLanguage === 'en' ? '🇬🇧' : '🇸🇪' }}</span>
-        <span class="text">{{ currentLanguage.toUpperCase() }}</span>
-      </button>
-
-      <!-- Theme -->
-      <button class="group-item theme-item" (click)="toggleDarkMode()" aria-label="Toggle theme">
-        {{ isDarkMode ? '☀️' : '🌙' }}
-      </button>
-
-      <!-- Mobile Toggle -->
-      <div class="mobile-toggle-container">
-        <button class="mobile-toggle" (click)="toggleMobileMenu()" aria-label="Toggle navigation menu">☰</button>
-      </div>
+    <!-- Mobile Toggle -->
+    <div class="mobile-toggle-container">
+      <button class="mobile-toggle" (click)="toggleMobileMenu()" aria-label="Toggle menu">☰</button>
     </div>
-
   </div>
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" *ngIf="isMobileMenuOpen">
-    <a routerLink="/" class="group-item home-item" (click)="closeOnNavigate()">
-      <span class="icon">🏠</span>
-      <span class="text">{{ 'brand' | translate }}</span>
-    </a>
-
-    <a routerLink="/books" class="group-item" (click)="closeOnNavigate()">
-      {{ 'books' | translate | titlecase }}
-    </a>
-
-    <a routerLink="/quotes" class="group-item" (click)="closeOnNavigate()">
-      {{ 'quotes' | translate | titlecase }}
-    </a>
-
-    <a routerLink="/login" class="group-item btn-outline" (click)="closeOnNavigate()">
-      {{ 'login' | translate | titlecase }}
-    </a>
-
-    <a routerLink="/register" class="group-item btn-primary" (click)="closeOnNavigate()">
-      {{ 'register' | translate | titlecase }}
-    </a>
+    <a routerLink="/" (click)="closeOnNavigate()">{{ 'brand' | translate }}</a>
+    <a routerLink="/books" (click)="closeOnNavigate()">{{ 'books' | translate | titlecase }}</a>
+    <a routerLink="/quotes" (click)="closeOnNavigate()">{{ 'quotes' | translate | titlecase }}</a>
+    <a routerLink="/login" (click)="closeOnNavigate()">{{ 'login' | translate | titlecase }}</a>
+    <a routerLink="/register" (click)="closeOnNavigate()">{{ 'register' | translate | titlecase }}</a>
+    <!-- Language Flag in mobile menu -->
+    <button class="group-item lang-item" (click)="toggleLanguage()">
+      <img 
+        [src]="currentLanguage === 'en' ? 'assets/flags/gb.png' : 'assets/flags/se.png'" 
+        alt="Language Flag" 
+        class="lang-flag"
+      >
+    </button>
+    <!-- Theme Toggle in mobile menu -->
+    <button class="group-item theme-item" (click)="toggleDarkMode()">
+      {{ isDarkMode ? '☀️' : '🌙' }}
+    </button>
   </div>
 </nav>
