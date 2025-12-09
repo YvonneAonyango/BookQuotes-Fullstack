@@ -1,36 +1,29 @@
-<nav class="navbar warm-navbar navbar-expand-lg" role="navigation" aria-label="Main Navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm" role="navigation" aria-label="Main Navigation">
   <div class="container-fluid">
     <!-- Brand / Logo -->
-    <a class="navbar-brand" routerLink="/" aria-label="Home">
-      <fa-icon [icon]="faHome" class="me-2"></fa-icon>
+    <a class="navbar-brand fw-bold" routerLink="/" aria-label="Home">
       {{ 'brand' | translate }}
     </a>
 
     <!-- Hamburger for Mobile -->
-    <button class="navbar-toggler" type="button" (click)="toggleMenu()" aria-label="Toggle navigation" 
-            aria-expanded="{{ !isCollapsed }}" aria-controls="navbarContent">
-      <fa-icon [icon]="faBars"></fa-icon>
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()" 
+            [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Navbar Menu -->
-    <div class="navbar-collapse" [ngClass]="{'show': !isCollapsed}" id="navbarContent">
+    <div class="collapse navbar-collapse" [ngClass]="{'show': !isCollapsed}" id="navbarContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- Book Link - Now styled like button -->
         <li class="nav-item">
-          <a class="nav-link" routerLink="/books" routerLinkActive="active" 
-             [routerLinkActiveOptions]="{ exact: false }" (click)="isCollapsed = true">
-            <fa-icon [icon]="faBook" class="me-1"></fa-icon>{{ 'books' | translate }}
+          <a class="nav-link" routerLink="/books" routerLinkActive="active" (click)="isCollapsed = true">
+            {{ 'books' | translate }}
           </a>
         </li>
-        
-        <!-- Quotes Link - Now styled like button -->
         <li class="nav-item">
-          <a class="nav-link" routerLink="/quotes" routerLinkActive="active" 
-             [routerLinkActiveOptions]="{ exact: false }" (click)="isCollapsed = true">
-            <fa-icon [icon]="faQuoteRight" class="me-1"></fa-icon>{{ 'quotes' | translate }}
+          <a class="nav-link" routerLink="/quotes" routerLinkActive="active" (click)="isCollapsed = true">
+            {{ 'quotes' | translate }}
           </a>
         </li>
-        
         <li class="nav-item" *ngIf="authService.isAdmin()">
           <a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active" (click)="isCollapsed = true">
             {{ 'adminDashboard' | translate }}
@@ -40,44 +33,35 @@
 
       <!-- Right Controls -->
       <div class="d-flex align-items-center gap-2 flex-wrap">
-        <!-- Language Switch - Now styled like button -->
+        <!-- Language Dropdown -->
         <div class="dropdown" ngbDropdown>
-          <button class="btn-language" ngbDropdownToggle aria-label="Switch Language" 
-                  aria-expanded="false" id="languageDropdown">
-            <fa-icon [icon]="faGlobe" class="me-1"></fa-icon>
-            <span class="d-none d-md-inline">{{ currentFlag }}</span>
+          <button class="btn btn-outline-light btn-sm" ngbDropdownToggle aria-label="Switch Language">
+            {{ currentFlag }}
           </button>
-          <div ngbDropdownMenu class="dropdown-menu-end" aria-labelledby="languageDropdown">
-            <button ngbDropdownItem (click)="switchLanguage('en')" [class.active]="currentLanguage === 'en'">
-              🇬🇧 English
-            </button>
-            <button ngbDropdownItem (click)="switchLanguage('sv')" [class.active]="currentLanguage === 'sv'">
-              🇸🇪 Swedish
-            </button>
+          <div ngbDropdownMenu class="dropdown-menu-end">
+            <button ngbDropdownItem (click)="switchLanguage('en')" [class.active]="currentLanguage === 'en'">English</button>
+            <button ngbDropdownItem (click)="switchLanguage('sv')" [class.active]="currentLanguage === 'sv'">Swedish</button>
           </div>
         </div>
 
-        <!-- Dark Mode Toggle - Now styled like button -->
-        <button class="btn-darkmode" (click)="toggleDarkMode()" 
+        <!-- Dark Mode Toggle -->
+        <button class="btn btn-outline-light btn-sm" (click)="toggleDarkMode()" 
                 [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
-          <fa-icon [icon]="isDarkMode ? faSun : faMoon"></fa-icon>
+          {{ isDarkMode ? 'Light' : 'Dark' }}
         </button>
 
-        <!-- Auth Buttons (Login/Register - Reference styling) -->
+        <!-- Auth Buttons -->
         <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
-          <a class="btn btn-outline-light btn-sm" routerLink="/login" aria-label="Login" (click)="isCollapsed = true">
-            <fa-icon [icon]="faSignInAlt"></fa-icon>
-            <span class="d-none d-sm-inline ms-1">{{ 'login' | translate }}</span>
+          <a class="btn btn-outline-light btn-sm" routerLink="/login" (click)="isCollapsed = true">
+            {{ 'login' | translate }}
           </a>
-          <a class="btn btn-light btn-sm" routerLink="/register" aria-label="Register" (click)="isCollapsed = true">
-            <fa-icon [icon]="faUserPlus"></fa-icon>
-            <span class="d-none d-sm-inline ms-1">{{ 'register' | translate }}</span>
+          <a class="btn btn-light btn-sm" routerLink="/register" (click)="isCollapsed = true">
+            {{ 'register' | translate }}
           </a>
         </ng-container>
         <ng-template #loggedIn>
-          <button class="btn btn-outline-light btn-sm" (click)="logout()" aria-label="Logout">
-            <fa-icon [icon]="faSignOutAlt"></fa-icon>
-            <span class="d-none d-sm-inline ms-1">{{ 'logout' | translate }}</span>
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">
+            {{ 'logout' | translate }}
           </button>
         </ng-template>
       </div>

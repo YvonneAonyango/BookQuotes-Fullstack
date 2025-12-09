@@ -1,284 +1,44 @@
-/* ===== NAVBAR STYLES ===== */
-.warm-navbar {
-  background: var(--navbar-bg);
-  padding: var(--space-sm) 0;
-  min-height: 64px;
-  box-shadow: var(--shadow-md);
-  position: relative;
-  z-index: 1030;
-  transition: background var(--transition-base);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* Navbar base styling */
+.navbar {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: box-shadow 0.3s ease;
 }
 
-.container-fluid {
-  padding: 0 var(--space-xl);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* Brand/Logo - More spacing after logo */
-.navbar-brand {
-  color: var(--navbar-text) !important;
-  font-size: var(--text-lg);
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  padding: var(--space-xs) 0;
-  transition: all var(--transition-fast);
-  margin-right: calc(var(--space-2xl) * 1.5); /* Increased spacing after logo */
-}
-
-.navbar-brand:hover {
-  color: var(--warm-blue-accent) !important;
-  transform: translateY(-1px);
-}
-
-.navbar-brand fa-icon {
-  font-size: 1.1em;
-  margin-right: var(--space-sm);
-  transition: transform var(--transition-fast);
-}
-
-.navbar-brand:hover fa-icon {
-  transform: scale(1.05);
-}
-
-/* ===== NAVIGATION LINKS - Match Login/Register Button Styling ===== */
-.navbar-nav {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: var(--space-2xl); /* Significantly increased spacing between Books and Quotes links */
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-}
-
-/* Books and Quotes Links - Match .btn-outline-light styling */
+/* Navbar links */
 .nav-link {
-  color: var(--navbar-text);
-  text-decoration: none;
-  padding: var(--space-xs) var(--space-md);
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: var(--text-sm);
-  transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  min-height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: transparent;
-  cursor: pointer;
-  gap: var(--space-xs);
+  color: #ffffff;
+  transition: all 0.3s ease;
 }
 
-.nav-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
+.nav-link:hover,
 .nav-link.active {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: var(--warm-blue-accent);
+  color: #ffdd57;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(255, 159, 28, 0.15);
 }
 
-.nav-link fa-icon {
-  font-size: 0.9em;
+/* Buttons */
+.btn-outline-light {
+  transition: all 0.3s ease;
 }
 
-/* Navbar Toggler */
-.navbar-toggler {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  padding: var(--space-sm) var(--space-md);
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-fast);
-  min-width: 44px;
-  min-height: 44px;
-  margin-left: var(--space-lg); /* Added spacing before toggler */
+.btn-outline-light:hover {
+  background-color: #ffffff33;
+  color: #fff;
 }
 
-.navbar-toggler:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
+.btn-light {
+  background-color: #fff;
+  color: #007bff;
 }
 
-.navbar-toggler fa-icon {
-  color: var(--navbar-text);
-  font-size: 1.1rem;
-}
-
-/* Navbar Menu */
-.navbar-collapse {
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.navbar-collapse.show {
-  display: flex !important;
-}
-
-/* Right Controls Container */
-.d-flex {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm); /* Keep original spacing for auth/utility buttons */
-  flex-wrap: wrap;
-  margin-left: calc(var(--space-xl) * 1.5); /* Increased spacing before right controls */
-}
-
-/* Additional spacing class for extra separation */
-.navbar-spacer {
-  width: 1px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 0 var(--space-lg);
-  display: none; /* Hidden by default, can be shown if needed */
-}
-
-/* Tablet and Below */
-@media (max-width: 992px) {
-  .container-fluid {
-    padding: 0 var(--space-lg);
-  }
-  
-  .navbar-brand {
-    margin-right: var(--space-xl); /* Reduced spacing on tablets */
-  }
-  
-  .navbar-nav {
-    gap: var(--space-xl); /* Reduced but still generous spacing on tablets */
-  }
-  
-  .d-flex {
-    margin-left: var(--space-xl); /* Reduced spacing on tablets */
-  }
-  
-  /* Show subtle spacer on tablets if needed */
-  .navbar-spacer {
-    display: block;
-    margin: 0 var(--space-md);
-  }
-}
-
-/* Mobile Landscape */
-@media (max-width: 768px) {
-  .navbar-toggler {
-    display: flex;
-    margin-left: auto; /* Push toggler to the right */
-    order: 2; /* Ensure proper order in mobile */
-  }
-  
+/* Mobile adjustments */
+@media (max-width: 991.98px) {
   .navbar-collapse {
-    display: none;
-    width: 100%;
-    order: 3;
-    margin-top: var(--space-md);
-    padding-top: var(--space-md);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #007bff;
+    padding: 1rem;
   }
-  
-  .navbar-nav {
-    flex-direction: column;
-    width: 100%;
-    gap: var(--space-md); /* Good spacing for mobile vertical layout */
-    margin-bottom: var(--space-md);
-  }
-  
-  .nav-item {
-    width: 100%;
-  }
-  
-  .nav-link,
-  .btn-language,
-  .btn-darkmode {
-    width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    justify-content: center;
-    min-height: 44px;
-  }
-  
-  .navbar-brand {
-    margin-right: auto; /* Reset margin for mobile */
-    order: 1; /* Ensure logo is first */
-  }
-  
-  .d-flex {
-    width: 100%;
-    justify-content: center;
-    gap: var(--space-md);
-    flex-direction: column;
-    margin-left: 0; /* Reset margin for mobile */
-  }
-  
-  .btn-language .d-none.d-md-inline {
-    display: inline !important;
-    margin-left: var(--space-xs);
-  }
-  
-  /* Hide spacer on mobile */
-  .navbar-spacer {
-    display: none;
-  }
-}
 
-/* Large Desktop Screens */
-@media (min-width: 1400px) {
-  .navbar-brand {
-    margin-right: calc(var(--space-2xl) * 2); /* Even more space on large screens */
-  }
-  
-  .navbar-nav {
-    gap: calc(var(--space-2xl) * 1.25); /* More space between Books/Quotes on large screens */
-  }
-  
-  .d-flex {
-    margin-left: calc(var(--space-2xl) * 1.5); /* More space before right controls */
-  }
-}
-
-/* Mobile Portrait */
-@media (max-width: 480px) {
-  .container-fluid {
-    padding: 0 var(--space-md);
-  }
-  
-  .navbar-brand {
-    font-size: var(--text-md);
-  }
-  
-  .d-flex {
-    gap: var(--space-sm);
-  }
-  
-  .btn {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .btn-language {
-    justify-content: space-between;
-    width: 100%;
+  .dropdown-menu {
+    min-width: 120px;
   }
 }
