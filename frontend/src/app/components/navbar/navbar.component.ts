@@ -25,9 +25,7 @@ export class NavbarComponent implements OnInit {
   currentLanguage: Language = 'en';
   isCollapsed = true;
   showDropdown = false;
-  isHomePage = false;
 
-  // Emoji flags
   flagEn: string = '🇬🇧';
   flagSv: string = '🇸🇪';
 
@@ -41,31 +39,13 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentLanguage = this.languageService.getCurrentLanguage();
-    this.setFlag();
 
-    // Set meta tags
     this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
-    this.translate.get('brand').subscribe((translated: string) => {
-      this.titleService.setTitle(translated || 'Book Quotes Buddy');
-    });
-    this.translate.get('personalLibrary').subscribe((translated: string) => {
-      this.meta.updateTag({
-        name: 'description',
-        content: translated || 'Your personal library companion for managing books and quotes.'
-      });
-    });
+    this.translate.get('brand').subscribe(t => this.titleService.setTitle(t || 'Book Quotes Buddy'));
 
-    // Listen for route changes
-    this.checkRoute(this.router.url);
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.checkRoute(event.urlAfterRedirects);
-      }
+      if (event instanceof NavigationEnd) this.isCollapsed = true;
     });
-  }
-
-  private checkRoute(url: string): void {
-    this.isHomePage = url === '/' || url === '/home';
   }
 
   get isDarkMode(): boolean {
@@ -78,14 +58,8 @@ export class NavbarComponent implements OnInit {
 
   switchLanguage(language: Language): void {
     this.currentLanguage = language;
-    this.setFlag();
     this.languageService.setLanguage(language);
     this.showDropdown = false;
-  }
-
-  private setFlag(): void {
-    this.flagEn = '🇬🇧';
-    this.flagSv = '🇸🇪';
   }
 
   logout(): void {
@@ -95,7 +69,6 @@ export class NavbarComponent implements OnInit {
 
   toggleMenu(): void {
     this.isCollapsed = !this.isCollapsed;
-    if (!this.isCollapsed) this.showDropdown = false;
   }
 
   toggleDropdown(): void {
@@ -107,14 +80,13 @@ export class NavbarComponent implements OnInit {
     this.showDropdown = false;
   }
 
-  // Close dropdown when clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (this.dropdown && !this.dropdown.nativeElement.contains(target)) {
       this.showDropdown = false;
     }
-    if (window.innerWidth <= 768 && !target.closest('.navbar-container') && !this.isCollapsed) {
+    if (window.innerWidth <= 768 && !target.closest('.warm-navbar')) {
       this.isCollapsed = true;
     }
   }
