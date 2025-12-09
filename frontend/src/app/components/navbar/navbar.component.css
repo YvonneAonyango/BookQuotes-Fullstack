@@ -1,24 +1,22 @@
-/* -------------------- Base Navbar -------------------- */
+/* ====================== BASE NAVBAR ====================== */
 .navbar {
+  background: #1e3a5f;
+  color: #ffc107;
+  font-family: 'Segoe UI', sans-serif;
   width: 100%;
-  background-color: #1e3a5f;
-  font-family: 'Segoe UI', Roboto, sans-serif;
-  position: relative;
-  z-index: 1000;
 }
 
-/* -------------------- Container -------------------- */
 .navbar-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
   height: 60px;
+  padding: 0 20px;
 }
 
-/* -------------------- Left Section -------------------- */
+/* -------------------- LEFT SECTION -------------------- */
 .navbar-left {
   display: flex;
   align-items: center;
@@ -29,100 +27,100 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  font-size: 1.45rem;
+  font-weight: 600;
   color: #fff;
-  font-weight: 700;
-  font-size: 1.5rem; /* Home slightly bigger */
   text-decoration: none;
 }
 
-.navbar-links {
-  display: flex;
-  gap: 16px;
+.navbar-brand:hover {
+  color: #ffb84d;
 }
 
-.nav-item a {
-  font-size: 1.3rem;
-  color: #ffc107;
+.home-icon {
+  font-size: 1.5rem;
+}
+
+.navbar-links a {
+  font-size: 1.2rem;
   font-weight: 600;
+  text-transform: capitalize;
+  color: #ffc107;
   text-decoration: none;
   padding: 6px 10px;
+  border-radius: 4px;
 }
 
-.nav-item a:hover {
+.navbar-links a:hover {
   background: rgba(255, 193, 7, 0.2);
-  border-radius: 6px;
 }
 
-/* -------------------- Right Section -------------------- */
+/* -------------------- RIGHT SECTION -------------------- */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-/* Language Selector */
 .language-selector span {
-  font-size: 1.1rem;
   cursor: pointer;
-  margin: 0 4px;
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
+.language-selector span.active,
 .language-selector span:hover {
-  opacity: 0.8;
+  background: rgba(255, 193, 7, 0.2);
 }
 
-/* Theme Toggle */
 .theme-toggle {
   font-size: 1.1rem;
   cursor: pointer;
-  margin: 0 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
-.theme-toggle:hover {
-  opacity: 0.8;
-}
-
-/* -------------------- Auth Buttons -------------------- */
-.auth-container {
-  display: flex;
-  gap: 8px;
-}
-
-.auth-item a,
-.auth-item button {
-  font-size: 1.3rem;
-  color: #ffc107;
+.auth-container a,
+.auth-container button {
+  font-size: 1.2rem;
   font-weight: 600;
-  background: none;
-  border: none;
-  padding: 6px 10px;
-  cursor: pointer;
+  color: #ffc107;
   text-decoration: none;
-}
-
-.auth-item a:hover,
-.auth-item button:hover {
-  background: rgba(255, 193, 7, 0.2);
+  padding: 6px 12px;
   border-radius: 6px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
 }
 
-/* -------------------- Mobile -------------------- */
+.auth-container a.btn-primary {
+  background: #ff9f1c;
+  color: #fff;
+  border: none;
+}
+
+.auth-container a:hover,
+.auth-container button:hover {
+  background: rgba(255, 193, 7, 0.2);
+}
+
+/* -------------------- MOBILE -------------------- */
 .mobile-toggle {
   display: none;
-  font-size: 1.3rem;
-  padding: 6px;
-  color: #fff;
-  cursor: pointer;
+  font-size: 1.5rem;
   background: transparent;
   border: none;
+  cursor: pointer;
+  color: #fff;
 }
 
 .mobile-menu {
   display: none;
   flex-direction: column;
-  background-color: #2a4a7a;
-  padding: 16px;
-  gap: 8px;
+  background: #1e3a5f;
+  gap: 10px;
+  padding: 10px 20px;
 }
 
 .mobile-menu.show {
@@ -131,12 +129,12 @@
 
 .mobile-menu a,
 .mobile-menu button {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: #ffc107;
   text-decoration: none;
-  padding: 10px 14px;
+  padding: 6px 10px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
 }
 
 .mobile-menu a:hover,
@@ -144,25 +142,24 @@
   background: rgba(255, 193, 7, 0.2);
 }
 
-/* Mobile Controls */
 .mobile-controls {
   display: flex;
   justify-content: space-between;
-  margin-top: 12px;
-  gap: 10px;
+  margin-top: 10px;
 }
 
 .mobile-language span {
-  cursor: pointer;
   font-size: 1.1rem;
-  margin: 0 4px;
+  padding: 4px 8px;
+  cursor: pointer;
 }
 
+.mobile-language span.active,
 .mobile-language span:hover {
-  opacity: 0.8;
+  background: rgba(255, 193, 7, 0.2);
 }
 
-/* -------------------- Responsive -------------------- */
+/* ====================== RESPONSIVE ====================== */
 @media (max-width: 768px) {
   .navbar-links,
   .auth-container,
@@ -172,6 +169,24 @@
   }
 
   .mobile-toggle {
-    display: flex;
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 12px;
+  }
+
+  .navbar-links a,
+  .auth-container a,
+  .auth-container button {
+    font-size: 1.1rem;
+    padding: 5px 8px;
+  }
+
+  .mobile-menu a,
+  .mobile-menu button {
+    font-size: 1.1rem;
   }
 }
