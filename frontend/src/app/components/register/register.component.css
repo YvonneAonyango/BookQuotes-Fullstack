@@ -11,14 +11,15 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background-color: var(--bg, #fdfdfd);
-  color: var(--text, #1f2937);
+  background-color: #fdfdfd; /* light mode default */
+  color: #1f2937; /* light text */
   transition: background-color 0.3s, color 0.3s;
 }
 
-.dark-mode .register-page {
-  --bg: #0f172a;
-  --text: #e2e8f0;
+/* ---------- Dark Mode ---------- */
+body.dark-mode .register-page {
+  background-color: #0f172a;
+  color: #e2e8f0;
 }
 
 /* ---------- Card ---------- */
@@ -27,15 +28,15 @@
   max-width: 450px;
   border-radius: 16px;
   overflow: hidden;
-  background-color: var(--card-bg, #ffffff);
-  border: 1px solid var(--card-border, #d1d9e6);
+  background-color: #ffffff;
+  border: 1px solid #d1d9e6;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
 }
 
-.dark-mode .register-card {
-  --card-bg: #1e293b;
-  --card-border: #334155;
+body.dark-mode .register-card {
+  background-color: #1e293b;
+  border-color: #334155;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
@@ -77,26 +78,25 @@ input[type="password"] {
   width: 100%;
   padding: 14px 16px;
   border-radius: 10px;
-  border: 1px solid var(--input-border, #d1d9e6);
-  background-color: var(--input-bg, #f8fafc);
-  color: var(--input-color, #1f2937);
+  border: 1px solid #d1d9e6;
+  background-color: #f8fafc;
+  color: #1f2937;
   font-size: 1rem;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
 
-.dark-mode input[type="text"],
-.dark-mode input[type="password"] {
-  --input-bg: #0f172a;
-  --input-color: #e2e8f0;
-  --input-border: #475569;
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"] {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  border-color: #475569;
 }
 
 input:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
   outline: none;
-  background-color: var(--input-bg, #ffffff);
 }
 
 .is-invalid {
@@ -140,7 +140,7 @@ input:focus {
   border: 1px solid #fecaca;
 }
 
-.dark-mode .alert-danger {
+body.dark-mode .alert-danger {
   background: #7f1d1d;
   color: #fecaca;
   border-color: #fca5a5;
@@ -152,7 +152,7 @@ input:focus {
   border: 1px solid #a7f3d0;
 }
 
-.dark-mode .alert-success {
+body.dark-mode .alert-success {
   background: #064e3b;
   color: #a7f3d0;
   border-color: #065f46;
@@ -222,7 +222,7 @@ input:focus {
   text-decoration: none;
 }
 
-.dark-mode .login-link a {
+body.dark-mode .login-link a {
   color: #2563eb;
 }
 
