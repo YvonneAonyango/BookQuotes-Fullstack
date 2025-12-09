@@ -1,471 +1,163 @@
-/* ====================== NAVBAR BASE ====================== */
+/* ====================== BASE NAVBAR ====================== */
 .navbar {
+  width: 100%;
+  min-height: 60px;
   background: linear-gradient(135deg, #1e3a5f 0%, #2a4a7a 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   position: relative;
   z-index: 1000;
-  min-height: 68px;
-  width: 100%;
 }
 
 .navbar-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 68px;
 }
 
-/* ====================== UNIFORM NAV ITEM CONTAINER ====================== */
-/* ALL containers are the SAME thickness and spacing */
-.nav-item {
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
-  height: 46px; /* UNIFORM HEIGHT */
+/* ====================== LEFT & RIGHT SECTIONS ====================== */
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* uniform spacing */
+}
+
+/* ====================== NAV ITEMS ====================== */
+.nav-item,
+.btn,
+.lang-toggle,
+.theme-btn {
+  height: 42px;
+  min-width: 100px;
+  padding: 0 16px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 4px; /* UNIFORM SPACING - NO TOUCHING */
-  overflow: hidden;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-.nav-item:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.nav-item:hover,
+.btn:hover,
+.lang-toggle:hover,
+.theme-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #ffc107;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* ====================== LEFT SECTION ====================== */
-/* Home Books Quotes - with spacing */
-.navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* UNIFORM GAP */
-}
-
-/* Home - NO container, different from others */
+/* ====================== BRAND/HOME ====================== */
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  font-size: 1.35rem;
+  gap: 6px;
+  font-size: 1.2rem;
   font-weight: 600;
-  color: #ffffff;
-  transition: all 0.2s ease;
-  padding: 8px 16px;
-  margin-right: 8px; /* Spacing from first nav-item */
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 12px;
 }
 
 .navbar-brand:hover {
   color: #ffc107;
 }
 
-.navbar-brand .icon {
-  font-size: 1.5rem;
-  color: #ffc107;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
-}
-
-/* Books & Quotes Links */
-.nav-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  padding: 0 24px;
-  height: 46px;
-  min-width: 120px;
-  color: #ffffff;
-  font-size: 1.08rem;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-.nav-link:hover {
-  color: #ffc107;
-}
-
-/* ====================== RIGHT SECTION ====================== */
-/* Translation Theme Login Registration */
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* UNIFORM GAP */
-}
-
-/* Language Toggle - SE/EN with flag */
-.lang-toggle {
-  width: 100%;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0 16px;
-  min-width: 100px; /* Same as Books/Quotes */
-}
-
-.lang-toggle .flag {
-  font-size: 1.3rem;
-}
-
-.lang-toggle .text {
-  font-weight: 500;
-}
-
-.lang-toggle:hover {
-  color: #ffc107;
-}
-
-/* Theme Button */
-.theme-btn {
-  width: 100%;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  font-size: 1.4rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0 16px;
-  min-width: 60px; /* Smaller than others */
-}
-
-.theme-btn:hover {
-  color: #ffc107;
-  transform: scale(1.1);
-}
-
-/* Auth Section - Login Register */
+/* ====================== AUTH SECTION ====================== */
 .auth-section {
   display: flex;
   align-items: center;
-  gap: 8px; /* UNIFORM GAP */
-  margin-left: 4px; /* Spacing from theme button */
+  gap: 6px;
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 1.08rem;
-  font-weight: 500;
-  padding: 0 24px;
-  height: 46px; /* SAME HEIGHT as nav-items */
-  border-radius: 8px;
-  border: 1px solid;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 120px; /* SAME WIDTH as Books/Quotes */
+/* ====================== LANGUAGE & THEME ====================== */
+.lang-toggle,
+.theme-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  font-weight: 600;
 }
 
-.btn-outline {
-  background: transparent;
-  border-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-}
+/* ====================== MOBILE ====================== */
+.mobile-toggle-container { display: none; }
 
-.btn-outline:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
-  color: #ffc107;
-  transform: translateY(-1px);
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
-  border-color: #4d6cfc;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(135deg, #3a56d4 0%, #2f48b9 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
-}
-
-.btn-secondary {
-  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-  border-color: #7a838b;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background: linear-gradient(135deg, #5a6268 0%, #4e555b 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
-}
-
-/* Mobile Toggle Container */
-.mobile-toggle-container {
-  display: none;
-  min-width: 60px;
-}
-
-.mobile-toggle {
-  width: 100%;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  font-size: 1.5rem;
-  padding: 0;
-}
-
-/* ====================== MOBILE MENU ====================== */
 .mobile-menu {
   display: none;
+  flex-direction: column;
+  gap: 12px;
   background: linear-gradient(135deg, #2a4a7a 0%, #3a5a9a 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
+  padding: 16px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
   z-index: 999;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  padding: 20px;
 }
 
-.mobile-menu.show {
-  display: block;
-}
+.mobile-menu.show { display: flex; }
 
-.mobile-menu-content {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.mobile-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.mobile-link-container {
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
-}
-
-.mobile-link {
-  display: block;
-  padding: 16px 24px;
-  text-decoration: none;
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 500;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.mobile-link-container:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.mobile-link-container:hover .mobile-link {
-  color: #ffc107;
-}
-
-.mobile-auth {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 8px 0;
-}
-
+.mobile-link,
+.mobile-lang-toggle,
+.mobile-theme-btn,
 .mobile-btn {
-  width: 100%;
-  padding: 16px 24px;
-  font-size: 1.05rem;
-  height: 46px;
-  border-radius: 8px;
-}
-
-.mobile-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 8px;
-}
-
-.mobile-theme-container {
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
-  overflow: hidden;
-  height: 50px;
-  width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.mobile-theme-btn {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-
-.mobile-lang-container {
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.2s ease;
-  overflow: hidden;
-  height: 50px;
-  min-width: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mobile-lang-toggle {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: transparent;
-  border: none;
+  padding: 12px 16px;
+  min-width: 100%;
+  border-radius: 6px;
   font-size: 1rem;
-  cursor: pointer;
-  color: #ffffff;
+  font-weight: 500;
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.2s ease;
 }
 
-.mobile-lang-toggle .flag {
-  font-size: 1.3rem;
+.mobile-link:hover,
+.mobile-lang-toggle:hover,
+.mobile-theme-btn:hover,
+.mobile-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #ffc107;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 /* ====================== RESPONSIVE ====================== */
 @media (max-width: 992px) {
-  .navbar-container {
-    padding: 0 20px;
-  }
-  
-  .navbar-left {
-    gap: 6px;
-  }
-  
-  .navbar-right {
-    gap: 6px;
-  }
-  
-  .nav-item {
-    margin: 0 3px;
-  }
-  
-  .nav-link,
-  .lang-toggle,
-  .btn {
-    min-width: 110px;
-    padding: 0 20px;
-  }
+  .navbar-container { padding: 0 16px; }
+  .navbar-left, .navbar-right { gap: 4px; }
+  .nav-item, .btn, .lang-toggle, .theme-btn { min-width: 90px; padding: 0 12px; height: 40px; font-size: 0.95rem; }
 }
 
 @media (max-width: 768px) {
-  .navbar-container {
-    padding: 0 16px;
-    height: 64px;
-  }
-  
-  .nav-item:not(.mobile-toggle-container),
-  .auth-section {
-    display: none;
-  }
-  
-  .mobile-toggle-container {
-    display: flex;
-  }
-  
-  .navbar-left {
-    gap: 4px;
-  }
-  
-  .navbar-brand {
-    font-size: 1.2rem;
-    padding: 8px 12px;
-  }
-  
-  .navbar-brand .icon {
-    font-size: 1.3rem;
-  }
+  /* hide normal nav, show hamburger */
+  .navbar-left .nav-item,
+  .navbar-right .nav-item,
+  .auth-section,
+  .theme-btn,
+  .lang-toggle { display: none; }
+
+  .mobile-toggle-container { display: flex; }
 }
 
 @media (max-width: 480px) {
-  .navbar-container {
-    padding: 0 12px;
-    height: 60px;
-  }
-  
-  .navbar-left {
-    gap: 2px;
-  }
-  
-  .navbar-brand {
-    font-size: 1.1rem;
-    padding: 6px 10px;
-  }
-  
-  .navbar-brand .icon {
-    font-size: 1.2rem;
-  }
-  
-  .mobile-menu {
-    padding: 16px;
-  }
-  
-  .mobile-link {
-    padding: 14px 20px;
-    font-size: 1rem;
-  }
-  
-  .mobile-btn {
-    padding: 14px 20px;
-    font-size: 1rem;
-  }
-  
-  .mobile-theme-container {
-    width: 44px;
-    height: 44px;
-  }
-  
-  .mobile-lang-container {
-    height: 44px;
-    min-width: 90px;
-  }
+  .navbar { height: 56px; }
+  .navbar-container { padding: 0 12px; }
+  .navbar-brand { font-size: 1.1rem; padding: 4px 8px; }
+  .mobile-link, .mobile-lang-toggle, .mobile-theme-btn, .mobile-btn { font-size: 0.95rem; padding: 10px 12px; }
 }

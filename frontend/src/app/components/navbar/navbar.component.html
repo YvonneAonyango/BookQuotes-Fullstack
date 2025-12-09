@@ -1,121 +1,72 @@
 <nav class="navbar">
   <div class="navbar-container">
-    <!-- Left Section: Home, Books, Quotes -->
+    <!-- LEFT -->
     <div class="navbar-left">
-      <!-- Home -->
       <a routerLink="/" class="navbar-brand" (click)="closeOnNavigate()">
         <span class="icon">🏠</span>
         <span class="text">{{ 'brand' | translate }}</span>
       </a>
 
-      <!-- Books -->
-      <div class="nav-item">
-        <a routerLink="/books" class="nav-link" (click)="closeOnNavigate()">
-          {{ 'books' | translate | titlecase }}
-        </a>
-      </div>
-      
-      <!-- Quotes -->
       <div class="nav-item">
         <a routerLink="/quotes" class="nav-link" (click)="closeOnNavigate()">
           {{ 'quotes' | translate | titlecase }}
         </a>
       </div>
+
+      <div class="nav-item">
+        <a routerLink="/books" class="nav-link" (click)="closeOnNavigate()">
+          {{ 'books' | translate | titlecase }}
+        </a>
+      </div>
     </div>
 
-    <!-- Right Section: Language, Theme, Auth -->
+    <!-- RIGHT -->
     <div class="navbar-right">
-      <!-- Language Toggle - SE/EN text with flag -->
       <div class="nav-item">
-        <button class="lang-toggle" (click)="toggleLanguage()">
-          <span class="flag">{{ currentLanguage === 'en' ? '🇬🇧' : '🇸🇪' }}</span>
-          <span class="text">{{ currentLanguage === 'en' ? 'EN' : 'SE' }}</span>
-        </button>
+        <button class="lang-toggle" (click)="toggleLanguage()">SE/EN</button>
       </div>
 
-      <!-- Theme Toggle -->
       <div class="nav-item">
         <button class="theme-btn" (click)="toggleDarkMode()">
           {{ isDarkMode ? '☀️' : '🌙' }}
         </button>
       </div>
 
-      <!-- Auth Buttons -->
       <div class="auth-section">
-        <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
-          <a routerLink="/login" class="btn btn-outline" (click)="closeOnNavigate()">
-            {{ 'login' | translate | titlecase }}
-          </a>
-          <a routerLink="/register" class="btn btn-primary" (click)="closeOnNavigate()">
-            {{ 'register' | translate | titlecase }}
-          </a>
-        </ng-container>
-        <ng-template #loggedIn>
-          <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="btn btn-outline" (click)="closeOnNavigate()">
-            {{ 'adminDashboard' | translate | titlecase }}
-          </a>
-          <button class="btn btn-secondary" (click)="logout()">
-            {{ 'logout' | translate | titlecase }}
-          </button>
-        </ng-template>
+        <a routerLink="/login" class="btn btn-outline" (click)="closeOnNavigate()">
+          {{ 'login' | translate | titlecase }}
+        </a>
+        <a routerLink="/register" class="btn btn-primary" (click)="closeOnNavigate()">
+          {{ 'register' | translate | titlecase }}
+        </a>
       </div>
 
-      <!-- Mobile Menu Toggle -->
+      <!-- Mobile Toggle -->
       <div class="nav-item mobile-toggle-container">
-        <button class="mobile-toggle" (click)="toggleMobileMenu()">
-          ☰
-        </button>
+        <button class="mobile-toggle" (click)="toggleMobileMenu()">☰</button>
       </div>
     </div>
   </div>
 
-  <!-- Mobile Menu -->
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" [class.show]="isMobileMenuOpen">
     <div class="mobile-menu-content">
-      <!-- Mobile Navigation Links -->
-      <div class="mobile-nav">
-        <a routerLink="/books" class="mobile-link" (click)="closeOnNavigate()">
-          {{ 'books' | translate | titlecase }}
-        </a>
-        <a routerLink="/quotes" class="mobile-link" (click)="closeOnNavigate()">
-          {{ 'quotes' | translate | titlecase }}
-        </a>
-      </div>
-
-      <!-- Mobile Auth -->
-      <div class="mobile-auth">
-        <ng-container *ngIf="!authService.isAuthenticated(); else mobileLoggedIn">
-          <a routerLink="/login" class="btn btn-outline mobile-btn" (click)="closeOnNavigate()">
-            {{ 'login' | translate | titlecase }}
-          </a>
-          <a routerLink="/register" class="btn btn-primary mobile-btn" (click)="closeOnNavigate()">
-            {{ 'register' | translate | titlecase }}
-          </a>
-        </ng-container>
-        <ng-template #mobileLoggedIn>
-          <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="btn btn-outline mobile-btn" (click)="closeOnNavigate()">
-            {{ 'adminDashboard' | translate | titlecase }}
-          </a>
-          <button class="btn btn-secondary mobile-btn" (click)="logout()">
-            {{ 'logout' | translate | titlecase }}
-          </button>
-        </ng-template>
-      </div>
-
-      <!-- Mobile Controls -->
-      <div class="mobile-controls">
-        <div class="mobile-theme-container">
-          <button class="mobile-theme-btn" (click)="toggleDarkMode()">
-            {{ isDarkMode ? '☀️' : '🌙' }}
-          </button>
-        </div>
-        <div class="mobile-lang-container">
-          <button class="mobile-lang-toggle" (click)="toggleLanguage()">
-            <span class="flag">{{ currentLanguage === 'en' ? '🇬🇧' : '🇸🇪' }}</span>
-            <span class="text">{{ currentLanguage === 'en' ? 'EN' : 'SE' }}</span>
-          </button>
-        </div>
-      </div>
+      <a routerLink="/quotes" class="mobile-link" (click)="closeOnNavigate()">
+        {{ 'quotes' | translate | titlecase }}
+      </a>
+      <a routerLink="/books" class="mobile-link" (click)="closeOnNavigate()">
+        {{ 'books' | translate | titlecase }}
+      </a>
+      <a routerLink="/login" class="mobile-link" (click)="closeOnNavigate()">
+        {{ 'login' | translate | titlecase }}
+      </a>
+      <a routerLink="/register" class="mobile-link" (click)="closeOnNavigate()">
+        {{ 'register' | translate | titlecase }}
+      </a>
+      <button class="mobile-lang-toggle" (click)="toggleLanguage()">SE/EN</button>
+      <button class="mobile-theme-btn" (click)="toggleDarkMode()">
+        {{ isDarkMode ? '☀️' : '🌙' }}
+      </button>
     </div>
   </div>
 </nav>
