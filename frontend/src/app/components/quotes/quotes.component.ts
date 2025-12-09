@@ -80,9 +80,7 @@ export class QuotesComponent implements OnInit {
   loadBooks(): void {
     this.bookService.getBooks().subscribe({
       next: (books: Book[]) => this.books = books,
-      error: (error: any) => {
-        console.error('Error loading books:', error);
-      }
+      error: (error: any) => console.error('Error loading books:', error)
     });
   }
 
@@ -91,8 +89,6 @@ export class QuotesComponent implements OnInit {
     const book = this.books.find(b => b.id === bookId);
     return book ? book.title : '';
   }
-
-  // ---------- CRUD Operations ----------
 
   editQuote(id: number): void {
     const quote = this.quotes.find(q => q.id === id);
@@ -107,7 +103,6 @@ export class QuotesComponent implements OnInit {
       bookId: quote.bookId || null
     });
 
-    // Scroll to form
     document.querySelector('.quote-form-column')?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -123,9 +118,7 @@ export class QuotesComponent implements OnInit {
       if (!confirm(msg || 'Are you sure you want to delete this quote?')) return;
 
       this.quoteService.deleteQuote(id).subscribe({
-        next: () => {
-          this.quotes = this.quotes.filter(q => q.id !== id);
-        },
+        next: () => { this.quotes = this.quotes.filter(q => q.id !== id); },
         error: (err: any) => {
           console.error('Error deleting quote:', err);
           alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.');
@@ -188,9 +181,7 @@ export class QuotesComponent implements OnInit {
     }
   }
 
-  cancelEdit(): void {
-    this.resetForm();
-  }
+  cancelEdit(): void { this.resetForm(); }
 
   resetForm(): void {
     this.quoteForm.reset({ text: '', author: '', bookId: null });
