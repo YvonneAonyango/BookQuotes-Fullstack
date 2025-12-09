@@ -27,9 +27,7 @@ export class QuotesComponent implements OnInit {
   editingQuoteId?: number;
   errorMessage = '';
 
-  showFormModal = false;      // For modal form
-  editingQuote?: Quote;
-  isEditMode = false;
+  selectedQuote?: Quote;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -92,7 +90,10 @@ export class QuotesComponent implements OnInit {
     return book ? book.title : '';
   }
 
-  // ---------- CRUD Operations ----------
+  // ---------- CRUD & Selection ----------
+  selectQuote(quote: Quote): void {
+    this.selectedQuote = quote;
+  }
 
   editQuote(id: number): void {
     const quote = this.quotes.find(q => q.id === id);
@@ -107,8 +108,7 @@ export class QuotesComponent implements OnInit {
       bookId: quote.bookId || null
     });
 
-    // Scroll to form
-    document.querySelector('.quote-form-column')?.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector('.quote-form')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   deleteQuote(id: number | undefined): void {
@@ -125,6 +125,7 @@ export class QuotesComponent implements OnInit {
       this.quoteService.deleteQuote(id).subscribe({
         next: () => {
           this.quotes = this.quotes.filter(q => q.id !== id);
+          if (this.selectedQuote?.id === id) this.selectedQuote = undefined;
         },
         error: (err: any) => {
           console.error('Error deleting quote:', err);

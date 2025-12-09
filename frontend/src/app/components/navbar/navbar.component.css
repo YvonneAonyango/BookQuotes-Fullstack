@@ -4,8 +4,9 @@
   background: linear-gradient(135deg, #1e3a5f, #2a4a7a);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: relative;
-  min-height: 50px; /* reduced height */
+  min-height: 50px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  overflow: hidden;
 }
 
 .navbar-container {
@@ -24,54 +25,51 @@
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 16px; /* spacing between links/buttons */
+  gap: 12px; /* spacing between links/buttons */
 }
 
-/* ====================== GROUP ITEMS ====================== */
-.group-item {
-  display: flex;
+/* ====================== FIXED SIZE LINK CONTAINERS ====================== */
+.group-item,
+.home-item,
+.mini-box {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 32px; /* compact height */
-  padding: 0 10px; /* uniform padding */
-  color: #fff;
-  font-size: 0.9rem;
+  width: 120px;       /* fixed width for all links */
+  height: 40px;       /* fixed height for all links */
+  padding: 0 8px;
+  font-size: 0.95rem;
   font-weight: 500;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
   border-radius: 6px;
-  transition: all 0.2s ease;
+  color: #fff;
+  text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.group-item:hover {
+/* ====================== HOME ITEM SPECIAL ====================== */
+.home-item {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.home-item .icon {
+  margin-right: 6px;
+  font-size: 1rem;
+}
+
+/* ====================== HOVER EFFECTS ====================== */
+.group-item:hover,
+.home-item:hover,
+.mini-box:hover {
   transform: translateY(-1px);
   box-shadow: 0 2.5px 6px rgba(0,0,0,0.2);
   color: #ffc107;
 }
 
-/* ====================== HOME ITEM ====================== */
-.home-item {
-  border-radius: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 0 12px;
-  margin-left: -8px; /* pushed closer to left edge */
-}
-
-.home-item .icon {
-  color: #ffc107;
-  margin-right: 6px;
-  font-size: 1.2rem;
-}
-
-/* ====================== CAPITALIZE BOOKS & QUOTES ====================== */
-.title-case {
-  text-transform: capitalize;
-}
-
-/* ====================== RECTANGLE STYLE FOR LINKS ====================== */
+/* ====================== RECTANGLE STYLE ====================== */
 .link-box {
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.15);
@@ -82,14 +80,11 @@
   border-color: rgba(255,255,255,0.25);
 }
 
-/* ====================== MINI BOX (LANGUAGE & THEME) ====================== */
+/* ====================== MINI BOX ====================== */
 .mini-box {
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);
-  padding: 0 8px;
-  border-radius: 6px;
   font-size: 0.85rem;
-  transition: all 0.2s ease;
 }
 
 .mini-box:hover {
@@ -124,6 +119,7 @@
 
 /* ====================== MOBILE MENU ====================== */
 .mobile-toggle-container { display: none; }
+
 .mobile-toggle {
   background: transparent;
   border: none;
@@ -154,19 +150,36 @@
 }
 
 /* ====================== RESPONSIVE ====================== */
+
+/* Tablets / medium screens */
 @media (max-width: 1024px) {
-  .group-item { font-size: 0.85rem; padding: 0 8px; height: 30px; }
-  .home-item { font-size: 0.95rem; padding: 0 10px; }
+  .group-item,
+  .home-item,
+  .mini-box {
+    width: 100px;  /* slightly smaller width */
+    height: 36px;  /* slightly smaller height */
+    font-size: 0.85rem;
+  }
 }
 
+/* Smaller tablets / landscape mobile */
 @media (max-width: 768px) {
-  .navbar-container { flex-wrap: nowrap; overflow-x: auto; }
-  .group-item { flex-shrink: 0; }
+  .navbar-container {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .group-item,
+  .home-item,
+  .mini-box {
+    flex-shrink: 0;  /* prevents shrinking in scrollable navbar */
+  }
 }
 
+/* Mobile phones */
 @media (max-width: 480px) {
   .navbar-left { gap: 6px; }
-  .navbar-right { display: none; }
+  .navbar-right { display: none; }  /* hide right links, use toggle menu */
   .mobile-toggle-container { display: flex; margin-left: auto; }
-  .home-item { flex-shrink: 0; margin-left: -8px; }
+  .home-item { flex-shrink: 0; }    
 }
