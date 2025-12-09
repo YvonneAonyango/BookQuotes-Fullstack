@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-// REMOVE THIS LINE ↓
-// import { TruncatePipe } from '../../pipes/truncate.pipe';
 
 import { Quote, QuoteService } from '../../services/quote.service';
 import { Book, BookService } from '../../services/book.service';
@@ -15,8 +13,6 @@ import { Book, BookService } from '../../services/book.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    // REMOVE TruncatePipe from imports array ↓
-    // TruncatePipe,
     TranslateModule
   ],
   templateUrl: './quotes.component.html',
@@ -93,6 +89,7 @@ export class QuotesComponent implements OnInit {
     return isAdmin || quote.userId === currentUserId || !quote.id;
   }
 
+  // EDIT QUOTE
   editQuote(quote: Quote): void {
     this.isEdit = true;
     this.editingQuoteId = quote.id;
@@ -116,6 +113,7 @@ export class QuotesComponent implements OnInit {
     this.editingQuoteId = undefined;
   }
 
+  // CREATE or UPDATE QUOTE
   onSubmit(): void {
     if (!this.quoteForm.valid) return;
 
@@ -123,6 +121,7 @@ export class QuotesComponent implements OnInit {
     const formValue = this.quoteForm.value;
 
     if (this.isEdit && this.editingQuoteId) {
+      // UPDATE existing quote
       const quoteData: Quote = {
         text: formValue.text,
         author: formValue.author,
@@ -142,6 +141,7 @@ export class QuotesComponent implements OnInit {
         }
       });
     } else {
+      // CREATE new quote
       const quoteData: Quote = {
         text: formValue.text,
         author: formValue.author,
@@ -151,8 +151,9 @@ export class QuotesComponent implements OnInit {
 
       this.quoteService.createQuote(quoteData).subscribe({
         next: (newQuote: Quote) => {
-          this.quotes.push(newQuote);
-          this.resetForm();
+          // Add new quote to the beginning of the list
+          this.quotes.unshift(newQuote);
+          this.resetForm(); // Reset form to add more quotes
           this.isLoading = false;
         },
         error: (err: unknown) => {
@@ -163,6 +164,7 @@ export class QuotesComponent implements OnInit {
     }
   }
 
+  // DELETE QUOTE
   deleteQuote(id: number | undefined): void {
     if (!id) return;
 
@@ -171,6 +173,7 @@ export class QuotesComponent implements OnInit {
 
       this.quoteService.deleteQuote(id).subscribe({
         next: () => {
+          // Remove quote from the list
           this.quotes = this.quotes.filter(q => q.id !== id);
         },
         error: (err: unknown) => console.error('Error deleting quote:', err)

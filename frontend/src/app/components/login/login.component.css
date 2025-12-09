@@ -9,7 +9,8 @@
   transition: background-color 0.3s ease;
 }
 
-body.dark-mode .login-page {
+/* FIXED: Changed from body.dark-mode to .dark-mode */
+.dark-mode .login-page {
   background: #1a1a1a;
 }
 
@@ -24,7 +25,8 @@ body.dark-mode .login-page {
   transition: all 0.3s ease;
 }
 
-body.dark-mode .login-card {
+/* FIXED */
+.dark-mode .login-card {
   background: #2d2d2d;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
@@ -38,39 +40,12 @@ body.dark-mode .login-card {
   transition: background-color 0.3s ease;
 }
 
-body.dark-mode .card-header {
+/* FIXED */
+.dark-mode .card-header {
   background: #314e7e;
 }
 
-.card-header h2 {
-  margin: 0 0 10px 0;
-  font-size: 26px;
-}
-
-.subtitle {
-  margin: 0;
-  opacity: 0.9;
-  font-size: 14px;
-}
-
-/* Card Body */
-.card-body {
-  padding: 30px;
-}
-
-/* Form */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Form Groups */
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
+/* Labels */
 label {
   font-weight: 500;
   margin-bottom: 8px;
@@ -78,10 +53,12 @@ label {
   transition: color 0.3s ease;
 }
 
-body.dark-mode label {
+/* FIXED */
+.dark-mode label {
   color: #ddd;
 }
 
+/* Inputs */
 input {
   padding: 14px;
   border: 1px solid #ddd;
@@ -92,7 +69,8 @@ input {
   color: #333;
 }
 
-body.dark-mode input {
+/* FIXED */
+.dark-mode input {
   background: #3a3a3a;
   border-color: #555;
   color: #ddd;
@@ -104,7 +82,8 @@ input:focus {
   box-shadow: 0 0 0 2px rgba(31, 59, 111, 0.2);
 }
 
-body.dark-mode input:focus {
+/* FIXED */
+.dark-mode input:focus {
   border-color: #2d456c;
   box-shadow: 0 0 0 2px rgba(22, 48, 90, 0.3);
 }
@@ -113,7 +92,8 @@ input.is-invalid {
   border-color: #ff4757;
 }
 
-body.dark-mode input.is-invalid {
+/* FIXED */
+.dark-mode input.is-invalid {
   border-color: #ff6b81;
 }
 
@@ -123,7 +103,8 @@ body.dark-mode input.is-invalid {
   margin-top: 5px;
 }
 
-body.dark-mode .error-text {
+/* FIXED */
+.dark-mode .error-text {
   color: #ff6b81;
 }
 
@@ -144,7 +125,8 @@ body.dark-mode .error-text {
   gap: 10px;
 }
 
-body.dark-mode .btn-login {
+/* FIXED */
+.dark-mode .btn-login {
   background: #2d4a79;
 }
 
@@ -153,27 +135,9 @@ body.dark-mode .btn-login {
   transform: translateY(-1px);
 }
 
-body.dark-mode .btn-login:hover:not(:disabled) {
+/* FIXED */
+.dark-mode .btn-login:hover:not(:disabled) {
   background: #2d4e79;
-}
-
-.btn-login:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Spinner */
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 
 /* Register Link */
@@ -185,7 +149,8 @@ body.dark-mode .btn-login:hover:not(:disabled) {
   transition: border-color 0.3s ease;
 }
 
-body.dark-mode .register-link {
+/* FIXED */
+.dark-mode .register-link {
   border-top-color: #444;
 }
 
@@ -195,7 +160,8 @@ body.dark-mode .register-link {
   transition: color 0.3s ease;
 }
 
-body.dark-mode .register-link p {
+/* FIXED */
+.dark-mode .register-link p {
   color: #aaa;
 }
 
@@ -206,57 +172,21 @@ body.dark-mode .register-link p {
   transition: color 0.3s ease;
 }
 
-body.dark-mode .register-link a {
+/* FIXED */
+.dark-mode .register-link a {
   color: #16305a;
 }
 
-.register-link a:hover {
-  text-decoration: underline;
-}
-
 /* Alert Messages */
-.alert {
-  padding: 12px 16px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
-
 .alert-danger {
   background-color: #ffeaea;
   border: 1px solid #ff4757;
   color: #ff4757;
 }
 
-body.dark-mode .alert-danger {
+/* FIXED */
+.dark-mode .alert-danger {
   background-color: #5a2a2a;
   border-color: #ff6b81;
   color: #ff6b81;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .login-page { padding: 15px; }
-  .card-header { padding: 25px 15px; }
-  .card-header h2 { font-size: 22px; }
-  .card-body { padding: 25px; }
-  form { gap: 18px; }
-  input, .btn-login { padding: 12px; font-size: 14px; }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .login-card { max-width: 450px; }
-  .card-header h2 { font-size: 24px; }
-  input, .btn-login { padding: 13px; font-size: 15px; }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .login-card { max-width: 480px; }
-  .card-header h2 { font-size: 25px; }
-  input, .btn-login { padding: 14px; font-size: 16px; }
-}
-
-@media (min-width: 1025px) {
-  .login-card { max-width: 500px; }
-  .card-header h2 { font-size: 26px; }
 }

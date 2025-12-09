@@ -3,6 +3,13 @@
   max-width: 1200px;
   margin: 0 auto;
   font-family: 'Segoe UI', sans-serif;
+  background-color: #f8fafc;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode .books-page {
+  background-color: #0f172a;
+  color: #e2e8f0;
 }
 
 /* Page Header */
@@ -21,14 +28,22 @@
   color: #1f3b5f;
 }
 
+.dark-mode .header-content h1 {
+  color: #60a5fa;
+}
+
 .header-content .lead {
   font-size: clamp(1rem, 1.5vw, 1.125rem);
   color: #555;
 }
 
-/* Add Book Button - smaller, dark warm blue */
+.dark-mode .header-content .lead {
+  color: #94a3b8;
+}
+
+/* Add Book Button */
 .btn-add-book {
-  background: #1e3a8a; /* warm dark blue */
+  background: #1e3a8a;
   color: #fff;
   border: none;
   padding: 0.5rem 1.25rem;
@@ -38,9 +53,17 @@
   transition: background 0.3s, transform 0.2s;
 }
 
+.dark-mode .btn-add-book {
+  background: #2563eb;
+}
+
 .btn-add-book:hover {
   background: #2563eb;
   transform: translateY(-2px);
+}
+
+.dark-mode .btn-add-book:hover {
+  background: #1d4ed8;
 }
 
 /* Loading State */
@@ -57,11 +80,8 @@
   font-size: 1rem;
 }
 
-/* Books + Form Container */
-.books-content {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
+.dark-mode .loading-state p {
+  color: #94a3b8;
 }
 
 /* Books Grid */
@@ -70,13 +90,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
-}
-
-/* Book Form Panel */
-app-book-form {
-  flex: 1;
-  min-width: 300px;
-  max-width: 400px;
 }
 
 /* Book Card */
@@ -90,6 +103,11 @@ app-book-form {
   background: #fff;
 }
 
+.dark-mode .book-card {
+  background: #1e293b;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
 .book-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
@@ -101,6 +119,10 @@ app-book-form {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.dark-mode .book-card-header {
+  background: #1d4ed8;
 }
 
 .book-icon {
@@ -121,16 +143,28 @@ app-book-form {
   min-height: 48px;
 }
 
+.dark-mode .book-title {
+  color: #e2e8f0;
+}
+
 .book-author {
   color: #555;
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
+.dark-mode .book-author {
+  color: #cbd5e1;
+}
+
 .book-meta small {
   color: #6c757d;
   display: block;
   margin-top: 0.25rem;
+}
+
+.dark-mode .book-meta small {
+  color: #94a3b8;
 }
 
 /* Footer Buttons */
@@ -140,6 +174,11 @@ app-book-form {
   padding: 0.75rem 1rem;
   background: #f8f9fa;
   border-top: 1px solid #e9ecef;
+}
+
+.dark-mode .book-card-footer {
+  background: #334155;
+  border-top-color: #475569;
 }
 
 .book-card-footer .btn {
@@ -156,6 +195,10 @@ app-book-form {
   background: linear-gradient(135deg, #38bdf8, #0ea5e9);
 }
 
+.dark-mode .btn-edit {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+}
+
 .btn-edit:hover {
   background: linear-gradient(135deg, #0ea5e9, #0284c7);
 }
@@ -164,8 +207,59 @@ app-book-form {
   background: linear-gradient(135deg, #ef4444, #f87171);
 }
 
+.dark-mode .btn-delete {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+
 .btn-delete:hover {
   background: linear-gradient(135deg, #f87171, #ef4444);
+}
+
+/* Alert Messages */
+.alert {
+  border-radius: 8px;
+  border: none;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.dark-mode .alert-danger {
+  background-color: #7f1d1d;
+  color: #fecaca;
+}
+
+/* Error Message */
+.error-message {
+  text-align: center;
+  color: #dc3545;
+  padding: 1rem;
+  background-color: #f8d7da;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.dark-mode .error-message {
+  color: #f8a0a0;
+  background-color: #5c1a1a;
+}
+
+/* Book Form Container */
+.book-form-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 /* Responsive */

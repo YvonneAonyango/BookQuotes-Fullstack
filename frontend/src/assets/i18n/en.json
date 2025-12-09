@@ -5,7 +5,7 @@
   "quoteCollection": "Quote Collection",
   "personalLibraryTitle": "Personal Library",
   "bookManagementDesc": "Add, categorize, and track all your books in one beautiful digital library.",
-  "quoteCollectionDesc": "Capture and organize your favorite quotes from every book you read.",
+  "quoteCollectionDesc": "Save and manage your favorite quotes from books.",
   "trackYourReadingHabits": "Track your reading habits and discover patterns in your literary journey.",
   "yourPersonalLibraryReimagined": "Your personal library, reimagined",
   "myQuotes": "My Quotes",
@@ -15,6 +15,7 @@
   "curateYourBooks": "Curate your books",
   "captureQuotes": "Capture quotes",
   "unlockInsights": "Unlock insights",
+  
   "whatBookWebAppOffers": "What BookWebApp Offers",
   "transformYourReadingExperience": "Transform your reading experience with our powerful features",
   "readingInsights": "Reading Insights",
@@ -24,7 +25,6 @@
   "saveAndRevisitFavoriteLines": "Save and revisit your favorite lines",
   "seeProgressAndPatterns": "See your reading progress and patterns",
   "howItWorks": "How It Works",
-
   "getStartedInThreeSimpleSteps": "Get started in just three simple steps",
   "startInThreeEasySteps": "Start in three easy steps",
   "addYourBooks": "Add Your Books",
@@ -35,18 +35,17 @@
   "manageQuotesDesc": "Save inspiring quotes from your readings and organize them in your personal quote collection.",
   "saveAndOrganizeQuotesEasily": "Save and organize quotes easily",
   "editUpdate": "Edit & Update",
-
   "editUpdateDesc": "Easily edit book information or update your favorite quotes whenever you want.",
   "enjoyReading": "Enjoy Reading",
   "enjoyReadingDesc": "Access your personal library and quotes from any device, anytime.",
   "gainInsights": "Gain Insights",
+
   "trackReadingAndDiscoverTrends": "Track your reading and discover trends",
   "readyToStartYourJourney": "Ready to Start Your Journey?",
   "freeToGetStarted": "Free to get started",
   "noCreditCardRequired": "No credit card required",
   "useOnAnyDevice": "Use on any device",
   "freeAndEasy": "Free and easy",
-
   "accessibleAnywhere": "Accessible anywhere",
   "getStarted": "Start Free Now",
   "browseLibrary": "Browse Library",
@@ -56,7 +55,6 @@
   "chooseWiselyItDefinesYou": "Choose wisely - it defines you more than ability",
   "decideWhatToDoWithYourTime": "Decide what to do with your time",
   "myBooks": "My Books",
-
   "manageBookCollection": "Manage your book collection",
   "addNewBook": "Add new book",
   "noBooksYet": "No books yet",
@@ -80,17 +78,16 @@
   "publicationDate": "Publication Date",
   "publicationDateRequired": "Publication date is required",
   "cancel": "Cancel",
-
   "fillAllRequiredFields": "Please fill in all required fields",
   "bookFormDescription": "Add or edit book details in your personal library.",
   "organizeBooks": "Organize Books",
   "saveQuotes": "Save Quotes",
+
   "discoverInsights": "Discover Insights",
   "homeDescription": "BookWebApp - Your personal digital library for organizing books and capturing meaningful quotes. Transform your reading experience with smart book management and quote collection.",
   "errorLoadingBook": "Failed to load book details. Please try again.",
   "errorUpdatingBook": "Failed to update book. Please try again.",
   "errorAddingBook": "Failed to add book. Please try again.",
-
   "login": "Login",
   "loginSubtitle": "Sign in to access your personal library",
   "loginDescription": "Login to access your personal library and manage your books and quotes.",
@@ -102,8 +99,8 @@
   "invalidCredentials": "Invalid username or password",
   "loggingIn": "Logging in...",
   "dontHaveAccount": "Don't have an account?",
-
   "register": "Register",
+
   "createAccount": "Create Account",
   "usernameMinLength": "Username must be at least 3 characters long",
   "createPassword": "Create a password",
@@ -111,7 +108,6 @@
   "confirmPasswordRequired": "Please confirm your password",
   "passwordsMismatch": "Passwords do not match",
   "min6Chars": "Minimum 6 characters",
-
   "lowercaseRequired": "At least one lowercase letter",
   "uppercaseRequired": "At least one uppercase letter",
   "numberRequired": "At least one number",
@@ -121,5 +117,19 @@
   "registrationFailed": "Registration failed. Please check your information.",
   "serverError": "Server error. Please try again later.",
   "anErrorOccurred": "An error occurred:",
-  "registrationSuccess": "Registration successful!"
+  "registrationSuccess": "Registration successful!",
+  "confirmDeleteQuote": "Are you sure you want to delete this quote?",
+
+  "editQuote": "Edit Quote",
+  "addNewQuote": "Add New Quote",
+  "quoteText": "Quote Text",
+  "enterQuoteText": "Enter quote text...",
+  "quoteRequired": "Quote text is required",
+  "enterAuthor": "Enter author name...",
+  "bookOptional": "Book (Optional)",
+  "selectBook": "Select a book...",
+  "updateQuote": "Update Quote",
+  "addQuote": "Add Quote",
+  "noQuotesYet": "No quotes yet",
+  "startByAddingQuote": "Start by adding your first quote!"
 }

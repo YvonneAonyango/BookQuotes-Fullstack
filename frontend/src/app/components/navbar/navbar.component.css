@@ -1,10 +1,10 @@
-/* navbar.component.css - With Fixed Admin Link and Hamburger Fix */
+/* navbar.component.css - Clean, professional design */
 :host {
   display: block;
 }
 
 /* Main Navbar Styling */
-.warm-navbar {
+.clean-navbar {
   background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 0.8rem 0;
@@ -28,13 +28,12 @@
   display: flex;
   align-items: center;
   padding: 0.5rem 0;
+  margin-right: 2rem;
   transition: all 0.3s ease;
   text-decoration: none;
-  margin-right: auto; /* Pushes toggler to the right */
 }
 
-.navbar-brand::before {
-  content: "🏠";
+.home-icon {
   margin-right: 0.5rem;
   font-size: 1.3rem;
 }
@@ -43,29 +42,53 @@
   opacity: 0.9;
 }
 
-/* Mobile Toggle Button - Only show on mobile/tablet */
+/* Mobile Toggle Button */
 .navbar-toggler {
   border: none;
   background: rgba(255, 255, 255, 0.15);
   padding: 0.5rem;
-  width: 50px;
-  height: 50px;
-  display: none; /* Hidden by default for desktop */
+  width: 44px;
+  height: 44px;
+  display: none;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 6px;
   transition: all 0.3s ease;
   color: white;
-  font-size: 1.5rem;
-  margin-left: auto; /* Push to the right */
+  cursor: pointer;
 }
 
-.navbar-toggler::after {
-  content: "☰";
+/* Toggle icon using CSS only - no image */
+.navbar-toggler-icon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  position: relative;
 }
 
-.navbar-toggler[aria-expanded="true"]::after {
-  content: "✕";
+/* Create hamburger menu lines with CSS */
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.85);
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before {
+  top: 25%;
+}
+
+.navbar-toggler-icon::after {
+  bottom: 25%;
+}
+
+/* Middle line */
+.navbar-toggler-icon::before {
+  box-shadow: 0 8px 0 rgba(255, 255, 255, 0.85);
 }
 
 .navbar-toggler:focus {
@@ -80,16 +103,16 @@
 }
 
 .navbar-nav {
-  gap: 0.5rem;
+  gap: 0.75rem;
   display: flex;
-  flex-direction: row; /* Horizontal on desktop */
+  flex-direction: row;
 }
 
-/* Navigation Links - Base Styles */
+/* Navigation Links - Clean text only */
 .nav-link {
   color: rgba(255, 255, 255, 0.85) !important;
   font-weight: 500;
-  padding: 0.75rem 1rem !important;
+  padding: 0.75rem 1.25rem !important;
   border-radius: 8px;
   transition: all 0.3s ease;
   display: flex;
@@ -97,31 +120,6 @@
   white-space: nowrap;
   text-decoration: none;
   position: relative;
-  overflow: hidden;
-}
-
-/* Book Link Icon */
-.nav-link[href*="/books"]::before,
-.nav-link[routerlink="/books"]::before {
-  content: "📚";
-  margin-right: 0.5rem;
-  font-size: 1.1rem;
-}
-
-/* Quotes Link Icon */
-.nav-link[href*="/quotes"]::before,
-.nav-link[routerlink="/quotes"]::before {
-  content: "💬";
-  margin-right: 0.5rem;
-  font-size: 1.1rem;
-}
-
-/* Admin Dashboard Link Icon - Will only show when admin is logged in */
-.nav-link[href*="/admin"]::before,
-.nav-link[routerlink="/admin/dashboard"]::before {
-  content: "⚙️";
-  margin-right: 0.5rem;
-  font-size: 1.1rem;
 }
 
 .nav-link:hover {
@@ -140,22 +138,11 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: 1rem;
-  right: 1rem;
-  height: 3px;
-  background-color: #f8c555;
+  left: 1.25rem;
+  right: 1.25rem;
+  height: 2px;
+  background-color: #4a90e2;
   border-radius: 2px;
-}
-
-/* Admin-specific styling (optional - makes it stand out) */
-.nav-link[href*="/admin"],
-.nav-link[routerlink="/admin/dashboard"] {
-  background-color: rgba(248, 197, 85, 0.1);
-}
-
-.nav-link[href*="/admin"]:hover,
-.nav-link[routerlink="/admin/dashboard"]:hover {
-  background-color: rgba(248, 197, 85, 0.2);
 }
 
 /* Right Controls Container */
@@ -174,21 +161,24 @@
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
   font-weight: 500;
   display: flex;
   align-items: center;
-  justify-content: center;
   transition: all 0.3s ease;
-  min-width: 50px;
-  height: 50px;
+  gap: 0.5rem;
+  min-height: 40px;
+  cursor: pointer;
 }
 
-.btn-language::before {
-  content: "🌐";
+.language-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.language-flag {
   font-size: 1.1rem;
-  margin-right: 0.25rem;
 }
 
 .btn-language:hover, .btn-language:focus {
@@ -198,10 +188,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-language span {
-  font-size: 1.2rem;
-}
-
 /* Dropdown Menu */
 .dropdown-menu-end {
   background-color: #fff;
@@ -209,7 +195,7 @@
   border-radius: 8px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   padding: 0.5rem;
-  min-width: 180px;
+  min-width: 160px;
   margin-top: 0.5rem !important;
 }
 
@@ -221,6 +207,8 @@
   align-items: center;
   transition: all 0.2s ease;
   margin-bottom: 0.25rem;
+  gap: 0.75rem;
+  cursor: pointer;
 }
 
 .dropdown-item:last-child {
@@ -237,28 +225,28 @@
   color: white;
 }
 
-/* Dark Mode Toggle Button */
+/* Dark Mode Toggle */
 .btn-darkmode {
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  padding: 0.75rem;
-  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
   display: flex;
   align-items: center;
-  justify-content: center;
   transition: all 0.3s ease;
-  min-width: 50px;
-  height: 50px;
-  font-size: 1.2rem;
+  gap: 0.5rem;
+  min-height: 40px;
+  cursor: pointer;
 }
 
-.btn-darkmode::before {
-  content: "🌙";
+.darkmode-text {
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
-.dark-mode .btn-darkmode::before {
-  content: "☀️";
+.darkmode-icon {
+  font-size: 1.1rem;
 }
 
 .btn-darkmode:hover {
@@ -267,27 +255,24 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Auth Buttons */
-.btn-outline-light, .btn-light, .btn-logout {
-  border-radius: 8px;
+/* Auth Buttons - Clean text only */
+.btn-auth, .btn-logout {
+  border-radius: 6px;
   font-weight: 500;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1.25rem;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
-  min-width: 50px;
+  min-height: 40px;
+  font-size: 0.875rem;
+  cursor: pointer;
 }
 
 .btn-outline-light {
   border-color: rgba(255, 255, 255, 0.5);
   color: white;
-}
-
-.btn-outline-light::before {
-  content: "🔑";
-  margin-right: 0.5rem;
+  background: transparent;
 }
 
 .btn-outline-light:hover {
@@ -297,21 +282,15 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-light {
-  background-color: #f8c555;
-  border-color: #f8c555;
-  color: #2c3e50;
+.btn-primary {
+  background-color: #4a90e2;
+  border-color: #4a90e2;
+  color: white;
 }
 
-.btn-light::before {
-  content: "📝";
-  margin-right: 0.5rem;
-}
-
-.btn-light:hover {
-  background-color: #ffd166;
-  border-color: #ffd166;
-  color: #2c3e50;
+.btn-primary:hover {
+  background-color: #357ae8;
+  border-color: #357ae8;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -319,11 +298,7 @@
 .btn-logout {
   border-color: rgba(255, 255, 255, 0.5);
   color: white;
-}
-
-.btn-logout::before {
-  content: "🚪";
-  margin-right: 0.5rem;
+  background: transparent;
 }
 
 .btn-logout:hover {
@@ -338,7 +313,7 @@
 /* =========================================== */
 @media (max-width: 991.98px) {
   .navbar-toggler {
-    display: flex; /* Show hamburger on mobile/tablet */
+    display: flex;
   }
   
   .navbar-collapse {
@@ -352,12 +327,12 @@
     margin-top: 1rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    display: none !important; /* Hidden by default on mobile */
+    display: none !important;
     flex-direction: column;
   }
   
   .navbar-collapse.show {
-    display: flex !important; /* Show when toggled */
+    display: flex !important;
     animation: slideDown 0.3s ease-out;
   }
   
@@ -373,13 +348,14 @@
   
   .nav-link {
     width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
+    padding: 1rem !important;
+    text-align: center;
   }
   
-  /* Admin link styling for mobile */
-  .nav-link[href*="/admin"],
-  .nav-link[routerlink="/admin/dashboard"] {
-    background-color: rgba(248, 197, 85, 0.15);
+  .nav-link.active:after {
+    left: 25%;
+    right: 25%;
   }
   
   .d-flex.align-items-center {
@@ -389,17 +365,31 @@
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0.5rem;
   }
   
-  .btn-language, .btn-darkmode, .btn-outline-light, .btn-light, .btn-logout {
+  .btn-language, .btn-darkmode, .btn-auth, .btn-logout {
     flex: 1;
     min-width: 45%;
     margin-bottom: 0.5rem;
+    justify-content: center;
+    padding: 0.75rem !important;
   }
   
   .dropdown {
     flex: 1;
     min-width: 45%;
+  }
+  
+  /* Show only icons on small mobile buttons */
+  .language-text,
+  .darkmode-text {
+    display: none !important;
+  }
+  
+  .btn-language,
+  .btn-darkmode {
+    justify-content: center;
   }
 }
 
@@ -415,8 +405,8 @@
   }
 }
 
-/* Extra Small Screens */
-@media (max-width: 576px) {
+/* Medium Screens (Tablets) */
+@media (max-width: 768px) {
   .container-fluid {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -424,25 +414,53 @@
   
   .navbar-brand {
     font-size: 1.25rem;
+    margin-right: 1rem;
   }
   
-  .btn-language, .btn-darkmode, .btn-outline-light, .btn-light, .btn-logout {
+  .home-icon {
+    font-size: 1.1rem;
+    margin-right: 0.4rem;
+  }
+  
+  .btn-language, .btn-darkmode, .btn-auth, .btn-logout {
     min-width: 100%;
   }
   
   .dropdown {
     min-width: 100%;
   }
+}
+
+/* Extra Small Screens (Phones) */
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+    margin-right: 0.5rem;
+  }
   
-  /* Hide emoji icons on very small screens */
-  .nav-link::before,
-  .btn-language::before,
-  .btn-outline-light::before,
-  .btn-light::before,
-  .btn-logout::before,
-  .btn-darkmode::before {
+  .home-icon {
+    font-size: 1rem;
     margin-right: 0.25rem;
-    font-size: 0.9rem;
+  }
+  
+  .navbar-toggler {
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Stack all controls vertically on very small screens */
+  .d-flex.align-items-center {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .btn-language, .btn-darkmode, .btn-auth, .btn-logout {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .dropdown {
+    width: 100%;
   }
 }
 
@@ -454,7 +472,7 @@
 }
 
 /* Dark Mode Compatibility */
-:host-context(.dark-mode) .warm-navbar {
+:host-context(.dark-mode) .clean-navbar {
   background: linear-gradient(135deg, #1a2530 0%, #2d3b50 100%);
 }
 
@@ -477,8 +495,8 @@
 .btn-language:focus,
 .btn-darkmode:focus,
 .btn-outline-light:focus,
-.btn-light:focus,
+.btn-primary:focus,
 .btn-logout:focus {
-  outline: 2px solid #f8c555;
+  outline: 2px solid #4a90e2;
   outline-offset: 2px;
 }

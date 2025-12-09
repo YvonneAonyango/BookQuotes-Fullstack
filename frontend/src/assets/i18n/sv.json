@@ -5,7 +5,7 @@
   "quoteCollection": "Citatinsamling",
   "personalLibraryTitle": "Personligt bibliotek",
   "bookManagementDesc": "Lägg till, kategorisera och spåra alla dina böcker i ett vackert digitalt bibliotek.",
-  "quoteCollectionDesc": "Fånga och organisera dina favoritcitat från varje bok du läser.",
+  "quoteCollectionDesc": "Spara och hantera dina favoritcitat från böcker.",
   "trackYourReadingHabits": "Spåra dina läsvanor och upptäck mönster i din litterära resa.",
   "yourPersonalLibraryReimagined": "Ditt personliga bibliotek omgjort",
   "curateYourBooks": "Kurera dina böcker",
@@ -16,9 +16,9 @@
   "readingInsights": "Läsinsikter",
   "myQuotes": "Mina Citat",
   "allQuotes": "Alla Citat",
+  
   "alreadyHaveAccount": "Har du redan ett konto?",
   "loginToAccount": "Logga in här",
-
   "elevateYourReadingExperience": "Förhöj din läsupplevelse",
   "smartBookManagement": "Smart bokhantering",
   "organizeAndTrackBooks": "Organisera och spåra dina böcker enkelt",
@@ -32,7 +32,6 @@
   "addBooksQuickly": "Lägg till böcker snabbt",
   "curateYourCollectionInMinutes": "Kurera din samling på några minuter",
   "manageQuotes": "Hantera citat",
-
   "manageQuotesDesc": "Spara inspirerande citat från dina läsningar och organisera dem i din personliga citatsamling.",
   "saveAndOrganizeQuotesEasily": "Spara och organisera citat enkelt",
   "editUpdate": "Redigera & Uppdatera",
@@ -40,13 +39,13 @@
   "enjoyReading": "Njut av läsning",
   "enjoyReadingDesc": "Få tillgång till ditt personliga bibliotek och citat från vilken enhet som helst, när som helst.",
   "gainInsights": "Få insikter",
+
   "trackReadingAndDiscoverTrends": "Spåra ditt läsande och upptäck trender",
   "readyToStartYourJourney": "Redo att börja din resa?",
   "freeToGetStarted": "Gratis att komma igång",
   "noCreditCardRequired": "Inget kreditkort krävs",
   "useOnAnyDevice": "Använd på vilken enhet som helst",
   "freeAndEasy": "Gratis och enkelt",
-
   "accessibleAnywhere": "Tillgängligt var som helst",
   "getStarted": "Börja gratis nu",
   "browseLibrary": "Bläddra i biblioteket",
@@ -58,7 +57,6 @@
   "myBooks": "Mina böcker",
   "manageBookCollection": "Hantera din boksamling",
   "addNewBook": "Lägg till ny bok",
-
   "noBooksYet": "Inga böcker än",
   "startByAddingFirstBook": "Börja med att lägga till din första bok",
   "loading": "Laddar...",
@@ -66,6 +64,7 @@
   "editItem": "Redigera",
   "deleteItem": "Ta bort",
   "by": "av",
+
   "confirmDeleteBook": "Är du säker på att du vill ta bort den här boken?",
   "addBook": "Lägg till bok",
   "editBook": "Redigera bok",
@@ -74,7 +73,6 @@
   "enterBookTitle": "Ange boktitel",
   "titleRequired": "Titel krävs",
   "author": "Författare",
-
   "enterAuthorName": "Ange författarnamn",
   "authorRequired": "Författare krävs",
   "publicationDate": "Utgivningsdatum",
@@ -84,13 +82,13 @@
   "bookFormDescription": "Lägg till eller redigera bokdetaljer i ditt personliga bibliotek.",
   "organizeBooks": "Organisera böcker",
   "saveQuotes": "Spara citat",
-
   "discoverInsights": "Upptäck insikter",
   "homeDescription": "BookWebApp - Ditt personliga digitala bibliotek för att organisisera böcker och fånga meningsfulla citat. Förvandla din läsupplevelse med smart bokhantering och citatsamling.",
   "errorLoadingBook": "Det gick inte att ladda bokdetaljer. Försök igen.",
   "errorUpdatingBook": "Det gick inte att uppdatera boken. Försök igen.",
   "errorAddingBook": "Det gick inte att lägga till boken. Försök igen.",
   "login": "Logga in",
+
   "loginSubtitle": "Logga in för att komma åt ditt personliga bibliotek",
   "loginDescription": "Logga in för att komma åt ditt personliga bibliotek och hantera dina böcker och citat.",
   "enterUsername": "Ange ditt användarnamn",
@@ -102,7 +100,6 @@
   "loggingIn": "Loggar in...",
   "dontHaveAccount": "Har du inget konto?",
   "register": "Registrera",
-
   "createAccount": "Skapa konto",
   "usernameMinLength": "Användarnamn måste vara minst 3 tecken",
   "createPassword": "Skapa ett lösenord",
@@ -120,5 +117,18 @@
   "registrationFailed": "Registreringen misslyckades. Kontrollera informationen.",
   "serverError": "Serverfel. Försök igen senare.",
   "anErrorOccurred": "Ett fel uppstod:",
-  "registrationSuccess": "Registreringen lyckades!"
+  "registrationSuccess": "Registreringen lyckades!",
+  "confirmDeleteQuote": "Är du säker på att du vill radera detta citat?",
+  "editQuote": "Redigera Citat",
+  "addNewQuote": "Lägg till Nytt Citat",
+  "quoteText": "Citattest",
+  "enterQuoteText": "Skriv citattext...",
+  "quoteRequired": "Citattest krävs",
+  "enterAuthor": "Skriv författarens namn...",
+  "bookOptional": "Bok (Frivilligt)",
+  "selectBook": "Välj en bok...",
+  "updateQuote": "Uppdatera Citat",
+  "addQuote": "Lägg till Citat",
+  "noQuotesYet": "Inga citat än",
+  "startByAddingQuote": "Börja med att lägga till ditt första citat!"
 }
