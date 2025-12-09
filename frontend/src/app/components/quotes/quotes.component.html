@@ -1,40 +1,95 @@
-<nav class="navbar">
-  <div class="navbar-container">
-    <!-- LEFT: Home, Quotes, Books -->
-    <div class="navbar-left">
-      <a routerLink="/" class="nav-link brand">🏠 Home</a>
-      <a routerLink="/quotes" class="nav-link">Quotes</a>
-      <a routerLink="/books" class="nav-link">Books</a>
-    </div>
+<div class="quotes-page">
 
-    <!-- RIGHT: Language, Theme, Login, Register -->
-    <div class="navbar-right">
-      <button class="nav-link small-btn" (click)="toggleLanguage()">
-        {{ currentLanguage === 'en' ? 'EN 🇬🇧' : 'SE 🇸🇪' }}
-      </button>
-      <button class="nav-link small-btn" (click)="toggleDarkMode()">
-        {{ isDarkMode ? '☀️' : '🌙' }}
-      </button>
-      <a routerLink="/login" class="nav-link btn-outline">Login</a>
-      <a routerLink="/register" class="nav-link btn-primary">Register</a>
-    </div>
+  <header class="page-header">
+    <h1>{{ 'myQuotes' | translate }}</h1>
+    <p class="lead">{{ 'quoteCollectionDesc' | translate }}</p>
+  </header>
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
   </div>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" [class.show]="isMobileMenuOpen">
-    <a routerLink="/" class="mobile-link">Home</a>
-    <a routerLink="/quotes" class="mobile-link">Quotes</a>
-    <a routerLink="/books" class="mobile-link">Books</a>
-    <button class="mobile-link" (click)="toggleLanguage()">
-      {{ currentLanguage === 'en' ? 'EN 🇬🇧' : 'SE 🇸🇪' }}
-    </button>
-    <button class="mobile-link" (click)="toggleDarkMode()">
-      {{ isDarkMode ? '☀️' : '🌙' }}
-    </button>
-    <a routerLink="/login" class="mobile-link">Login</a>
-    <a routerLink="/register" class="mobile-link">Register</a>
-  </div>
+  <div class="quotes-container">
+    <!-- Quote Form -->
+    <section class="quote-form">
+      <div class="card">
+        <div class="card-header">
+          <h5>{{ isEdit ? ('editQuote' | translate) : ('addNewQuote' | translate) }}</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label>{{ 'quoteText' | translate }}</label>
+              <textarea formControlName="text" rows="4" placeholder="{{ 'enterQuoteText' | translate }}"
+                [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched">
+              </textarea>
+              <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required']">
+                {{ 'quoteRequired' | translate }}
+              </div>
+            </div>
 
-  <!-- MOBILE TOGGLE -->
-  <button class="mobile-toggle" (click)="isMobileMenuOpen = !isMobileMenuOpen">☰</button>
-</nav>
+            <div class="form-group">
+              <label>{{ 'author' | translate }}</label>
+              <input type="text" formControlName="author" placeholder="{{ 'enterAuthor' | translate }}"
+                [class.is-invalid]="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
+              <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required']">
+                {{ 'authorRequired' | translate }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>{{ 'bookOptional' | translate }}</label>
+              <select formControlName="bookId">
+                <option value="">{{ 'selectBook' | translate }}</option>
+                <option *ngFor="let book of books" [value]="book.id">{{ book.title }} - {{ book.author }}</option>
+              </select>
+            </div>
+
+            <div class="form-buttons">
+              <button type="submit" [disabled]="quoteForm.invalid || isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
+              </button>
+              <button *ngIf="isEdit" type="button" (click)="cancelEdit()">{{ 'cancel' | translate }}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quotes List -->
+    <section class="quotes-list">
+      <h3>{{ 'allQuotes' | translate }} <span class="count-badge">{{ quotes.length }}</span></h3>
+
+      <div *ngIf="isLoading && quotes.length === 0" class="loading-state">
+        <div class="spinner-border" role="status"></div>
+        <p>{{ 'loading' | translate }}...</p>
+      </div>
+
+      <div *ngIf="quotes.length > 0" class="quotes-grid">
+        <div *ngFor="let quote of quotes" class="quote-card">
+          <p class="quote-text">"{{ quote.text }}"</p>
+          <div class="quote-footer">
+            <span class="quote-author">— {{ quote.author }}</span>
+            <span class="quote-book" *ngIf="quote.book?.title">
+              From: {{ quote.book?.title }}
+            </span>
+          </div>
+
+          <!-- Edit/Delete Buttons -->
+          <div class="quote-card-footer">
+            <button class="btn btn-sm btn-outline-primary" (click)="editQuote(quote.id!)">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteQuote(quote.id!)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="quotes.length === 0 && !isLoading" class="empty-quotes-state">
+        <i class="bi bi-chat-quote display-4 mb-3"></i>
+        <h4>{{ 'noQuotesYet' | translate }}</h4>
+        <p>{{ 'startByAddingQuote' | translate }}</p>
+      </div>
+    </section>
+  </div>
+</div>
