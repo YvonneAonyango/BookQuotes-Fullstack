@@ -1,4 +1,4 @@
-/* navbar.component.css */
+/* navbar.component.css - With Fixed Admin Link and Hamburger Fix */
 :host {
   display: block;
 }
@@ -16,6 +16,8 @@
 .container-fluid {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  display: flex;
+  align-items: center;
 }
 
 /* Brand/Logo Styling */
@@ -28,6 +30,7 @@
   padding: 0.5rem 0;
   transition: all 0.3s ease;
   text-decoration: none;
+  margin-right: auto; /* Pushes toggler to the right */
 }
 
 .navbar-brand::before {
@@ -40,20 +43,21 @@
   opacity: 0.9;
 }
 
-/* Mobile Toggle Button */
+/* Mobile Toggle Button - Only show on mobile/tablet */
 .navbar-toggler {
   border: none;
   background: rgba(255, 255, 255, 0.15);
   padding: 0.5rem;
   width: 50px;
   height: 50px;
-  display: flex;
+  display: none; /* Hidden by default for desktop */
   align-items: center;
   justify-content: center;
   border-radius: 8px;
   transition: all 0.3s ease;
   color: white;
   font-size: 1.5rem;
+  margin-left: auto; /* Push to the right */
 }
 
 .navbar-toggler::after {
@@ -72,21 +76,16 @@
 /* Main Navbar Menu */
 .navbar-collapse {
   justify-content: space-between;
+  flex-grow: 1;
 }
 
 .navbar-nav {
   gap: 0.5rem;
-  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: row; /* Horizontal on desktop */
 }
 
-@media (min-width: 992px) {
-  .navbar-nav {
-    margin-top: 0;
-    gap: 0.75rem;
-  }
-}
-
-/* Navigation Links */
+/* Navigation Links - Base Styles */
 .nav-link {
   color: rgba(255, 255, 255, 0.85) !important;
   font-weight: 500;
@@ -101,14 +100,26 @@
   overflow: hidden;
 }
 
+/* Book Link Icon */
+.nav-link[href*="/books"]::before,
 .nav-link[routerlink="/books"]::before {
   content: "📚";
   margin-right: 0.5rem;
   font-size: 1.1rem;
 }
 
+/* Quotes Link Icon */
+.nav-link[href*="/quotes"]::before,
 .nav-link[routerlink="/quotes"]::before {
   content: "💬";
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* Admin Dashboard Link Icon - Will only show when admin is logged in */
+.nav-link[href*="/admin"]::before,
+.nav-link[routerlink="/admin/dashboard"]::before {
+  content: "⚙️";
   margin-right: 0.5rem;
   font-size: 1.1rem;
 }
@@ -136,21 +147,22 @@
   border-radius: 2px;
 }
 
+/* Admin-specific styling (optional - makes it stand out) */
+.nav-link[href*="/admin"],
+.nav-link[routerlink="/admin/dashboard"] {
+  background-color: rgba(248, 197, 85, 0.1);
+}
+
+.nav-link[href*="/admin"]:hover,
+.nav-link[routerlink="/admin/dashboard"]:hover {
+  background-color: rgba(248, 197, 85, 0.2);
+}
+
 /* Right Controls Container */
 .d-flex.align-items-center {
   gap: 0.75rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-@media (min-width: 992px) {
-  .d-flex.align-items-center {
-    margin-top: 0;
-    padding-top: 0;
-    border-top: none;
-    gap: 1rem;
-  }
+  display: flex;
+  align-items: center;
 }
 
 /* Language Dropdown */
@@ -256,7 +268,7 @@
 }
 
 /* Auth Buttons */
-.btn-outline-light, .btn-light {
+.btn-outline-light, .btn-light, .btn-logout {
   border-radius: 8px;
   font-weight: 500;
   padding: 0.75rem 1.25rem;
@@ -314,19 +326,45 @@
   margin-right: 0.5rem;
 }
 
-/* Mobile Menu Open State */
+.btn-logout:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================================== */
+/* MOBILE & TABLET STYLES (Below 992px) */
+/* =========================================== */
 @media (max-width: 991.98px) {
+  .navbar-toggler {
+    display: flex; /* Show hamburger on mobile/tablet */
+  }
+  
   .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     background-color: #3a506b;
     border-radius: 12px;
     padding: 1.5rem;
     margin-top: 1rem;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    display: none !important; /* Hidden by default on mobile */
+    flex-direction: column;
   }
   
   .navbar-collapse.show {
+    display: flex !important; /* Show when toggled */
     animation: slideDown 0.3s ease-out;
+  }
+  
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
   }
   
   .nav-item {
@@ -338,9 +376,19 @@
     justify-content: flex-start;
   }
   
+  /* Admin link styling for mobile */
+  .nav-link[href*="/admin"],
+  .nav-link[routerlink="/admin/dashboard"] {
+    background-color: rgba(248, 197, 85, 0.15);
+  }
+  
   .d-flex.align-items-center {
     flex-wrap: wrap;
     justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .btn-language, .btn-darkmode, .btn-outline-light, .btn-light, .btn-logout {
@@ -421,7 +469,7 @@
 
 :host-context(.dark-mode) .dropdown-item:hover {
   background-color: #3a506b;
-  color: rgb(236, 234, 234);
+  color: white;
 }
 
 /* Accessibility Improvements */
@@ -433,11 +481,4 @@
 .btn-logout:focus {
   outline: 2px solid #f8c555;
   outline-offset: 2px;
-}
-
-/* Admin Dashboard Link */
-.nav-link[routerlink="/admin/dashboard"]::before {
-  content: "⚙️";
-  margin-right: 0.5rem;
-  font-size: 1.1rem;
 }

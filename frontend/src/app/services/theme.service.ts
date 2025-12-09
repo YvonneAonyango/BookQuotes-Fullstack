@@ -68,10 +68,14 @@ export class ThemeService {
     if (this.currentTheme() === 'dark') {
       body.classList.add('dark-mode');
       body.classList.remove('light-mode');
+      html.classList.add('dark-mode');
+      html.classList.remove('light-mode');
       html.setAttribute('data-theme', 'dark');
     } else {
       body.classList.add('light-mode');
       body.classList.remove('dark-mode');
+      html.classList.add('light-mode');
+      html.classList.remove('dark-mode');
       html.setAttribute('data-theme', 'light');
     }
   }
