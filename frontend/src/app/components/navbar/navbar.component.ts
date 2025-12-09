@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -11,22 +11,21 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule
+  ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  @ViewChild('dropdown') dropdown!: ElementRef;
 
   currentLanguage: Language = 'en';
-  isMobileMenuOpen = false;
-  isDropdownOpen = false;
+  isMobileMenuOpen: boolean = false;
 
-  // Icons and emojis
   icons = {
     home: '🏠',
-    en: '🇬🇧',
-    sv: '🇸🇪',
     moon: '🌙',
     sun: '☀️',
     menu: '☰'
@@ -41,15 +40,25 @@ export class NavbarComponent implements OnInit {
   titleService = inject(Title);
 
   ngOnInit(): void {
+
+    // Set current language
     this.currentLanguage = this.languageService.getCurrentLanguage();
+
+    // Set viewport meta
     this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1.0' });
+
+    // Set page title from translation
     this.translate.get('brand').subscribe(t => this.titleService.setTitle(t || 'Book Quotes Buddy'));
 
+    // Close mobile menu on navigation
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) this.closeMenus();
+      if (event instanceof NavigationEnd) {
+        this.closeMenus();
+      }
     });
   }
 
+  // -------------------- Theme --------------------
   get isDarkMode(): boolean {
     return this.themeService.isDarkMode();
   }
@@ -58,43 +67,24 @@ export class NavbarComponent implements OnInit {
     this.themeService.toggleTheme();
   }
 
+  // -------------------- Language --------------------
   switchLanguage(lang: Language): void {
     this.currentLanguage = lang;
     this.languageService.setLanguage(lang);
-    this.isDropdownOpen = false;
   }
 
-  toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
+  // -------------------- Mobile Menu --------------------
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
+  closeMenus(): void {
+    this.isMobileMenuOpen = false;
+  }
+
+  // -------------------- Logout --------------------
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
-  }
-
-  closeMenus(): void {
-    this.isMobileMenuOpen = false;
-    this.isDropdownOpen = false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (this.dropdown && !this.dropdown.nativeElement.contains(target)) {
-      this.isDropdownOpen = false;
-    }
-    if (window.innerWidth <= 768 && !target.closest('.navbar')) {
-      this.isMobileMenuOpen = false;
-    }
-  }
-
-  @HostListener('document:keydown.escape')
-  onEscape(): void {
-    this.closeMenus();
   }
 }
