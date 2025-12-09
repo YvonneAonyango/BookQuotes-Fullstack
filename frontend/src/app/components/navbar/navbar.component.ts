@@ -46,7 +46,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .subscribe(event => { 
         if (event instanceof NavigationEnd) {
           this.closeOnNavigate();
-          // Re-check auth status on navigation
           this.updateAuthStatus();
         }
       });
@@ -57,9 +56,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.destroy$.complete(); 
   }
 
-  // UPDATE THIS METHOD: Use isAuthenticated() instead of isLoggedIn()
   private updateAuthStatus(): void {
-    this.isLoggedIn = this.authService.isAuthenticated(); // ✅ Using isAuthenticated()
+    this.isLoggedIn = this.authService.isAuthenticated();
     this.isAdmin = this.authService.isAdmin();
   }
 
@@ -87,8 +85,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   logout(): void {
     this.authService.logout();
-    this.isLoggedIn = false; // Update immediately
-    this.isAdmin = false; // Update immediately
+    this.isLoggedIn = false;
+    this.isAdmin = false;
     this.router.navigate(['/login']);
   }
 
