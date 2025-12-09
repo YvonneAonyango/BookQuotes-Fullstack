@@ -1,51 +1,52 @@
 <nav class="navbar">
   <div class="navbar-container">
 
-    <!-- Home (flat) -->
-    <a routerLink="/" class="group-item home-item" (click)="closeOnNavigate()">
-      <span class="icon">🏠</span>
-      <span>{{ 'brand' | translate }}</span>
-    </a>
+    <!-- LEFT: Home, Books, Quotes -->
+    <div class="navbar-left">
+      <a routerLink="/" class="group-item home-item" (click)="closeOnNavigate()">
+        <span class="icon">🏠</span>
+        <span>{{ 'brand' | translate }}</span>
+      </a>
 
-    <!-- Main Links (Books & Quotes) -->
-    <a routerLink="/books" class="group-item link-box upper" (click)="closeOnNavigate()">
-      {{ 'books' | translate }}
-    </a>
+      <a routerLink="/books" class="group-item link-box title-case" (click)="closeOnNavigate()">
+        {{ 'books' | translate }}
+      </a>
 
-    <a routerLink="/quotes" class="group-item link-box upper" (click)="closeOnNavigate()">
-      {{ 'quotes' | translate }}
-    </a>
+      <a routerLink="/quotes" class="group-item link-box title-case" (click)="closeOnNavigate()">
+        {{ 'quotes' | translate }}
+      </a>
+    </div>
 
-    <!-- Language & Theme -->
-    <button class="group-item mini-box lang-item" (click)="toggleLanguage()">
-      {{ currentLanguage === 'en' ? 'EN' : 'SE' }}
-    </button>
+    <!-- RIGHT: Language, Theme, Auth -->
+    <div class="navbar-right">
+      <button class="group-item mini-box lang-item" (click)="toggleLanguage()">
+        {{ currentLanguage === 'en' ? 'EN' : 'SE' }}
+      </button>
 
-    <button class="group-item mini-box theme-item" (click)="toggleDarkMode()">
-      {{ isDarkMode ? '☀️' : '🌙' }}
-    </button>
+      <button class="group-item mini-box theme-item" (click)="toggleDarkMode()">
+        {{ isDarkMode ? '☀️' : '🌙' }}
+      </button>
 
-    <!-- Auth Buttons -->
-    <a routerLink="/login" class="group-item link-box btn-outline" (click)="closeOnNavigate()">
-      {{ 'login' | translate | titlecase }}
-    </a>
+      <a routerLink="/login" class="group-item link-box btn-outline" (click)="closeOnNavigate()">
+        {{ 'login' | translate | titlecase }}
+      </a>
 
-    <a routerLink="/register" class="group-item link-box btn-primary" (click)="closeOnNavigate()">
-      {{ 'register' | translate | titlecase }}
-    </a>
+      <a routerLink="/register" class="group-item link-box btn-primary" (click)="closeOnNavigate()">
+        {{ 'register' | translate | titlecase }}
+      </a>
 
-    <!-- Mobile Toggle -->
-    <div class="mobile-toggle-container">
-      <button class="mobile-toggle" (click)="toggleMobileMenu()">☰</button>
+      <!-- Mobile Hamburger -->
+      <div class="mobile-toggle-container">
+        <button class="mobile-toggle" (click)="toggleMobileMenu()">☰</button>
+      </div>
     </div>
 
   </div>
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" *ngIf="isMobileMenuOpen">
-    <a routerLink="/" (click)="closeOnNavigate()">{{ 'brand' | translate }}</a>
-    <a routerLink="/books" class="upper" (click)="closeOnNavigate()">{{ 'books' | translate }}</a>
-    <a routerLink="/quotes" class="upper" (click)="closeOnNavigate()">{{ 'quotes' | translate }}</a>
+    <a routerLink="/books" (click)="closeOnNavigate()">{{ 'books' | translate }}</a>
+    <a routerLink="/quotes" (click)="closeOnNavigate()">{{ 'quotes' | translate }}</a>
 
     <button class="group-item mini-box lang-item" (click)="toggleLanguage()">
       {{ currentLanguage === 'en' ? 'EN' : 'SE' }}

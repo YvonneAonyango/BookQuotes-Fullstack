@@ -11,12 +11,20 @@
 .navbar-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  height: 68px;
+}
+
+/* LEFT / RIGHT FLEX */
+.navbar-left,
+.navbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap; /* allows wrapping if screen is narrow */
-  height: 68px;
+  gap: 24px; /* increased spacing */
 }
 
 /* All links */
@@ -25,9 +33,9 @@
   align-items: center;
   justify-content: center;
   height: 44px;
-  padding: 0 14px;
+  padding: 0 16px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
@@ -37,30 +45,30 @@
   white-space: nowrap;
 }
 
-/* Hover effect for lift + shadow */
+/* Hover effect */
 .group-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   color: #ffc107;
 }
 
-/* Home stays flat */
+/* Home flat */
 .home-item {
   border-radius: 0;
-  font-size: 1.2rem !important;
-  font-weight: 600 !important;
-  padding: 0 18px !important;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 0 20px;
 }
 
 .home-item .icon {
   color: #ffc107;
   margin-right: 8px;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 
-/* Uppercase for Books & Quotes */
-.upper {
-  text-transform: uppercase;
+/* Capital first letter for Books & Quotes */
+.title-case {
+  text-transform: capitalize;
 }
 
 /* Rectangle style for links & auth buttons */
@@ -74,11 +82,11 @@
   border-color: rgba(255,255,255,0.25);
 }
 
-/* Mini-box style for Theme & Language */
+/* Mini-box for Language & Theme */
 .mini-box {
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);
-  padding: 0 10px;
+  padding: 0 12px;
   border-radius: 6px;
   transition: all 0.2s ease;
 }
@@ -88,17 +96,6 @@
   border-color: rgba(255,255,255,0.3);
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-/* Language */
-.lang-item {
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-
-/* Theme */
-.theme-item {
-  font-size: 1.2rem;
 }
 
 /* Auth buttons */
@@ -124,7 +121,7 @@
   box-shadow: 0 4px 8px rgba(67,97,238,0.3);
 }
 
-/* Mobile Menu */
+/* Mobile menu */
 .mobile-toggle-container { display: none; }
 .mobile-toggle {
   background: transparent;
@@ -163,15 +160,12 @@
 
 @media (max-width: 768px) {
   .navbar-container { flex-wrap: nowrap; overflow-x: auto; }
-  .group-item { flex-shrink: 0; } /* prevent shrinking too much */
-}
-
-@media (max-width: 600px) {
-  .group-item { font-size: 0.9rem; padding: 0 10px; height: 40px; }
-  .home-item { font-size: 1rem; padding: 0 14px; }
+  .group-item { flex-shrink: 0; }
 }
 
 @media (max-width: 480px) {
-  .group-item { display: none; }
+  .navbar-left { gap: 8px; }
+  .navbar-right { display: none; }
   .mobile-toggle-container { display: flex; margin-left: auto; }
+  .home-item { flex-shrink: 0; }
 }
