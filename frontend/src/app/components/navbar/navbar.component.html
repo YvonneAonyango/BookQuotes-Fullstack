@@ -1,42 +1,76 @@
-<nav class="warm-navbar">
-  <div class="container navbar-container">
-
-    <!-- Left: Home / Books / Quotes -->
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Left Section: Home, Books, Quotes -->
     <div class="navbar-left">
-      <a routerLink="/" class="navbar-brand">
-        <span class="home-icon">{{ icons.home }}</span>
-        <span class="brand-text">{{ 'brand' | translate }}</span>
-      </a>
-      <a routerLink="/books" class="nav-link" (click)="closeOnNavigate()">Books</a>
-      <a routerLink="/quotes" class="nav-link" (click)="closeOnNavigate()">Quotes</a>
-    </div>
-
-    <!-- Right: Language / Theme / Auth -->
-    <div class="navbar-right">
-      <!-- Language -->
-      <div class="language-selector">
-        <span class="lang-btn" (click)="switchLanguage('en')">EN</span>
-        <span class="lang-btn" (click)="switchLanguage('sv')">SE</span>
+      <!-- Home Brand -->
+      <div class="nav-item brand-container">
+        <a routerLink="/" class="navbar-brand" (click)="closeOnNavigate()">
+          <span class="icon">{{ icons.home }}</span>
+          <span class="text">{{ 'brand' | translate }}</span>
+        </a>
       </div>
 
-      <!-- Theme -->
-      <button class="theme-btn" (click)="toggleDarkMode()">
-        {{ isDarkMode ? icons.sun : icons.moon }}
-      </button>
+      <!-- Books & Quotes -->
+      <div class="nav-item">
+        <a routerLink="/books" class="nav-link" (click)="closeOnNavigate()">
+          <span class="text">{{ 'books' | translate }}</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a routerLink="/quotes" class="nav-link" (click)="closeOnNavigate()">
+          <span class="text">{{ 'quotes' | translate }}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Section: Language, Theme, Auth -->
+    <div class="navbar-right">
+      <!-- Language Dropdown (Single Button) -->
+      <div class="nav-item language-dropdown" [class.active]="showLanguageDropdown">
+        <button class="dropdown-toggle" (click)="toggleLanguageDropdown()">
+          <span class="flag">{{ currentLanguage === 'en' ? icons.ukFlag : icons.seFlag }}</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="dropdown-menu" [class.show]="showLanguageDropdown">
+          <button class="dropdown-item" (click)="switchLanguage('en')">
+            <span class="flag">{{ icons.ukFlag }}</span>
+            <span>English</span>
+          </button>
+          <button class="dropdown-item" (click)="switchLanguage('sv')">
+            <span class="flag">{{ icons.seFlag }}</span>
+            <span>Svenska</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Theme Toggle -->
+      <div class="nav-item">
+        <button class="theme-btn" (click)="toggleDarkMode()">
+          {{ isDarkMode ? icons.sun : icons.moon }}
+        </button>
+      </div>
 
       <!-- Auth Buttons -->
-      <div class="auth-buttons">
+      <div class="nav-item auth-section">
         <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
-          <a routerLink="/login" class="btn btn-outline" (click)="closeOnNavigate()">Login</a>
-          <a routerLink="/register" class="btn btn-primary" (click)="closeOnNavigate()">Register</a>
+          <a routerLink="/login" class="btn btn-outline" (click)="closeOnNavigate()">
+            <span class="text">{{ 'login' | translate }}</span>
+          </a>
+          <a routerLink="/register" class="btn btn-primary" (click)="closeOnNavigate()">
+            <span class="text">{{ 'register' | translate }}</span>
+          </a>
         </ng-container>
         <ng-template #loggedIn>
-          <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="btn btn-outline" (click)="closeOnNavigate()">Dashboard</a>
-          <button class="btn btn-secondary" (click)="logout()">Logout</button>
+          <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="btn btn-outline" (click)="closeOnNavigate()">
+            <span class="text">{{ 'adminDashboard' | translate }}</span>
+          </a>
+          <button class="btn btn-secondary" (click)="logout()">
+            <span class="text">{{ 'logout' | translate }}</span>
+          </button>
         </ng-template>
       </div>
 
-      <!-- Mobile Hamburger -->
+      <!-- Mobile Menu Toggle -->
       <button class="mobile-toggle" (click)="toggleMobileMenu()">
         {{ icons.menu }}
       </button>
@@ -45,28 +79,51 @@
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" [class.show]="isMobileMenuOpen">
-    <a routerLink="/books" class="mobile-link" (click)="closeOnNavigate()">Books</a>
-    <a routerLink="/quotes" class="mobile-link" (click)="closeOnNavigate()">Quotes</a>
-
-    <div class="mobile-controls">
-      <button class="mobile-theme-btn" (click)="toggleDarkMode()">
-        {{ isDarkMode ? icons.sun : icons.moon }}
-      </button>
-      <div class="mobile-language">
-        <span class="mobile-lang-btn" (click)="switchLanguage('en')">EN</span>
-        <span class="mobile-lang-btn" (click)="switchLanguage('sv')">SE</span>
+    <div class="mobile-menu-content">
+      <!-- Mobile Navigation Links -->
+      <div class="mobile-nav">
+        <a routerLink="/books" class="mobile-link" (click)="closeOnNavigate()">
+          <span class="text">{{ 'books' | translate }}</span>
+        </a>
+        <a routerLink="/quotes" class="mobile-link" (click)="closeOnNavigate()">
+          <span class="text">{{ 'quotes' | translate }}</span>
+        </a>
       </div>
-    </div>
 
-    <div class="mobile-auth">
-      <ng-container *ngIf="!authService.isAuthenticated(); else mobileLoggedIn">
-        <a routerLink="/login" class="btn btn-outline mobile-btn" (click)="closeOnNavigate()">Login</a>
-        <a routerLink="/register" class="btn btn-primary mobile-btn" (click)="closeOnNavigate()">Register</a>
-      </ng-container>
-      <ng-template #mobileLoggedIn>
-        <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="btn btn-outline mobile-btn" (click)="closeOnNavigate()">Dashboard</a>
-        <button class="btn btn-secondary mobile-btn" (click)="logout()">Logout</button>
-      </ng-template>
+      <!-- Mobile Auth -->
+      <div class="mobile-auth">
+        <ng-container *ngIf="!authService.isAuthenticated(); else mobileLoggedIn">
+          <a routerLink="/login" class="btn btn-outline mobile-btn" (click)="closeOnNavigate()">
+            <span class="text">{{ 'login' | translate }}</span>
+          </a>
+          <a routerLink="/register" class="btn btn-primary mobile-btn" (click)="closeOnNavigate()">
+            <span class="text">{{ 'register' | translate }}</span>
+          </a>
+        </ng-container>
+        <ng-template #mobileLoggedIn>
+          <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="btn btn-outline mobile-btn" (click)="closeOnNavigate()">
+            <span class="text">{{ 'adminDashboard' | translate }}</span>
+          </a>
+          <button class="btn btn-secondary mobile-btn" (click)="logout()">
+            <span class="text">{{ 'logout' | translate }}</span>
+          </button>
+        </ng-template>
+      </div>
+
+      <!-- Mobile Controls -->
+      <div class="mobile-controls">
+        <button class="mobile-theme-btn" (click)="toggleDarkMode()">
+          {{ isDarkMode ? icons.sun : icons.moon }}
+        </button>
+        <div class="mobile-language">
+          <button class="mobile-lang-btn" (click)="switchLanguage('en')">
+            {{ icons.ukFlag }}
+          </button>
+          <button class="mobile-lang-btn" (click)="switchLanguage('sv')">
+            {{ icons.seFlag }}
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
