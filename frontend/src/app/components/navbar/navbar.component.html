@@ -1,68 +1,72 @@
-<nav class="navbar">
-  <div class="navbar-container">
-    <!-- LEFT SECTION -->
+<nav class="warm-navbar">
+  <div class="container navbar-container">
+
+    <!-- Left: Home / Books / Quotes -->
     <div class="navbar-left">
       <a routerLink="/" class="navbar-brand">
-        <span class="home-icon">🏠</span>
+        <span class="home-icon">{{ icons.home }}</span>
         <span class="brand-text">{{ 'brand' | translate }}</span>
       </a>
-
-      <div class="navbar-links">
-        <a routerLink="/books" (click)="closeOnNavigate()">Books</a>
-        <a routerLink="/quotes" (click)="closeOnNavigate()">Quotes</a>
-      </div>
+      <a routerLink="/books" class="nav-link" (click)="closeOnNavigate()">Books</a>
+      <a routerLink="/quotes" class="nav-link" (click)="closeOnNavigate()">Quotes</a>
     </div>
 
-    <!-- RIGHT SECTION -->
+    <!-- Right: Language / Theme / Auth -->
     <div class="navbar-right">
+      <!-- Language -->
       <div class="language-selector">
-        <span (click)="switchLanguage('en')" [class.active]="currentLanguage==='en'">EN</span>
-        <span (click)="switchLanguage('sv')" [class.active]="currentLanguage==='sv'">SE</span>
+        <span class="lang-btn" (click)="switchLanguage('en')">EN</span>
+        <span class="lang-btn" (click)="switchLanguage('sv')">SE</span>
       </div>
 
-      <div class="theme-toggle" (click)="toggleDarkMode()">
-        {{ isDarkMode ? '☀️' : '🌙' }}
-      </div>
+      <!-- Theme -->
+      <button class="theme-btn" (click)="toggleDarkMode()">
+        {{ isDarkMode ? icons.sun : icons.moon }}
+      </button>
 
-      <div class="auth-container">
+      <!-- Auth Buttons -->
+      <div class="auth-buttons">
         <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
-          <a routerLink="/login" (click)="closeOnNavigate()">Login</a>
-          <a routerLink="/register" class="btn-primary" (click)="closeOnNavigate()">Register</a>
+          <a routerLink="/login" class="btn btn-outline" (click)="closeOnNavigate()">Login</a>
+          <a routerLink="/register" class="btn btn-primary" (click)="closeOnNavigate()">Register</a>
         </ng-container>
         <ng-template #loggedIn>
-          <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" (click)="closeOnNavigate()">Dashboard</a>
-          <button (click)="logout()">Logout</button>
+          <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="btn btn-outline" (click)="closeOnNavigate()">Dashboard</a>
+          <button class="btn btn-secondary" (click)="logout()">Logout</button>
         </ng-template>
       </div>
 
-      <button class="mobile-toggle" (click)="toggleMenu()">☰</button>
+      <!-- Mobile Hamburger -->
+      <button class="mobile-toggle" (click)="toggleMobileMenu()">
+        {{ icons.menu }}
+      </button>
     </div>
   </div>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" [class.show]="!isCollapsed">
-    <a routerLink="/books" (click)="closeOnNavigate()">Books</a>
-    <a routerLink="/quotes" (click)="closeOnNavigate()">Quotes</a>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.show]="isMobileMenuOpen">
+    <a routerLink="/books" class="mobile-link" (click)="closeOnNavigate()">Books</a>
+    <a routerLink="/quotes" class="mobile-link" (click)="closeOnNavigate()">Quotes</a>
+
+    <div class="mobile-controls">
+      <button class="mobile-theme-btn" (click)="toggleDarkMode()">
+        {{ isDarkMode ? icons.sun : icons.moon }}
+      </button>
+      <div class="mobile-language">
+        <span class="mobile-lang-btn" (click)="switchLanguage('en')">EN</span>
+        <span class="mobile-lang-btn" (click)="switchLanguage('sv')">SE</span>
+      </div>
+    </div>
 
     <div class="mobile-auth">
       <ng-container *ngIf="!authService.isAuthenticated(); else mobileLoggedIn">
-        <a routerLink="/login" (click)="closeOnNavigate()">Login</a>
-        <a routerLink="/register" class="btn-primary" (click)="closeOnNavigate()">Register</a>
+        <a routerLink="/login" class="btn btn-outline mobile-btn" (click)="closeOnNavigate()">Login</a>
+        <a routerLink="/register" class="btn btn-primary mobile-btn" (click)="closeOnNavigate()">Register</a>
       </ng-container>
       <ng-template #mobileLoggedIn>
-        <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" (click)="closeOnNavigate()">Dashboard</a>
-        <button (click)="logout()">Logout</button>
+        <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="btn btn-outline mobile-btn" (click)="closeOnNavigate()">Dashboard</a>
+        <button class="btn btn-secondary mobile-btn" (click)="logout()">Logout</button>
       </ng-template>
-    </div>
-
-    <div class="mobile-controls">
-      <div class="mobile-theme" (click)="toggleDarkMode()">
-        {{ isDarkMode ? '☀️' : '🌙' }}
-      </div>
-      <div class="mobile-language">
-        <span (click)="switchLanguage('en')" [class.active]="currentLanguage==='en'">EN</span>
-        <span (click)="switchLanguage('sv')" [class.active]="currentLanguage==='sv'">SE</span>
-      </div>
     </div>
   </div>
 </nav>

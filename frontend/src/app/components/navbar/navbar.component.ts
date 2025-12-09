@@ -40,7 +40,6 @@ export class NavbarComponent implements OnInit {
   titleService = inject(Title);
 
   ngOnInit(): void {
-
     // Set current language
     this.currentLanguage = this.languageService.getCurrentLanguage();
 
@@ -53,7 +52,7 @@ export class NavbarComponent implements OnInit {
     // Close mobile menu on navigation
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.closeMenus();
+        this.closeOnNavigate();
       }
     });
   }
@@ -63,7 +62,7 @@ export class NavbarComponent implements OnInit {
     return this.themeService.isDarkMode();
   }
 
-  toggleTheme(): void {
+  toggleDarkMode(): void {
     this.themeService.toggleTheme();
   }
 
@@ -78,7 +77,7 @@ export class NavbarComponent implements OnInit {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  closeMenus(): void {
+  closeOnNavigate(): void {
     this.isMobileMenuOpen = false;
   }
 
