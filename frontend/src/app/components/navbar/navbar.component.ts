@@ -23,16 +23,6 @@ export class NavbarComponent implements OnInit {
 
   currentLanguage: Language = 'en';
   isMobileMenuOpen: boolean = false;
-  showLanguageDropdown: boolean = false;
-
-  icons = {
-    home: '🏠',
-    moon: '🌙',
-    sun: '☀️',
-    menu: '☰',
-    ukFlag: '🇬🇧',
-    seFlag: '🇸🇪'
-  };
 
   router = inject(Router);
   authService = inject(AuthService);
@@ -62,24 +52,18 @@ export class NavbarComponent implements OnInit {
     this.themeService.toggleTheme();
   }
 
-  switchLanguage(lang: Language): void {
-    this.currentLanguage = lang;
-    this.languageService.setLanguage(lang);
-    this.showLanguageDropdown = false;
-  }
-
-  toggleLanguageDropdown(): void {
-    this.showLanguageDropdown = !this.showLanguageDropdown;
+  toggleLanguage(): void {
+    const newLang = this.currentLanguage === 'en' ? 'sv' : 'en';
+    this.currentLanguage = newLang;
+    this.languageService.setLanguage(newLang);
   }
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    this.showLanguageDropdown = false;
   }
 
   closeOnNavigate(): void {
     this.isMobileMenuOpen = false;
-    this.showLanguageDropdown = false;
   }
 
   logout(): void {
@@ -87,19 +71,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    if (!(event.target as HTMLElement).closest('.language-dropdown')) {
-      this.showLanguageDropdown = false;
-    }
-    if (window.innerWidth <= 768 && !(event.target as HTMLElement).closest('.navbar')) {
-      this.isMobileMenuOpen = false;
-    }
-  }
-
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.isMobileMenuOpen = false;
-    this.showLanguageDropdown = false;
   }
 }
