@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   @ViewChild('dropdown') dropdown!: ElementRef;
   
   currentLanguage: Language = 'en';
-  currentFlag = '🇬🇧';
+  currentFlag: string = '🇬🇧'; // Explicit string type with flag emoji
   isCollapsed = true;
   showDropdown = false;
   isHomePage = false;
@@ -38,6 +38,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentLanguage = this.languageService.getCurrentLanguage();
+    // Set flag emojis directly
     this.currentFlag = this.currentLanguage === 'en' ? '🇬🇧' : '🇸🇪';
 
     // Set meta tags
@@ -78,6 +79,7 @@ export class NavbarComponent implements OnInit {
 
   switchLanguage(language: Language): void {
     this.currentLanguage = language;
+    // Set the flag emoji directly
     this.currentFlag = language === 'en' ? '🇬🇧' : '🇸🇪';
     this.languageService.setLanguage(language);
     this.showDropdown = false;
