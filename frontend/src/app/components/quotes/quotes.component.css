@@ -1,6 +1,49 @@
 /* ======================================
-   QUOTES — MATCHED TO BOOKS PAGE THEME
+   QUOTES PAGE — FULLY RESPONSIVE & THEMED
    ====================================== */
+
+/* ---------- THEME VARIABLES ---------- */
+:root {
+  --bg-page: rgba(248, 250, 252, 0.98);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --card-bg: rgba(255, 255, 255, 1);
+  --card-border: rgba(0, 0, 0, 0.12);
+  --card-header-bg: #3b82f6;
+  --btn-primary-bg: #1e40af;
+  --btn-primary-hover: #1d4ed8;
+  --btn-edit-bg: #3b82f6;
+  --btn-edit-hover: #2563eb;
+  --btn-delete-bg: #ef4444;
+  --btn-delete-hover: #dc2626;
+  --alert-danger-bg: #fee2e2;
+  --alert-danger-border: #f87171;
+  --alert-danger-text: #7f1d1d;
+  --meta-text: #475569;
+  --page-border: rgba(0, 0, 0, 0.15);
+  --modal-overlay: rgba(0, 0, 0, 0.55);
+}
+
+.dark-mode {
+  --bg-page: rgba(15, 23, 42, 0.98);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --card-bg: rgba(30, 41, 59, 0.95);
+  --card-border: rgba(255, 255, 255, 0.2);
+  --card-header-bg: #1e3a8a;
+  --btn-primary-bg: #3b82f6;
+  --btn-primary-hover: #2563eb;
+  --btn-edit-bg: #2563eb;
+  --btn-edit-hover: #1d4ed8;
+  --btn-delete-bg: #dc2626;
+  --btn-delete-hover: #b91c1c;
+  --alert-danger-bg: rgba(127, 29, 29, 0.85);
+  --alert-danger-border: #ef4444;
+  --alert-danger-text: #fca5a5;
+  --meta-text: #94a3b8;
+  --page-border: rgba(255, 255, 255, 0.25);
+  --modal-overlay: rgba(0, 0, 0, 0.75);
+}
 
 /* ---------- PAGE LAYOUT ---------- */
 .quotes-page {
@@ -14,6 +57,68 @@
   color: var(--text-primary);
   min-height: 100vh;
   transition: background-color 0.3s, color 0.3s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+/* ---------- PAGE HEADER ---------- */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.page-header h1 {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.page-header .lead {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ---------- ERROR ALERT ---------- */
+.alert {
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+  background-color: var(--alert-danger-bg);
+  color: var(--alert-danger-text);
+  border-left: 4px solid var(--alert-danger-border);
+}
+
+/* ---------- LOADING & EMPTY STATES ---------- */
+.loading-state,
+.empty-quotes-state {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.empty-quotes-state h4 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.empty-quotes-state p {
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: var(--text-secondary);
 }
 
 /* ---------- QUOTE FORM CARD ---------- */
@@ -28,7 +133,7 @@
 }
 
 .quote-form .card-header h5 {
-  font-size: 1.25rem;
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -38,6 +143,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+}
+
+.quote-form label {
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .quote-form textarea,
@@ -72,7 +182,7 @@
   cursor: pointer;
 }
 
-/* PRIMARY (same as Books Add button) */
+/* Primary Button */
 .btn-primary {
   background-color: var(--btn-primary-bg);
   color: #fff;
@@ -81,7 +191,7 @@
   background-color: var(--btn-primary-hover);
 }
 
-/* OUTLINE PRIMARY */
+/* Outline Buttons */
 .btn-outline-primary {
   background: none;
   border: 1px solid var(--btn-primary-bg);
@@ -92,7 +202,6 @@
   color: #fff;
 }
 
-/* OUTLINE DANGER */
 .btn-outline-danger {
   background: none;
   border: 1px solid var(--btn-delete-bg);
@@ -106,7 +215,7 @@
 /* ---------- QUOTES GRID ---------- */
 .quotes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
@@ -127,31 +236,31 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* Selected (highlighted) */
+/* Selected */
 .quote-card.selected {
   border-color: var(--btn-primary-bg);
-  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  box-shadow: 0 0 12px rgba(0,0,0,0.15);
 }
 
-/* ---------- QUOTE TEXT ---------- */
+/* Quote text */
 .quote-text {
-  font-size: 1rem;
-  line-height: 1.4rem;
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.5rem;
   color: var(--text-primary);
   cursor: pointer;
   word-break: break-word;
 }
 
-/* ---------- FOOTER INFO ---------- */
+/* Footer info */
 .quote-footer {
-  font-size: 0.875rem;
+  font-size: clamp(0.8rem, 1.2vw, 0.875rem);
   color: var(--text-secondary);
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-/* ---------- CARD ACTION BUTTONS ---------- */
+/* Card actions */
 .quote-card-footer {
   display: flex;
   gap: 0.5rem;
@@ -161,67 +270,51 @@
 .quote-card-footer button {
   flex: 1;
   padding: 0.5rem;
-  font-size: 0.875rem;
+  font-size: clamp(0.7rem, 1vw, 0.875rem);
   border-radius: 10px;
   border: none;
   cursor: pointer;
 }
 
-/* Edit button (same as Books) */
+/* Edit/Delete buttons */
 .btn-edit {
   background-color: var(--btn-edit-bg);
   color: #fff;
 }
-.btn-edit:hover {
-  background-color: var(--btn-edit-hover);
-}
+.btn-edit:hover { background-color: var(--btn-edit-hover); }
 
-/* Delete button (same as Books) */
 .btn-delete {
   background-color: var(--btn-delete-bg);
   color: #fff;
 }
-.btn-delete:hover {
-  background-color: var(--btn-delete-hover);
-}
+.btn-delete:hover { background-color: var(--btn-delete-hover); }
 
-/* ---------- EMPTY & LOADING STATES ---------- */
-.loading-state,
-.empty-quotes-state {
-  text-align: center;
-  color: var(--text-secondary);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+/* Count badge */
+.count-badge {
+  background-color: var(--btn-primary-bg);
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+  font-weight: 600;
 }
 
 /* ---------- RESPONSIVE ---------- */
+@media (max-width: 1024px) {
+  .quotes-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+}
+
 @media (max-width: 768px) {
-  .quotes-page {
-    padding: 1rem;
-  }
-
-  .quote-form .card {
-    padding: 1rem;
-  }
-
-  .quotes-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
+  .quotes-page { padding: 1rem; }
+  .quote-form .card { padding: 1rem; }
+  .quotes-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
 }
 
 @media (max-width: 480px) {
-  .quote-card {
-    padding: 1rem;
-  }
-
-  .quote-footer {
-    font-size: 0.8rem;
-  }
-
-  .quote-card-footer button {
-    padding: 0.35rem 0.5rem;
-    font-size: 0.75rem;
-  }
+  .quote-card { padding: 1rem; }
+  .quote-footer { font-size: 0.8rem; }
+  .quote-card-footer button { padding: 0.35rem 0.5rem; font-size: 0.7rem; }
+  .page-header h1 { font-size: 1.5rem; }
+  .page-header .lead { font-size: 0.95rem; }
 }

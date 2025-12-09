@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
-import { environment } from '../../../../environments/environment'; 
+import { environment } from '../../../../environments/environment';
 
-// Define Stats interface (camelCase)
 export interface Stats {
   totalUsers: number;
   totalBooks: number;
@@ -43,26 +42,32 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  loadStats(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-
+  // -----------------------
+  // Reusable Admin GET helper
+  // -----------------------
+  private adminGet<T>(endpoint: string) {
     const token = this.authService.getToken();
-    if (!token) {
-      this.errorMessage = 'Not authenticated. Please login.';
-      this.isLoading = false;
-      return;
-    }
+    if (!token) throw new Error('Not authenticated. Please login.');
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
 
-    this.http.get<any>(`${environment.apiUrl}/api/admin/stats`, { headers })
-      .subscribe({
+    // ✅ Use only /admin/...; do NOT prepend extra /api
+    return this.http.get<T>(`${environment.apiUrl}/admin/${endpoint}`, { headers });
+  }
+
+  // -----------------------
+  // Load Stats
+  // -----------------------
+  loadStats(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    try {
+      this.adminGet<any>('stats').subscribe({
         next: (stats) => {
-          // Convert PascalCase to camelCase
           this.stats = {
             totalUsers: stats.TotalUsers,
             totalBooks: stats.TotalBooks,
@@ -77,6 +82,10 @@ export class AdminDashboardComponent implements OnInit {
           this.isLoading = false;
         }
       });
+    } catch (err: any) {
+      this.errorMessage = err.message;
+      this.isLoading = false;
+    }
   }
 
   isAdminUser(): boolean {

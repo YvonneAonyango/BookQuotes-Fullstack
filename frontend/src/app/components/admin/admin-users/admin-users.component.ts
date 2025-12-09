@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
 import { environment } from '../../../../environments/environment';
 
-// Define User interface
 export interface User {
   id: number;
   username: string;
@@ -53,7 +52,8 @@ export class AdminUsersComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    this.http.get<User[]>(`${environment.apiUrl}/api/admin/users`, { headers })
+    // ✅ Corrected endpoint
+    this.http.get<User[]>(`${environment.apiUrl}/admin/users`, { headers })
       .subscribe({
         next: (users) => {
           this.users = users;
@@ -68,68 +68,47 @@ export class AdminUsersComponent implements OnInit {
   }
 
   deleteUser(id: number): void {
-    if (!id) {
-      this.errorMessage = 'Invalid user ID';
-      return;
-    }
+    if (!id) return;
 
-    if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-      const token = this.authService.getToken();
-      if (!token) {
-        this.errorMessage = 'Not authenticated. Please login.';
-        return;
-      }
+    if (!confirm('Are you sure you want to delete this user?')) return;
 
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+    const token = this.authService.getToken();
+    if (!token) return;
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    // ✅ Corrected endpoint
+    this.http.delete<void>(`${environment.apiUrl}/admin/users/${id}`, { headers })
+      .subscribe({
+        next: () => this.users = this.users.filter(u => u.id !== id),
+        error: (error) => console.error('Error deleting user:', error)
       });
-
-      this.http.delete<void>(`${environment.apiUrl}/api/admin/users/${id}`, { headers })
-        .subscribe({
-          next: () => {
-            this.users = this.users.filter(user => user.id !== id);
-          },
-          error: (error) => {
-            console.error('Error deleting user:', error);
-            this.errorMessage = error.error?.message || 'Failed to delete user';
-          }
-        });
-    }
   }
 
   toggleUserRole(user: User): void {
     const newRole = user.role === 'Admin' ? 'User' : 'Admin';
+    if (!confirm(`Change ${user.username}'s role from ${user.role} to ${newRole}?`)) return;
 
-    if (confirm(`Change ${user.username}'s role from ${user.role} to ${newRole}?`)) {
-      const token = this.authService.getToken();
-      if (!token) {
-        this.errorMessage = 'Not authenticated. Please login.';
-        return;
-      }
+    const token = this.authService.getToken();
+    if (!token) return;
 
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      });
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
 
-      this.http.put<User>(
-        `${environment.apiUrl}/api/admin/users/${user.id}/role`,
-        { role: newRole },
-        { headers }
-      ).subscribe({
+    // ✅ Corrected endpoint
+    this.http.put<User>(`${environment.apiUrl}/admin/users/${user.id}/role`, { role: newRole }, { headers })
+      .subscribe({
         next: (updatedUser) => {
           const index = this.users.findIndex(u => u.id === user.id);
-          if (index !== -1) {
-            this.users[index] = updatedUser;
-          }
+          if (index !== -1) this.users[index] = updatedUser;
         },
-        error: (error) => {
-          console.error('Error updating user role:', error);
-          this.errorMessage = error.error?.message || 'Failed to update user role';
-        }
+        error: (error) => console.error('Error updating user role:', error)
       });
-    }
   }
 
   getRoleBadgeClass(role: string): string {

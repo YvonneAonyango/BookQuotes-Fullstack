@@ -42,7 +42,6 @@
   <!-- Mobile Menu -->
   <div class="mobile-menu" *ngIf="isMobileMenuOpen">
     <ul>
-      <li><a routerLink="/" (click)="closeOnNavigate()">🏠 Home</a></li>
       <li><a routerLink="/books" (click)="closeOnNavigate()">Books</a></li>
       <li><a routerLink="/quotes" (click)="closeOnNavigate()">Quotes</a></li>
       <li><button (click)="toggleLanguage()">{{ currentLanguage | uppercase }}</button></li>
