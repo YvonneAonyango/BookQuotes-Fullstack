@@ -27,6 +27,10 @@ export class QuotesComponent implements OnInit {
   editingQuoteId?: number;
   errorMessage = '';
 
+  showFormModal = false;      // For modal form
+  editingQuote?: Quote;
+  isEditMode = false;
+
   private meta = inject(Meta);
   private titleService = inject(Title);
   private translate = inject(TranslateService);
@@ -78,7 +82,6 @@ export class QuotesComponent implements OnInit {
       next: (books: Book[]) => this.books = books,
       error: (error: any) => {
         console.error('Error loading books:', error);
-        // Don't show error for books as it's secondary data
       }
     });
   }
@@ -89,14 +92,11 @@ export class QuotesComponent implements OnInit {
     return book ? book.title : '';
   }
 
-  // EDIT QUOTE
-  editQuote(quote: Quote): void {
-    // Check if user is logged in
-    if (!this.isLoggedIn()) {
-      alert(this.translate.instant('loginRequired'));
-      // You might want to redirect to login page
-      return;
-    }
+  // ---------- CRUD Operations ----------
+
+  editQuote(id: number): void {
+    const quote = this.quotes.find(q => q.id === id);
+    if (!quote) return;
 
     this.isEdit = true;
     this.editingQuoteId = quote.id;
@@ -111,24 +111,34 @@ export class QuotesComponent implements OnInit {
     document.querySelector('.quote-form-column')?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  cancelEdit(): void {
-    this.resetForm();
+  deleteQuote(id: number | undefined): void {
+    if (!id) return;
+
+    if (!this.isLoggedIn()) {
+      alert(this.translate.instant('loginRequired'));
+      return;
+    }
+
+    this.translate.get('confirmDeleteQuote').subscribe((msg: string) => {
+      if (!confirm(msg || 'Are you sure you want to delete this quote?')) return;
+
+      this.quoteService.deleteQuote(id).subscribe({
+        next: () => {
+          this.quotes = this.quotes.filter(q => q.id !== id);
+        },
+        error: (err: any) => {
+          console.error('Error deleting quote:', err);
+          alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.');
+        }
+      });
+    });
   }
 
-  resetForm(): void {
-    this.quoteForm.reset({ text: '', author: '', bookId: null });
-    this.isEdit = false;
-    this.editingQuoteId = undefined;
-  }
-
-  // CREATE or UPDATE QUOTE
   onSubmit(): void {
     if (!this.quoteForm.valid) return;
 
-    // Check if user is logged in
     if (!this.isLoggedIn()) {
       alert(this.translate.instant('loginRequired'));
-      // You might want to redirect to login page
       return;
     }
 
@@ -136,7 +146,6 @@ export class QuotesComponent implements OnInit {
     const formValue = this.quoteForm.value;
 
     if (this.isEdit && this.editingQuoteId) {
-      // UPDATE existing quote
       const quoteData: Quote = {
         text: formValue.text,
         author: formValue.author,
@@ -157,12 +166,11 @@ export class QuotesComponent implements OnInit {
         }
       });
     } else {
-      // CREATE new quote
       const quoteData: Quote = {
         text: formValue.text,
         author: formValue.author,
         bookId: formValue.bookId || null,
-        userId: Number(localStorage.getItem('userId')) || 1 // Fallback for demo
+        userId: Number(localStorage.getItem('userId')) || 1
       };
 
       this.quoteService.createQuote(quoteData).subscribe({
@@ -180,33 +188,17 @@ export class QuotesComponent implements OnInit {
     }
   }
 
-  // DELETE QUOTE
-  deleteQuote(id: number | undefined): void {
-    if (!id) return;
+  cancelEdit(): void {
+    this.resetForm();
+  }
 
-    // Check if user is logged in
-    if (!this.isLoggedIn()) {
-      alert(this.translate.instant('loginRequired'));
-      return;
-    }
-
-    this.translate.get('confirmDeleteQuote').subscribe((translated: string) => {
-      if (!confirm(translated || 'Are you sure you want to delete this quote?')) return;
-
-      this.quoteService.deleteQuote(id).subscribe({
-        next: () => {
-          this.quotes = this.quotes.filter(q => q.id !== id);
-        },
-        error: (err: any) => {
-          console.error('Error deleting quote:', err);
-          alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.');
-        }
-      });
-    });
+  resetForm(): void {
+    this.quoteForm.reset({ text: '', author: '', bookId: null });
+    this.isEdit = false;
+    this.editingQuoteId = undefined;
   }
 
   private isLoggedIn(): boolean {
-    // Check if user is logged in 
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     return !!(token && userId);

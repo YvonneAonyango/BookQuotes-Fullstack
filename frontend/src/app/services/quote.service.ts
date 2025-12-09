@@ -8,8 +8,8 @@ export interface Quote {
   text: string;
   author: string;
   bookId?: number | null;
-  userId?: number; // Added userId
-  book?: Book;     // Optional book object from backend
+  userId?: number;
+  book?: Book;
 }
 
 export interface Book {
@@ -43,7 +43,6 @@ export class QuoteService {
     return new HttpHeaders(headersConfig);
   }
 
-  /** Get quotes for the current user (mine=true), or all for admin */
   getQuotes(): Observable<Quote[]> {
     return this.http.get<Quote[]>(`${this.apiUrl}/quotes?mine=true`, {
       headers: this.getAuthHeaders()

@@ -1,31 +1,34 @@
+/* Host */
 :host {
   display: block;
   font-family: 'Segoe UI', sans-serif;
-  transition: color 0.3s, background-color 0.3s;
+  color: #111827;
 }
 
-/* PAGE LAYOUT */
+/* Page Layout */
 .quotes-page {
   padding: 2rem 1rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* HEADER */
+/* Header */
+.page-header {
+  margin-bottom: 2rem;
+}
+
 .page-header h1 {
   font-size: clamp(1.75rem, 2.5vw, 2.5rem);
   font-weight: 700;
-  color: inherit;
   margin-bottom: 0.5rem;
 }
 
 .page-header .lead {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
-  color: inherit;
-  margin-bottom: 2rem;
+  color: #4b5563;
 }
 
-/* CONTAINER GRID */
+/* Container Grid */
 .quotes-container {
   display: grid;
   grid-template-columns: 380px 1fr;
@@ -38,101 +41,150 @@
   }
 }
 
-/* CARD STYLING */
-.card {
-  background: var(--card-bg, white);
-  border: 1px solid var(--card-border, #e2e8f0);
+/* Form Card */
+.quote-form .card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  overflow: hidden;
-  transition: all 0.3s ease;
+  padding: 1rem;
 }
 
-.dark-mode .card {
-  background: var(--card-bg-dark, #1e293b);
-  border-color: var(--card-border-dark, #334155);
+.quote-form .form-group {
+  margin-bottom: 1rem;
 }
 
-/* FORM INPUTS */
-input, textarea, select {
+.quote-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.quote-form input,
+.quote-form textarea,
+.quote-form select {
   width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  border: 1px solid var(--input-border, #d1d5db);
-  background-color: var(--input-bg, white);
-  color: var(--input-color, #1f2937);
-  font-size: 1rem;
+  border: 1px solid #d1d5db;
 }
 
-input:focus, textarea:focus, select:focus {
-  border-color: var(--primary, #3b82f6);
-  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
-  outline: none;
+.quote-form .form-buttons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
-/* BUTTONS */
-button {
-  padding: 0.75rem 1.5rem;
+.quote-form button {
+  padding: 0.6rem 1rem;
   border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* Quotes Grid */
+.quotes-list h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 
-.btn-edit { background: var(--btn-edit-bg,#38bdf8); color:white; }
-.btn-delete { background: var(--btn-delete-bg,#ef4444); color:white; }
+.count-badge {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
 
-/* QUOTES GRID */
 .quotes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
 }
 
-/* QUOTE CARD */
 .quote-card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 1.5rem;
   border-radius: 12px;
-  position: relative;
-  background: inherit;
-  border: 1px solid var(--card-border,#e2e8f0);
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
 }
 
-.quote-text { font-style: italic; margin-bottom: 1rem; flex-grow:1; color: inherit; }
-.quote-author { font-weight:600; color: var(--primary,#2563eb); }
-.quote-book { font-style: italic; font-size: 0.875rem; color: var(--text-muted,#6b7280); }
+.quote-text {
+  font-style: italic;
+  margin-bottom: 1rem;
+}
 
-.quote-card-actions {
+.quote-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.quote-author {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.quote-book {
+  font-style: italic;
+}
+
+/* Edit / Delete Buttons */
+.quote-card-footer {
+  margin-top: 1rem;
   display: flex;
   gap: 0.5rem;
-  margin-top: 1rem;
 }
 
-/* EMPTY STATE */
+.quote-card-footer button {
+  flex: 1;
+  font-size: 0.875rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-outline-primary {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-outline-danger {
+  border-color: #ef4444;
+  color: #ef4444;
+  background-color: transparent;
+}
+
+.btn-outline-danger:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Loading / Empty States */
+.loading-state,
 .empty-quotes-state {
-  text-align:center;
-  padding:3rem 1.5rem;
-  border-radius:12px;
-  border: 2px dashed var(--card-border,#d1d5db);
-  color: var(--text-muted,#6b7280);
-  background-color: var(--card-bg,#f9fafb);
+  text-align: center;
+  padding: 3rem 1.5rem;
+  border-radius: 12px;
+  color: #6b7280;
 }
 
-@media (max-width: 768px) {
-  .form-buttons { flex-direction: column; }
-  .form-buttons button { width: 100%; }
-  .quote-card-actions { flex-direction: column; }
-  .quote-card-actions button { width: 100%; }
+.empty-quotes-state {
+  border: 2px dashed #d1d5db;
 }
 
-@media (max-width: 576px) {
-  .quotes-container { grid-template-columns: 1fr; }
+.spinner-border {
+  margin-bottom: 1rem;
 }

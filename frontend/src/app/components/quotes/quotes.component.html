@@ -1,12 +1,10 @@
 <div class="quotes-page">
 
-  <!-- Page Header -->
   <header class="page-header">
     <h1>{{ 'myQuotes' | translate }}</h1>
     <p class="lead">{{ 'quoteCollectionDesc' | translate }}</p>
   </header>
 
-  <!-- Error Alert -->
   <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
     {{ errorMessage }}
     <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
@@ -64,33 +62,27 @@
     <section class="quotes-list">
       <h3>{{ 'allQuotes' | translate }} <span class="count-badge">{{ quotes.length }}</span></h3>
 
-      <!-- Loading State -->
       <div *ngIf="isLoading && quotes.length === 0" class="loading-state">
         <div class="spinner-border" role="status"></div>
         <p>{{ 'loading' | translate }}...</p>
       </div>
 
-      <!-- Quotes Grid -->
       <div *ngIf="quotes.length > 0" class="quotes-grid">
         <div *ngFor="let quote of quotes" class="quote-card">
-          <div *ngIf="getBookTitle(quote.bookId)" class="book-badge">
-            <i class="bi bi-book me-1"></i>{{ getBookTitle(quote.bookId) }}
-          </div>
-
           <p class="quote-text">"{{ quote.text }}"</p>
           <div class="quote-footer">
             <span class="quote-author">— {{ quote.author }}</span>
-            <span *ngIf="getBookTitle(quote.bookId)" class="quote-book">From: {{ getBookTitle(quote.bookId) }}</span>
+            <span *ngIf="quote.book?.title" class="quote-book">From: {{ quote.book.title }}</span>
           </div>
 
-          <div class="quote-card-actions">
-            <button class="btn-edit" (click)="editQuote(quote)"><i class="bi bi-pencil"></i> {{ 'editItem' | translate }}</button>
-            <button class="btn-delete" (click)="deleteQuote(quote.id!)"><i class="bi bi-trash"></i> {{ 'deleteItem' | translate }}</button>
+          <!-- Edit/Delete Buttons -->
+          <div class="quote-card-footer">
+            <button class="btn btn-sm btn-outline-primary" (click)="editQuote(quote.id!)">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteQuote(quote.id!)">Delete</button>
           </div>
         </div>
       </div>
 
-      <!-- Empty State -->
       <div *ngIf="quotes.length === 0 && !isLoading" class="empty-quotes-state">
         <i class="bi bi-chat-quote display-4 mb-3"></i>
         <h4>{{ 'noQuotesYet' | translate }}</h4>
