@@ -1,144 +1,166 @@
-/* ====================== NAVBAR ====================== */
-.app-navbar {
+/* ====================== NAVBAR BASE ====================== */
+.navbar {
   width: 100%;
-  min-height: 38px;
   background: linear-gradient(135deg, #1e3a5f 0%, #2a4a7a 100%);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: relative;
   z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-height: 68px;
 }
 
-.app-navbar .navbar-container {
+.navbar-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 68px;
+  gap: 20px;
 }
 
-/* LEFT/RIGHT FLEX CONTAINERS */
-.app-navbar .navbar-left,
-.app-navbar .navbar-right {
+/* ====================== NAV GROUP CONTAINERS ====================== */
+.nav-group {
   display: flex;
   align-items: center;
-  gap: 6px;
+  height: 50px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 4px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* BRAND/HOME */
-.app-navbar .navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  text-decoration: none;
-  padding: 6px 12px;
+.nav-group:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.app-navbar .navbar-brand:hover { color: #ffc107; }
+.left-group { min-width: 340px; }
+.right-group { min-width: 360px; }
 
-/* NAV ITEMS & BUTTONS - uniform */
-.app-navbar .nav-item,
-.app-navbar .btn {
-  height: 38px;
-  min-width: 100px;
-  padding: 0 14px;
-  border-radius: 6px;
+/* ====================== GROUP ITEMS ====================== */
+.group-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  height: 42px;
+  padding: 0 18px;
+  color: #ffffff;
+  font-size: 1.05rem;
   font-weight: 500;
-  color: #fff;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.1);
+  text-decoration: none;
+  border: none;
+  background: transparent;
   cursor: pointer;
+  border-radius: 6px;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.app-navbar .nav-item:hover,
-.app-navbar .btn:hover {
-  background: rgba(255,255,255,0.15);
+.group-item:hover,
+.group-item:focus {
+  background: rgba(255, 255, 255, 0.15);
   color: #ffc107;
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  outline: none;
 }
 
-/* BUTTON INSIDE NAV-ITEMS */
-.app-navbar .nav-item button {
-  all: unset;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  cursor: pointer;
+/* ====================== SPECIAL ITEMS ====================== */
+.home-item {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  padding: 0 20px !important;
 }
 
-/* AUTH SECTION */
-.app-navbar .auth-section {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.home-item .icon {
+  color: #ffc107;
+  margin-right: 10px;
+  font-size: 1.4rem;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
 }
 
-/* MOBILE */
-.app-navbar .mobile-toggle-container { display: none; }
+.lang-item { gap: 8px; min-width: 90px; }
+.lang-item .flag { font-size: 1.3rem; }
+.theme-item { min-width: 50px; font-size: 1.3rem; }
 
-.app-navbar .mobile-menu {
+.group-item.btn-outline { border: 1px solid rgba(255, 255, 255, 0.25); }
+.group-item.btn-outline:hover { border-color: rgba(255, 255, 255, 0.4); color: #ffc107; }
+
+.group-item.btn-primary {
+  background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+  color: white;
+  border: 1px solid #4d6cfc;
+}
+.group-item.btn-primary:hover {
+  background: linear-gradient(135deg, #3a56d4 0%, #2f48b9 100%);
+}
+
+/* ====================== GROUP DIVIDERS ====================== */
+.group-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 2px;
+}
+
+/* ====================== MOBILE ====================== */
+.mobile-toggle-container { display: none; }
+.mobile-extra-container {
   display: none;
-  flex-direction: column;
-  gap: 12px;
-  background: linear-gradient(135deg, #2a4a7a 0%, #3a5a9a 100%);
+  align-items: center;
+  gap: 8px;
+}
+
+/* Mobile Menu */
+.mobile-menu {
   position: absolute;
-  top: 100%;
-  left: 0;
+  top: 64px;
   right: 0;
-  padding: 16px;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  left: 0;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2a4a7a 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  gap: 4px;
   z-index: 999;
 }
 
-.app-navbar .mobile-menu.show { display: flex; }
+.mobile-menu .group-item { justify-content: flex-start; padding: 10px 20px; }
 
-.app-navbar .mobile-link,
-.app-navbar .mobile-btn {
-  height: 38px;
-  min-width: 100%;
-  padding: 0 14px;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #fff;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+/* ====================== RESPONSIVE ====================== */
+@media (max-width: 1100px) {
+  .left-group { min-width: 300px; }
+  .right-group { min-width: 320px; }
+  .group-item { padding: 0 14px; font-size: 1rem; }
 }
 
-.app-navbar .mobile-link:hover,
-.app-navbar .mobile-btn:hover {
-  background: rgba(255,255,255,0.15);
-  color: #ffc107;
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+@media (max-width: 900px) {
+  .navbar-container { padding: 0 20px; gap: 15px; }
+  .left-group { min-width: 260px; }
+  .right-group { min-width: 280px; }
+  .group-item { padding: 0 12px; }
+  .home-item { font-size: 1.15rem !important; }
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
-  .app-navbar .navbar-left .nav-item,
-  .app-navbar .navbar-right .nav-item,
-  .app-navbar .auth-section { display: none; }
-  .app-navbar .mobile-toggle-container { display: flex; }
-}
+  .nav-group.left-group,
+  .nav-group.right-group { display: none; }
 
-@media (max-width: 480px) {
-  .app-navbar .navbar { min-height: 34px; }
-  .app-navbar .navbar-brand { font-size: 0.95rem; padding: 4px 8px; }
-  .app-navbar .mobile-link,
-  .app-navbar .mobile-btn { font-size: 0.9rem; padding: 8px 12px; }
+  .mobile-extra-container { display: flex; }
+  .mobile-toggle-container { display: flex; width: 50px; height: 50px; border-radius: 10px; background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); align-items:center; justify-content:center; margin-left:auto; }
+
+  .mobile-toggle {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .navbar-container { justify-content: flex-start; height: 64px; }
 }
