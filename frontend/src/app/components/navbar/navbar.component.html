@@ -1,62 +1,35 @@
 <nav class="navbar">
   <div class="navbar-container">
-
-    <!-- LEFT: Home, Books, Quotes -->
+    
+    <!-- LEFT: always visible -->
     <div class="navbar-left">
-      <a routerLink="/" class="group-item home-item" (click)="closeOnNavigate()">
-        <span class="icon">🏠</span>
-        <span>{{ 'brand' | translate }}</span>
+      <a routerLink="/" class="home-link" (click)="closeOnNavigate()">
+        <span class="icon">🏠</span> {{ 'brand' | translate }}
       </a>
-
-      <a routerLink="/books" class="group-item link-box title-case" (click)="closeOnNavigate()">
-        {{ 'books' | translate }}
-      </a>
-
-      <a routerLink="/quotes" class="group-item link-box title-case" (click)="closeOnNavigate()">
-        {{ 'quotes' | translate }}
-      </a>
+      <a routerLink="/books" class="nav-link" (click)="closeOnNavigate()">{{ 'books' | translate }}</a>
+      <a routerLink="/quotes" class="nav-link" (click)="closeOnNavigate()">{{ 'quotes' | translate }}</a>
     </div>
 
-    <!-- RIGHT: Language, Theme, Auth -->
+    <!-- RIGHT: desktop links & hamburger -->
     <div class="navbar-right">
-      <button class="group-item mini-box lang-item" (click)="toggleLanguage()">
-        {{ currentLanguage === 'en' ? 'EN' : 'SE' }}
-      </button>
-
-      <button class="group-item mini-box theme-item" (click)="toggleDarkMode()">
-        {{ isDarkMode ? '☀️' : '🌙' }}
-      </button>
-
-      <a routerLink="/login" class="group-item link-box btn-outline" (click)="closeOnNavigate()">
-        {{ 'login' | translate | titlecase }}
-      </a>
-
-      <a routerLink="/register" class="group-item link-box btn-primary" (click)="closeOnNavigate()">
-        {{ 'register' | translate | titlecase }}
-      </a>
-
       <!-- Mobile Hamburger -->
       <div class="mobile-toggle-container">
         <button class="mobile-toggle" (click)="toggleMobileMenu()">☰</button>
       </div>
-    </div>
 
+      <!-- Admin dashboard desktop (if admin) -->
+      <a *ngIf="isAdmin" routerLink="/admin" class="btn-outline" (click)="closeOnNavigate()">Dashboard</a>
+    </div>
   </div>
 
-  <!-- Mobile Menu -->
+  <!-- MOBILE MENU: translation/theme/login/register/admin -->
   <div class="mobile-menu" *ngIf="isMobileMenuOpen">
-    <a routerLink="/books" (click)="closeOnNavigate()">{{ 'books' | translate }}</a>
-    <a routerLink="/quotes" (click)="closeOnNavigate()">{{ 'quotes' | translate }}</a>
+    <button class="mini-box" (click)="toggleLanguage()">{{ currentLanguage === 'en' ? 'EN' : 'SE' }}</button>
+    <button class="mini-box" (click)="toggleDarkMode()">{{ isDarkMode ? '☀️' : '🌙' }}</button>
+    
+    <a routerLink="/login" *ngIf="!isLoggedIn" (click)="closeOnNavigate()">Login</a>
+    <a routerLink="/register" *ngIf="!isLoggedIn" (click)="closeOnNavigate()">Register</a>
 
-    <button class="group-item mini-box lang-item" (click)="toggleLanguage()">
-      {{ currentLanguage === 'en' ? 'EN' : 'SE' }}
-    </button>
-
-    <button class="group-item mini-box theme-item" (click)="toggleDarkMode()">
-      {{ isDarkMode ? '☀️' : '🌙' }}
-    </button>
-
-    <a routerLink="/login" (click)="closeOnNavigate()">{{ 'login' | translate }}</a>
-    <a routerLink="/register" (click)="closeOnNavigate()">{{ 'register' | translate }}</a>
+    <a *ngIf="isAdmin" routerLink="/admin" (click)="closeOnNavigate()">Dashboard</a>
   </div>
 </nav>

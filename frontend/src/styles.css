@@ -2,15 +2,15 @@
 
 /* Light Theme */
 :root {
-  --bg-primary: #f7f7f8;        /* soft white */
+  --bg-primary: #f2f2f5;        /* soft off-white */
   --card-primary: #ffffff;
-  --text-primary: #1c1c1e;      /* soft black */
-  --text-secondary: #3a3a3c;
-  --border-primary: #ddd;
+  --text-primary: #2c2c33;      /* softer black */
+  --text-secondary: #555558;    /* muted secondary text */
+  --border-primary: #e0e0e5;    /* soft border */
 
   --highlight: #d79b1f;
-  --warm-blue-accent: #5a9bf6;
-  --warm-blue-hover: #2e78f0;
+  --warm-blue-accent: #4a90e2;
+  --warm-blue-hover: #3571c1;
 
   /* Navbar gradients */
   --navbar-light: linear-gradient(135deg, #1f3b5f, #2c5282);
@@ -35,13 +35,13 @@
 
 /* Dark Theme */
 body.dark-mode {
-  --bg-primary: #1e1e24;       /* soft dark gray */
-  --card-primary: #2a2a34;
-  --text-primary: #e6e6e8;     /* soft white */
-  --text-secondary: #bfbfc4;
-  --border-primary: #444;
+  --bg-primary: #1b1b22;       /* slightly lighter than #1e1e24 */
+  --card-primary: #25252e;     /* soft charcoal */
+  --text-primary: #e0e0e5;     /* soft white */
+  --text-secondary: #b0b0b5;   /* muted secondary text */
+  --border-primary: #3c3c48;   /* subtle border */
 
-  --navbar-light: linear-gradient(135deg, #1a314f, #223f6b);
+  --navbar-light: linear-gradient(135deg, #182a45, #20355e);
 }
 
 /* ================= GLOBAL RESET ================= */
@@ -72,7 +72,7 @@ h3 { font-size: var(--text-lg); font-weight: 600; margin-bottom: var(--space-2);
 h4 { font-size: var(--text-md); font-weight: 600; margin-bottom: var(--space-1); }
 h5, h6 { font-size: var(--text-base); font-weight: 600; margin-bottom: var(--space-1); }
 p { margin-bottom: var(--space-3); line-height: 1.6; }
-small { font-size: var(--text-sm); }
+small { font-size: var(--text-sm); color: var(--text-secondary); }
 
 /* ================= CONTAINERS ================= */
 .container {
@@ -116,26 +116,27 @@ small { font-size: var(--text-sm); }
 }
 
 .btn-primary {
-  background: #ff9f1c;
+  background: var(--highlight);
   color: white;
 }
 .btn-primary:hover {
-  background: #e68a1a;
+  background: #c68518;
 }
 
 .btn-outline-primary {
-  border: 1px solid #ff9f1c;
-  color: #ff9f1c;
+  border: 1px solid var(--highlight);
+  color: var(--highlight);
   background: transparent;
 }
 .btn-outline-primary:hover {
-  background: #ff9f1c;
+  background: var(--highlight);
   color: white;
 }
 
 /* ================= LINKS ================= */
 a {
   color: var(--warm-blue-accent);
+  transition: color 0.2s;
 }
 a:hover {
   color: var(--warm-blue-hover);
@@ -164,6 +165,7 @@ a:hover {
   font-weight: 500;
   margin-bottom: var(--space-1);
   display: block;
+  color: var(--text-secondary);
 }
 
 /* ================= CARDS ================= */
@@ -180,8 +182,8 @@ a:hover {
   font-weight: 600;
   margin-bottom: var(--space-2);
 }
-.card-subtitle { font-size: var(--text-md); }
-.card-text { font-size: var(--text-base); }
+.card-subtitle { font-size: var(--text-md); color: var(--text-secondary); }
+.card-text { font-size: var(--text-base); color: var(--text-primary); }
 
 /* ================= TABLES ================= */
 table {

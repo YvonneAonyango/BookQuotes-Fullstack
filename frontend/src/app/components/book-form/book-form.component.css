@@ -1,273 +1,73 @@
-/* ===== HOST CONTAINER ===== */
-:host {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  padding: 2rem 1rem;
-  box-sizing: border-box;
+/* ---------- MODAL OVERLAY ---------- */
+.books-content::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  display: none;
 }
 
-body.dark-mode :host {
-  background-color: #121212;
+.showFormModal .books-content::before {
+  display: block;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* ===== FORM CONTAINER ===== */
-.form-container {
-  width: 100%;
+/* ---------- MODAL FORM CONTAINER ---------- */
+app-book-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  width: 90%;
   max-width: 500px;
-  margin: 0 auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  animation: modalSlideIn 0.4s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  border: 1px solid var(--card-border);
+  background-color: var(--card-bg);
 }
 
-/* ===== CARD ===== */
-.card {
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  border: none;
-  overflow: hidden;
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-body.dark-mode .card {
-  background-color: #1e1e1e;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
-/* ===== CARD HEADER ===== */
-.card-header {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  color: white;
-  border-bottom: none;
-  padding: 1.5rem;
-  text-align: center;
-}
-
-body.dark-mode .card-header {
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-}
-
-.card-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-/* ===== CARD BODY ===== */
-.card-body {
-  padding: 2rem;
-}
-
-/* ===== FORM CONTROLS ===== */
-.form-control {
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  padding: 0.75rem;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-}
-
-body.dark-mode .form-control {
-  background-color: #2d3748;
-  border-color: #4a5568;
-  color: #e2e8f0;
-}
-
-.form-control-lg {
-  padding: 0.875rem 1rem;
-}
-
-.form-control:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  outline: none;
-}
-
-body.dark-mode .form-control:focus {
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-}
-
-/* ===== LABELS ===== */
-.form-label {
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-body.dark-mode .form-label {
-  color: #e5e7eb;
-}
-
-/* ===== BUTTONS ===== */
-.btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border: none;
-}
-
-.btn i {
-  font-size: 1rem;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.btn-outline-secondary {
-  background-color: transparent;
-  border: 1px solid #d1d5db;
-  color: #6b7280;
-}
-
-.btn-outline-secondary:hover:not(:disabled) {
-  background-color: #f9fafb;
-  border-color: #9ca3af;
-}
-
-body.dark-mode .btn-outline-secondary {
-  border-color: #4b5563;
-  color: #d1d5db;
-}
-
-body.dark-mode .btn-outline-secondary:hover:not(:disabled) {
-  background-color: #374151;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none !important;
-}
-
-/* ===== BUTTON GROUP ===== */
-.button-group {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.button-group .btn {
-  flex: 1;
-  padding: 0.875rem;
-}
-
-/* ===== ALERTS ===== */
-.alert {
-  border-radius: 8px;
-  border: none;
-  padding: 1rem 1.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.alert-danger {
-  background-color: #fee2e2;
-  color: #991b1b;
-}
-
-body.dark-mode .alert-danger {
-  background-color: #7f1d1d;
-  color: #fecaca;
-}
-
-/* ===== FORM GROUPS ===== */
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-/* ===== INVALID/VALID STATES ===== */
-.is-invalid {
-  border-color: #ef4444 !important;
-}
-
-.is-valid {
-  border-color: #10b981 !important;
-}
-
-.invalid-feedback {
-  color: #ef4444;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-body.dark-mode .invalid-feedback {
-  color: #fca5a5;
-}
-
-/* ===== SMALL TEXT ===== */
-.text-muted {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-body.dark-mode .text-muted {
-  color: #9ca3af;
-}
-
-/* ===== SPINNER ===== */
-.spinner-border {
-  width: 1rem;
-  height: 1rem;
-  border-width: 0.15em;
-}
-
-/* ===== RESPONSIVE ===== */
+/* ---------- MOBILE RESPONSIVE ---------- */
 @media (max-width: 768px) {
-  :host {
-    padding: 1rem;
-    align-items: center;
-  }
-  
-  .form-container {
-    max-width: 100%;
-  }
-  
-  .card-body {
-    padding: 1.5rem;
-  }
-  
-  .button-group {
-    flex-direction: column;
-  }
-  
-  .button-group .btn {
-    width: 100%;
+  app-book-form {
+    width: 95%;
+    max-height: 85vh;
   }
 }
 
 @media (max-width: 576px) {
-  .card-body {
-    padding: 1.25rem;
+  app-book-form {
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    top: 0;
+    left: 0;
+    transform: none;
+    animation: mobileModalSlideIn 0.3s ease-out;
   }
-  
-  .card-header {
-    padding: 1.25rem;
-  }
-  
-  .card-header h2 {
-    font-size: 1.25rem;
-  }
-  
-  .form-control-lg {
-    padding: 0.75rem;
-  }
+}
+
+@keyframes mobileModalSlideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
