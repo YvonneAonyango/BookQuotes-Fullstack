@@ -1,135 +1,68 @@
-<!-- Navigation Bar -->
-<nav class="navbar">
+<nav class="navbar" [class.dark-mode]="isDarkMode">
   <div class="navbar-container">
-    <!-- Left side: Logo and Links -->
-    <div class="navbar-left">
-      <a href="/" class="navbar-brand">
-        <i class="bi bi-house-door navbar-brand-logo"></i>
-        BookWebApp
-      </a>
-      <div class="navbar-links">
-        <a href="/" class="nav-link" routerLink="/" routerLinkActive="active">
-          <i class="bi bi-house-door me-1"></i>Home
+    <!-- Brand -->
+    <a routerLink="/" class="navbar-brand">
+      <span class="home-icon">🏠</span>
+      <span>{{ 'brand' | translate }}</span>
+    </a>
+
+    <!-- Mobile Toggle - Fixed Hamburger -->
+    <button class="navbar-toggle" (click)="toggleMenu()" [attr.aria-expanded]="!isCollapsed">
+      <span class="toggle-icon"></span>
+      <span class="toggle-icon"></span>
+      <span class="toggle-icon"></span>
+    </button>
+
+    <!-- Menu -->
+    <div class="navbar-menu" [class.active]="!isCollapsed">
+      <!-- Links -->
+      <div class="nav-links">
+        <a class="nav-link" routerLink="/books" routerLinkActive="active" (click)="isCollapsed = true">
+          {{ 'books' | translate }}
         </a>
-        <a href="/quotes" class="nav-link" routerLink="/quotes" routerLinkActive="active">
-          <i class="bi bi-chat-quote me-1"></i>Quotes
+        <a class="nav-link" routerLink="/quotes" routerLinkActive="active" (click)="isCollapsed = true">
+          {{ 'quotes' | translate }}
         </a>
-        <a href="/books" class="nav-link" routerLink="/books" routerLinkActive="active">
-          <i class="bi bi-book me-1"></i>Books
+        <!-- Conditional Dashboard Link - Fixed -->
+        <a *ngIf="authService.isAdmin()" class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active" (click)="isCollapsed = true">
+          {{ 'adminDashboard' | translate }}
         </a>
       </div>
-    </div>
 
-    <!-- Right side: Language, Theme, Auth -->
-    <div class="navbar-right">
-      <!-- Language Selector -->
-      <div class="language-selector">
-        <button (click)="switchLanguage('en')" [class.active]="currentLang === 'en'">
-          <span class="flag-icon">🇬🇧</span>
+      <!-- Controls -->
+      <div class="navbar-controls">
+        <!-- Language -->
+        <div class="dropdown">
+          <button class="dropdown-toggle" (click)="toggleDropdown()">
+            {{ currentFlag }} {{ currentLanguage.toUpperCase() }}
+          </button>
+          <div class="dropdown-menu" [class.show]="showDropdown">
+            <button class="dropdown-item" (click)="switchLanguage('en')">🇬🇧 English</button>
+            <button class="dropdown-item" (click)="switchLanguage('sv')">🇸🇪 Swedish</button>
+          </div>
+        </div>
+
+        <!-- Theme -->
+        <button class="theme-btn" (click)="toggleDarkMode()">
+          {{ isDarkMode ? '☀️' : '🌙' }}
         </button>
-        <button (click)="switchLanguage('sv')" [class.active]="currentLang === 'sv'">
-          <span class="flag-icon">🇸🇪</span>
-        </button>
-      </div>
 
-      <!-- Theme Toggle -->
-      <button class="theme-toggle" (click)="toggleTheme()">
-        <i class="bi" [class.bi-moon]="!isDarkMode" [class.bi-sun]="isDarkMode"></i>
-      </button>
+        <!-- Auth -->
+        <ng-container *ngIf="!authService.isAuthenticated(); else loggedIn">
+          <a class="btn btn-login" routerLink="/login" (click)="isCollapsed = true">
+            {{ 'login' | translate }}
+          </a>
+          <a class="btn btn-register" routerLink="/register" (click)="isCollapsed = true">
+            {{ 'register' | translate }}
+          </a>
+        </ng-container>
 
-      <!-- Auth Buttons -->
-      <div class="auth-buttons" *ngIf="!isLoggedIn()">
-        <a href="/login" class="btn-login">
-          <i class="bi bi-box-arrow-in-right me-1"></i>Login
-        </a>
-        <a href="/register" class="btn-register">
-          <i class="bi bi-person-plus me-1"></i>Register
-        </a>
-      </div>
-
-      <!-- User Menu (when logged in) -->
-      <div class="user-menu" *ngIf="isLoggedIn()">
-        <!-- Add user menu here -->
+        <ng-template #loggedIn>
+          <button class="btn btn-logout" (click)="logout()">
+            {{ 'logout' | translate }}
+          </button>
+        </ng-template>
       </div>
     </div>
   </div>
 </nav>
-
-<!-- Books Page Content -->
-<div class="books-page">
-  <div class="content-container">
-    <!-- Page Header -->
-    <div class="page-header">
-      <div class="header-content">
-        <h1>{{ 'myBooks' | translate }}</h1>
-        <p class="lead">{{ 'manageBookCollection' | translate }}</p>
-      </div>
-
-      <button class="btn-add-book" (click)="addBook()">
-        <i class="bi bi-plus-circle me-1"></i>{{ 'addNewBook' | translate }}
-      </button>
-    </div>
-
-    <!-- Rest of your books content... -->
-    <!-- Error Alert -->
-    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-      {{ errorMessage }}
-      <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
-    </div>
-
-    <!-- Loading -->
-    <div *ngIf="isLoading" class="loading-state">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">{{ 'loading' | translate }}</span>
-      </div>
-      <p>{{ 'loadingBooks' | translate }}</p>
-    </div>
-
-    <!-- Books Grid -->
-    <div class="books-grid">
-      <div *ngFor="let book of books" class="book-card">
-        <div class="book-card-header">
-          <i class="bi bi-book book-icon"></i>
-        </div>
-
-        <div class="book-card-body">
-          <h5 class="book-title">{{ book.title }}</h5>
-          <p class="book-author" *ngIf="book.author">
-            <i class="bi bi-person me-1"></i>{{ 'by' | translate }} {{ book.author }}
-          </p>
-          <div class="book-meta">
-            <small *ngIf="book.publishDate">
-              <i class="bi bi-calendar me-1"></i>{{ formatDate(book.publishDate) }}
-            </small>
-            <small *ngIf="book.quotes && book.quotes.length > 0">
-              <i class="bi bi-chat-quote me-1"></i>{{ book.quotes.length }} {{ book.quotes.length === 1 ? 'quote' : 'quotes' }}
-            </small>
-            <small *ngIf="book.quotes && book.quotes.length === 0" class="text-muted">
-              <i class="bi bi-chat-quote me-1"></i>0 quotes
-            </small>
-            <small *ngIf="!book.quotes" class="text-muted">
-              <i class="bi bi-chat-quote me-1"></i>No quotes
-            </small>
-          </div>
-        </div>
-
-        <div class="book-card-footer">
-          <button class="btn btn-edit" (click)="editBook(book.id!)">
-            <i class="bi bi-pencil"></i> {{ 'editItem' | translate }}
-          </button>
-          <button class="btn btn-delete" (click)="deleteBook(book.id!)">
-            <i class="bi bi-trash"></i> {{ 'deleteItem' | translate }}
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Book Form Panel -->
-    <app-book-form
-      *ngIf="showFormModal"
-      [book]="editingBook"
-      [isEdit]="isEditMode"
-      (close)="closeForm($event)">
-    </app-book-form>
-  </div>
-</div>
