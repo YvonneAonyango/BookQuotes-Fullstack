@@ -18,7 +18,7 @@ export class AdminLoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService, // public now
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -55,6 +55,10 @@ export class AdminLoginComponent {
         this.errorMessage = err.error?.message || err.message || 'Admin login failed';
       }
     });
+  }
+
+  onInputChange(): void {
+    if (this.errorMessage) this.errorMessage = '';
   }
 
   hasError(controlName: string, errorName: string): boolean {
