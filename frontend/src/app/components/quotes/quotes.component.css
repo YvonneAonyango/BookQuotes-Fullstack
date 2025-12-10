@@ -1,10 +1,10 @@
 /* === THEME VARIABLES === */
 :root {
-  --bg-page: rgba(248, 250, 252, 0.98);
+  --bg-page: rgba(248,250,252,0.98);
   --text-primary: #0f172a;
   --text-secondary: #334155;
-  --card-bg: rgba(255, 255, 255, 1);
-  --card-border: rgba(0, 0, 0, 0.12);
+  --card-bg: rgba(255,255,255,1);
+  --card-border: rgba(0,0,0,0.12);
 
   --btn-primary-bg: #1e40af;
   --btn-primary-hover: #1d4ed8;
@@ -13,7 +13,7 @@
   --btn-delete-bg: #0ff;
   --btn-delete-hover: #0cc;
 
-  --badge-burnt-orange: rgba(255, 87, 34, 0.2);
+  --badge-burnt-orange: rgba(255,87,34,0.2);
   --badge-text: #ff5722;
 
   --alert-danger-bg: #fee2e2;
@@ -63,14 +63,12 @@
   gap: 0.25rem;
   margin-bottom: 2rem;
 }
-
 .page-header h1 {
   font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 800;
   margin: 0;
   line-height: 1.2;
 }
-
 .page-header .lead {
   font-size: clamp(1rem,2vw,1.3rem);
   font-weight: 500;
@@ -117,7 +115,9 @@
   flex-direction: column;
   gap: 0.35rem;
 }
-.quote-form label { font-weight: 600; }
+.quote-form label {
+  font-weight: 600;
+}
 .quote-form textarea,
 .quote-form input,
 .quote-form select {
@@ -130,13 +130,26 @@
   width: 100%;
   box-sizing: border-box;
 }
-.quote-form textarea { min-height: 100px; resize: vertical; }
+.quote-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Guidance Text */
 .form-guidance {
   font-size: 0.8rem;
-  color: #f97316;
+  color: #f97316; /* default instruction color */
   margin-top: 0.25rem;
 }
-.dark-mode .form-guidance { color: #fb923c; }
+.form-guidance.valid {
+  color: #10b981; /* green when valid */
+}
+.dark-mode .form-guidance {
+  color: #fb923c;
+}
+.dark-mode .form-guidance.valid {
+  color: #34d399;
+}
 
 /* Form Buttons */
 .quote-form .form-buttons {
@@ -153,8 +166,13 @@
   cursor: pointer;
   min-width: 100px;
 }
-.btn-primary { background-color: var(--btn-primary-bg); color: #fff; }
-.btn-primary:hover { background-color: var(--btn-primary-hover); }
+.btn-primary {
+  background-color: var(--btn-primary-bg);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: var(--btn-primary-hover);
+}
 
 /* === QUOTES GRID === */
 .quotes-grid {
@@ -210,12 +228,17 @@
 }
 
 /* Edit/Delete Buttons Neon */
-.btn-edit, .btn-delete {
+.btn-edit,
+.btn-delete {
   background-color: var(--btn-edit-bg);
   color: #000;
   font-weight: 600;
 }
-.btn-edit:hover, .btn-delete:hover { background-color: var(--btn-edit-hover); color: #fff; }
+.btn-edit:hover,
+.btn-delete:hover {
+  background-color: var(--btn-edit-hover);
+  color: #fff;
+}
 
 /* Count Badge */
 .count-badge {
@@ -232,41 +255,77 @@
   font-weight: 600;
 }
 
-/* === RESPONSIVE BREAKPOINTS === */
+/* === RESPONSIVE SHORT BLOCKS === */
 
 /* Large desktops */
-@media(max-width:1200px){
-  .quotes-grid { grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+@media (max-width: 1200px) {
+  .quotes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  }
 }
 
 /* Medium screens */
-@media(max-width:992px){
-  .quotes-page { padding: 1.5rem; }
-  .quote-form .card { padding: 1rem; }
-  .quotes-grid { grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); }
+@media (max-width: 992px) {
+  .quotes-page {
+    padding: 1.5rem;
+  }
+  .quote-form .card {
+    padding: 1rem;
+  }
+  .quotes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  }
 }
 
 /* Tablets */
-@media(max-width:768px){
-  .quotes-page { padding: 1rem; }
-  .quote-form .card { padding: 0.9rem; }
-  .quotes-grid { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
-  .page-header h1 { font-size: 1.75rem; }
-  .page-header .lead { font-size: 1rem; }
+@media (max-width: 768px) {
+  .quotes-page {
+    padding: 1rem;
+  }
+  .quote-form .card {
+    padding: 0.9rem;
+  }
+  .quotes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  }
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+  .page-header .lead {
+    font-size: 1rem;
+  }
 }
 
 /* Small mobiles */
-@media(max-width:480px){
-  .quote-card { padding: 0.85rem; }
-  .quote-footer { font-size: 0.75rem; }
-  .quote-card-footer button { padding: 0.35rem 0.45rem; font-size: 0.7rem; }
-  .page-header h1 { font-size: 1.5rem; }
-  .page-header .lead { font-size: 0.95rem; }
+@media (max-width: 480px) {
+  .quote-card {
+    padding: 0.85rem;
+  }
+  .quote-footer {
+    font-size: 0.75rem;
+  }
+  .quote-card-footer button {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.7rem;
+  }
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  .page-header .lead {
+    font-size: 0.95rem;
+  }
 }
 
 /* Extra small mobiles */
-@media(max-width:360px){
-  .quotes-page { padding: 0.8rem; }
-  .quotes-grid { gap: 1rem; }
-  .quote-form .form-buttons { flex-direction: column; gap: 0.5rem; }
+@media (max-width: 360px) {
+  .quotes-page {
+    padding: 0.8rem;
+  }
+  .quotes-grid {
+    gap: 1rem;
+  }
+  .quote-form .form-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

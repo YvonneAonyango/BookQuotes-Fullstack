@@ -26,7 +26,10 @@
               <textarea formControlName="text" rows="4"
                 placeholder="{{ 'enterQuoteText' | translate }}"
                 [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched"></textarea>
-              <small class="form-guidance">{{ 'quoteStartCapital' | translate }}</small>
+              <small class="form-guidance" 
+                     [class.valid]="quoteForm.get('text')?.valid && quoteForm.get('text')?.touched">
+                     {{ 'quoteStartCapital' | translate }}
+              </small>
               <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required']">
                 {{ 'quoteRequired' | translate }}
               </div>
@@ -37,7 +40,10 @@
               <input type="text" formControlName="author"
                 placeholder="{{ 'enterAuthor' | translate }}"
                 [class.is-invalid]="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
-              <small class="form-guidance">{{ 'authorStartCapital' | translate }}</small>
+              <small class="form-guidance"
+                     [class.valid]="quoteForm.get('author')?.valid && quoteForm.get('author')?.touched">
+                     {{ 'authorStartCapital' | translate }}
+              </small>
               <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required']">
                 {{ 'authorRequired' | translate }}
               </div>
