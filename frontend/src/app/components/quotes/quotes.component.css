@@ -121,15 +121,22 @@
   color: var(--text-secondary);
 }
 
-/* ---------- QUOTE FORM CARD ---------- */
+/* ---------- QUOTE FORM CARD (HIGHLIGHTED) ---------- */
 .quote-form .card {
-  background: var(--card-bg);
+  background: rgba(255, 223, 128, 0.3); /* soft transparent yellow */
+  border: 1px solid rgba(255, 193, 127, 0.5); /* subtle orange border */
+  box-shadow: 0 4px 12px rgba(255, 193, 127, 0.25); /* soft orange shadow */
   padding: 1.5rem;
   border-radius: 16px;
-  border: 1px solid var(--card-border);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.quote-form .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 193, 127, 0.35);
 }
 
 .quote-form .card-header h5 {

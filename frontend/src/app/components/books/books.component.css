@@ -20,13 +20,15 @@
   --book-author-icon: #2563eb;
   --page-border: rgba(0, 0, 0, 0.15);
   --modal-overlay: rgba(0, 0, 0, 0.55);
+  --quote-form-bg: rgba(255, 140, 0, 0.15); /* semi-transparent burnt orange */
+  --quote-form-border: rgba(255, 140, 0, 0.3);
 }
 
 .dark-mode {
-  --bg-page: #1f1f1f; /* dark background */
-  --text-primary: #f8fafc; /* light text */
-  --text-secondary: #cbd5e1; /* soft secondary text */
-  --card-bg: #2a2a2a; /* dark card background */
+  --bg-page: #1f1f1f;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --card-bg: #2a2a2a;
   --card-border: rgba(255, 255, 255, 0.2);
   --card-header-bg: #fbbf24;
   --card-header-bg-alt: #f59e0b;
@@ -43,6 +45,8 @@
   --book-author-icon: #60a5fa;
   --page-border: rgba(255, 255, 255, 0.25);
   --modal-overlay: rgba(0, 0, 0, 0.75);
+  --quote-form-bg: rgba(255, 140, 0, 0.1); /* slightly darker for dark mode */
+  --quote-form-border: rgba(255, 140, 0, 0.25);
 }
 
 /* ---------- GLOBAL PAGE ---------- */
@@ -208,4 +212,18 @@
 
 .btn-delete:hover {
   background-color: var(--btn-delete-hover);
+}
+
+/* ---------- QUOTE FORM HIGHLIGHT ---------- */
+.quote-form .card {
+  background-color: var(--quote-form-bg);
+  border: 1px solid var(--quote-form-border);
+  padding: 1.5rem;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.quote-form .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 140, 0, 0.25);
 }
