@@ -48,10 +48,7 @@ export class QuotesComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Quotes');
     this.translate.get('quoteCollectionDesc').subscribe(translated => {
-      this.meta.updateTag({
-        name: 'description',
-        content: translated || 'Save and manage your favorite quotes from books.'
-      });
+      this.meta.updateTag({ name: 'description', content: translated || 'Save and manage your favorite quotes from books.' });
     });
 
     this.loadQuotes();
@@ -62,19 +59,8 @@ export class QuotesComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
     this.quoteService.getQuotes().subscribe({
-      next: (quotes: Quote[]) => {
-        console.log('Loaded quotes:', quotes); // Debug
-        if (quotes.length > 0) {
-          console.log('First quote properties:', Object.keys(quotes[0]));
-        }
-        this.quotes = quotes;
-        this.isLoading = false;
-      },
-      error: (err: any) => {
-        console.error('Error loading quotes:', err);
-        this.errorMessage = this.translate.instant('failedLoadQuotes') || 'Failed to load quotes.';
-        this.isLoading = false;
-      }
+      next: quotes => { this.quotes = quotes; this.isLoading = false; },
+      error: () => { this.errorMessage = this.translate.instant('failedLoadQuotes') || 'Failed to load quotes.'; this.isLoading = false; }
     });
   }
 
@@ -98,91 +84,46 @@ export class QuotesComponent implements OnInit {
   editQuote(id: number): void {
     const quote = this.quotes.find(q => q.id === id);
     if (!quote) return;
-
     this.isEdit = true;
     this.editingQuoteId = quote.id;
-
-    // Check what properties exist
-    console.log('Editing quote:', quote);
-    
     this.quoteForm.patchValue({
       text: quote.text || '',
       author: quote.author || '',
-      bookId: quote.bookId || null
+      bookId: quote.bookId ?? null
     });
-
     document.querySelector('.quote-form')?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  deleteQuote(id: number | undefined): void {
-    if (!id) return;
-    if (!this.isLoggedIn()) {
-      alert(this.translate.instant('loginRequired'));
-      return;
-    }
-
+  deleteQuote(id?: number): void {
+    if (!id || !this.isLoggedIn()) return;
     this.translate.get('confirmDeleteQuote').subscribe(msg => {
       if (!confirm(msg || 'Are you sure you want to delete this quote?')) return;
-
       this.quoteService.deleteQuote(id).subscribe({
-        next: () => {
-          this.quotes = this.quotes.filter(q => q.id !== id);
-          if (this.selectedQuote?.id === id) this.selectedQuote = undefined;
-        },
-        error: err => {
-          console.error('Error deleting quote:', err);
-          alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.');
-        }
+        next: () => { this.quotes = this.quotes.filter(q => q.id !== id); if (this.selectedQuote?.id === id) this.selectedQuote = undefined; },
+        error: () => alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.')
       });
     });
   }
 
   onSubmit(): void {
-    if (!this.quoteForm.valid) return;
-
-    if (!this.isLoggedIn()) {
-      alert(this.translate.instant('loginRequired'));
-      return;
-    }
-
+    if (!this.quoteForm.valid || !this.isLoggedIn()) return;
     this.isLoading = true;
     const formValue = this.quoteForm.value;
-
-    // Remove the capital letter requirement - let users type naturally
     const quoteData: Quote = {
       text: formValue.text.trim(),
       author: formValue.author.trim(),
-      bookId: formValue.bookId || null
+      bookId: formValue.bookId ?? null
     };
-
-    console.log('Submitting quote:', quoteData);
 
     if (this.isEdit && this.editingQuoteId) {
       this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
-        next: updated => {
-          const index = this.quotes.findIndex(q => q.id === this.editingQuoteId);
-          if (index !== -1) this.quotes[index] = updated;
-          this.resetForm();
-          this.isLoading = false;
-        },
-        error: err => {
-          console.error('Error updating quote:', err);
-          this.errorMessage = this.translate.instant('failedUpdateQuote') || 'Failed to update quote.';
-          this.isLoading = false;
-        }
+        next: updated => { const index = this.quotes.findIndex(q => q.id === this.editingQuoteId); if (index !== -1) this.quotes[index] = updated; this.resetForm(); this.isLoading = false; },
+        error: () => { this.errorMessage = this.translate.instant('failedUpdateQuote') || 'Failed to update quote.'; this.isLoading = false; }
       });
     } else {
       this.quoteService.createQuote(quoteData).subscribe({
-        next: newQuote => {
-          this.quotes.unshift(newQuote);
-          this.resetForm();
-          this.isLoading = false;
-        },
-        error: err => {
-          console.error('Error creating quote:', err);
-          this.errorMessage = this.translate.instant('failedCreateQuote') || 'Failed to create quote.';
-          this.isLoading = false;
-        }
+        next: newQuote => { this.quotes.unshift(newQuote); this.resetForm(); this.isLoading = false; },
+        error: () => { this.errorMessage = this.translate.instant('failedCreateQuote') || 'Failed to create quote.'; this.isLoading = false; }
       });
     }
   }
@@ -197,7 +138,6 @@ export class QuotesComponent implements OnInit {
     this.editingQuoteId = undefined;
   }
 
-  // CHANGED: Made this method public instead of private
   public isLoggedIn(): boolean {
     return this.auth.isAuthenticated();
   }
