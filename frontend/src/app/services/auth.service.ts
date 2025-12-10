@@ -104,7 +104,7 @@ export class AuthService {
     if (!res) return;
     localStorage.setItem('authToken', res.token);
     localStorage.setItem('username', res.username);
-    localStorage.setItem('role', res.role.toLowerCase());
+    localStorage.setItem('role', res.role.toLowerCase()); // ensure lowercase for AdminGuard
     localStorage.setItem('userId', res.userId?.toString() ?? '0');
   }
 }
