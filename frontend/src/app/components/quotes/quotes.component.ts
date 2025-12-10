@@ -31,7 +31,7 @@ export class QuotesComponent implements OnInit {
   private meta = inject(Meta);
   private titleService = inject(Title);
   private translate = inject(TranslateService);
-  private auth = inject(AuthService); // ADDED
+  private auth = inject(AuthService);
 
   constructor(
     private quoteService: QuoteService,
@@ -63,6 +63,10 @@ export class QuotesComponent implements OnInit {
     this.errorMessage = '';
     this.quoteService.getQuotes().subscribe({
       next: (quotes: Quote[]) => {
+        console.log('Loaded quotes:', quotes); // Debug
+        if (quotes.length > 0) {
+          console.log('First quote properties:', Object.keys(quotes[0]));
+        }
         this.quotes = quotes;
         this.isLoading = false;
       },
@@ -98,9 +102,12 @@ export class QuotesComponent implements OnInit {
     this.isEdit = true;
     this.editingQuoteId = quote.id;
 
+    // Check what properties exist
+    console.log('Editing quote:', quote);
+    
     this.quoteForm.patchValue({
-      text: quote.text,
-      author: quote.author,
+      text: quote.text || '',
+      author: quote.author || '',
       bookId: quote.bookId || null
     });
 
@@ -141,12 +148,14 @@ export class QuotesComponent implements OnInit {
     this.isLoading = true;
     const formValue = this.quoteForm.value;
 
+    // Remove the capital letter requirement - let users type naturally
     const quoteData: Quote = {
-      text: formValue.text,
-      author: formValue.author,
-      bookId: formValue.bookId || null,
-      userId: this.auth.getCurrentUserId()!
+      text: formValue.text.trim(),
+      author: formValue.author.trim(),
+      bookId: formValue.bookId || null
     };
+
+    console.log('Submitting quote:', quoteData);
 
     if (this.isEdit && this.editingQuoteId) {
       this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
@@ -189,6 +198,6 @@ export class QuotesComponent implements OnInit {
   }
 
   private isLoggedIn(): boolean {
-    return this.auth.isAuthenticated(); //  Use AuthService
+    return this.auth.isAuthenticated();
   }
 }

@@ -8,6 +8,7 @@
   "quoteCollectionDesc": "Save and manage your favorite quotes from books.",
   "trackYourReadingHabits": "Track your reading habits and discover patterns in your literary journey.",
   "yourPersonalLibraryReimagined": "Your personal library, reimagined",
+  
   "myQuotes": "My Quotes",
   "allQuotes": "All Quotes",
   "alreadyHaveAccount": "Already have an account?",
@@ -15,8 +16,12 @@
   "curateYourBooks": "Curate your books",
   "captureQuotes": "Capture quotes",
   "unlockInsights": "Unlock insights",
-  "quoteStartCapital": "Start with a capital letter.",
-  "authorStartCapital": "Start each name with a capital letter.",
+  "quoteTextHint": "Enter the full quote text",
+  "authorHint": "Name of the person who said/wrote this",
+  "bookHint": "Optional: Associate this quote with a book",
+  "quoteTooShort": "Quote must be at least 10 characters",
+  "edit": "Edit",
+  "delete": "Delete",
 
   "whatBookWebAppOffers": "What BookWebApp Offers",
   "transformYourReadingExperience": "Transform your reading experience with our powerful features",
