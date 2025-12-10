@@ -47,7 +47,7 @@ export class AdminBooksComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    // ✅ Corrected endpoint
+    
     this.http.get<Book[]>(`${environment.apiUrl}/admin/books`, { headers })
       .subscribe({
         next: (books) => { this.books = books; this.isLoading = false; },
@@ -71,7 +71,7 @@ export class AdminBooksComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    // ✅ Corrected endpoint
+    
     this.http.delete<void>(`${environment.apiUrl}/admin/books/${id}`, { headers })
       .subscribe({
         next: () => this.books = this.books.filter(b => b.id !== id),

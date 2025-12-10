@@ -12,8 +12,6 @@
   --btn-edit-hover: #00e5ff;
   --btn-delete-bg: #00ffff;
   --btn-delete-hover: #00e5ff;
-  --btn-cancel-bg: #ff6f3c; /* neon burnt orange */
-  --btn-cancel-hover: #ff8566;
 
   --alert-danger-bg: #fee2e2;
   --alert-danger-border: #f87171;
@@ -35,8 +33,6 @@
   --btn-edit-hover: #00e5ff;
   --btn-delete-bg: #00ffff;
   --btn-delete-hover: #00e5ff;
-  --btn-cancel-bg: #ff6f3c;
-  --btn-cancel-hover: #ff8566;
 }
 
 /* === PAGE LAYOUT === */
@@ -127,15 +123,17 @@
   resize: vertical;
 }
 
-/* Small Neon "Add Quote" button */
+/* Form Buttons */
 .quote-form .form-buttons {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  margin-top: 0.75rem; /* lowered to avoid overlapping */
+  margin-top: 0.75rem;
 }
+
+/* Add / Update Button */
 .quote-form .form-buttons button[type="submit"] {
-  background-color: var(--btn-primary-bg);
+  background-color: #00ffff;
   color: #001f33;
   font-weight: 600;
   font-size: 0.85rem;
@@ -147,13 +145,13 @@
   box-shadow: 0 0 6px #00ffff, 0 0 12px #00ffff;
 }
 .quote-form .form-buttons button[type="submit"]:hover {
-  background-color: var(--btn-primary-hover);
+  background-color: #00e5ff;
   box-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
 }
 
-/* Cancel button styling */
-.quote-form .form-buttons button[type="button"] {
-  background-color: var(--btn-cancel-bg);
+/* Cancel Button */
+.quote-form .form-buttons .btn-cancel {
+  background-color: #ff6f3c; /* neon burnt orange */
   color: #fff;
   font-weight: 600;
   font-size: 0.85rem;
@@ -161,12 +159,11 @@
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  flex: 0 0 auto;
-  box-shadow: 0 0 6px var(--btn-cancel-bg), 0 0 12px var(--btn-cancel-bg);
+  box-shadow: 0 0 6px #ff6f3c, 0 0 12px #ff6f3c;
 }
-.quote-form .form-buttons button[type="button"]:hover {
-  background-color: var(--btn-cancel-hover);
-  box-shadow: 0 0 8px var(--btn-cancel-bg), 0 0 16px var(--btn-cancel-bg);
+.quote-form .form-buttons .btn-cancel:hover {
+  background-color: #ff8566;
+  box-shadow: 0 0 8px #ff6f3c, 0 0 16px #ff6f3c;
 }
 
 /* === QUOTES GRID - bookshelf style === */
@@ -179,17 +176,17 @@
   box-sizing: border-box;
 }
 
-/* === QUOTE CARD (same size as book cards) === */
+/* === QUOTE CARD === */
 .quote-card {
-  background: rgba(64,224,208,0.2); /* transparent turquoise */
+  background: rgba(64,224,208,0.2);
   border-radius: 16px;
   border: 1px solid var(--card-border);
   display: flex;
   flex-direction: column;
   padding: 1rem;
   width: 100%;
-  max-width: 300px;         /* same as book cards */
-  min-height: 220px;        /* book card style height */
+  max-width: 300px;
+  min-height: 220px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: all 0.25s ease;
   box-sizing: border-box;
@@ -204,15 +201,11 @@
   flex: 1;
   overflow: hidden;
 }
-
-/* Footer info */
 .quote-footer {
   font-size: 0.75rem;
   color: var(--text-secondary);
   margin-top: 0.5rem;
 }
-
-/* Buttons same neon style */
 .quote-card-footer {
   display: flex;
   gap: 0.4rem;
@@ -223,13 +216,13 @@
   font-size: 0.75rem;
   border-radius: 6px;
   border: none;
-  background-color: var(--btn-primary-bg);
+  background-color: #00ffff;
   color: #001f33;
   cursor: pointer;
   font-weight: 600;
 }
 .quote-card-footer button:hover {
-  background-color: var(--btn-primary-hover);
+  background-color: #00e5ff;
 }
 
 /* === RESPONSIVE === */

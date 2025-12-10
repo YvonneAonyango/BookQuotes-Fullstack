@@ -5,9 +5,8 @@ import { tap, catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
-// --------------------------
+
 // AUTH MODELS
-// --------------------------
 export interface LoginRequest {
   username: string;
   password: string;
@@ -27,25 +26,18 @@ export interface AuthResponse {
   message?: string;
 }
 
-// --------------------------
 // AUTH SERVICE
-// --------------------------
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  // --------------------------
   // TOKEN & USER DATA
-  // --------------------------
   getToken(): string | null {
-    return localStorage.getItem('authToken'); // primary token
+    return localStorage.getItem('authToken'); 
   }
 
   getCurrentUserId(): number | null {
@@ -66,71 +58,46 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    const role = this.getCurrentRole();
-    const username = this.getCurrentUser();
-    return role === 'admin' || username === 'AngularAdmin';
+    return this.getCurrentRole() === 'admin';
   }
 
   hasRole(role: string): boolean {
-    return this.getCurrentRole() === role;
+    return this.getCurrentRole() === role.toLowerCase();
   }
 
-  // --------------------------
   // AUTH OPERATIONS
-  // --------------------------
   login(loginData: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, loginData, { withCredentials: true })
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, loginData)
       .pipe(
-        tap(response => this.storeAuthData(response)),
-        catchError(error => {
-          console.error('Login error:', error);
-          return throwError(() => error);
-        })
+        tap(res => this.storeAuthData(res)),
+        catchError(err => throwError(() => err))
       );
   }
 
+  //  ADMIN LOGIN
   adminLogin(loginData: LoginRequest): Observable<AuthResponse> {
-    if (loginData.username === 'AngularAdmin' && loginData.password === 'Admin123!') {
-      const adminResponse: AuthResponse = {
-        token: 'admin-token-' + Date.now(),
-        username: 'AngularAdmin',
-        role: 'admin',
-        userId: 0
-      };
-      this.storeAuthData(adminResponse);
-      return new Observable<AuthResponse>(observer => {
-        observer.next(adminResponse);
-        observer.complete();
-      });
-    }
-
-    return this.login(loginData)
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/admin/login`, loginData)
       .pipe(
-        map(response => {
-          if (response.role !== 'admin') throw new Error('Access denied. Admin privileges required.');
-          return response;
+        tap(res => {
+          if (res.role.toLowerCase() !== 'admin') {
+            throw new Error('Access denied. Admin privileges required.');
+          }
+          this.storeAuthData(res);
         }),
-        catchError(error => throwError(() => error))
+        catchError(err => throwError(() => err))
       );
   }
 
   register(registerData: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, registerData, { withCredentials: true })
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, registerData)
       .pipe(
-        tap(response => this.storeAuthData(response)),
-        catchError(error => {
-          console.error('Registration error:', error);
-          return throwError(() => error);
-        })
+        tap(res => this.storeAuthData(res)),
+        catchError(err => throwError(() => err))
       );
   }
 
   logout(): void {
-    try {
-      this.http.post(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true }).subscribe({ next: () => {}, error: () => {} });
-    } catch {}
     localStorage.removeItem('authToken');
-    localStorage.removeItem('token'); // fallback
     localStorage.removeItem('username');
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
@@ -141,10 +108,8 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return of(false);
 
-    return this.http.get<{ valid: boolean }>(`${this.apiUrl}/auth/validate`, {
-      headers: { 'Authorization': `Bearer ${token}` },
-      withCredentials: true
-    })
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    return this.http.post<{ valid: boolean }>(`${this.apiUrl}/auth/validate-token`, { token }, { headers })
       .pipe(
         map(res => res.valid),
         catchError(() => {
@@ -154,24 +119,42 @@ export class AuthService {
       );
   }
 
-  // --------------------------
+  getUserInfo(): Observable<AuthResponse | null> {
+    const token = this.getToken();
+    if (!token) return of(null);
+
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    return this.http.get<AuthResponse>(`${this.apiUrl}/auth/user-info`, { headers })
+      .pipe(catchError(() => of(null)));
+  }
+
   // ADMIN API HELPERS
-  // --------------------------
-  /** Generic GET for admin endpoints */
   adminGet<T>(endpoint: string): Observable<T> {
-    const token = this.getToken();
-    if (!token) throw new Error('Not authenticated. Please login.');
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.get<T>(`${this.apiUrl}/admin/${endpoint}`, { headers });
+    return this.requestWithToken<T>('GET', endpoint);
   }
 
-  /** Generic POST for admin endpoints */
   adminPost<T>(endpoint: string, body: any): Observable<T> {
+    return this.requestWithToken<T>('POST', endpoint, body);
+  }
+
+  adminPut<T>(endpoint: string, body: any): Observable<T> {
+    return this.requestWithToken<T>('PUT', endpoint, body);
+  }
+
+  adminDelete<T>(endpoint: string): Observable<T> {
+    return this.requestWithToken<T>('DELETE', endpoint);
+  }
+
+  // PRIVATE HELPER
+  private storeAuthData(res: AuthResponse): void {
+    if (!res) return;
+    localStorage.setItem('authToken', res.token);
+    localStorage.setItem('username', res.username);
+    localStorage.setItem('role', res.role.toLowerCase());
+    localStorage.setItem('userId', res.userId?.toString() ?? '0');
+  }
+
+  private requestWithToken<T>(method: string, endpoint: string, body?: any): Observable<T> {
     const token = this.getToken();
     if (!token) throw new Error('Not authenticated. Please login.');
 
@@ -180,18 +163,14 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post<T>(`${this.apiUrl}/admin/${endpoint}`, body, { headers });
-  }
+    const url = `${this.apiUrl}/admin/${endpoint}`;
 
-  // --------------------------
-  // PRIVATE HELPER
-  // --------------------------
-  private storeAuthData(response: AuthResponse): void {
-    if (!response) return;
-    localStorage.setItem('authToken', response.token);
-    localStorage.setItem('token', response.token); // fallback
-    localStorage.setItem('username', response.username);
-    localStorage.setItem('role', response.role || 'user');
-    localStorage.setItem('userId', response.userId?.toString() || '0');
+    switch (method) {
+      case 'GET': return this.http.get<T>(url, { headers });
+      case 'POST': return this.http.post<T>(url, body, { headers });
+      case 'PUT': return this.http.put<T>(url, body, { headers });
+      case 'DELETE': return this.http.delete<T>(url, { headers });
+      default: throw new Error('Invalid HTTP method');
+    }
   }
 }

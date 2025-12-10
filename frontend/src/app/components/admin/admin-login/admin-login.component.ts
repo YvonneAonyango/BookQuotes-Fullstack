@@ -18,56 +18,47 @@ export class AdminLoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    public authService: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
 
-    // Redirect if already logged in as admin
     if (this.authService.isAdmin()) {
       this.router.navigate(['/admin/dashboard']);
     }
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
-      this.isLoading = true;
-      this.errorMessage = '';
-
-      const loginData: LoginRequest = {
-        username: this.loginForm.get('username')?.value,
-        password: this.loginForm.get('password')?.value
-      };
-
-      this.authService.adminLogin(loginData).subscribe({
-        next: (response: AuthResponse) => {
-          this.isLoading = false;
-          if (response.role === 'admin' || response.username === 'AngularAdmin') {
-            this.router.navigate(['/admin/dashboard']);
-          } else {
-            this.errorMessage = 'Access denied. Admin privileges required.';
-            this.authService.logout();
-          }
-        },
-        error: (error: any) => {
-          this.isLoading = false;
-          this.errorMessage = error.error?.message || error.message || 'Admin login failed. Please check your credentials.';
-        }
-      });
-    } else {
+    if (!this.loginForm.valid) {
       this.loginForm.markAllAsTouched();
+      return;
     }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const loginData: LoginRequest = {
+      username: this.loginForm.value.username,
+      password: this.loginForm.value.password
+    };
+
+    this.authService.adminLogin(loginData).subscribe({
+      next: (response: AuthResponse) => {
+        this.isLoading = false;
+        this.router.navigate(['/admin/dashboard']);
+      },
+      error: (err: any) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.message || err.message || 'Admin login failed';
+      }
+    });
   }
 
   hasError(controlName: string, errorName: string): boolean {
     const control = this.loginForm.get(controlName);
     return control ? control.hasError(errorName) && control.touched : false;
-  }
-
-  onInputChange(): void {
-    if (this.errorMessage) this.errorMessage = '';
   }
 }
