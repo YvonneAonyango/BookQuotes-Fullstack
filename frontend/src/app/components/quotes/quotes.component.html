@@ -28,13 +28,13 @@
                 [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched"></textarea>
               <small class="form-guidance" 
                      [class.valid]="quoteForm.get('text')?.valid && quoteForm.get('text')?.touched">
-                     {{ 'quoteTextHint' | translate || 'Enter the full quote text' }}
+                     {{ ('quoteTextHint' | translate) ? ('quoteTextHint' | translate) : 'Enter the full quote text' }}
               </small>
               <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required']">
-                {{ 'quoteRequired' | translate || 'Quote text is required' }}
+                {{ ('quoteRequired' | translate) ? ('quoteRequired' | translate) : 'Quote text is required' }}
               </div>
               <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['minlength']">
-                {{ 'quoteTooShort' | translate || 'Quote must be at least 10 characters' }}
+                {{ ('quoteTooShort' | translate) ? ('quoteTooShort' | translate) : 'Quote must be at least 10 characters' }}
               </div>
             </div>
 
@@ -45,21 +45,21 @@
                 [class.is-invalid]="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
               <small class="form-guidance"
                      [class.valid]="quoteForm.get('author')?.valid && quoteForm.get('author')?.touched">
-                     {{ 'authorHint' | translate || 'Name of the person who said/wrote this' }}
+                     {{ ('authorHint' | translate) ? ('authorHint' | translate) : 'Name of the person who said/wrote this' }}
               </small>
               <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required']">
-                {{ 'authorRequired' | translate || 'Author name is required' }}
+                {{ ('authorRequired' | translate) ? ('authorRequired' | translate) : 'Author name is required' }}
               </div>
             </div>
 
             <div class="form-group">
               <label>{{ 'bookOptional' | translate }}</label>
               <select formControlName="bookId">
-                <option value="">{{ 'selectBook' | translate || 'Select a book (optional)' }}</option>
+                <option value="">{{ ('selectBook' | translate) ? ('selectBook' | translate) : 'Select a book (optional)' }}</option>
                 <option *ngFor="let book of books" [value]="book.id">{{ book.title }} - {{ book.author }}</option>
               </select>
               <small class="form-guidance">
-                {{ 'bookHint' | translate || 'Optional: Associate this quote with a book' }}
+                {{ ('bookHint' | translate) ? ('bookHint' | translate) : 'Optional: Associate this quote with a book' }}
               </small>
             </div>
 
@@ -84,17 +84,17 @@
 
       <div *ngIf="isLoading && quotes.length === 0" class="loading-state">
         <div class="spinner-border" role="status"></div>
-        <p>{{ 'loading' | translate || 'Loading...' }}</p>
+        <p>{{ ('loading' | translate) ? ('loading' | translate) : 'Loading...' }}</p>
       </div>
 
       <div *ngIf="quotes.length > 0" class="quotes-grid">
         <div *ngFor="let quote of quotes" class="quote-card" [class.selected]="selectedQuote?.id === quote.id">
           <p class="quote-text" (click)="selectQuote(quote)">
-            "{{ quote.text || quote.Text || 'No text available' }}"
+            "{{ quote.text ? quote.text : (quote.Text ? quote.Text : 'No text available') }}"
           </p>
 
           <div class="quote-footer">
-            <span class="quote-author">— {{ quote.author || quote.Author || 'Unknown' }}</span>
+            <span class="quote-author">— {{ quote.author ? quote.author : (quote.Author ? quote.Author : 'Unknown') }}</span>
             <span class="quote-book" *ngIf="quote.book?.title">
               From: {{ quote.book?.title }}
             </span>
@@ -105,10 +105,10 @@
 
           <div class="quote-card-footer">
             <button class="btn btn-sm btn-edit" (click)="editQuote(quote.id!)" *ngIf="isLoggedIn()">
-              {{ 'edit' | translate || 'Edit' }}
+              {{ ('edit' | translate) ? ('edit' | translate) : 'Edit' }}
             </button>
             <button class="btn btn-sm btn-delete" (click)="deleteQuote(quote.id!)" *ngIf="isLoggedIn()">
-              {{ 'delete' | translate || 'Delete' }}
+              {{ ('delete' | translate) ? ('delete' | translate) : 'Delete' }}
             </button>
           </div>
         </div>
@@ -116,8 +116,8 @@
 
       <div *ngIf="quotes.length === 0 && !isLoading" class="empty-quotes-state">
         <i class="bi bi-chat-quote display-4 mb-3"></i>
-        <h4>{{ 'noQuotesYet' | translate || 'No Quotes Yet' }}</h4>
-        <p>{{ 'startByAddingQuote' | translate || 'Start by adding your first quote above!' }}</p>
+        <h4>{{ ('noQuotesYet' | translate) ? ('noQuotesYet' | translate) : 'No Quotes Yet' }}</h4>
+        <p>{{ ('startByAddingQuote' | translate) ? ('startByAddingQuote' | translate) : 'Start by adding your first quote above!' }}</p>
       </div>
     </section>
 
