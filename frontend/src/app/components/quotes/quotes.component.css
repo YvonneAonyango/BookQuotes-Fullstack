@@ -49,7 +49,7 @@
 .quotes-page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -58,6 +58,7 @@
   min-height: 100vh;
   transition: background-color 0.3s, color 0.3s;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  box-sizing: border-box;
 }
 
 /* ---------- PAGE HEADER ---------- */
@@ -66,27 +67,25 @@
   flex-direction: column;
   gap: 0.25rem;
   margin-bottom: 2rem;
-  text-align: left;
 }
 
 .page-header h1 {
-  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 800;
   margin: 0;
   color: var(--text-primary);
   line-height: 1.2;
-  letter-spacing: -0.5px;
 }
 
 .page-header .lead {
-  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-size: clamp(1rem, 2vw, 1.3rem);
   font-weight: 500;
   color: var(--text-secondary);
   line-height: 1.5;
   margin: 0;
 }
 
-/* ---------- ERROR ALERT ---------- */
+/* ---------- ALERTS ---------- */
 .alert {
   border-radius: 10px;
   padding: 1rem 1.5rem;
@@ -111,22 +110,21 @@
 }
 
 .empty-quotes-state h4 {
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .empty-quotes-state p {
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
-  color: var(--text-secondary);
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
 }
 
-/* ---------- QUOTE FORM CARD (HIGHLIGHTED) ---------- */
+/* ---------- QUOTE FORM CARD ---------- */
 .quote-form .card {
-  background: rgba(255, 223, 128, 0.3); /* soft transparent yellow */
-  border: 1px solid rgba(255, 193, 127, 0.5); /* subtle orange border */
-  box-shadow: 0 4px 12px rgba(255, 193, 127, 0.25); /* soft orange shadow */
-  padding: 1.5rem;
+  background: rgba(255, 223, 128, 0.3);
+  border: 1px solid rgba(255, 193, 127, 0.5);
+  box-shadow: 0 4px 12px rgba(255, 193, 127, 0.25);
+  padding: clamp(1rem, 2vw, 1.5rem);
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -140,7 +138,7 @@
 }
 
 .quote-form .card-header h5 {
-  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -166,6 +164,8 @@
   background: var(--card-bg);
   color: var(--text-primary);
   font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .quote-form textarea {
@@ -187,18 +187,16 @@
   font-weight: 600;
   border: none;
   cursor: pointer;
+  min-width: 100px;
 }
 
-/* Primary Button */
+/* Primary & Outline Buttons */
 .btn-primary {
   background-color: var(--btn-primary-bg);
   color: #fff;
 }
-.btn-primary:hover {
-  background-color: var(--btn-primary-hover);
-}
+.btn-primary:hover { background-color: var(--btn-primary-hover); }
 
-/* Outline Buttons */
 .btn-outline-primary {
   background: none;
   border: 1px solid var(--btn-primary-bg);
@@ -222,8 +220,9 @@
 /* ---------- QUOTES GRID ---------- */
 .quotes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
+  width: 100%;
 }
 
 /* ---------- QUOTE CARD ---------- */
@@ -236,6 +235,7 @@
   flex-direction: column;
   gap: 0.75rem;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .quote-card:hover {
@@ -243,13 +243,11 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* Selected */
 .quote-card.selected {
   border-color: var(--btn-primary-bg);
   box-shadow: 0 0 12px rgba(0,0,0,0.15);
 }
 
-/* Quote text */
 .quote-text {
   font-size: clamp(0.95rem, 1.5vw, 1.05rem);
   line-height: 1.5rem;
@@ -258,16 +256,14 @@
   word-break: break-word;
 }
 
-/* Footer info */
 .quote-footer {
-  font-size: clamp(0.8rem, 1.2vw, 0.875rem);
+  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
   color: var(--text-secondary);
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-/* Card actions */
 .quote-card-footer {
   display: flex;
   gap: 0.5rem;
@@ -283,20 +279,13 @@
   cursor: pointer;
 }
 
-/* Edit/Delete buttons */
-.btn-edit {
-  background-color: var(--btn-edit-bg);
-  color: #fff;
-}
+/* Edit/Delete Buttons */
+.btn-edit { background-color: var(--btn-edit-bg); color: #fff; }
 .btn-edit:hover { background-color: var(--btn-edit-hover); }
-
-.btn-delete {
-  background-color: var(--btn-delete-bg);
-  color: #fff;
-}
+.btn-delete { background-color: var(--btn-delete-bg); color: #fff; }
 .btn-delete:hover { background-color: var(--btn-delete-hover); }
 
-/* Count badge */
+/* Count Badge */
 .count-badge {
   background-color: var(--btn-primary-bg);
   color: #fff;
@@ -307,21 +296,35 @@
   font-weight: 600;
 }
 
-/* ---------- RESPONSIVE ---------- */
-@media (max-width: 1024px) {
-  .quotes-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+/* ---------- RESPONSIVE BREAKPOINTS ---------- */
+@media (max-width: 1200px) {
+  .quotes-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+
+@media (max-width: 992px) {
+  .quotes-page { padding: 1.5rem; }
+  .quote-form .card { padding: 1rem; }
+  .quotes-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 }
 
 @media (max-width: 768px) {
   .quotes-page { padding: 1rem; }
-  .quote-form .card { padding: 1rem; }
-  .quotes-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  .quote-form .card { padding: 0.9rem; }
+  .quotes-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .page-header h1 { font-size: 1.75rem; }
+  .page-header .lead { font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
-  .quote-card { padding: 1rem; }
-  .quote-footer { font-size: 0.8rem; }
-  .quote-card-footer button { padding: 0.35rem 0.5rem; font-size: 0.7rem; }
+  .quote-card { padding: 0.85rem; }
+  .quote-footer { font-size: 0.75rem; }
+  .quote-card-footer button { padding: 0.35rem 0.45rem; font-size: 0.7rem; }
   .page-header h1 { font-size: 1.5rem; }
   .page-header .lead { font-size: 0.95rem; }
+}
+
+@media (max-width: 360px) {
+  .quotes-page { padding: 0.8rem; }
+  .quotes-grid { gap: 1rem; }
+  .quote-form .form-buttons { flex-direction: column; gap: 0.5rem; }
 }

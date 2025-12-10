@@ -1,6 +1,4 @@
-/* -------------------------
-  Navbar Base
-------------------------- */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -47,9 +45,6 @@
   margin-right: 10px;
 }
 
-/* -------------------------
-  Nav links as containers (Books & Quotes)
-------------------------- */
 .nav-links.desktop {
   display: flex;
   list-style: none;
@@ -85,9 +80,7 @@
   transform: translateY(-1px);
 }
 
-/* -------------------------
-  Right: controls (buttons, login/register)
-------------------------- */
+
 .navbar-right.desktop {
   display: flex;
   align-items: center;
@@ -217,9 +210,6 @@
   transform: translateY(-1px);
 }
 
-/* -------------------------
-  Responsive: tablets & phones
-------------------------- */
 @media (max-width: 1024px) {
   .navbar-left {
     gap: 15px;

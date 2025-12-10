@@ -1,39 +1,29 @@
-/* ==============================
-   General Container
-============================== */
+/* General Container */
 .container-fluid {
   padding: 1rem 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9fafb; /* Light mode background */
+  background-color: #f9fafb;
   color: #1f2937;
   min-height: 100vh;
+  box-sizing: border-box;
 }
-
 body.dark-mode .container-fluid {
   background-color: #0f172a;
   color: #e0e7ff;
 }
 
-/* ==============================
-   Page Header
-============================== */
+/* Page Header */
 .d-flex.justify-content-between.align-items-center.mb-4 {
   flex-wrap: wrap;
   gap: 1rem;
 }
-
 h1.h3 {
   font-weight: 600;
   margin-bottom: 0;
 }
+body.dark-mode h1.h3 { color: #60a5fa; }
 
-body.dark-mode h1.h3 {
-  color: #60a5fa;
-}
-
-/* ==============================
-   Buttons
-============================== */
+/* Buttons */
 .btn-outline-primary,
 .btn-outline-success,
 .btn-outline-info {
@@ -41,133 +31,89 @@ body.dark-mode h1.h3 {
   font-weight: 500;
   transition: all 0.3s ease;
 }
-
 .btn-outline-primary:hover {
   background-color: #3b82f6;
   color: #ffffff;
   border-color: #3b82f6;
 }
-
 .btn-outline-success:hover {
   background-color: #22c55e;
   color: #ffffff;
   border-color: #22c55e;
 }
-
 .btn-outline-info:hover {
   background-color: #0ea5e9;
   color: #ffffff;
   border-color: #0ea5e9;
 }
 
-/* ==============================
-   Stats Cards
-============================== */
-.row.mb-4 {
-  gap: 1rem;
-}
-
+/* Stats Cards */
+.row.mb-4 { gap: 1rem; }
 .card {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   background-color: #ffffff;
   color: #1f2937;
+  box-sizing: border-box;
 }
-
 body.dark-mode .card {
   background-color: #1e293b;
   color: #e0e7ff;
 }
-
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
-
-/* Card background gradients */
-.card.bg-primary {
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
-  color: #fff;
-}
-
-.card.bg-success {
-  background: linear-gradient(135deg, #22c55e, #4ade80);
-  color: #fff;
-}
-
-.card.bg-info {
-  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
-  color: #fff;
-}
-
-.card.bg-warning {
-  background: linear-gradient(135deg, #facc15, #fde68a);
-  color: #1f2937;
-}
-
+.card.bg-primary { background: linear-gradient(135deg, #3b82f6, #60a5fa); color: #fff; }
+.card.bg-success { background: linear-gradient(135deg, #22c55e, #4ade80); color: #fff; }
+.card.bg-info { background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: #fff; }
+.card.bg-warning { background: linear-gradient(135deg, #facc15, #fde68a); color: #1f2937; }
 .card i {
   opacity: 0.6;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
-
 .card:hover i {
   opacity: 0.9;
   transform: scale(1.1);
 }
 
-/* ==============================
-   Quick Action Buttons
-============================== */
+/* Quick Action Buttons */
 .card-body .btn-lg {
   border-radius: 12px;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
   padding: 1rem 0.5rem;
   width: 100%;
 }
-
 .card-body .btn-lg i {
   display: block;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
   margin-bottom: 0.25rem;
 }
 
-/* ==============================
-   Responsive Layout
-============================== */
+/* Responsive Layout */
 @media (max-width: 1200px) {
-  .row.mb-4 {
-    gap: 0.75rem;
-  }
+  .row.mb-4 { gap: 0.75rem; }
 }
-
 @media (max-width: 992px) {
-  .row.mb-4 {
-    flex-wrap: wrap;
-  }
-
+  .row.mb-4 { flex-wrap: wrap; }
   .d-flex.justify-content-between.align-items-center.mb-4 {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 }
-
 @media (max-width: 768px) {
-  .row.mb-4 .col-md-3 {
-    flex: 0 0 48%;
-    max-width: 48%;
-  }
+  .row.mb-4 .col-md-3 { flex: 0 0 48%; max-width: 48%; }
 }
-
 @media (max-width: 576px) {
-  .row.mb-4 .col-md-3 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-
+  .row.mb-4 .col-md-3 { flex: 0 0 100%; max-width: 100%; }
   .card-body .btn-lg {
-    font-size: 1rem;
+    font-size: 0.95rem;
     padding: 0.8rem 0.5rem;
   }
+}
+@media (max-width: 360px) {
+  .container-fluid { padding: 0.8rem 1rem; }
+  .card-body .btn-lg { font-size: 0.9rem; padding: 0.7rem 0.4rem; }
 }

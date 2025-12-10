@@ -31,11 +31,11 @@ export class QuotesComponent implements OnInit {
   private meta = inject(Meta);
   private titleService = inject(Title);
   private translate = inject(TranslateService);
+  private auth = inject(AuthService); // ADDED
 
   constructor(
     private quoteService: QuoteService,
     private bookService: BookService,
-    private authService: AuthService,
     private fb: FormBuilder
   ) {
     this.quoteForm = this.fb.group({
@@ -145,7 +145,7 @@ export class QuotesComponent implements OnInit {
       text: formValue.text,
       author: formValue.author,
       bookId: formValue.bookId || null,
-      userId: this.authService.getCurrentUserId()!
+      userId: this.auth.getCurrentUserId()!
     };
 
     if (this.isEdit && this.editingQuoteId) {
@@ -189,8 +189,6 @@ export class QuotesComponent implements OnInit {
   }
 
   private isLoggedIn(): boolean {
-    const token = localStorage.getItem('authToken'); 
-    const userId = localStorage.getItem('userId');
-    return !!token && !!userId;
+    return this.auth.isAuthenticated(); // CHANGED: Use AuthService
   }
 }

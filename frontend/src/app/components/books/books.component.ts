@@ -5,6 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../book-form/book-form.component';
+import { AuthService } from '../../services/auth.service'; // ADDED
 
 @Component({
   selector: 'app-books',
@@ -27,6 +28,7 @@ export class BooksComponent implements OnInit {
   private bookService = inject(BookService);
   private router = inject(Router);
   private translate = inject(TranslateService);
+  private auth = inject(AuthService); // ADDED
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Books');
@@ -105,6 +107,6 @@ export class BooksComponent implements OnInit {
   }
 
   private isLoggedIn(): boolean {
-    return !!localStorage.getItem('token'); // or use AuthService
+    return this.auth.isAuthenticated(); 
   }
 }

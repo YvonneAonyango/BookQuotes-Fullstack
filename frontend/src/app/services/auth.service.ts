@@ -5,9 +5,7 @@ import { tap, catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 
-// =========================
 // AUTH MODELS
-// =========================
 export interface LoginRequest {
   username: string;
   password: string;
@@ -27,9 +25,8 @@ export interface AuthResponse {
   message?: string;
 }
 
-// =========================
 // AUTH SERVICE
-// =========================
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,13 +38,10 @@ export class AuthService {
     private router: Router
   ) {}
 
-  // =========================
   // HELPER METHODS
-  // =========================
-
   /** Get token from local storage (primary) or fallback 'token' key */
   getToken(): string | null {
-    return localStorage.getItem('authToken') || localStorage.getItem('token');
+    return localStorage.getItem('authToken'); // CHANGED: Only check authToken
   }
 
   /** Get current user ID */
@@ -83,12 +77,8 @@ export class AuthService {
     return this.getCurrentRole() === role;
   }
 
-  // =========================
-  // AUTH METHODS
-  // =========================
-
   /** Regular login
-   *  NOTE: include withCredentials in case back-end also sets cookies
+   *  include withCredentials in case back-end also sets cookies
    */
   login(loginData: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, loginData, { withCredentials: true })
@@ -177,9 +167,7 @@ export class AuthService {
       );
   }
 
-  // =========================
   // PRIVATE HELPER
-  // =========================
   private storeAuthData(response: AuthResponse): void {
     if (!response) return;
     // store under authToken (primary). keep token for backward compat.
