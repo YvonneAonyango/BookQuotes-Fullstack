@@ -1,13 +1,13 @@
 <div class="admin-login-container">
   <div class="admin-login-card">
     <h2>Admin Login</h2>
-    
+
     <!-- Error message -->
     <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </div>
-    
-    <!-- Success message (optional) -->
+
+    <!-- Already logged in notice -->
     <div *ngIf="authService.isAuthenticated() && authService.isAdmin()" class="alert alert-success">
       Already logged in as admin. Redirecting...
     </div>
@@ -56,7 +56,7 @@
         </span>
       </button>
     </form>
-    
+
     <!-- Back to regular login -->
     <div class="text-center mt-3">
       <a routerLink="/login" class="text-muted">Regular User Login</a>

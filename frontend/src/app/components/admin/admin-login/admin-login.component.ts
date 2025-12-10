@@ -18,7 +18,7 @@ export class AdminLoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    public authService: AuthService, // public now
+    public authService: AuthService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -26,13 +26,14 @@ export class AdminLoginComponent {
       password: ['', Validators.required]
     });
 
+    // Redirect if already admin
     if (this.authService.isAdmin()) {
       this.router.navigate(['/admin/dashboard']);
     }
   }
 
   onSubmit(): void {
-    if (!this.loginForm.valid) {
+    if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
@@ -41,8 +42,8 @@ export class AdminLoginComponent {
     this.errorMessage = '';
 
     const loginData: LoginRequest = {
-      username: this.loginForm.value.username,
-      password: this.loginForm.value.password
+      username: this.loginForm.value.username.trim(),
+      password: this.loginForm.value.password.trim()
     };
 
     this.authService.adminLogin(loginData).subscribe({
@@ -52,7 +53,7 @@ export class AdminLoginComponent {
       },
       error: (err: any) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.message || err.message || 'Admin login failed';
+        this.errorMessage = err.error?.message || 'Admin login failed';
       }
     });
   }
