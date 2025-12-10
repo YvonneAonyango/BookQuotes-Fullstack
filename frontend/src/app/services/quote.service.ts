@@ -61,7 +61,7 @@ export class QuoteService {
       Text: quote.text.trim(),
       Author: quote.author.trim(),
       UserId: userId || 0,
-      ...(quote.bookId != null && { BookId: quote.bookId })
+      BookId: quote.bookId ?? null   // always number or null
     };
 
     return this.http.post<Quote>(`${this.apiUrl}/quotes`, payload, {
@@ -72,11 +72,12 @@ export class QuoteService {
 
   updateQuote(id: number, quote: Quote): Observable<Quote> {
     const userId = this.auth.getCurrentUserId();
+
     const payload = {
       Text: quote.text.trim(),
       Author: quote.author.trim(),
       UserId: userId || 0,
-      ...(quote.bookId != null && { BookId: quote.bookId })
+      BookId: quote.bookId ?? null   // always number or null
     };
 
     return this.http.put<Quote>(`${this.apiUrl}/quotes/${id}`, payload, {

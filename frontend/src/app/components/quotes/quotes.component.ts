@@ -99,7 +99,10 @@ export class QuotesComponent implements OnInit {
     this.translate.get('confirmDeleteQuote').subscribe(msg => {
       if (!confirm(msg || 'Are you sure you want to delete this quote?')) return;
       this.quoteService.deleteQuote(id).subscribe({
-        next: () => { this.quotes = this.quotes.filter(q => q.id !== id); if (this.selectedQuote?.id === id) this.selectedQuote = undefined; },
+        next: () => { 
+          this.quotes = this.quotes.filter(q => q.id !== id); 
+          if (this.selectedQuote?.id === id) this.selectedQuote = undefined; 
+        },
         error: () => alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.')
       });
     });
@@ -117,13 +120,28 @@ export class QuotesComponent implements OnInit {
 
     if (this.isEdit && this.editingQuoteId) {
       this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
-        next: updated => { const index = this.quotes.findIndex(q => q.id === this.editingQuoteId); if (index !== -1) this.quotes[index] = updated; this.resetForm(); this.isLoading = false; },
-        error: () => { this.errorMessage = this.translate.instant('failedUpdateQuote') || 'Failed to update quote.'; this.isLoading = false; }
+        next: updated => { 
+          const index = this.quotes.findIndex(q => q.id === this.editingQuoteId); 
+          if (index !== -1) this.quotes[index] = updated; 
+          this.resetForm(); 
+          this.isLoading = false; 
+        },
+        error: () => { 
+          this.errorMessage = this.translate.instant('failedUpdateQuote') || 'Failed to update quote.'; 
+          this.isLoading = false; 
+        }
       });
     } else {
       this.quoteService.createQuote(quoteData).subscribe({
-        next: newQuote => { this.quotes.unshift(newQuote); this.resetForm(); this.isLoading = false; },
-        error: () => { this.errorMessage = this.translate.instant('failedCreateQuote') || 'Failed to create quote.'; this.isLoading = false; }
+        next: newQuote => { 
+          this.quotes.unshift(newQuote); 
+          this.resetForm(); 
+          this.isLoading = false; 
+        },
+        error: () => { 
+          this.errorMessage = this.translate.instant('failedCreateQuote') || 'Failed to create quote.'; 
+          this.isLoading = false; 
+        }
       });
     }
   }

@@ -47,8 +47,8 @@
             <div class="form-group">
               <label>{{ 'bookOptional' | translate }}</label>
               <select formControlName="bookId">
-                <option value="">{{ ('selectBook' | translate) ?? 'Select a book (optional)' }}</option>
-                <option *ngFor="let book of books" [value]="book.id">{{ book.title }} - {{ book.author }}</option>
+                <option [ngValue]="null">{{ ('selectBook' | translate) ?? 'Select a book (optional)' }}</option>
+                <option *ngFor="let book of books" [ngValue]="book.id">{{ book.title }} - {{ book.author }}</option>
               </select>
             </div>
 
@@ -81,7 +81,7 @@
           </p>
           <div class="quote-footer">
             <span class="quote-author">— {{ quote.author ?? 'Unknown' }}</span>
-            <span class="quote-book" *ngIf="quote.book?.title">From: {{ quote.book?.title }}</span>
+            <span class="quote-book" *ngIf="quote.book?.title">From: {{ quote.book.title }}</span>
           </div>
           <div class="quote-card-footer" *ngIf="isLoggedIn()">
             <button (click)="editQuote(quote.id!)">{{ ('edit' | translate) ?? 'Edit' }}</button>
