@@ -21,23 +21,24 @@ public class QuotesController : ControllerBase
 
     // GET: api/quotes
     [HttpGet]
-    public async Task<IEnumerable<Quote>> GetAll([FromQuery] int? bookId, [FromQuery] bool? mine)
+    public async Task<IEnumerable<Quote>> GetAll([FromQuery] int? bookId, [FromQuery] bool? mine, [FromQuery] bool? standalone)
     {
         var query = _context.Quotes.Include(q => q.Book).AsQueryable();
+        var userId = GetCurrentUserId();
 
         if (bookId.HasValue)
             query = query.Where(q => q.BookId == bookId.Value);
 
-        if (mine == true)
-        {
-            var userId = GetCurrentUserId();
-            if (userId == null) return Enumerable.Empty<Quote>();
+        if (mine == true && userId != null)
             query = query.Where(q => q.UserId == userId.Value);
-        }
+
+        if (standalone == true)
+            query = query.Where(q => q.BookId == null);
 
         return await query.ToListAsync();
     }
 
+    // GET: api/quotes/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Quote>> Get(int id)
     {
@@ -46,6 +47,7 @@ public class QuotesController : ControllerBase
         return quote;
     }
 
+    // POST: api/quotes
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Quote q)
     {
@@ -58,11 +60,11 @@ public class QuotesController : ControllerBase
         if (string.IsNullOrWhiteSpace(q.Author))
             return BadRequest(new { message = "Author is required" });
 
-        // Handle BookId: only assign if >0 and exists
         if (q.BookId.HasValue && q.BookId.Value > 0)
         {
-            var bookExists = await _context.Books.AnyAsync(b => b.Id == q.BookId.Value);
-            if (!bookExists) return BadRequest(new { message = "BookId references non-existent book" });
+            var book = await _context.Books.FindAsync(q.BookId.Value);
+            if (book == null || (!IsAdmin() && book.UserId != userId))
+                return BadRequest(new { message = "BookId invalid or not owned by you" });
         }
         else
         {
@@ -73,11 +75,11 @@ public class QuotesController : ControllerBase
         _context.Quotes.Add(q);
         await _context.SaveChangesAsync();
 
-        // Load Book for response
-        await _context.Entry(q).Reference(q => q.Book).LoadAsync();
+        await _context.Entry(q).Reference(qt => qt.Book).LoadAsync();
         return Ok(q);
     }
 
+    // PUT: api/quotes/5
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] Quote updated)
     {
@@ -96,13 +98,13 @@ public class QuotesController : ControllerBase
         quote.Text = updated.Text;
         quote.Author = updated.Author;
 
-        // Handle BookId update
         if (updated.BookId.HasValue && updated.BookId.Value > 0)
         {
             if (updated.BookId.Value != quote.BookId)
             {
-                var bookExists = await _context.Books.AnyAsync(b => b.Id == updated.BookId.Value);
-                if (!bookExists) return BadRequest(new { message = "New BookId does not exist" });
+                var book = await _context.Books.FindAsync(updated.BookId.Value);
+                if (book == null || (!IsAdmin() && book.UserId != userId))
+                    return BadRequest(new { message = "BookId invalid or not owned by you" });
                 quote.BookId = updated.BookId.Value;
             }
         }
@@ -112,11 +114,11 @@ public class QuotesController : ControllerBase
         }
 
         await _context.SaveChangesAsync();
-
         await _context.Entry(quote).Reference(q => q.Book).LoadAsync();
         return Ok(quote);
     }
 
+    // DELETE: api/quotes/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -131,7 +133,7 @@ public class QuotesController : ControllerBase
         return Ok();
     }
 
-    // ---- Helpers ----
+    // Helpers
     private int? GetCurrentUserId()
     {
         var sub = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -144,7 +146,12 @@ public class QuotesController : ControllerBase
         if (currentUserId == null) return false;
         if (resourceOwnerUserId == currentUserId) return true;
         var role = User.FindFirst(ClaimTypes.Role)?.Value;
-        if (role == "Admin") return true;
-        return false;
+        return role == "Admin";
+    }
+
+    private bool IsAdmin()
+    {
+        var role = User.FindFirst(ClaimTypes.Role)?.Value;
+        return role == "Admin";
     }
 }

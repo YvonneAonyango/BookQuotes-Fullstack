@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BookWebApp.Api.Models;
 
@@ -9,10 +10,12 @@ public class Quote
     [Required]
     public string Text { get; set; } = "";
 
-    [Required]  // ← This line
-    public string Author { get; set; } = "";  // ← This property
+    [Required]
+    public string Author { get; set; } = "";
 
-    public int? BookId { get; set; }  // ← Note the ? (nullable)
+    public int? BookId { get; set; }
+
+    [JsonIgnore]   // Prevent serialization cycle
     public Book? Book { get; set; }
 
     [Required]

@@ -9,6 +9,7 @@ namespace BookWebApp.Api.Controllers;
 
 [ApiController]
 [Route("api/books")]
+[Authorize]
 public class BooksController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -17,7 +18,6 @@ public class BooksController : ControllerBase
 
     // GET: api/books
     [HttpGet]
-    [Authorize]
     public async Task<IEnumerable<Book>> GetAll()
     {
         var userId = GetUserId();
@@ -27,13 +27,12 @@ public class BooksController : ControllerBase
 
         return await _context.Books
             .Where(b => b.UserId == userId)
-            .Include(b => b.Quotes)
+            .Include(b => b.Quotes.Where(q => q.UserId == userId))
             .ToListAsync();
     }
 
     // GET: api/books/5
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<ActionResult<Book>> Get(int id)
     {
         var book = await _context.Books.Include(b => b.Quotes).FirstOrDefaultAsync(b => b.Id == id);
@@ -47,7 +46,6 @@ public class BooksController : ControllerBase
 
     // POST: api/books
     [HttpPost]
-    [Authorize]
     public async Task<IActionResult> Create(Book book)
     {
         book.UserId = GetUserId();
@@ -58,7 +56,6 @@ public class BooksController : ControllerBase
 
     // PUT: api/books/5
     [HttpPut("{id}")]
-    [Authorize]
     public async Task<IActionResult> Update(int id, Book updated)
     {
         var book = await _context.Books.FindAsync(id);
@@ -77,7 +74,6 @@ public class BooksController : ControllerBase
 
     // DELETE: api/books/5
     [HttpDelete("{id}")]
-    [Authorize]
     public async Task<IActionResult> Delete(int id)
     {
         var book = await _context.Books.FindAsync(id);
