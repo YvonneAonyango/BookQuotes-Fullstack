@@ -2,10 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } fr
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 // FINAL WORKING TRANSLATION LOADER
@@ -27,17 +24,10 @@ export const appConfig: ApplicationConfig = {
     // Router
     provideRouter(routes),
 
-    // HttpClient + legacy interceptors (compatible mode)
+    // HttpClient (legacy support)
     importProvidersFrom(HttpClientModule),
 
-    // Auth Interceptor
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
-
-    // ngx-translate - FINAL WORKING CONFIG
+    // ngx-translate
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'en',

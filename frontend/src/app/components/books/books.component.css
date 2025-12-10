@@ -1,148 +1,111 @@
-/* ---------- THEME VARIABLES ---------- */
+/* ================= GLOBAL THEME VARIABLES ================= */
 :root {
-  --bg-page: rgba(255, 140, 0, 0.15); /* light burnt orange transparent */
-  --text-primary: #1e3a8a; /* main text blue */
-  --text-secondary: #2563eb; /* secondary text medium blue */
-  --card-bg: #ffffff; /* white cards */
-  --card-border: rgba(0, 0, 0, 0.12);
-  --card-header-bg: #facc15;
-  --card-header-bg-alt: #fbbf24;
-  --btn-primary-bg: #f59e0b; /* standout orange */
-  --btn-primary-hover: #f97316;
-  --btn-edit-bg: #00ffff; /* neon cyan */
-  --btn-edit-hover: #00e5e5;
-  --btn-delete-bg: #00ffff; /* neon cyan */
-  --btn-delete-hover: #00e5e5;
-  --alert-danger-bg: #fee2e2;
-  --alert-danger-border: #f87171;
-  --alert-danger-text: #7f1d1d;
-  --meta-text: #3b82f6; /* medium blue meta */
-  --book-author-icon: #2563eb;
-  --page-border: rgba(0, 0, 0, 0.15);
-  --modal-overlay: rgba(0, 0, 0, 0.55);
-  --quote-form-bg: rgba(255, 140, 0, 0.15);
-  --quote-form-border: rgba(255, 140, 0, 0.3);
-  --badge-bg: rgba(255, 223, 128, 0.5); /* transparent yellow badges */
-  --badge-text: #1e3a8a; /* blue text inside badge */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --border-primary: rgba(0,0,0,0.15);
+
+  --text-base: 0.9375rem;
+  --text-sm: 0.75rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
 }
 
-.dark-mode {
-  --bg-page: rgba(31, 31, 31, 0.95);
-  --text-primary: #93c5fd;
-  --text-secondary: #60a5fa;
-  --card-bg: #2a2a2a;
-  --card-border: rgba(255, 255, 255, 0.2);
-  --card-header-bg: #fbbf24;
-  --card-header-bg-alt: #f59e0b;
-  --btn-primary-bg: #f97316;
-  --btn-primary-hover: #f59e0b;
-  --btn-edit-bg: #00ffff;
-  --btn-edit-hover: #00e5e5;
-  --btn-delete-bg: #00ffff;
-  --btn-delete-hover: #00e5e5;
-  --alert-danger-bg: rgba(127, 29, 29, 0.85);
-  --alert-danger-border: #ef4444;
-  --alert-danger-text: #fca5a5;
-  --meta-text: #60a5fa;
-  --book-author-icon: #60a5fa;
-  --page-border: rgba(255, 255, 255, 0.25);
-  --modal-overlay: rgba(0, 0, 0, 0.75);
-  --quote-form-bg: rgba(255, 140, 0, 0.1);
-  --quote-form-border: rgba(255, 140, 0, 0.25);
-  --badge-bg: rgba(255, 223, 128, 0.3);
-  --badge-text: #93c5fd;
+/* ================= GLOBAL RESET ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-/* ---------- GLOBAL PAGE ---------- */
-.books-page,
-.quotes-page {
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ================= BOOKS PAGE ================= */
+.books-page {
+  padding: var(--space-6) var(--space-4);
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  background-color: var(--bg-page);
-  color: var(--text-primary);
+  background-color: rgba(255, 235, 120, 0.2) !important; /* transparent yellow */
+  color: #1e3a8a !important; /* deep blue text */
   min-height: 100vh;
   transition: background-color 0.3s, color 0.3s;
   position: relative;
   backdrop-filter: blur(6px);
 }
 
-/* ---------- HEADER ---------- */
+/* ---------------- Header ---------------- */
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--page-border);
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-primary);
 }
 
-.header-content h1 {
-  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
-  font-weight: 800;
-  margin-bottom: 0.25rem;
-  color: var(--text-primary);
+.page-header h1 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: #1e3a8a !important;
 }
 
-.header-content .lead {
-  font-size: 1.15rem;
+.page-header .lead {
+  font-size: var(--text-md);
   font-weight: 500;
-  color: var(--text-secondary);
+  color: #3b82f6 !important; /* light blue */
 }
 
-/* ---------- BUTTONS ---------- */
-.btn-add-book,
-.btn-primary {
-  background-color: var(--btn-primary-bg);
-  color: #000;
-  border: none;
-  padding: 0.85rem 1.5rem;
+/* ---------------- Add Book Button ---------------- */
+.btn-add-book {
+  background-color: #f59e0b !important; /* standout orange */
+  color: #fff !important;
   border-radius: 12px;
+  padding: 0.75rem 1.5rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
-  font-size: 1rem;
 }
 
-.btn-add-book:hover,
-.btn-primary:hover {
-  background-color: var(--btn-primary-hover);
+.btn-add-book:hover {
+  background-color: #d97706 !important;
   transform: translateY(-2px);
-  color: #000;
 }
 
-.btn-edit,
-.btn-delete {
-  color: #000;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: 10px;
-  padding: 0.5rem 0.75rem;
-}
-
-.btn-edit { background-color: var(--btn-edit-bg); }
-.btn-edit:hover { background-color: var(--btn-edit-hover); }
-
-.btn-delete { background-color: var(--btn-delete-bg); }
-.btn-delete:hover { background-color: var(--btn-delete-hover); }
-
-/* ---------- BOOK CARD ---------- */
+/* ---------------- Book Cards ---------------- */
 .book-card {
-  background: var(--card-bg);
+  background-color: rgba(255, 255, 150, 0.2) !important; /* slightly yellow transparent */
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--border-primary);
   display: flex;
   flex-direction: column;
   transition: all 0.3s;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  color: #1e3a8a !important;
+  width: 100%;
+  max-width: 300px;
 }
 
 .book-card-header {
-  background: linear-gradient(135deg, var(--card-header-bg), var(--card-header-bg-alt));
+  background: linear-gradient(135deg, #facc15, #fbbf24);
   height: 120px;
   display: flex;
   justify-content: center;
@@ -151,146 +114,140 @@
 
 .book-icon {
   font-size: 3rem;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(0, 0, 128, 0.9); /* neon-ish blue */
 }
 
 .book-card-body {
-  padding: 1.5rem;
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .book-title {
-  font-size: 1.3rem;
+  font-size: var(--text-xl);
   font-weight: 700;
-  color: var(--text-primary);
+  color: #1e3a8a !important; /* deep blue */
 }
 
 .book-author {
-  color: var(--text-secondary);
+  color: #3b82f6 !important; /* lighter blue */
   display: flex;
   gap: 0.5rem;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: var(--text-base);
 }
-
-.book-author i { color: var(--book-author-icon); }
 
 .book-meta {
   margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid var(--page-border);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-primary);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-}
-
-.book-meta small {
-  color: var(--meta-text);
-  font-size: 0.9rem;
-  display: flex;
-  gap: 0.4rem;
-}
-
-/* ---------- BADGES ---------- */
-.count-badge {
-  background-color: var(--badge-bg);
-  color: var(--badge-text);
-  padding: 0.15rem 0.4rem;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin-left: 0.25rem;
-}
-
-/* ---------- FOOTER BUTTONS ---------- */
-.book-card-footer {
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-top: 1px solid var(--page-border);
-  background: var(--card-bg);
-}
-
-.book-card-footer .btn {
-  flex: 1;
-  padding: 0.5rem;
-  border-radius: 10px;
-  border: none;
-  font-weight: 600;
-  font-size: 0.85rem;
-  display: flex;
-  justify-content: center;
   gap: 0.25rem;
 }
 
-/* ---------- QUOTE FORM ---------- */
-.quote-form .card {
-  background-color: var(--quote-form-bg);
-  border: 1px solid var(--quote-form-border);
-  padding: 1.5rem;
-  border-radius: 16px;
-  transition: all 0.3s ease;
+.book-meta small {
+  color: #2563eb !important; /* neon blue */
+  font-size: var(--text-sm);
 }
 
-.quote-form .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 140, 0, 0.25);
+/* ---------------- Book Badges ---------------- */
+.book-badge {
+  display: inline-block;
+  background-color: rgba(255, 235, 120, 0.3) !important; /* transparent yellow */
+  color: #1e3a8a !important; /* blue text */
+  padding: 0.15rem 0.4rem;
+  font-size: 0.7rem !important;
+  border-radius: 8px;
+  margin-right: 0.25rem;
 }
 
-/* ---------- QUOTES GRID & CARD ---------- */
-.quotes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
-}
-
-.quote-card {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 1.25rem;
-  border: 1px solid var(--card-border);
+/* ---------------- Footer Buttons ---------------- */
+.book-card-footer {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  transition: all 0.3s ease;
+  gap: var(--space-2);
+  padding: var(--space-3);
 }
 
-.quote-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-.quote-card-footer {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: auto;
-}
-
-.quote-card-footer button {
+.btn-edit, .btn-delete {
+  background-color: #0ff !important; /* neon blue */
+  color: #000 !important;
   flex: 1;
-  padding: 0.35rem 0.5rem;
-  font-size: 0.75rem;
-  border-radius: 10px;
-  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* ---------- RESPONSIVE ---------- */
-@media (max-width: 1024px) {
-  .quotes-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.btn-edit:hover, .btn-delete:hover {
+  background-color: #00f !important;
+  color: #fff !important;
+}
+
+/* ---------------- Dark Mode Overrides ---------------- */
+body.dark-mode .books-page {
+  background-color: rgba(255, 235, 120, 0.1) !important;
+  color: #5aa0ff !important; /* lighter blue text */
+}
+
+body.dark-mode .book-card {
+  background-color: rgba(255, 235, 120, 0.1) !important;
+  color: #5aa0ff !important;
+}
+
+body.dark-mode .book-badge {
+  background-color: rgba(255, 235, 120, 0.2) !important;
+  color: #5aa0ff !important;
+}
+
+body.dark-mode .btn-edit,
+body.dark-mode .btn-delete {
+  background-color: #0ff !important;
+  color: #000 !important;
+}
+
+body.dark-mode .btn-edit:hover,
+body.dark-mode .btn-delete:hover {
+  background-color: #00f !important;
+  color: #fff !important;
+}
+
+/* ================= Books Page Layout ================= */
+.books-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 992px) {
+  .books-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .book-card {
+    max-width: 90%;
+  }
 }
 
 @media (max-width: 768px) {
-  .books-page, .quotes-page { padding: 1rem; }
-  .book-card-body, .quote-form .card { padding: 1rem; }
-  .quotes-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  .books-page {
+    padding: var(--space-5) var(--space-3);
+  }
+  .page-header h1 {
+    font-size: var(--text-xl);
+  }
 }
 
 @media (max-width: 480px) {
-  .quote-card { padding: 1rem; }
-  .quote-card-footer button { font-size: 0.7rem; padding: 0.25rem 0.35rem; }
-  .page-header h1 { font-size: 1.5rem; }
-  .page-header .lead { font-size: 0.95rem; }
+  .btn-add-book {
+    width: 100%;
+    text-align: center;
+  }
+  .book-card-footer {
+    flex-direction: column;
+  }
 }

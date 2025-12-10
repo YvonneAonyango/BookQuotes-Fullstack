@@ -45,9 +45,9 @@ export class AuthService {
   // HELPER METHODS
   // =========================
 
-  /** Get token from local storage */
+  /** Get token from local storage (primary) or fallback 'token' key */
   getToken(): string | null {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem('authToken') || localStorage.getItem('token');
   }
 
   /** Get current user ID */
@@ -87,9 +87,11 @@ export class AuthService {
   // AUTH METHODS
   // =========================
 
-  /** Regular login */
+  /** Regular login
+   *  NOTE: include withCredentials in case back-end also sets cookies
+   */
   login(loginData: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, loginData)
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, loginData, { withCredentials: true })
       .pipe(
         tap(response => this.storeAuthData(response)),
         catchError(error => {
@@ -127,7 +129,7 @@ export class AuthService {
 
   /** User registration */
   register(registerData: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, registerData)
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, registerData, { withCredentials: true })
       .pipe(
         tap(response => this.storeAuthData(response)),
         catchError(error => {
@@ -137,9 +139,20 @@ export class AuthService {
       );
   }
 
-  /** Logout user */
+  /** Logout user (clear local storage and notify backend if available) */
   logout(): void {
+    // try to notify backend (best-effort)
+    try {
+      this.http.post(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true }).subscribe({
+        next: () => { /* noop */ },
+        error: () => { /* noop */ }
+      });
+    } catch {
+      // ignore
+    }
+
     localStorage.removeItem('authToken');
+    localStorage.removeItem('token'); // fallback
     localStorage.removeItem('username');
     localStorage.removeItem('role');
     localStorage.removeItem('userId');
@@ -152,7 +165,8 @@ export class AuthService {
     if (!token) return of(false);
 
     return this.http.get<{ valid: boolean }>(`${this.apiUrl}/auth/validate`, {
-      headers: { 'Authorization': `Bearer ${token}` }
+      headers: { 'Authorization': `Bearer ${token}` },
+      withCredentials: true
     })
       .pipe(
         map(res => res.valid),
@@ -168,7 +182,9 @@ export class AuthService {
   // =========================
   private storeAuthData(response: AuthResponse): void {
     if (!response) return;
+    // store under authToken (primary). keep token for backward compat.
     localStorage.setItem('authToken', response.token);
+    localStorage.setItem('token', response.token); // fallback for other code paths
     localStorage.setItem('username', response.username);
     localStorage.setItem('role', response.role || 'user');
     localStorage.setItem('userId', response.userId?.toString() || '0');
