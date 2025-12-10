@@ -197,7 +197,8 @@ export class QuotesComponent implements OnInit {
     this.editingQuoteId = undefined;
   }
 
-  private isLoggedIn(): boolean {
+  // CHANGED: Made this method public instead of private
+  public isLoggedIn(): boolean {
     return this.auth.isAuthenticated();
   }
 }
