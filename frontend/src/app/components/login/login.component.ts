@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService, LoginRequest, AuthResponse } from '../../services/auth.service';
+import { AuthService, LoginRequest } from '../../services/auth.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ThemeService } from '../../services/theme.service';
@@ -18,13 +18,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading = false;
   errorMessage = '';
-  isAdminLogin = false; // toggle for admin login
 
   private meta = inject(Meta);
   private titleService = inject(Title);
   private translate = inject(TranslateService);
   private themeService = inject(ThemeService);
 
+  // Access dark mode signal from ThemeService
   isDarkMode = this.themeService.isDarkMode;
 
   constructor(
@@ -39,25 +39,19 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // If already authenticated, redirect
     if (this.authService.isAuthenticated()) {
-      if (this.authService.isAdmin()) {
-        this.router.navigate(['/admin/dashboard']);
-      } else {
-        this.router.navigate(['/books']);
-      }
+      this.router.navigate(['/books']);
       return;
     }
 
-    // SEO
+    // Set page title and description for SEO
     this.translate.get(['login', 'loginDescription']).subscribe(translations => {
       this.titleService.setTitle(`Book Quotes Buddy - ${translations['login']}`);
-      this.meta.updateTag({ name: 'description', content: translations['loginDescription'] });
+      this.meta.updateTag({
+        name: 'description',
+        content: translations['loginDescription']
+      });
     });
-  }
-
-  toggleAdminLogin(): void {
-    this.isAdminLogin = !this.isAdminLogin;
   }
 
   onSubmit(): void {
@@ -74,18 +68,10 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.value.password.trim()
     };
 
-    const loginObservable = this.isAdminLogin
-      ? this.authService.adminLogin(loginData) // admin login
-      : this.authService.login(loginData); // regular login
-
-    loginObservable.subscribe({
-      next: (res: AuthResponse) => {
+    this.authService.login(loginData).subscribe({
+      next: () => {
         this.isLoading = false;
-        if (res.role.toLowerCase() === 'admin') {
-          this.router.navigate(['/admin/dashboard']);
-        } else {
-          this.router.navigate(['/books']);
-        }
+        this.router.navigate(['/books']);
       },
       error: err => {
         this.isLoading = false;
