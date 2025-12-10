@@ -5,20 +5,26 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
+using DotNetEnv;
+
+Env.Load(); // Load environment variables from .env
 
 var builder = WebApplication.CreateBuilder(args);
 
 // CONFIGURATION
-builder.Configuration
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddEnvironmentVariables();
+builder.Configuration.AddEnvironmentVariables();
 
 // DATABASE
+var connString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
+                 ?? builder.Configuration.GetConnectionString("DefaultConnection")
+                 ?? "Data Source=books.db";
+
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
-    var connString = builder.Configuration.GetConnectionString("DefaultConnection")
-                     ?? "Data Source=books.db";
-    opt.UseSqlite(connString);
+    if (connString.Contains("Host=")) // PostgreSQL
+        opt.UseNpgsql(connString);
+    else // SQLite
+        opt.UseSqlite(connString);
 });
 
 // SERVICES
@@ -34,17 +40,17 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// JWT AUTHENTICATION
-var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
-             ?? builder.Configuration["Jwt:Key"]
+// JWT AUTH
+var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
+             ?? builder.Configuration["Jwt:Key"] 
              ?? "DEVELOPMENT_KEY_ONLY_CHANGE_FOR_PRODUCTION";
 
-var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER")
-             ?? builder.Configuration["Jwt:Issuer"]
+var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") 
+             ?? builder.Configuration["Jwt:Issuer"] 
              ?? "BookWebApp";
 
-var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")
-               ?? builder.Configuration["Jwt:Audience"]
+var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") 
+               ?? builder.Configuration["Jwt:Audience"] 
                ?? "BookWebAppUsers";
 
 var key = Encoding.UTF8.GetBytes(jwtKey);
@@ -62,7 +68,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = audience,
             IssuerSigningKey = new SymmetricSecurityKey(key),
             ClockSkew = TimeSpan.Zero,
-            RoleClaimType = System.Security.Claims.ClaimTypes.Role // <-- important for admin auth
+            RoleClaimType = System.Security.Claims.ClaimTypes.Role
         };
     });
 
@@ -86,9 +92,7 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     var port = Environment.GetEnvironmentVariable("PORT");
     if (!string.IsNullOrEmpty(port))
-    {
         options.ListenAnyIP(int.Parse(port));
-    }
 });
 
 var app = builder.Build();
@@ -115,7 +119,7 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookWebApp API v1");
         c.RoutePrefix = "swagger";
     });
-    Console.WriteLine("Development Mode: Swagger UI enabled at /swagger");
+    Console.WriteLine("Swagger UI enabled at /swagger");
 }
 
 // MAP CONTROLLERS
@@ -123,11 +127,11 @@ app.MapControllers();
 
 // LOG INFO
 Console.WriteLine("========================================");
-Console.WriteLine(" BookWebApp API running!");
-Console.WriteLine($" Environment: {app.Environment.EnvironmentName}");
-Console.WriteLine($" JWT Issuer: {issuer}");
-Console.WriteLine($" JWT Audience: {audience}");
-Console.WriteLine(" CORS Allowed Origins:");
+Console.WriteLine("BookWebApp API running!");
+Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
+Console.WriteLine($"JWT Issuer: {issuer}");
+Console.WriteLine($"JWT Audience: {audience}");
+Console.WriteLine("CORS Allowed Origins:");
 Console.WriteLine(" - https://book-quotes-web-app-frontend.onrender.com");
 Console.WriteLine(" - http://localhost:4200");
 Console.WriteLine("========================================");
