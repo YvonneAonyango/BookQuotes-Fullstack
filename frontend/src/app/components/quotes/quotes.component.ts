@@ -5,6 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Quote, QuoteService } from '../../services/quote.service';
 import { Book, BookService } from '../../services/book.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-quotes',
@@ -34,6 +35,7 @@ export class QuotesComponent implements OnInit {
   constructor(
     private quoteService: QuoteService,
     private bookService: BookService,
+    private authService: AuthService,
     private fb: FormBuilder
   ) {
     this.quoteForm = this.fb.group({
@@ -130,6 +132,7 @@ export class QuotesComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.quoteForm.valid) return;
+
     if (!this.isLoggedIn()) {
       alert(this.translate.instant('loginRequired'));
       return;
@@ -137,13 +140,12 @@ export class QuotesComponent implements OnInit {
 
     this.isLoading = true;
     const formValue = this.quoteForm.value;
-    const userId = Number(localStorage.getItem('userId') || 0);
 
     const quoteData: Quote = {
       text: formValue.text,
       author: formValue.author,
       bookId: formValue.bookId || null,
-      userId
+      userId: this.authService.getCurrentUserId()!
     };
 
     if (this.isEdit && this.editingQuoteId) {
@@ -187,7 +189,7 @@ export class QuotesComponent implements OnInit {
   }
 
   private isLoggedIn(): boolean {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('authToken'); 
     const userId = localStorage.getItem('userId');
     return !!token && !!userId;
   }
