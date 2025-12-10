@@ -23,9 +23,7 @@ public class AuthController : ControllerBase
         _logger = logger;
     }
 
-    // -----------------------------------------------
     // TEST ENDPOINT
-    // -----------------------------------------------
     [HttpGet("test")]
     public IActionResult Test()
     {
@@ -37,9 +35,8 @@ public class AuthController : ControllerBase
         });
     }
 
-    // -----------------------------------------------
+    
     // SETUP ADMIN ACCOUNT (ONE TIME USE)
-    // -----------------------------------------------
     [HttpPost("setup-admin")]
     public async Task<IActionResult> SetupAdmin([FromBody] SetupAdminDto model)
     {
@@ -73,9 +70,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -----------------------------------------------
     // REGISTER USER
-    // -----------------------------------------------
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto model)
     {
@@ -120,9 +115,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -----------------------------------------------
     // LOGIN USER
-    // -----------------------------------------------
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto model)
     {
@@ -154,9 +147,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -----------------------------------------------
     // LOGIN ADMIN ONLY
-    // -----------------------------------------------
     [HttpPost("admin/login")]
     public async Task<IActionResult> AdminLogin([FromBody] LoginDto model)
     {
@@ -183,18 +174,15 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -----------------------------------------------
+   
     // LOGOUT
-    // -----------------------------------------------
     [HttpPost("logout")]
     public IActionResult Logout()
     {
         return Ok(new { message = "Logged out successfully. Remove token client-side." });
     }
 
-    // -----------------------------------------------
     // JWT VALIDATION
-    // -----------------------------------------------
     [HttpPost("validate-token")]
     public IActionResult ValidateToken([FromBody] ValidateTokenDto model)
     {
@@ -212,7 +200,8 @@ public class AuthController : ControllerBase
                 ValidateAudience = true,
                 ValidAudience = _config["Jwt:Audience"],
                 ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
+                ClockSkew = TimeSpan.Zero,
+                RoleClaimType = ClaimTypes.Role
             }, out SecurityToken validated);
 
             var jwt = (JwtSecurityToken)validated;
@@ -231,9 +220,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // -----------------------------------------------
     // GET CURRENT USER WITH TOKEN
-    // -----------------------------------------------
     [HttpGet("user-info")]
     [Microsoft.AspNetCore.Authorization.Authorize]
     public async Task<IActionResult> GetUserInfo()
@@ -254,9 +241,7 @@ public class AuthController : ControllerBase
         });
     }
 
-    // -----------------------------------------------
     // JWT TOKEN GENERATION
-    // -----------------------------------------------
     private string GenerateJwtToken(User user)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? throw new Exception("Missing JWT key")));
@@ -283,7 +268,6 @@ public class AuthController : ControllerBase
 }
 
 // DTOs
-
 public class RegisterDto
 {
     public string Username { get; set; } = "";

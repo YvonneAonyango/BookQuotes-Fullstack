@@ -8,7 +8,7 @@ namespace BookWebApp.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Admin")] // Only admins can access
+[Authorize(Roles = "Admin")]
 public class AdminController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -28,7 +28,7 @@ public class AdminController : ControllerBase
                 u.Id,
                 u.Username,
                 Role = u.Role.ToString(),
-                RegisteredDate = "N/A" // You can add RegistrationDate to User model later
+                RegisteredDate = "N/A"
             })
             .ToListAsync();
 
@@ -37,17 +37,43 @@ public class AdminController : ControllerBase
 
     // GET: api/admin/books
     [HttpGet("books")]
-    public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+    public async Task<ActionResult<IEnumerable<object>>> GetBooks()
     {
-        var books = await _context.Books.ToListAsync();
+        var books = await _context.Books
+            .Include(b => b.Quotes)
+            .Select(b => new 
+            {
+                b.Id,
+                b.Title,
+                b.Author,
+                b.PublishDate,
+                b.UserId,
+                QuoteCount = b.Quotes.Count
+            })
+            .ToListAsync();
+
         return Ok(books);
     }
 
     // GET: api/admin/quotes
     [HttpGet("quotes")]
-    public async Task<ActionResult<IEnumerable<Quote>>> GetQuotes()
+    public async Task<ActionResult<IEnumerable<object>>> GetQuotes()
     {
-        var quotes = await _context.Quotes.ToListAsync();
+        var quotes = await _context.Quotes
+            .Include(q => q.Book)
+            .Include(q => q.User)
+            .Select(q => new 
+            {
+                q.Id,
+                q.Text,
+                q.Author,
+                q.BookId,
+                BookTitle = q.Book != null ? q.Book.Title : null,
+                q.UserId,
+                Username = q.User != null ? q.User.Username : null
+            })
+            .ToListAsync();
+
         return Ok(quotes);
     }
 
