@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 
@@ -30,33 +30,22 @@ export class AdminDashboardComponent implements OnInit {
       this.errorMessage.set('Admin access required.');
       return;
     }
-    this.loadDashboard();
+    this.loadStats();
   }
 
-  loadDashboard(): void {
+  loadStats(): void {
     this.isLoading.set(true);
     this.errorMessage.set('');
 
-    forkJoin({
-      stats: this.authService.adminGet<any>('stats').pipe(
-        catchError(err => {
-          console.error(err);
-          this.errorMessage.set('Failed to load stats');
-          return of(null as any); // Type-safe fallback
-        })
-      )
-    }).subscribe({
-      next: ({ stats }) => {
-        if (stats) {
-          this.stats.set({
-            totalUsers: stats.TotalUsers ?? 0,
-            totalBooks: stats.TotalBooks ?? 0,
-            totalQuotes: stats.TotalQuotes ?? 0,
-            adminUsers: stats.AdminUsers ?? 0
-          });
-        }
-      },
-      complete: () => this.isLoading.set(false)
+    this.authService.adminRequest<Stats>('GET', 'stats').pipe(
+      catchError(err => {
+        console.error('Error loading stats', err);
+        this.errorMessage.set('Failed to load dashboard stats.');
+        return of({ totalUsers: 0, totalBooks: 0, totalQuotes: 0, adminUsers: 0 });
+      })
+    ).subscribe(res => {
+      this.stats.set(res);
+      this.isLoading.set(false);
     });
   }
 }
