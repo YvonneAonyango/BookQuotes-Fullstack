@@ -1,51 +1,47 @@
-/* ======================================
-   QUOTES PAGE — FULLY RESPONSIVE & THEMED
-   ====================================== */
-
-/* ---------- THEME VARIABLES ---------- */
+/* === THEME VARIABLES === */
 :root {
   --bg-page: rgba(248, 250, 252, 0.98);
   --text-primary: #0f172a;
   --text-secondary: #334155;
   --card-bg: rgba(255, 255, 255, 1);
   --card-border: rgba(0, 0, 0, 0.12);
-  --card-header-bg: #3b82f6;
+
   --btn-primary-bg: #1e40af;
   --btn-primary-hover: #1d4ed8;
-  --btn-edit-bg: #3b82f6;
-  --btn-edit-hover: #2563eb;
-  --btn-delete-bg: #ef4444;
-  --btn-delete-hover: #dc2626;
+  --btn-edit-bg: #0ff;
+  --btn-edit-hover: #0cc;
+  --btn-delete-bg: #0ff;
+  --btn-delete-hover: #0cc;
+
+  --badge-burnt-orange: rgba(255, 87, 34, 0.2);
+  --badge-text: #ff5722;
+
   --alert-danger-bg: #fee2e2;
   --alert-danger-border: #f87171;
   --alert-danger-text: #7f1d1d;
-  --meta-text: #475569;
-  --page-border: rgba(0, 0, 0, 0.15);
-  --modal-overlay: rgba(0, 0, 0, 0.55);
+
+  --page-border: rgba(0,0,0,0.15);
 }
 
 .dark-mode {
-  --bg-page: rgba(15, 23, 42, 0.98);
+  --bg-page: rgba(15,23,42,0.98);
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --card-bg: rgba(30, 41, 59, 0.95);
-  --card-border: rgba(255, 255, 255, 0.2);
-  --card-header-bg: #1e3a8a;
+  --card-bg: rgba(30,41,59,0.95);
+  --card-border: rgba(255,255,255,0.2);
+
   --btn-primary-bg: #3b82f6;
   --btn-primary-hover: #2563eb;
-  --btn-edit-bg: #2563eb;
-  --btn-edit-hover: #1d4ed8;
-  --btn-delete-bg: #dc2626;
-  --btn-delete-hover: #b91c1c;
-  --alert-danger-bg: rgba(127, 29, 29, 0.85);
-  --alert-danger-border: #ef4444;
-  --alert-danger-text: #fca5a5;
-  --meta-text: #94a3b8;
-  --page-border: rgba(255, 255, 255, 0.25);
-  --modal-overlay: rgba(0, 0, 0, 0.75);
+  --btn-edit-bg: #0ff;
+  --btn-edit-hover: #0cc;
+  --btn-delete-bg: #0ff;
+  --btn-delete-hover: #0cc;
+
+  --badge-burnt-orange: rgba(255,87,34,0.3);
+  --badge-text: #ff8a50;
 }
 
-/* ---------- PAGE LAYOUT ---------- */
+/* === PAGE LAYOUT === */
 .quotes-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -56,12 +52,11 @@
   background-color: var(--bg-page);
   color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s, color 0.3s;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   box-sizing: border-box;
 }
 
-/* ---------- PAGE HEADER ---------- */
+/* === PAGE HEADER === */
 .page-header {
   display: flex;
   flex-direction: column;
@@ -73,88 +68,56 @@
   font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 800;
   margin: 0;
-  color: var(--text-primary);
   line-height: 1.2;
 }
 
 .page-header .lead {
-  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-size: clamp(1rem,2vw,1.3rem);
   font-weight: 500;
   color: var(--text-secondary);
-  line-height: 1.5;
   margin: 0;
 }
 
-/* ---------- ALERTS ---------- */
+/* === ALERTS === */
 .alert {
   border-radius: 10px;
   padding: 1rem 1.5rem;
   margin-bottom: 1.5rem;
 }
-
 .alert-danger {
   background-color: var(--alert-danger-bg);
   color: var(--alert-danger-text);
   border-left: 4px solid var(--alert-danger-border);
 }
 
-/* ---------- LOADING & EMPTY STATES ---------- */
-.loading-state,
-.empty-quotes-state {
-  text-align: center;
-  color: var(--text-secondary);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.empty-quotes-state h4 {
-  font-size: clamp(1.2rem, 2vw, 1.6rem);
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.empty-quotes-state p {
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
-}
-
-/* ---------- QUOTE FORM CARD ---------- */
+/* === QUOTE FORM === */
 .quote-form .card {
-  background: rgba(255, 223, 128, 0.3);
-  border: 1px solid rgba(255, 193, 127, 0.5);
-  box-shadow: 0 4px 12px rgba(255, 193, 127, 0.25);
-  padding: clamp(1rem, 2vw, 1.5rem);
+  background: rgba(255,223,128,0.3);
+  border: 1px solid rgba(255,193,127,0.5);
+  box-shadow: 0 4px 12px rgba(255,193,127,0.25);
   border-radius: 16px;
+  padding: clamp(1rem,2vw,1.5rem);
   display: flex;
   flex-direction: column;
   gap: 1rem;
   transition: all 0.3s ease;
 }
-
 .quote-form .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 193, 127, 0.35);
+  box-shadow: 0 6px 16px rgba(255,193,127,0.35);
 }
-
 .quote-form .card-header h5 {
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(1rem,2vw,1.25rem);
   font-weight: 600;
-  color: var(--text-primary);
 }
 
-/* ---------- FORM CONTROLS ---------- */
+/* Form Controls */
 .quote-form .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
-
-.quote-form label {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
+.quote-form label { font-weight: 600; }
 .quote-form textarea,
 .quote-form input,
 .quote-form select {
@@ -167,19 +130,20 @@
   width: 100%;
   box-sizing: border-box;
 }
-
-.quote-form textarea {
-  min-height: 100px;
-  resize: vertical;
+.quote-form textarea { min-height: 100px; resize: vertical; }
+.form-guidance {
+  font-size: 0.8rem;
+  color: #f97316;
+  margin-top: 0.25rem;
 }
+.dark-mode .form-guidance { color: #fb923c; }
 
-/* ---------- FORM BUTTONS ---------- */
+/* Form Buttons */
 .quote-form .form-buttons {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
-
 .quote-form .form-buttons button {
   flex: 1;
   padding: 0.75rem;
@@ -189,43 +153,17 @@
   cursor: pointer;
   min-width: 100px;
 }
-
-/* Primary & Outline Buttons */
-.btn-primary {
-  background-color: var(--btn-primary-bg);
-  color: #fff;
-}
+.btn-primary { background-color: var(--btn-primary-bg); color: #fff; }
 .btn-primary:hover { background-color: var(--btn-primary-hover); }
 
-.btn-outline-primary {
-  background: none;
-  border: 1px solid var(--btn-primary-bg);
-  color: var(--btn-primary-bg);
-}
-.btn-outline-primary:hover {
-  background: var(--btn-primary-bg);
-  color: #fff;
-}
-
-.btn-outline-danger {
-  background: none;
-  border: 1px solid var(--btn-delete-bg);
-  color: var(--btn-delete-bg);
-}
-.btn-outline-danger:hover {
-  background: var(--btn-delete-bg);
-  color: #fff;
-}
-
-/* ---------- QUOTES GRID ---------- */
+/* === QUOTES GRID === */
 .quotes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
   gap: 1.5rem;
-  width: 100%;
 }
 
-/* ---------- QUOTE CARD ---------- */
+/* Quote Card */
 .quote-card {
   background: var(--card-bg);
   border-radius: 16px;
@@ -235,87 +173,90 @@
   flex-direction: column;
   gap: 0.75rem;
   transition: all 0.3s ease;
-  box-sizing: border-box;
 }
-
 .quote-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
-
 .quote-card.selected {
   border-color: var(--btn-primary-bg);
   box-shadow: 0 0 12px rgba(0,0,0,0.15);
 }
-
 .quote-text {
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  font-size: clamp(0.95rem,1.5vw,1.05rem);
   line-height: 1.5rem;
-  color: var(--text-primary);
-  cursor: pointer;
   word-break: break-word;
+  cursor: pointer;
 }
-
 .quote-footer {
-  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+  font-size: clamp(0.75rem,1.2vw,0.875rem);
   color: var(--text-secondary);
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
-
 .quote-card-footer {
   display: flex;
   gap: 0.5rem;
   margin-top: auto;
 }
-
 .quote-card-footer button {
   flex: 1;
   padding: 0.5rem;
-  font-size: clamp(0.7rem, 1vw, 0.875rem);
+  font-size: clamp(0.7rem,1vw,0.875rem);
   border-radius: 10px;
   border: none;
   cursor: pointer;
 }
 
-/* Edit/Delete Buttons */
-.btn-edit { background-color: var(--btn-edit-bg); color: #fff; }
-.btn-edit:hover { background-color: var(--btn-edit-hover); }
-.btn-delete { background-color: var(--btn-delete-bg); color: #fff; }
-.btn-delete:hover { background-color: var(--btn-delete-hover); }
+/* Edit/Delete Buttons Neon */
+.btn-edit, .btn-delete {
+  background-color: var(--btn-edit-bg);
+  color: #000;
+  font-weight: 600;
+}
+.btn-edit:hover, .btn-delete:hover { background-color: var(--btn-edit-hover); color: #fff; }
 
 /* Count Badge */
 .count-badge {
-  background-color: var(--btn-primary-bg);
-  color: #fff;
-  padding: 0.2rem 0.5rem;
+  background-color: var(--badge-burnt-orange);
+  color: var(--badge-text);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
   font-size: 0.85rem;
   margin-left: 0.5rem;
   font-weight: 600;
 }
 
-/* ---------- RESPONSIVE BREAKPOINTS ---------- */
-@media (max-width: 1200px) {
-  .quotes-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+/* === RESPONSIVE BREAKPOINTS === */
+
+/* Large desktops */
+@media(max-width:1200px){
+  .quotes-grid { grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
 }
 
-@media (max-width: 992px) {
+/* Medium screens */
+@media(max-width:992px){
   .quotes-page { padding: 1.5rem; }
   .quote-form .card { padding: 1rem; }
-  .quotes-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .quotes-grid { grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); }
 }
 
-@media (max-width: 768px) {
+/* Tablets */
+@media(max-width:768px){
   .quotes-page { padding: 1rem; }
   .quote-form .card { padding: 0.9rem; }
-  .quotes-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .quotes-grid { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
   .page-header h1 { font-size: 1.75rem; }
   .page-header .lead { font-size: 1rem; }
 }
 
-@media (max-width: 480px) {
+/* Small mobiles */
+@media(max-width:480px){
   .quote-card { padding: 0.85rem; }
   .quote-footer { font-size: 0.75rem; }
   .quote-card-footer button { padding: 0.35rem 0.45rem; font-size: 0.7rem; }
@@ -323,7 +264,8 @@
   .page-header .lead { font-size: 0.95rem; }
 }
 
-@media (max-width: 360px) {
+/* Extra small mobiles */
+@media(max-width:360px){
   .quotes-page { padding: 0.8rem; }
   .quotes-grid { gap: 1rem; }
   .quote-form .form-buttons { flex-direction: column; gap: 0.5rem; }

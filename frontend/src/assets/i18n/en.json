@@ -15,7 +15,9 @@
   "curateYourBooks": "Curate your books",
   "captureQuotes": "Capture quotes",
   "unlockInsights": "Unlock insights",
-  
+  "quoteStartCapital": "Start with a capital letter.",
+  "authorStartCapital": "Start each name with a capital letter.",
+
   "whatBookWebAppOffers": "What BookWebApp Offers",
   "transformYourReadingExperience": "Transform your reading experience with our powerful features",
   "readingInsights": "Reading Insights",

@@ -16,7 +16,9 @@
   "readingInsights": "Läsinsikter",
   "myQuotes": "Mina Citat",
   "allQuotes": "Alla Citat",
-  
+  "quoteStartCapital": "Börja med en stor bokstav.",
+"authorStartCapital": "Börja varje namn med en stor bokstav.",
+
   "alreadyHaveAccount": "Har du redan ett konto?",
   "loginToAccount": "Logga in här",
   "elevateYourReadingExperience": "Förhöj din läsupplevelse",

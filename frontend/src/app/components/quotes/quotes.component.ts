@@ -189,6 +189,6 @@ export class QuotesComponent implements OnInit {
   }
 
   private isLoggedIn(): boolean {
-    return this.auth.isAuthenticated(); // CHANGED: Use AuthService
+    return this.auth.isAuthenticated(); //  Use AuthService
   }
 }
