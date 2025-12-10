@@ -5,7 +5,6 @@ import { tap, catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
-
 // AUTH MODELS
 export interface LoginRequest {
   username: string;
@@ -16,6 +15,7 @@ export interface RegisterRequest {
   username: string;
   password: string;
   confirmPassword: string;
+  role?: string;
 }
 
 export interface AuthResponse {
@@ -58,11 +58,11 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.getCurrentRole() === 'admin';
+    return this.getCurrentRole()?.toLowerCase() === 'admin';
   }
 
   hasRole(role: string): boolean {
-    return this.getCurrentRole() === role.toLowerCase();
+    return this.getCurrentRole()?.toLowerCase() === role.toLowerCase();
   }
 
   // AUTH OPERATIONS
@@ -74,7 +74,6 @@ export class AuthService {
       );
   }
 
-  //  ADMIN LOGIN
   adminLogin(loginData: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/admin/login`, loginData)
       .pipe(
@@ -89,6 +88,7 @@ export class AuthService {
   }
 
   register(registerData: RegisterRequest): Observable<AuthResponse> {
+    if (!registerData.role) registerData.role = 'User';
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, registerData)
       .pipe(
         tap(res => this.storeAuthData(res)),
@@ -145,7 +145,7 @@ export class AuthService {
     return this.requestWithToken<T>('DELETE', endpoint);
   }
 
-  // PRIVATE HELPER
+  // PRIVATE HELPERS
   private storeAuthData(res: AuthResponse): void {
     if (!res) return;
     localStorage.setItem('authToken', res.token);
@@ -165,12 +165,24 @@ export class AuthService {
 
     const url = `${this.apiUrl}/admin/${endpoint}`;
 
+    let request$: Observable<T>;
     switch (method) {
-      case 'GET': return this.http.get<T>(url, { headers });
-      case 'POST': return this.http.post<T>(url, body, { headers });
-      case 'PUT': return this.http.put<T>(url, body, { headers });
-      case 'DELETE': return this.http.delete<T>(url, { headers });
+      case 'GET': request$ = this.http.get<T>(url, { headers }); break;
+      case 'POST': request$ = this.http.post<T>(url, body, { headers }); break;
+      case 'PUT': request$ = this.http.put<T>(url, body, { headers }); break;
+      case 'DELETE': request$ = this.http.delete<T>(url, { headers }); break;
       default: throw new Error('Invalid HTTP method');
     }
+
+    return request$.pipe(
+      catchError(err => this.handleRequestError<T>(err))
+    );
+  }
+
+  private handleRequestError<T>(err: any): Observable<T> {
+    if (err.status === 401 || err.status === 403) {
+      this.logout();
+    }
+    return throwError(() => err) as Observable<T>;
   }
 }

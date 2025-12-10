@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -30,7 +30,6 @@ export class AdminDashboardComponent implements OnInit {
       this.errorMessage.set('Admin access required.');
       return;
     }
-
     this.loadDashboard();
   }
 
@@ -43,7 +42,7 @@ export class AdminDashboardComponent implements OnInit {
         catchError(err => {
           console.error(err);
           this.errorMessage.set('Failed to load stats');
-          return of(null);
+          return of(null as any); // Type-safe fallback
         })
       )
     }).subscribe({
