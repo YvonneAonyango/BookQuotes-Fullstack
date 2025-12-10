@@ -1,6 +1,8 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
 import { ThemeService } from '../../../services/theme.service';
@@ -68,73 +70,65 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   // --------------------------
-  // Generic admin GET helper
-  // --------------------------
-  private adminGet<T>(endpoint: string) {
-    const token = this.authService.getToken();
-    if (!token) throw new Error('Not authenticated. Please login.');
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.get<T>(`${environment.apiUrl}/admin/${endpoint}`, { headers });
-  }
-
-  // --------------------------
-  // Load all dashboard data
+  // Load all dashboard data concurrently
   // --------------------------
   loadDashboard(): void {
     this.isLoading.set(true);
     this.errorMessage.set('');
 
-    // Load Stats
-    this.adminGet<any>('stats').subscribe({
-      next: stats => {
-        this.stats.set({
-          totalUsers: stats.TotalUsers ?? 0,
-          totalBooks: stats.TotalBooks ?? 0,
-          totalQuotes: stats.TotalQuotes ?? 0,
-          adminUsers: stats.AdminUsers ?? 0
-        });
-      },
-      error: err => {
-        console.error('Error loading stats:', err);
-        this.errorMessage.set('Failed to load stats');
-      }
-    });
+    forkJoin({
+      stats: this.authService.adminGet<any>('stats').pipe(
+        catchError(err => {
+          console.error('Error loading stats:', err);
+          this.errorMessage.set('Failed to load stats');
+          return of(null);
+        })
+      ),
+      users: this.authService.adminGet<any[]>('users').pipe(
+        catchError(err => {
+          console.error('Error loading users:', err);
+          this.errorMessage.set('Failed to load users');
+          return of([]);
+        })
+      ),
+      books: this.authService.adminGet<any[]>('books').pipe(
+        catchError(err => {
+          console.error('Error loading books:', err);
+          this.errorMessage.set('Failed to load books');
+          return of([]);
+        })
+      ),
+      quotes: this.authService.adminGet<any[]>('quotes').pipe(
+        catchError(err => {
+          console.error('Error loading quotes:', err);
+          this.errorMessage.set('Failed to load quotes');
+          return of([]);
+        })
+      )
+    }).subscribe({
+      next: ({ stats, users, books, quotes }) => {
+        if (stats) {
+          this.stats.set({
+            totalUsers: stats.TotalUsers ?? 0,
+            totalBooks: stats.TotalBooks ?? 0,
+            totalQuotes: stats.TotalQuotes ?? 0,
+            adminUsers: stats.AdminUsers ?? 0
+          });
+        }
 
-    // Load Users
-    this.adminGet<any[]>('users').subscribe({
-      next: users => this.users.set(users.map(u => ({
-        id: u.id,
-        username: u.username,
-        role: u.Role ?? u.role,
-        registeredDate: u.RegisteredDate ?? u.registeredDate
-      }))),
-      error: err => {
-        console.error('Error loading users:', err);
-        this.errorMessage.set('Failed to load users');
-      }
-    });
+        this.users.set(users.map(u => ({
+          id: u.id,
+          username: u.username,
+          role: u.Role ?? u.role,
+          registeredDate: u.RegisteredDate ?? u.registeredDate
+        })));
 
-    // Load Books
-    this.adminGet<any[]>('books').subscribe({
-      next: books => this.books.set(books.map(b => ({
-        id: b.id,
-        title: b.title,
-        author: b.author
-      }))),
-      error: err => {
-        console.error('Error loading books:', err);
-        this.errorMessage.set('Failed to load books');
-      }
-    });
+        this.books.set(books.map(b => ({
+          id: b.id,
+          title: b.title,
+          author: b.author
+        })));
 
-    // Load Quotes
-    this.adminGet<any[]>('quotes').subscribe({
-      next: quotes => {
         const booksMap = new Map(this.books().map(b => [b.id, b.title]));
         this.quotes.set(quotes.map(q => ({
           id: q.id,
@@ -144,10 +138,6 @@ export class AdminDashboardComponent implements OnInit {
           bookTitle: q.BookId ? booksMap.get(q.BookId ?? q.bookId) : '',
           userId: q.UserId ?? q.userId
         })));
-      },
-      error: err => {
-        console.error('Error loading quotes:', err);
-        this.errorMessage.set('Failed to load quotes');
       },
       complete: () => this.isLoading.set(false)
     });

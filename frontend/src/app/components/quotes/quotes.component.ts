@@ -115,7 +115,7 @@ export class QuotesComponent implements OnInit {
     const quoteData: Quote = {
       text: formValue.text.trim(),
       author: formValue.author.trim(),
-      bookId: formValue.bookId ?? null
+      bookId: formValue.bookId && formValue.bookId > 0 ? formValue.bookId : null
     };
 
     if (this.isEdit && this.editingQuoteId) {

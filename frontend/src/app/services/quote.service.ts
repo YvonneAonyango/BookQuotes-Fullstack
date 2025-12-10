@@ -26,10 +26,7 @@ export interface Quote {
 export class QuoteService {
   private apiUrl = environment.apiUrl;
 
-  constructor(
-    private http: HttpClient,
-    private auth: AuthService
-  ) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   private getAuthHeaders(jsonContent: boolean = false): HttpHeaders {
     const token = this.auth.getToken();
@@ -46,13 +43,6 @@ export class QuoteService {
     }).pipe(catchError(error => throwError(() => error)));
   }
 
-  getQuote(id: number): Observable<Quote> {
-    return this.http.get<Quote>(`${this.apiUrl}/quotes/${id}`, {
-      headers: this.getAuthHeaders(),
-      withCredentials: true
-    }).pipe(catchError(error => throwError(() => error)));
-  }
-
   createQuote(quote: Quote): Observable<Quote> {
     if (!this.auth.isAuthenticated()) throw new Error('Not logged in');
     const userId = this.auth.getCurrentUserId();
@@ -61,7 +51,7 @@ export class QuoteService {
       Text: quote.text.trim(),
       Author: quote.author.trim(),
       UserId: userId || 0,
-      BookId: quote.bookId ?? null   // always number or null
+      BookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
     };
 
     return this.http.post<Quote>(`${this.apiUrl}/quotes`, payload, {
@@ -77,7 +67,7 @@ export class QuoteService {
       Text: quote.text.trim(),
       Author: quote.author.trim(),
       UserId: userId || 0,
-      BookId: quote.bookId ?? null   // always number or null
+      BookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
     };
 
     return this.http.put<Quote>(`${this.apiUrl}/quotes/${id}`, payload, {
@@ -88,13 +78,6 @@ export class QuoteService {
 
   deleteQuote(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/quotes/${id}`, {
-      headers: this.getAuthHeaders(),
-      withCredentials: true
-    }).pipe(catchError(error => throwError(() => error)));
-  }
-
-  getQuotesByBookId(bookId: number): Observable<Quote[]> {
-    return this.http.get<Quote[]>(`${this.apiUrl}/books/${bookId}/quotes`, {
       headers: this.getAuthHeaders(),
       withCredentials: true
     }).pipe(catchError(error => throwError(() => error)));

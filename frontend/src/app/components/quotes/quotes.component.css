@@ -12,6 +12,8 @@
   --btn-edit-hover: #00e5ff;
   --btn-delete-bg: #00ffff;
   --btn-delete-hover: #00e5ff;
+  --btn-cancel-bg: #ff6f3c; /* neon burnt orange */
+  --btn-cancel-hover: #ff8566;
 
   --alert-danger-bg: #fee2e2;
   --alert-danger-border: #f87171;
@@ -33,6 +35,8 @@
   --btn-edit-hover: #00e5ff;
   --btn-delete-bg: #00ffff;
   --btn-delete-hover: #00e5ff;
+  --btn-cancel-bg: #ff6f3c;
+  --btn-cancel-hover: #ff8566;
 }
 
 /* === PAGE LAYOUT === */
@@ -131,7 +135,7 @@
   margin-top: 0.75rem; /* lowered to avoid overlapping */
 }
 .quote-form .form-buttons button[type="submit"] {
-  background-color: #00ffff;
+  background-color: var(--btn-primary-bg);
   color: #001f33;
   font-weight: 600;
   font-size: 0.85rem;
@@ -143,8 +147,26 @@
   box-shadow: 0 0 6px #00ffff, 0 0 12px #00ffff;
 }
 .quote-form .form-buttons button[type="submit"]:hover {
-  background-color: #00e5ff;
+  background-color: var(--btn-primary-hover);
   box-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
+}
+
+/* Cancel button styling */
+.quote-form .form-buttons button[type="button"] {
+  background-color: var(--btn-cancel-bg);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.45rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  flex: 0 0 auto;
+  box-shadow: 0 0 6px var(--btn-cancel-bg), 0 0 12px var(--btn-cancel-bg);
+}
+.quote-form .form-buttons button[type="button"]:hover {
+  background-color: var(--btn-cancel-hover);
+  box-shadow: 0 0 8px var(--btn-cancel-bg), 0 0 16px var(--btn-cancel-bg);
 }
 
 /* === QUOTES GRID - bookshelf style === */
@@ -201,77 +223,40 @@
   font-size: 0.75rem;
   border-radius: 6px;
   border: none;
-  background-color: #00ffff;
+  background-color: var(--btn-primary-bg);
   color: #001f33;
   cursor: pointer;
   font-weight: 600;
 }
 .quote-card-footer button:hover {
-  background-color: #00e5ff;
+  background-color: var(--btn-primary-hover);
 }
 
 /* === RESPONSIVE === */
 @media (max-width: 1200px) {
-  .quote-card {
-    max-width: 280px;
-  }
+  .quote-card { max-width: 280px; }
 }
 @media (max-width: 992px) {
-  .quotes-page {
-    padding: 1.5rem;
-  }
-  .quote-form .card {
-    padding: 1rem;
-  }
-  .quote-card {
-    max-width: 240px;
-  }
+  .quotes-page { padding: 1.5rem; }
+  .quote-form .card { padding: 1rem; }
+  .quote-card { max-width: 240px; }
 }
 @media (max-width: 768px) {
-  .quotes-page {
-    padding: 1rem;
-  }
-  .quote-form .card {
-    padding: 0.9rem;
-  }
-  .quote-card {
-    max-width: 90%;
-  }
-  .page-header h1 {
-    font-size: 1.75rem;
-  }
-  .page-header .lead {
-    font-size: 1rem;
-  }
+  .quotes-page { padding: 1rem; }
+  .quote-form .card { padding: 0.9rem; }
+  .quote-card { max-width: 90%; }
+  .page-header h1 { font-size: 1.75rem; }
+  .page-header .lead { font-size: 1rem; }
 }
 @media (max-width: 480px) {
-  .quote-card {
-    max-width: 100%;
-    padding: 0.8rem;
-  }
-  .quote-footer {
-    font-size: 0.65rem;
-  }
-  .quote-card-footer button {
-    padding: 0.15rem 0.25rem;
-    font-size: 0.6rem;
-  }
-  .page-header h1 {
-    font-size: 1.5rem;
-  }
-  .page-header .lead {
-    font-size: 0.95rem;
-  }
+  .quote-card { max-width: 100%; padding: 0.8rem; }
+  .quote-footer { font-size: 0.65rem; }
+  .quote-card-footer button { padding: 0.15rem 0.25rem; font-size: 0.6rem; }
+  .page-header h1 { font-size: 1.5rem; }
+  .page-header .lead { font-size: 0.95rem; }
 }
 @media (max-width: 360px) {
-  .quotes-page {
-    padding: 0.8rem;
-  }
-  .quotes-grid {
-    gap: 0.8rem;
-  }
-  .quote-form .form-buttons {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  .quotes-page { padding: 0.8rem; }
+  .quotes-grid { gap: 0.8rem; }
+  .quote-form .form-buttons { flex-direction: column; gap: 0.5rem; }
 }
