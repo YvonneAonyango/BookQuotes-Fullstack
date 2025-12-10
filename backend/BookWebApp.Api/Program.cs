@@ -7,12 +7,12 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// -------------------- CONFIGURATION --------------------
+//  CONFIGURATION 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-// -------------------- DATABASE --------------------
+// DATABASE 
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     var connString = builder.Configuration.GetConnectionString("DefaultConnection")
@@ -20,15 +20,15 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlite(connString);
 });
 
-// -------------------- SERVICES --------------------
+//  SERVICES 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddControllers();
 
-// -------------------- SWAGGER --------------------
+//  SWAGGER 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// -------------------- JWT AUTHENTICATION --------------------
+//  JWT AUTHENTICATION 
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
              ?? builder.Configuration["Jwt:Key"]
              ?? "DEVELOPMENT_KEY_ONLY_CHANGE_FOR_PRODUCTION";
@@ -59,7 +59,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// -------------------- CORS --------------------
+//  CORS 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -74,7 +74,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// -------------------- RENDER PORT --------------------
+// RENDER PORT 
 builder.WebHost.ConfigureKestrel(options =>
 {
     var port = Environment.GetEnvironmentVariable("PORT");
@@ -86,7 +86,7 @@ builder.WebHost.ConfigureKestrel(options =>
 
 var app = builder.Build();
 
-// -------------------- INITIALIZE DATABASE --------------------
+//  INITIALIZE DATABASE 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -94,12 +94,12 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("Database initialized");
 }
 
-// -------------------- MIDDLEWARE --------------------
-app.UseCors("AllowFrontend"); // MUST come before auth
+//  MIDDLEWARE 
+app.UseCors("AllowFrontend"); //before auth
 app.UseAuthentication();
 app.UseAuthorization();
 
-// -------------------- SWAGGER DEV --------------------
+// SWAGGER DEV 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -111,10 +111,10 @@ if (app.Environment.IsDevelopment())
     Console.WriteLine("🔓 Development Mode: Swagger UI enabled at /swagger");
 }
 
-// -------------------- MAP CONTROLLERS --------------------
+// MAP CONTROLLERS //
 app.MapControllers();
 
-// -------------------- LOG INFO --------------------
+// LOG INFO //
 Console.WriteLine("========================================");
 Console.WriteLine(" BookWebApp API running!");
 Console.WriteLine($" Environment: {app.Environment.EnvironmentName}");

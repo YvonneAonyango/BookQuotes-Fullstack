@@ -52,31 +52,28 @@ public class QuotesController : ControllerBase
         var userId = GetCurrentUserId();
         if (userId == null) return Unauthorized();
 
-        // Validate required fields
         if (string.IsNullOrWhiteSpace(q.Text))
             return BadRequest(new { message = "Text is required" });
-            
+
         if (string.IsNullOrWhiteSpace(q.Author))
             return BadRequest(new { message = "Author is required" });
 
-        // Check Book exists ONLY if BookId is provided (not null and not 0)
-        if (q.BookId.HasValue && q.BookId.Value != 0)
+        // Handle BookId: only assign if >0 and exists
+        if (q.BookId.HasValue && q.BookId.Value > 0)
         {
             var bookExists = await _context.Books.AnyAsync(b => b.Id == q.BookId.Value);
-            if (!bookExists) 
-                return BadRequest(new { message = "BookId references non-existent book" });
+            if (!bookExists) return BadRequest(new { message = "BookId references non-existent book" });
         }
         else
         {
-            // If no book provided, set to null
             q.BookId = null;
         }
 
         q.UserId = userId.Value;
         _context.Quotes.Add(q);
         await _context.SaveChangesAsync();
-        
-        // Load the Book relation for the response
+
+        // Load Book for response
         await _context.Entry(q).Reference(q => q.Book).LoadAsync();
         return Ok(q);
     }
@@ -90,36 +87,32 @@ public class QuotesController : ControllerBase
         var userId = GetCurrentUserId();
         if (!IsOwnerOrAdmin(quote.UserId, userId)) return Forbid();
 
-        // Validate required fields
         if (string.IsNullOrWhiteSpace(updated.Text))
             return BadRequest(new { message = "Text is required" });
-            
+
         if (string.IsNullOrWhiteSpace(updated.Author))
             return BadRequest(new { message = "Author is required" });
 
         quote.Text = updated.Text;
-        quote.Author = updated.Author; // Don't forget Author!
-        
-        // Handle BookId update - it can be null now
-        if (updated.BookId.HasValue && updated.BookId.Value != 0)
+        quote.Author = updated.Author;
+
+        // Handle BookId update
+        if (updated.BookId.HasValue && updated.BookId.Value > 0)
         {
             if (updated.BookId.Value != quote.BookId)
             {
                 var bookExists = await _context.Books.AnyAsync(b => b.Id == updated.BookId.Value);
-                if (!bookExists) 
-                    return BadRequest(new { message = "New BookId does not exist" });
+                if (!bookExists) return BadRequest(new { message = "New BookId does not exist" });
                 quote.BookId = updated.BookId.Value;
             }
         }
         else
         {
-            // Allow setting BookId to null
             quote.BookId = null;
         }
 
         await _context.SaveChangesAsync();
-        
-        // Load the Book relation for the response
+
         await _context.Entry(quote).Reference(q => q.Book).LoadAsync();
         return Ok(quote);
     }

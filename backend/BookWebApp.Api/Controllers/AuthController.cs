@@ -282,9 +282,7 @@ public class AuthController : ControllerBase
     }
 }
 
-// ---------------------------------------------------
 // DTOs
-// ---------------------------------------------------
 
 public class RegisterDto
 {
