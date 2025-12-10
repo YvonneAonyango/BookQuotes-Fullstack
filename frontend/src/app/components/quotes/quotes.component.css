@@ -3,15 +3,15 @@
   --bg-page: rgba(248,250,252,0.98);
   --text-primary: #0f172a;
   --text-secondary: #334155;
-  --card-bg: rgba(255,255,255,1);
+  --card-bg: rgba(255,87,34,0.2); /* transparent warm burnt orange */
   --card-border: rgba(0,0,0,0.12);
 
   --btn-primary-bg: #1e40af;
   --btn-primary-hover: #1d4ed8;
-  --btn-edit-bg: #0ff;
-  --btn-edit-hover: #0cc;
-  --btn-delete-bg: #0ff;
-  --btn-delete-hover: #0cc;
+  --btn-edit-bg: #4a90e2; /* neon blue */
+  --btn-edit-hover: #3571c1;
+  --btn-delete-bg: #4a90e2; /* neon blue */
+  --btn-delete-hover: #3571c1;
 
   --badge-burnt-orange: rgba(255,87,34,0.2);
   --badge-text: #ff5722;
@@ -27,15 +27,15 @@
   --bg-page: rgba(15,23,42,0.98);
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --card-bg: rgba(30,41,59,0.95);
+  --card-bg: rgba(255,87,34,0.3); /* dark mode transparent burnt orange */
   --card-border: rgba(255,255,255,0.2);
 
   --btn-primary-bg: #3b82f6;
   --btn-primary-hover: #2563eb;
-  --btn-edit-bg: #0ff;
-  --btn-edit-hover: #0cc;
-  --btn-delete-bg: #0ff;
-  --btn-delete-hover: #0cc;
+  --btn-edit-bg: #5aa0ff; /* neon blue */
+  --btn-edit-hover: #3f80d6;
+  --btn-delete-bg: #5aa0ff; /* neon blue */
+  --btn-delete-hover: #3f80d6;
 
   --badge-burnt-orange: rgba(255,87,34,0.3);
   --badge-text: #ff8a50;
@@ -177,7 +177,7 @@
 /* === QUOTES GRID === */
 .quotes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+  grid-template-columns: repeat(auto-fit,1fr);
   gap: 1.5rem;
 }
 
@@ -256,15 +256,11 @@
 }
 
 /* === RESPONSIVE SHORT BLOCKS === */
-
-/* Large desktops */
 @media (max-width: 1200px) {
   .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
-
-/* Medium screens */
 @media (max-width: 992px) {
   .quotes-page {
     padding: 1.5rem;
@@ -273,11 +269,9 @@
     padding: 1rem;
   }
   .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
-
-/* Tablets */
 @media (max-width: 768px) {
   .quotes-page {
     padding: 1rem;
@@ -286,7 +280,7 @@
     padding: 0.9rem;
   }
   .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
   .page-header h1 {
     font-size: 1.75rem;
@@ -295,8 +289,6 @@
     font-size: 1rem;
   }
 }
-
-/* Small mobiles */
 @media (max-width: 480px) {
   .quote-card {
     padding: 0.85rem;
@@ -315,8 +307,6 @@
     font-size: 0.95rem;
   }
 }
-
-/* Extra small mobiles */
 @media (max-width: 360px) {
   .quotes-page {
     padding: 0.8rem;
