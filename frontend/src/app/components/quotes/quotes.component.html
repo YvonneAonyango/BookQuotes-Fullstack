@@ -64,11 +64,12 @@
             </div>
 
             <div class="form-buttons">
-              <!-- Neon Light Blue Add Quote button -->
+              <!-- Small Neon Light Blue Add Quote button -->
               <button type="submit" class="btn-add-quote" [disabled]="quoteForm.invalid || isLoading">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                 {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
               </button>
+
               <button *ngIf="isEdit" type="button" class="btn-secondary" (click)="cancelEdit()">
                 {{ 'cancel' | translate }}
               </button>
@@ -81,7 +82,7 @@
 
     <!-- Quotes List -->
     <section class="quotes-list">
-      <h3>{{ 'allQuotes' | translate }} <span class="count-badge">{{ quotes.length }}</span></h3>
+      <h3>{{ 'allQuotes' | translate }}</h3>
 
       <div *ngIf="isLoading && quotes.length === 0" class="loading-state">
         <div class="spinner-border" role="status"></div>

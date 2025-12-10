@@ -13,9 +13,6 @@
   --btn-delete-bg: #00ffff;
   --btn-delete-hover: #00e5ff;
 
-  --badge-burnt-orange: rgba(255,87,34,0.2);
-  --badge-text: #ff5722;
-
   --alert-danger-bg: #fee2e2;
   --alert-danger-border: #f87171;
   --alert-danger-text: #7f1d1d;
@@ -79,12 +76,11 @@
   border-radius: 10px;
   padding: 1rem 1.5rem;
   margin-bottom: 1.5rem;
-  box-sizing: border-box;
 }
 .alert-danger {
-  background-color: var(--alert-danger-bg);
-  color: var(--alert-danger-text);
-  border-left: 4px solid var(--alert-danger-border);
+  background-color: #fee2e2;
+  color: #7f1d1d;
+  border-left: 4px solid #f87171;
 }
 
 /* === QUOTE FORM === */
@@ -97,13 +93,8 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
   width: 100%;
-}
-.quote-form .card-header h5 {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  font-weight: 600;
+  box-sizing: border-box;
 }
 
 /* Form Controls */
@@ -125,199 +116,117 @@
   color: var(--text-primary);
   font-size: 1rem;
   width: 100%;
-  box-sizing: border-box;
 }
 .quote-form textarea {
   min-height: 100px;
   resize: vertical;
 }
 
-/* Guidance Text */
-.form-guidance {
-  font-size: 0.8rem;
-  color: #f97316;
-  margin-top: 0.25rem;
-}
-.form-guidance.valid {
-  color: #10b981;
-}
-.dark-mode .form-guidance {
-  color: #fb923c;
-}
-.dark-mode .form-guidance.valid {
-  color: #34d399;
-}
-
-/* Form Buttons */
+/* Small Neon "Add Quote" button */
 .quote-form .form-buttons {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
 
-/* Neon Add Quote Button */
 .quote-form .form-buttons button[type="submit"] {
-  background-color: #00ffff; /* neon light blue */
-  color: #001f33; /* dark contrast text */
+  background-color: #00ffff;
+  color: #001f33;
   font-weight: 600;
   font-size: 0.85rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.45rem; /* small size */
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  flex: 0 0 auto; /* do not stretch */
+  flex: 0 0 auto; /* stays small */
   box-shadow: 0 0 6px #00ffff, 0 0 12px #00ffff;
 }
 .quote-form .form-buttons button[type="submit"]:hover {
   background-color: #00e5ff;
   box-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
-  color: #001f33;
-  transform: none; /* no movement */
 }
 
 /* === QUOTES GRID === */
 .quotes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Quote Card - small square */
+/* === QUOTE CARD (same size as book cards) === */
 .quote-card {
   background: rgba(64,224,208,0.2); /* transparent turquoise */
-  border-radius: 12px;
+  border-radius: 16px;
   border: 1px solid var(--card-border);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
-  word-break: break-word;
-  aspect-ratio: 1 / 1; /* square */
-  padding: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 300px;         /* SAME SIZE as book-card */
+  min-height: 220px;        /* book-card style height */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.25s ease;
 }
+
 .quote-card:hover {
-  transform: translateY(0); /* no hover movement */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
 }
-.quote-card.selected {
-  border-color: #00ffff;
-  box-shadow: 0 0 8px #00ffff;
-}
+
 .quote-text {
-  font-size: 0.85rem;
-  line-height: 1.1rem;
-  word-break: break-word;
+  font-size: 0.9rem;
+  line-height: 1.25rem;
   flex: 1;
   overflow: hidden;
-  cursor: pointer;
 }
+
+/* Footer info */
 .quote-footer {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
+
+/* Buttons same neon style */
 .quote-card-footer {
   display: flex;
-  gap: 0.3rem;
-  margin-top: auto;
-  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
 }
 .quote-card-footer button {
-  flex: 0 0 auto;
-  padding: 0.2rem 0.4rem;
-  font-size: 0.7rem;
+  padding: 0.25rem 0.45rem;
+  font-size: 0.75rem;
   border-radius: 6px;
   border: none;
-  cursor: pointer;
   background-color: #00ffff;
   color: #001f33;
+  cursor: pointer;
   font-weight: 600;
 }
 .quote-card-footer button:hover {
   background-color: #00e5ff;
 }
 
-/* Count Badge */
-.count-badge {
-  background-color: var(--badge-burnt-orange);
-  color: var(--badge-text);
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  margin-left: 0.5rem;
-  font-weight: 600;
-}
-
-/* === RESPONSIVE ADJUSTMENTS === */
-@media (max-width: 1200px) {
-  .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  }
-}
-@media (max-width: 992px) {
-  .quotes-page {
-    padding: 1.5rem;
-  }
-  .quote-form .card {
-    padding: 1rem;
-  }
-  .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  }
-}
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
-  .quotes-page {
-    padding: 1rem;
-  }
-  .quote-form .card {
-    padding: 0.9rem;
-  }
   .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    justify-content: center;
   }
-  .page-header h1 {
-    font-size: 1.75rem;
-  }
-  .page-header .lead {
-    font-size: 1rem;
+  .quote-card {
+    max-width: 90%;
   }
 }
 @media (max-width: 480px) {
   .quote-card {
-    padding: 0.4rem;
-  }
-  .quote-footer {
-    font-size: 0.65rem;
-  }
-  .quote-card-footer button {
-    padding: 0.15rem 0.25rem;
-    font-size: 0.6rem;
-  }
-  .page-header h1 {
-    font-size: 1.5rem;
-  }
-  .page-header .lead {
-    font-size: 0.95rem;
-  }
-}
-@media (max-width: 360px) {
-  .quotes-page {
+    max-width: 100%;
     padding: 0.8rem;
   }
-  .quotes-grid {
-    gap: 0.8rem;
-  }
-  .quote-form .form-buttons {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+}
+
+/* removed count-badge */
+.count-badge {
+  display: none;
 }
