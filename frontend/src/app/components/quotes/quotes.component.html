@@ -64,7 +64,8 @@
             </div>
 
             <div class="form-buttons">
-              <button type="submit" class="btn-primary" [disabled]="quoteForm.invalid || isLoading">
+              <!-- Neon Dark Blue Add Quote button -->
+              <button type="submit" [disabled]="quoteForm.invalid || isLoading">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                 {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
               </button>

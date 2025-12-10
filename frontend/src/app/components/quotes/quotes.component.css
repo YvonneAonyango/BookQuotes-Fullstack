@@ -180,6 +180,25 @@
   background-color: var(--btn-primary-hover);
 }
 
+/* === NEON DARK BLUE ADD QUOTE BUTTON === */
+.quote-form .form-buttons button[type="submit"] {
+  background-color: #0d1b7e; /* neon dark blue */
+  color: #00ffff; /* neon cyan text */
+  font-weight: 700;
+  padding: 0.75rem 1.2rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px #0d1b7e, 0 0 16px #00ffff;
+}
+.quote-form .form-buttons button[type="submit"]:hover {
+  background-color: #09145c;
+  box-shadow: 0 0 12px #0d1b7e, 0 0 24px #00ffff;
+  color: #00ffff;
+  transform: translateY(-2px);
+}
+
 /* === QUOTES GRID === */
 .quotes-grid {
   display: grid;

@@ -29,7 +29,9 @@ export class QuoteService {
   constructor(
     private http: HttpClient,
     private auth: AuthService
-  ) {}
+  ) {
+    console.log('QuoteService API URL:', this.apiUrl);
+  }
 
   private getAuthHeaders(jsonContent: boolean = false): HttpHeaders {
     const token = this.auth.getToken();
@@ -41,14 +43,19 @@ export class QuoteService {
     return new HttpHeaders(headersConfig);
   }
 
-  // ------------------------
-  // QUOTES API
-  // ------------------------
   getQuotes(): Observable<Quote[]> {
-    return this.http.get<Quote[]>(`${this.apiUrl}/quotes?mine=true`, {
+    const url = `${this.apiUrl}/quotes?mine=true`;
+    console.log('Fetching quotes:', url);
+    
+    return this.http.get<Quote[]>(url, {
       headers: this.getAuthHeaders(),
       withCredentials: true
-    });
+    }).pipe(
+      catchError(error => {
+        console.error('Error loading quotes:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   getQuote(id: number): Observable<Quote> {
@@ -64,30 +71,24 @@ export class QuoteService {
     }
 
     const userId = this.auth.getCurrentUserId();
-    if (!userId) {
-      throw new Error('User ID not found');
-    }
+    console.log('Creating quote, User ID:', userId);
 
-    // Create payload that matches backend (PascalCase)
     const payload = {
-      Text: quote.text.trim(),      // Convert to PascalCase
-      Author: quote.author.trim(),  // Convert to PascalCase
-      UserId: userId,               // Send userId (backend expects this)
-      // Only send BookId if it has a value, otherwise don't send it at all
+      Text: quote.text.trim(),
+      Author: quote.author.trim(),
+      UserId: userId || 0,
       ...(quote.bookId && { BookId: quote.bookId })
     };
 
-    console.log('Creating quote with payload:', payload);
+    const url = `${this.apiUrl}/quotes`;
+    console.log('POST to:', url, 'Payload:', payload);
 
-    return this.http.post<Quote>(`${this.apiUrl}/quotes`, payload, {
+    return this.http.post<Quote>(url, payload, {
       headers: this.getAuthHeaders(true),
       withCredentials: true
     }).pipe(
       catchError(error => {
         console.error('Create quote error:', error);
-        if (error.error) {
-          console.error('Server error:', error.error);
-        }
         return throwError(() => error);
       })
     );
@@ -95,14 +96,11 @@ export class QuoteService {
 
   updateQuote(id: number, quote: Quote): Observable<Quote> {
     const userId = this.auth.getCurrentUserId();
-    if (!userId) {
-      throw new Error('User ID not found');
-    }
-
+    
     const payload = {
       Text: quote.text.trim(),
       Author: quote.author.trim(),
-      UserId: userId,
+      UserId: userId || 0,
       ...(quote.bookId && { BookId: quote.bookId })
     };
 
