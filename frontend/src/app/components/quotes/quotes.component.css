@@ -3,15 +3,15 @@
   --bg-page: rgba(248,250,252,0.98);
   --text-primary: #0f172a;
   --text-secondary: #334155;
-  --card-bg: rgba(255,87,34,0.2); /* warm burnt orange transparent */
+  --card-bg: rgba(64,224,208,0.2); /* transparent turquoise */
   --card-border: rgba(0,0,0,0.12);
 
-  --btn-primary-bg: #1e40af;
-  --btn-primary-hover: #1d4ed8;
-  --btn-edit-bg: #4a90e2;
-  --btn-edit-hover: #3571c1;
-  --btn-delete-bg: #4a90e2;
-  --btn-delete-hover: #3571c1;
+  --btn-primary-bg: #00ffff; /* neon light blue */
+  --btn-primary-hover: #00e5ff;
+  --btn-edit-bg: #00ffff;
+  --btn-edit-hover: #00e5ff;
+  --btn-delete-bg: #00ffff;
+  --btn-delete-hover: #00e5ff;
 
   --badge-burnt-orange: rgba(255,87,34,0.2);
   --badge-text: #ff5722;
@@ -27,18 +27,15 @@
   --bg-page: rgba(15,23,42,0.98);
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --card-bg: rgba(255,87,34,0.3); /* warm burnt orange transparent */
+  --card-bg: rgba(64,224,208,0.3);
   --card-border: rgba(255,255,255,0.2);
 
-  --btn-primary-bg: #3b82f6;
-  --btn-primary-hover: #2563eb;
-  --btn-edit-bg: #5aa0ff;
-  --btn-edit-hover: #3f80d6;
-  --btn-delete-bg: #5aa0ff;
-  --btn-delete-hover: #3f80d6;
-
-  --badge-burnt-orange: rgba(255,87,34,0.3);
-  --badge-text: #ff8a50;
+  --btn-primary-bg: #00ffff;
+  --btn-primary-hover: #00e5ff;
+  --btn-edit-bg: #00ffff;
+  --btn-edit-hover: #00e5ff;
+  --btn-delete-bg: #00ffff;
+  --btn-delete-hover: #00e5ff;
 }
 
 /* === PAGE LAYOUT === */
@@ -104,10 +101,6 @@
   box-sizing: border-box;
   width: 100%;
 }
-.quote-form .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255,193,127,0.35);
-}
 .quote-form .card-header h5 {
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 600;
@@ -158,87 +151,71 @@
 /* Form Buttons */
 .quote-form .form-buttons {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
-.quote-form .form-buttons button {
-  flex: 1 1 auto;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+
+/* Neon Add Quote Button */
+.quote-form .form-buttons button[type="submit"] {
+  background-color: #00ffff; /* neon light blue */
+  color: #001f33; /* dark contrast text */
   font-weight: 600;
   font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  min-width: 80px;
+  flex: 0 0 auto; /* do not stretch */
+  box-shadow: 0 0 6px #00ffff, 0 0 12px #00ffff;
 }
-
-/* Buttons */
-.btn-primary {
-  background-color: var(--btn-primary-bg);
-  color: #fff;
-}
-.btn-primary:hover {
-  background-color: var(--btn-primary-hover);
-}
-
-/* Add Quote Button */
-.btn-add-quote {
-  background-color: #00dfff; /* neon light blue */
-  color: #0d1b7e; /* dark text */
-  font-weight: 600;
-  padding: 0.5rem 1rem; /* smaller size */
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 0 4px #00dfff, 0 0 8px #00dfff;
-}
-.btn-add-quote:hover {
-  background-color: #00c0e0;
-  box-shadow: 0 0 6px #00dfff, 0 0 12px #00dfff;
-  color: #0d1b7e;
+.quote-form .form-buttons button[type="submit"]:hover {
+  background-color: #00e5ff;
+  box-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
+  color: #001f33;
+  transform: none; /* no movement */
 }
 
 /* === QUOTES GRID === */
 .quotes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.8rem;
+  gap: 1rem;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Quote Card - SMALLER & WARM BURNT ORANGE */
+/* Quote Card - small square */
 .quote-card {
-  background: rgba(255,87,34,0.2); /* transparent warm burnt orange */
+  background: rgba(64,224,208,0.2); /* transparent turquoise */
   border-radius: 12px;
   border: 1px solid var(--card-border);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  transition: all 0.2s ease;
   box-sizing: border-box;
   word-break: break-word;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1; /* square */
   padding: 0.5rem;
-  font-size: 0.85rem;
 }
 .quote-card:hover {
-  transform: none; /* no movement */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transform: translateY(0); /* no hover movement */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 .quote-card.selected {
-  border-color: #00dfff;
-  box-shadow: 0 0 8px #00dfff;
+  border-color: #00ffff;
+  box-shadow: 0 0 8px #00ffff;
 }
 .quote-text {
   font-size: 0.85rem;
   line-height: 1.1rem;
   word-break: break-word;
-  cursor: pointer;
-  overflow: hidden;
   flex: 1;
+  overflow: hidden;
+  cursor: pointer;
 }
 .quote-footer {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--text-secondary);
   display: flex;
   justify-content: space-between;
@@ -246,24 +223,23 @@
 }
 .quote-card-footer {
   display: flex;
-  gap: 0.25rem;
+  gap: 0.3rem;
   margin-top: auto;
   flex-wrap: wrap;
 }
 .quote-card-footer button {
   flex: 0 0 auto;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.7rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  background-color: #00dfff; /* neon light blue */
-  color: #0d1b7e;
+  background-color: #00ffff;
+  color: #001f33;
   font-weight: 600;
 }
 .quote-card-footer button:hover {
-  background-color: #00c0e0;
-  color: #0d1b7e;
+  background-color: #00e5ff;
 }
 
 /* Count Badge */
@@ -285,25 +261,52 @@
 @media (max-width: 1200px) {
   .quotes-grid {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 0.7rem;
   }
 }
 @media (max-width: 992px) {
+  .quotes-page {
+    padding: 1.5rem;
+  }
+  .quote-form .card {
+    padding: 1rem;
+  }
   .quotes-grid {
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-    gap: 0.6rem;
   }
 }
 @media (max-width: 768px) {
+  .quotes-page {
+    padding: 1rem;
+  }
+  .quote-form .card {
+    padding: 0.9rem;
+  }
   .quotes-grid {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 0.5rem;
+  }
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+  .page-header .lead {
+    font-size: 1rem;
   }
 }
 @media (max-width: 480px) {
-  .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-    gap: 0.4rem;
+  .quote-card {
+    padding: 0.4rem;
+  }
+  .quote-footer {
+    font-size: 0.65rem;
+  }
+  .quote-card-footer button {
+    padding: 0.15rem 0.25rem;
+    font-size: 0.6rem;
+  }
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  .page-header .lead {
+    font-size: 0.95rem;
   }
 }
 @media (max-width: 360px) {
@@ -311,7 +314,7 @@
     padding: 0.8rem;
   }
   .quotes-grid {
-    gap: 0.3rem;
+    gap: 0.8rem;
   }
   .quote-form .form-buttons {
     flex-direction: column;
