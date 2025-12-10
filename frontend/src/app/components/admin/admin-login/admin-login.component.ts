@@ -5,20 +5,20 @@ import { CommonModule } from '@angular/common';
 import { AuthService, LoginRequest, AuthResponse } from '../../../services/auth.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-admin-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './admin-login.component.html',
+  styleUrls: ['./admin-login.component.css']
 })
-export class LoginComponent {
+export class AdminLoginComponent {
   loginForm: FormGroup;
   isLoading = false;
   errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService, // public now
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -26,10 +26,8 @@ export class LoginComponent {
       password: ['', Validators.required]
     });
 
-    // Redirect immediately if already logged in
-    if (this.authService.isAuthenticated()) {
-      const role = this.authService.getCurrentRole();
-      this.redirectByRole(role);
+    if (this.authService.isAdmin()) {
+      this.router.navigate(['/admin/dashboard']);
     }
   }
 
@@ -47,27 +45,16 @@ export class LoginComponent {
       password: this.loginForm.value.password
     };
 
-    this.authService.login(loginData).subscribe({
-      next: (res: AuthResponse) => {
+    this.authService.adminLogin(loginData).subscribe({
+      next: (response: AuthResponse) => {
         this.isLoading = false;
-        // Ensure role is stored lowercase
-        localStorage.setItem('role', res.role.toLowerCase());
-        this.redirectByRole(res.role.toLowerCase());
+        this.router.navigate(['/admin/dashboard']);
       },
       error: (err: any) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.message || err.message || 'Login failed';
+        this.errorMessage = err.error?.message || err.message || 'Admin login failed';
       }
     });
-  }
-
-  redirectByRole(role: string | null) {
-    if (!role) return;
-    if (role === 'admin') {
-      this.router.navigate(['/admin/dashboard']);
-    } else {
-      this.router.navigate(['/books']);
-    }
   }
 
   onInputChange(): void {
