@@ -90,16 +90,13 @@
       <div *ngIf="quotes.length > 0" class="quotes-grid">
         <div *ngFor="let quote of quotes" class="quote-card" [class.selected]="selectedQuote?.id === quote.id">
           <p class="quote-text" (click)="selectQuote(quote)">
-            "{{ quote.text ? quote.text : (quote.Text ? quote.Text : 'No text available') }}"
+            "{{ quote.text ? quote.text : 'No text available' }}"
           </p>
 
           <div class="quote-footer">
-            <span class="quote-author">— {{ quote.author ? quote.author : (quote.Author ? quote.Author : 'Unknown') }}</span>
+            <span class="quote-author">— {{ quote.author ? quote.author : 'Unknown' }}</span>
             <span class="quote-book" *ngIf="quote.book?.title">
               From: {{ quote.book?.title }}
-            </span>
-            <span class="quote-book" *ngIf="quote.Book?.title">
-              From: {{ quote.Book?.title }}
             </span>
           </div>
 
