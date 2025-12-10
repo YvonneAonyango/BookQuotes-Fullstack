@@ -24,3 +24,6 @@ obj/
 appsettings.json
 appsettings.Development.json
 appsettings.json.backup
+
+# Environment variables
+.env
