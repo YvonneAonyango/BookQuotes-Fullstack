@@ -3,7 +3,7 @@
   --bg-page: rgba(248,250,252,0.98);
   --text-primary: #0f172a;
   --text-secondary: #334155;
-  --card-bg: rgba(255,87,34,0.2);
+  --card-bg: rgba(255,87,34,0.2); /* warm burnt orange transparent */
   --card-border: rgba(0,0,0,0.12);
 
   --btn-primary-bg: #1e40af;
@@ -27,7 +27,7 @@
   --bg-page: rgba(15,23,42,0.98);
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --card-bg: rgba(255,87,34,0.3);
+  --card-bg: rgba(255,87,34,0.3); /* warm burnt orange transparent */
   --card-border: rgba(255,255,255,0.2);
 
   --btn-primary-bg: #3b82f6;
@@ -162,13 +162,14 @@
   flex-wrap: wrap;
 }
 .quote-form .form-buttons button {
-  flex: 1 1 100px;
-  padding: 0.75rem;
-  border-radius: 10px;
+  flex: 1 1 auto;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
   font-weight: 600;
+  font-size: 0.85rem;
   border: none;
   cursor: pointer;
-  min-width: 100px;
+  min-width: 80px;
 }
 
 /* Buttons */
@@ -180,66 +181,64 @@
   background-color: var(--btn-primary-hover);
 }
 
-/* === NEON DARK BLUE ADD QUOTE BUTTON === */
-.quote-form .form-buttons button[type="submit"] {
-  background-color: #0d1b7e; /* neon dark blue */
-  color: #00ffff; /* neon cyan text */
-  font-weight: 700;
-  padding: 0.75rem 1.2rem;
-  border-radius: 12px;
+/* Add Quote Button */
+.btn-add-quote {
+  background-color: #00dfff; /* neon light blue */
+  color: #0d1b7e; /* dark text */
+  font-weight: 600;
+  padding: 0.5rem 1rem; /* smaller size */
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 8px #0d1b7e, 0 0 16px #00ffff;
+  box-shadow: 0 0 4px #00dfff, 0 0 8px #00dfff;
 }
-.quote-form .form-buttons button[type="submit"]:hover {
-  background-color: #09145c;
-  box-shadow: 0 0 12px #0d1b7e, 0 0 24px #00ffff;
-  color: #00ffff;
-  transform: translateY(-2px);
+.btn-add-quote:hover {
+  background-color: #00c0e0;
+  box-shadow: 0 0 6px #00dfff, 0 0 12px #00dfff;
+  color: #0d1b7e;
 }
 
 /* === QUOTES GRID === */
 .quotes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.8rem;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Quote Card - SQUARE */
+/* Quote Card - SMALLER & WARM BURNT ORANGE */
 .quote-card {
-  background: var(--card-bg);
-  border-radius: 16px;
+  background: rgba(255,87,34,0.2); /* transparent warm burnt orange */
+  border-radius: 12px;
   border: 1px solid var(--card-border);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  transition: all 0.3s ease;
+  gap: 0.5rem;
   box-sizing: border-box;
   word-break: break-word;
-  aspect-ratio: 1 / 1; /* Makes the card square */
-  padding: 1rem;
+  aspect-ratio: 1 / 1;
+  padding: 0.5rem;
+  font-size: 0.85rem;
 }
 .quote-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transform: none; /* no movement */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 .quote-card.selected {
-  border-color: var(--btn-primary-bg);
-  box-shadow: 0 0 12px rgba(0,0,0,0.15);
+  border-color: #00dfff;
+  box-shadow: 0 0 8px #00dfff;
 }
 .quote-text {
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
-  line-height: 1.4rem;
+  font-size: 0.85rem;
+  line-height: 1.1rem;
   word-break: break-word;
   cursor: pointer;
   overflow: hidden;
-  flex: 1; /* take remaining space inside the square */
+  flex: 1;
 }
 .quote-footer {
-  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+  font-size: 0.75rem;
   color: var(--text-secondary);
   display: flex;
   justify-content: space-between;
@@ -247,30 +246,24 @@
 }
 .quote-card-footer {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem;
   margin-top: auto;
   flex-wrap: wrap;
 }
 .quote-card-footer button {
-  flex: 1 1 auto;
-  padding: 0.5rem;
-  font-size: clamp(0.7rem, 1vw, 0.875rem);
-  border-radius: 10px;
+  flex: 0 0 auto;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-}
-
-/* Edit/Delete Buttons */
-.btn-edit,
-.btn-delete {
-  background-color: var(--btn-edit-bg);
-  color: #000;
+  background-color: #00dfff; /* neon light blue */
+  color: #0d1b7e;
   font-weight: 600;
 }
-.btn-edit:hover,
-.btn-delete:hover {
-  background-color: var(--btn-edit-hover);
-  color: #fff;
+.quote-card-footer button:hover {
+  background-color: #00c0e0;
+  color: #0d1b7e;
 }
 
 /* Count Badge */
@@ -291,53 +284,26 @@
 /* === RESPONSIVE ADJUSTMENTS === */
 @media (max-width: 1200px) {
   .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.7rem;
   }
 }
 @media (max-width: 992px) {
-  .quotes-page {
-    padding: 1.5rem;
-  }
-  .quote-form .card {
-    padding: 1rem;
-  }
   .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.6rem;
   }
 }
 @media (max-width: 768px) {
-  .quotes-page {
-    padding: 1rem;
-  }
-  .quote-form .card {
-    padding: 0.9rem;
-  }
   .quotes-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  }
-  .page-header h1 {
-    font-size: 1.75rem;
-  }
-  .page-header .lead {
-    font-size: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.5rem;
   }
 }
 @media (max-width: 480px) {
-  .quote-card {
-    padding: 0.7rem;
-  }
-  .quote-footer {
-    font-size: 0.7rem;
-  }
-  .quote-card-footer button {
-    padding: 0.35rem 0.45rem;
-    font-size: 0.65rem;
-  }
-  .page-header h1 {
-    font-size: 1.5rem;
-  }
-  .page-header .lead {
-    font-size: 0.95rem;
+  .quotes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 0.4rem;
   }
 }
 @media (max-width: 360px) {
@@ -345,7 +311,7 @@
     padding: 0.8rem;
   }
   .quotes-grid {
-    gap: 1rem;
+    gap: 0.3rem;
   }
   .quote-form .form-buttons {
     flex-direction: column;
