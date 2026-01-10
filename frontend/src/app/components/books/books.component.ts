@@ -5,7 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../book-form/book-form.component';
-import { AuthService } from '../../services/auth.service'; // ADDED
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-books',
@@ -28,38 +28,66 @@ export class BooksComponent implements OnInit {
   private bookService = inject(BookService);
   private router = inject(Router);
   private translate = inject(TranslateService);
-  private auth = inject(AuthService); // ADDED
+  private auth = inject(AuthService);
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Books');
     this.meta.updateTag({
       name: 'description',
-      content: 'Browse and manage your books in your personal library with BookWebApp.'
+      content: 'Browse books freely. Login to manage your collection.'
     });
     this.loadBooks();
   }
 
   loadBooks(): void {
     this.isLoading = true;
-    this.errorMessage = '';
     this.bookService.getBooks().subscribe({
       next: books => {
         this.books = books;
         this.isLoading = false;
       },
-      error: err => {
-        console.error(err);
-        this.errorMessage = this.translate.instant('failedLoadBooks') || 'Failed to load books.';
+      error: () => {
+        this.errorMessage = this.translate.instant('failedLoadBooks');
         this.isLoading = false;
+      }
+    });
+  }
+
+  // 🔐 Only logged in users can add
+  addBook(): void {
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.openForm();
+  }
+
+  editBook(id: number): void {
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    const book = this.books.find(b => b.id === id);
+    if (book) this.openForm(book);
+  }
+
+  deleteBook(id: number): void {
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.translate.get('confirmDeleteBook').subscribe(msg => {
+      if (confirm(msg)) {
+        this.bookService.deleteBook(id).subscribe(() => {
+          this.books = this.books.filter(b => b.id !== id);
+        });
       }
     });
   }
 
   openForm(book?: Book): void {
     this.isEditMode = !!book;
-    if (book && (book as any).PublishDate && !book.publishDate) {
-      book.publishDate = (book as any).PublishDate;
-    }
     this.editingBook = book ? { ...book } : undefined;
     this.showFormModal = true;
   }
@@ -71,42 +99,12 @@ export class BooksComponent implements OnInit {
     if (reload) this.loadBooks();
   }
 
-  addBook(): void {
-    if (!this.isLoggedIn()) {
-      alert(this.translate.instant('loginRequired'));
-      this.router.navigate(['/login']);
-      return;
-    }
-    this.openForm();
-  }
-
-  editBook(id: number): void {
-    const book = this.books.find(b => b.id === id);
-    if (book) this.openForm(book);
-  }
-
-  deleteBook(id: number): void {
-    this.translate.get('confirmDeleteBook').subscribe(msg => {
-      if (confirm(msg)) {
-        this.bookService.deleteBook(id).subscribe({
-          next: () => this.books = this.books.filter(b => b.id !== id),
-          error: err => alert(this.translate.instant('failedDeleteBook') || 'Failed to delete book.')
-        });
-      }
-    });
-  }
-
   formatDate(dateString?: string): string {
     if (!dateString) return '';
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    } catch {
-      return dateString;
-    }
+    return new Date(dateString).toLocaleDateString();
   }
 
-  private isLoggedIn(): boolean {
-    return this.auth.isAuthenticated(); 
+  isLoggedIn(): boolean {
+    return this.auth.isAuthenticated();
   }
 }

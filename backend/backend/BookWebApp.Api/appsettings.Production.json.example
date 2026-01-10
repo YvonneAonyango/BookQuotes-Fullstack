@@ -1,0 +1,14 @@
+{
+  "Jwt": {
+    "Key": "",  // ← EMPTY - Users fill this when deploying
+    "Issuer": "BookWebApp",
+    "Audience": "BookWebAppUsers"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning",
+      "Microsoft.AspNetCore": "Error"
+    }
+  },
+  "AllowedHosts": "*"
+}

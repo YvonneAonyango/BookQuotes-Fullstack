@@ -4,13 +4,15 @@
     <p class="lead">{{ 'quoteCollectionDesc' | translate }}</p>
   </header>
 
-  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
-    {{ errorMessage }}
-    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  <!-- LOGIN INFO -->
+  <div *ngIf="!isLoggedIn()" class="alert alert-info">
+    You can browse quotes freely.
+    Please <a routerLink="/login">log in</a> or
+    <a routerLink="/register">register</a> to add and manage your own quotes.
   </div>
 
   <div class="quotes-container">
-    <!-- Quote Form -->
+    <!-- QUOTE FORM -->
     <section class="quote-form">
       <div class="card">
         <div class="card-header">
@@ -18,78 +20,59 @@
         </div>
         <div class="card-body">
           <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <label>{{ 'quoteText' | translate }}</label>
-              <textarea formControlName="text" rows="4"
-                        placeholder="{{ 'enterQuoteText' | translate }}"
-                        [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched"></textarea>
-              <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['required']">
-                {{ 'quoteRequired' | translate }}
+            <fieldset [disabled]="!isLoggedIn()">
+              <div class="form-group">
+                <label>{{ 'quoteText' | translate }}</label>
+                <textarea formControlName="text" rows="4"></textarea>
               </div>
-              <div class="invalid-feedback" *ngIf="quoteForm.get('text')?.errors?.['minlength']">
-                {{ 'quoteTooShort' | translate }}
+
+              <div class="form-group">
+                <label>{{ 'author' | translate }}</label>
+                <input type="text" formControlName="author">
               </div>
-            </div>
 
-            <div class="form-group">
-              <label>{{ 'author' | translate }}</label>
-              <input type="text" formControlName="author"
-                     placeholder="{{ 'enterAuthor' | translate }}"
-                     [class.is-invalid]="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched">
-              <div class="invalid-feedback" *ngIf="quoteForm.get('author')?.errors?.['required']">
-                {{ 'authorRequired' | translate }}
+              <div class="form-group">
+                <label>{{ 'bookOptional' | translate }}</label>
+                <select formControlName="bookId">
+                  <option [ngValue]="null">{{ 'selectBook' | translate }}</option>
+                  <option *ngFor="let book of books" [ngValue]="book.id">
+                    {{ book.title }} - {{ book.author }}
+                  </option>
+                </select>
               </div>
-            </div>
 
-            <div class="form-group">
-              <label>{{ 'bookOptional' | translate }}</label>
-              <select formControlName="bookId">
-                <option [ngValue]="null">{{ 'selectBook' | translate }}</option>
-                <option *ngFor="let book of books" [ngValue]="book.id">{{ book.title }} - {{ book.author }}</option>
-              </select>
-            </div>
-
-            <div class="form-buttons">
               <button type="submit" [disabled]="quoteForm.invalid || isLoading">
-                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
                 {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
               </button>
-              <button *ngIf="isEdit" type="button" (click)="cancelEdit()">{{ 'cancel' | translate }}</button>
-            </div>
+            </fieldset>
           </form>
         </div>
       </div>
     </section>
 
-    <!-- Quotes List -->
+    <!-- QUOTES LIST -->
     <section class="quotes-list">
       <h3>{{ 'allQuotes' | translate }}</h3>
 
-      <div *ngIf="isLoading && quotes.length === 0" class="loading-state">
-        <div class="spinner-border" role="status"></div>
-        <p>{{ 'loading' | translate }}</p>
-      </div>
-
       <div *ngIf="quotes.length > 0" class="quotes-grid">
-        <div *ngFor="let quote of quotes" class="quote-card" [class.selected]="selectedQuote?.id === quote.id">
-          <p class="quote-text" (click)="selectQuote(quote)">
-            "{{ quote.text }}"
-          </p>
+        <div *ngFor="let quote of quotes" class="quote-card">
+          <p class="quote-text">"{{ quote.text }}"</p>
           <div class="quote-footer">
             <span class="quote-author">— {{ quote.author }}</span>
-            <span class="quote-book" *ngIf="quote.book?.title">From: {{ quote.book?.title }}</span>
+            <span *ngIf="quote.book?.title">From: {{ quote.book?.title }}</span>
           </div>
-          <div class="quote-card-footer" *ngIf="isLoggedIn()">
+
+          <div *ngIf="isLoggedIn()" class="quote-card-footer">
             <button (click)="editQuote(quote.id!)">{{ 'edit' | translate }}</button>
             <button (click)="deleteQuote(quote.id!)">{{ 'delete' | translate }}</button>
           </div>
         </div>
       </div>
 
-      <div *ngIf="quotes.length === 0 && !isLoading" class="empty-quotes-state">
-        <i class="bi bi-chat-quote display-4 mb-3"></i>
-        <h4>{{ 'noQuotesYet' | translate }}</h4>
-        <p>{{ 'startByAddingQuote' | translate }}</p>
+      <!-- FRIENDLY MESSAGE -->
+      <div class="alert alert-secondary mt-4 text-center">
+        Feel free to add your own quotes as your personal library
+        to keep track of your favourites.
       </div>
     </section>
   </div>

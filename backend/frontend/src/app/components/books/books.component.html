@@ -1,0 +1,77 @@
+<div class="books-page">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1>{{ 'myBooks' | translate }}</h1>
+      <p class="lead">{{ 'manageBookCollection' | translate }}</p>
+    </div>
+
+    <button class="btn btn-primary btn-add-book" (click)="addBook()">
+      {{ 'addNewBook' | translate }}
+    </button>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">{{ 'loading' | translate }}</span>
+    </div>
+    <p>{{ 'loadingBooks' | translate }}</p>
+  </div>
+
+  <!-- Main content: books + form -->
+  <div class="books-content">
+    <!-- Books Grid -->
+    <div class="books-grid">
+      <div *ngFor="let book of books" class="book-card">
+        <div class="book-card-header">
+          <i class="bi bi-book book-icon"></i>
+        </div>
+
+        <div class="book-card-body">
+          <h5 class="book-title">{{ book.title }}</h5>
+          <p class="book-author" *ngIf="book.author">
+            <i class="bi bi-person me-1"></i>{{ 'by' | translate }} {{ book.author }}
+          </p>
+          <div class="book-meta">
+            <small *ngIf="book.publishDate">
+              <i class="bi bi-calendar me-1"></i>{{ formatDate(book.publishDate) }}
+            </small>
+            <small *ngIf="book.quotes && book.quotes.length > 0">
+              <i class="bi bi-chat-quote me-1"></i>{{ book.quotes.length }} {{ book.quotes.length === 1 ? 'quote' : 'quotes' }}
+            </small>
+            <small *ngIf="book.quotes && book.quotes.length === 0" class="text-muted">
+              <i class="bi bi-chat-quote me-1"></i>0 quotes
+            </small>
+            <small *ngIf="!book.quotes" class="text-muted">
+              <i class="bi bi-chat-quote me-1"></i>No quotes
+            </small>
+          </div>
+        </div>
+
+        <div class="book-card-footer">
+          <button class="btn btn-edit" (click)="editBook(book.id!)">
+            <i class="bi bi-pencil"></i> {{ 'editItem' | translate }}
+          </button>
+          <button class="btn btn-delete" (click)="deleteBook(book.id!)">
+            <i class="bi bi-trash"></i> {{ 'deleteItem' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book Form Panel -->
+    <app-book-form
+      *ngIf="showFormModal"
+      [book]="editingBook"
+      [isEdit]="isEditMode"
+      (close)="closeForm($event)">
+    </app-book-form>
+  </div>
+</div>

@@ -1,0 +1,247 @@
+:host {
+  display: block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ---------- Page Layout ---------- */
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #fdfdfd; /* light mode default */
+  color: #1f2937; /* light text */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ---------- Dark Mode ---------- */
+body.dark-mode .register-page {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+/* ---------- Card ---------- */
+.register-card {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #ffffff;
+  border: 1px solid #d1d9e6;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .register-card {
+  background-color: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- Header ---------- */
+.card-header {
+  text-align: center;
+  padding: 32px 24px;
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+/* ---------- Body ---------- */
+.card-body {
+  padding: 32px 24px;
+}
+
+/* ---------- Form Group ---------- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: inherit;
+  font-size: 0.95rem;
+}
+
+/* ---------- Inputs ---------- */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #d1d9e6;
+  background-color: #f8fafc;
+  color: #1f2937;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="password"] {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  border-color: #475569;
+}
+
+input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  outline: none;
+}
+
+.is-invalid {
+  border-color: #ef4444 !important;
+}
+
+.invalid-feedback {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+/* ---------- Password Strength ---------- */
+.password-strength {
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.password-requirement {
+  margin-bottom: 4px;
+}
+
+.requirement-met {
+  color: #3e6747;
+}
+
+/* ---------- Alerts ---------- */
+.alert {
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert-danger {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+body.dark-mode .alert-danger {
+  background: #7f1d1d;
+  color: #fecaca;
+  border-color: #fca5a5;
+}
+
+.alert-success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+body.dark-mode .alert-success {
+  background: #064e3b;
+  color: #a7f3d0;
+  border-color: #065f46;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ---------- Button ---------- */
+.btn-register {
+  width: 100%;
+  padding: 16px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.btn-register:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1b2e6f, #2563eb);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.btn-register:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Login Link ---------- */
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+.login-link a {
+  color: #3b82f6;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+body.dark-mode .login-link a {
+  color: #2563eb;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Responsiveness ---------- */
+@media (max-width: 768px) {
+  .register-card { max-width: 400px; }
+  .card-body { padding: 28px 20px; }
+  .card-header { padding: 28px 20px; }
+}
+
+@media (max-width: 480px) {
+  .register-card { max-width: 100%; border-radius: 12px; }
+  .card-body { padding: 24px 16px; }
+  .card-header { padding: 24px 16px; }
+  .card-header h2 { font-size: 1.4rem; }
+  input[type="text"], input[type="password"] { padding: 12px 14px; font-size: 0.95rem; }
+  .btn-register { padding: 14px; font-size: 0.95rem; }
+}

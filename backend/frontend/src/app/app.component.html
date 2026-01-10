@@ -1,0 +1,6 @@
+<div [class.dark-mode]="themeService.isDarkMode()" [class.light-mode]="!themeService.isDarkMode()">
+  <app-navbar></app-navbar>
+  <div class="app-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

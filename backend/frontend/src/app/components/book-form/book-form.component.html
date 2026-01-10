@@ -1,0 +1,74 @@
+<div class="form-container">
+  <div class="card">
+    <!-- Header -->
+    <div class="card-header">
+      <h2>{{ isEdit ? ('editBook' | translate) : ('addBook' | translate) }}</h2>
+    </div>
+
+    <div class="card-body">
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+      </div>
+
+      <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" novalidate>
+        <!-- Title -->
+        <div class="form-group">
+          <label for="title" class="form-label">
+            <i class="bi bi-book"></i>{{ 'bookTitle' | translate }} *
+          </label>
+          <input type="text" class="form-control form-control-lg" id="title" formControlName="title"
+                 [placeholder]="'enterBookTitle' | translate"
+                 [class.is-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched">
+          <div class="invalid-feedback" *ngIf="bookForm.get('title')?.errors?.['required'] && bookForm.get('title')?.touched">
+            <i class="bi bi-x-circle"></i>{{ 'titleRequired' | translate }}
+          </div>
+        </div>
+
+        <!-- Author -->
+        <div class="form-group">
+          <label for="author" class="form-label">
+            <i class="bi bi-person"></i>{{ 'author' | translate }} *
+          </label>
+          <input type="text" class="form-control form-control-lg" id="author" formControlName="author"
+                 [placeholder]="'enterAuthorName' | translate"
+                 [class.is-invalid]="bookForm.get('author')?.invalid && bookForm.get('author')?.touched">
+          <div class="invalid-feedback" *ngIf="bookForm.get('author')?.errors?.['required'] && bookForm.get('author')?.touched">
+            <i class="bi bi-x-circle"></i>{{ 'authorRequired' | translate }}
+          </div>
+        </div>
+
+        <!-- Publish Date -->
+        <div class="form-group">
+          <label for="publishDate" class="form-label">
+            <i class="bi bi-calendar"></i>{{ 'publicationDate' | translate }} *
+          </label>
+          <input type="date" class="form-control form-control-lg" id="publishDate" formControlName="publishDate"
+                 [max]="getTodayDate()"
+                 [class.is-invalid]="bookForm.get('publishDate')?.invalid && bookForm.get('publishDate')?.touched">
+          <div class="invalid-feedback" *ngIf="bookForm.get('publishDate')?.errors?.['required'] && bookForm.get('publishDate')?.touched">
+            <i class="bi bi-x-circle"></i>{{ 'publicationDateRequired' | translate }}
+          </div>
+          <small class="text-muted mt-2 d-block">
+            Maximum date allowed: {{ formatDateForDisplay(getTodayDate()) }}
+          </small>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+          <button type="button" class="btn btn-outline-secondary" (click)="onCancel()" [disabled]="isLoading">
+            <i class="bi bi-x-circle me-2"></i>{{ 'cancel' | translate }}
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="bookForm.invalid || isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+            <i *ngIf="!isLoading && isEdit" class="bi bi-pencil-square me-2"></i>
+            <i *ngIf="!isLoading && !isEdit" class="bi bi-plus-circle me-2"></i>
+            {{ isEdit ? ('updateBook' | translate) : ('addBook' | translate) }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

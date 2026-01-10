@@ -36,50 +36,46 @@ export class QuoteService {
     return new HttpHeaders(headersConfig);
   }
 
+  // PUBLIC: loads seeded + public quotes
   getQuotes(): Observable<Quote[]> {
-    return this.http.get<Quote[]>(`${this.apiUrl}/quotes?mine=true`, {
-      headers: this.getAuthHeaders(),
-      withCredentials: true
-    }).pipe(catchError(error => throwError(() => error)));
+    return this.http.get<Quote[]>(`${this.apiUrl}/quotes`)
+      .pipe(catchError(error => throwError(() => error)));
   }
 
+  // AUTH REQUIRED
   createQuote(quote: Quote): Observable<Quote> {
-    if (!this.auth.isAuthenticated()) throw new Error('Not logged in');
-    const userId = this.auth.getCurrentUserId();
+    if (!this.auth.isAuthenticated()) {
+      throw new Error('Not logged in');
+    }
 
     const payload = {
       Text: quote.text.trim(),
       Author: quote.author.trim(),
-      UserId: userId || 0,
       BookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
     };
 
     return this.http.post<Quote>(`${this.apiUrl}/quotes`, payload, {
-      headers: this.getAuthHeaders(true),
-      withCredentials: true
+      headers: this.getAuthHeaders(true)
     }).pipe(catchError(error => throwError(() => error)));
   }
 
+  // AUTH REQUIRED
   updateQuote(id: number, quote: Quote): Observable<Quote> {
-    const userId = this.auth.getCurrentUserId();
-
     const payload = {
       Text: quote.text.trim(),
       Author: quote.author.trim(),
-      UserId: userId || 0,
       BookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
     };
 
     return this.http.put<Quote>(`${this.apiUrl}/quotes/${id}`, payload, {
-      headers: this.getAuthHeaders(true),
-      withCredentials: true
+      headers: this.getAuthHeaders(true)
     }).pipe(catchError(error => throwError(() => error)));
   }
 
+  // AUTH REQUIRED
   deleteQuote(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/quotes/${id}`, {
-      headers: this.getAuthHeaders(),
-      withCredentials: true
+      headers: this.getAuthHeaders()
     }).pipe(catchError(error => throwError(() => error)));
   }
 }

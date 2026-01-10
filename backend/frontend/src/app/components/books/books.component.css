@@ -1,0 +1,253 @@
+/* ================= GLOBAL THEME VARIABLES ================= */
+:root {
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --border-primary: rgba(0,0,0,0.15);
+
+  --text-base: 0.9375rem;
+  --text-sm: 0.75rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+}
+
+/* ================= GLOBAL RESET ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ================= BOOKS PAGE ================= */
+.books-page {
+  padding: var(--space-6) var(--space-4);
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: rgba(255, 235, 120, 0.2) !important; /* transparent yellow */
+  color: #1e3a8a !important; /* deep blue text */
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
+  position: relative;
+  backdrop-filter: blur(6px);
+}
+
+/* ---------------- Header ---------------- */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.page-header h1 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: #1e3a8a !important;
+}
+
+.page-header .lead {
+  font-size: var(--text-md);
+  font-weight: 500;
+  color: #3b82f6 !important; /* light blue */
+}
+
+/* ---------------- Add Book Button ---------------- */
+.btn-add-book {
+  background-color: #f59e0b !important; /* standout orange */
+  color: #fff !important;
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-add-book:hover {
+  background-color: #d97706 !important;
+  transform: translateY(-2px);
+}
+
+/* ---------------- Book Cards ---------------- */
+.book-card {
+  background-color: rgba(255, 255, 150, 0.2) !important; /* slightly yellow transparent */
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-primary);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  color: #1e3a8a !important;
+  width: 100%;
+  max-width: 300px;
+}
+
+.book-card-header {
+  background: linear-gradient(135deg, #facc15, #fbbf24);
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-icon {
+  font-size: 3rem;
+  color: rgba(0, 0, 128, 0.9); /* neon-ish blue */
+}
+
+.book-card-body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.book-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: #1e3a8a !important; /* deep blue */
+}
+
+.book-author {
+  color: #3b82f6 !important; /* lighter blue */
+  display: flex;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: var(--text-base);
+}
+
+.book-meta {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.book-meta small {
+  color: #2563eb !important; /* neon blue */
+  font-size: var(--text-sm);
+}
+
+/* ---------------- Book Badges ---------------- */
+.book-badge {
+  display: inline-block;
+  background-color: rgba(255, 235, 120, 0.3) !important; /* transparent yellow */
+  color: #1e3a8a !important; /* blue text */
+  padding: 0.15rem 0.4rem;
+  font-size: 0.7rem !important;
+  border-radius: 8px;
+  margin-right: 0.25rem;
+}
+
+/* ---------------- Footer Buttons ---------------- */
+.book-card-footer {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+
+.btn-edit, .btn-delete {
+  background-color: #0ff !important; /* neon blue */
+  color: #000 !important;
+  flex: 1;
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit:hover, .btn-delete:hover {
+  background-color: #00f !important;
+  color: #fff !important;
+}
+
+/* ---------------- Dark Mode Overrides ---------------- */
+body.dark-mode .books-page {
+  background-color: rgba(255, 235, 120, 0.1) !important;
+  color: #5aa0ff !important; /* lighter blue text */
+}
+
+body.dark-mode .book-card {
+  background-color: rgba(255, 235, 120, 0.1) !important;
+  color: #5aa0ff !important;
+}
+
+body.dark-mode .book-badge {
+  background-color: rgba(255, 235, 120, 0.2) !important;
+  color: #5aa0ff !important;
+}
+
+body.dark-mode .btn-edit,
+body.dark-mode .btn-delete {
+  background-color: #0ff !important;
+  color: #000 !important;
+}
+
+body.dark-mode .btn-edit:hover,
+body.dark-mode .btn-delete:hover {
+  background-color: #00f !important;
+  color: #fff !important;
+}
+
+/* ================= Books Page Layout ================= */
+.books-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 992px) {
+  .books-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .book-card {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .books-page {
+    padding: var(--space-5) var(--space-3);
+  }
+  .page-header h1 {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-add-book {
+    width: 100%;
+    text-align: center;
+  }
+  .book-card-footer {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,101 @@
+<main class="home-wrapper">
+  <!-- HERO SECTION -->
+  <section class="hero-modern">
+    <h1 class="hero-title">{{ 'brand' | translate }}</h1>
+    <p class="subtitle">{{ 'elevateYourReadingExperience' | translate }}</p>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="icon">
+          <fa-icon [icon]="faBook" size="2x"></fa-icon>
+        </div>
+        <h3>{{ 'smartBookManagement' | translate }}</h3>
+        <p>{{ 'organizeAndTrackBooks' | translate }}</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">
+          <fa-icon [icon]="faQuoteLeft" size="2x"></fa-icon>
+        </div>
+        <h3>{{ 'quoteCollection' | translate }}</h3>
+        <p>{{ 'saveAndRevisitFavoriteLines' | translate }}</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">
+          <fa-icon [icon]="faChartLine" size="2x"></fa-icon>
+        </div>
+        <h3>{{ 'readingInsights' | translate }}</h3>
+        <p>{{ 'seeProgressAndPatterns' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="steps-modern">
+    <h2>{{ 'howItWorks' | translate }}</h2>
+    <p class="subtitle">{{ 'startInThreeEasySteps' | translate }}</p>
+
+    <div class="steps-grid">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>{{ 'addBooksQuickly' | translate }}</h3>
+        <p>{{ 'curateYourCollectionInMinutes' | translate }}</p>
+        <fa-icon [icon]="faPlus" class="step-icon"></fa-icon>
+      </div>
+
+      <div class="step">
+        <div class="num">2</div>
+        <h3>{{ 'captureQuotes' | translate }}</h3>
+        <p>{{ 'saveAndOrganizeQuotesEasily' | translate }}</p>
+        <fa-icon [icon]="faStar" class="step-icon"></fa-icon>
+      </div>
+
+      <div class="step">
+        <div class="num">3</div>
+        <h3>{{ 'gainInsights' | translate }}</h3>
+        <p>{{ 'trackReadingAndDiscoverTrends' | translate }}</p>
+        <fa-icon [icon]="faLightbulb" class="step-icon"></fa-icon>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED QUOTES -->
+  <section class="featured-quotes">
+    <h2>{{ 'featuredQuotes' | translate }}</h2>
+    <div class="quotes-grid">
+      <div class="quote-card">
+        <fa-icon [icon]="faQuoteLeft" class="quote-icon"></fa-icon>
+        <p class="quote">"The only thing that you absolutely have to know, is the location of the library."</p>
+        <p class="author">— Albert Einstein</p>
+      </div>
+
+      <div class="quote-card">
+        <fa-icon [icon]="faQuoteLeft" class="quote-icon"></fa-icon>
+        <p class="quote">"A reader lives a thousand lives before he dies… The man who never reads lives only one."</p>
+        <p class="author">— George R.R. Martin</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-modern">
+    <h2>{{ 'readyToStartYourJourney' | translate }}</h2>
+
+    <div class="cta-buttons">
+      <button routerLink="/register" class="btn-primary">
+        {{ 'getStarted' | translate }}
+        <fa-icon [icon]="faArrowRight" class="btn-icon"></fa-icon>
+      </button>
+      <button routerLink="/books" class="btn-outline">
+        {{ 'browseLibrary' | translate }}
+        <fa-icon [icon]="faBook" class="btn-icon"></fa-icon>
+      </button>
+    </div>
+
+    <p class="cta-note">
+      {{ 'alreadyHaveAnAccount' | translate }}
+      <a routerLink="/login">{{ 'loginToYourAccount' | translate }}</a>
+    </p>
+  </section>
+</main>
