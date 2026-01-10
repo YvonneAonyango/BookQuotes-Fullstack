@@ -36,7 +36,7 @@ export class QuoteService {
     return new HttpHeaders(headersConfig);
   }
 
-  // PUBLIC: loads seeded + public quotes
+  // PUBLIC: loads seeded, public quotes
   getQuotes(): Observable<Quote[]> {
     return this.http.get<Quote[]>(`${this.apiUrl}/quotes`)
       .pipe(catchError(error => throwError(() => error)));

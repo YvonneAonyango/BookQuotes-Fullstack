@@ -220,13 +220,13 @@
   font-size: 0.75rem;
   border-radius: 6px;
   border: none;
-  background-color: #00ffff;
+  background-color: #76e8e8;
   color: #001f33;
   cursor: pointer;
   font-weight: 600;
 }
 .quote-card-footer button:hover {
-  background-color: #00e5ff;
+  background-color: #66d5e1;
 }
 
 /* === RESPONSIVE === */

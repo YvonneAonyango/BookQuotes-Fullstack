@@ -18,7 +18,7 @@ public class QuotesController : ControllerBase
         _context = context;
     }
 
-    // ✅ PUBLIC: Get standalone (global) quotes
+    // PUBLIC: Get standalone (global) quotes
     [HttpGet]
     public async Task<IEnumerable<Quote>> GetAll()
     {
@@ -40,7 +40,7 @@ public class QuotesController : ControllerBase
         return quote;
     }
 
-    // 🔒 CREATE
+    //  CREATE
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Quote q)
@@ -63,7 +63,7 @@ public class QuotesController : ControllerBase
         return Ok(q);
     }
 
-    // 🔒 UPDATE
+    // UPDATE
     [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] Quote updated)
@@ -81,7 +81,7 @@ public class QuotesController : ControllerBase
         return Ok(quote);
     }
 
-    // 🔒 DELETE
+    //  DELETE
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)

@@ -23,7 +23,7 @@ namespace BookWebApp.Api.Data
                 .HasMany(b => b.Quotes)
                 .WithOne(q => q.Book)
                 .HasForeignKey(q => q.BookId)
-                .IsRequired(false)                   // Make the foreign key optional
+                .IsRequired(false)                   // the foreign key optional
                 .OnDelete(DeleteBehavior.SetNull);   // Set BookId to null if Book is deleted
 
             // User -> Quote (one-to-many)
