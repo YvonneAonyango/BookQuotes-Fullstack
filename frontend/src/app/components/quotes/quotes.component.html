@@ -18,8 +18,8 @@
         <p class="quote-text">“{{ quote.text }}”</p>
         <p class="quote-author">— {{ quote.author }}</p>
 
-        <div class="quote-meta" *ngIf="quote.book?.title">
-          {{ 'fromBook' | translate }} <strong>{{ quote.book.title }}</strong>
+        <div class="quote-meta" *ngIf="quote.book as book">
+          {{ 'fromBook' | translate }} <strong>{{ book.title }}</strong>
         </div>
 
         <div class="quote-actions">
