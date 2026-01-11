@@ -1,4 +1,4 @@
-/* ================= GLOBAL VARIABLES ================= */
+/* ================= GLOBAL THEME VARIABLES ================= */
 :root {
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -19,8 +19,13 @@
   --color-bg-featured: rgba(255, 235, 120, 0.2);
   --color-bg-user: rgba(255, 255, 150, 0.25);
   --color-border: rgba(0,0,0,0.15);
-  --color-text: #3b82f6;       /* light blue for quote text */
-  --color-text-light: #60a5fa; /* lighter blue for author/footer */
+
+  --color-text: #1e3a8a;       /* deep blue for main text */
+  --color-text-light: #3b82f6; /* light blue for author/footer */
+  --color-text-meta: #2563eb;  /* neon-ish blue for book info */
+  --color-btn-add: #f59e0b;    /* standout orange for add quote button */
+  --color-btn-edit: #3b82f6;   /* edit button */
+  --color-btn-delete: #ef4444; /* delete button */
 }
 
 /* ================= GLOBAL RESET ================= */
@@ -119,7 +124,7 @@ body {
   font-weight: 600;
 }
 
-/* ================= USER-ADDED QUOTES (NOW CONTAINERS) ================= */
+/* ================= USER-ADDED QUOTES ================= */
 .user-quotes {
   margin-top: var(--space-6);
 }
@@ -172,23 +177,23 @@ body {
 
 .user-quotes .quote-meta {
   font-size: var(--text-sm);
-  color: #60a5fa; /* lighter blue for book info */
+  color: var(--color-text-meta);
   margin-top: var(--space-3);
   border-top: 1px solid var(--color-border);
   padding-top: var(--space-2);
 }
 
+/* ---------------- CRUD BUTTONS ---------------- */
 .user-quotes .quote-card-footer {
   display: flex;
   gap: var(--space-2);
   margin-top: var(--space-4);
 }
 
-/* CRUD buttons unchanged */
 .user-quotes .quote-card-footer button:first-child {
-  background-color: #3b82f6;
-  color: white;
-  border: 1px solid #3b82f6;
+  background-color: var(--color-btn-edit);
+  color: #fff;
+  border: 1px solid var(--color-btn-edit);
   flex: 1;
   padding: 0.5rem;
   border-radius: 8px;
@@ -203,9 +208,9 @@ body {
 }
 
 .user-quotes .quote-card-footer button:last-child {
-  background-color: #ef4444;
-  color: white;
-  border: 1px solid #ef4444;
+  background-color: var(--color-btn-delete);
+  color: #fff;
+  border: 1px solid var(--color-btn-delete);
   flex: 1;
   padding: 0.5rem;
   border-radius: 8px;
@@ -239,9 +244,31 @@ body {
   margin-bottom: var(--space-4);
 }
 
+.form-section label {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.form-section input,
+.form-section textarea,
+.form-section select {
+  color: var(--color-text);
+  background-color: rgba(255,255,255,0.2);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.5rem;
+  width: 100%;
+  font-size: var(--text-base);
+}
+
+.form-section input::placeholder,
+.form-section textarea::placeholder {
+  color: var(--color-text-light);
+}
+
 .btn-add-quote {
   background-color: rgba(245, 158, 11, 0.2);
-  color: var(--color-text);
+  color: var(--color-btn-add);
   border: 2px solid rgba(245, 158, 11, 0.6);
   padding: 0.5rem 1rem;
   border-radius: 12px;
@@ -252,61 +279,60 @@ body {
 }
 
 .btn-add-quote:hover:not(:disabled) {
-  background-color: rgba(245, 158, 11, 0.35);
-  color: white;
+  background-color: var(--color-btn-add);
+  color: #fff;
   transform: translateY(-1px);
 }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 992px) {
-  .quotes-page {
-    padding: var(--space-5) var(--space-3);
-  }
-
+  .quotes-page { padding: var(--space-5) var(--space-3); }
   .featured-quotes-container .quotes-grid,
-  .user-quotes .quote-list {
-    gap: var(--space-4);
-  }
+  .user-quotes .quote-list { gap: var(--space-4); }
 }
 
 @media (max-width: 768px) {
-  .form-buttons {
-    flex-direction: column;
-  }
-
-  .btn-add-quote {
-    width: 100%;
-    text-align: center;
-  }
+  .form-buttons { flex-direction: column; }
+  .btn-add-quote { width: 100%; text-align: center; }
 }
 
 @media (max-width: 480px) {
-  .page-header h1 {
-    font-size: 1.5rem;
-  }
-
-  .page-header .page-subtitle {
-    font-size: 0.95rem;
-  }
-
+  .page-header h1 { font-size: 1.5rem; }
+  .page-header .page-subtitle { font-size: 0.95rem; }
   .featured-quotes-container .quote-card,
-  .user-quotes .quote-card {
-    padding: var(--space-3);
-  }
-
+  .user-quotes .quote-card { padding: var(--space-3); }
   .featured-quotes-container .quote-footer,
-  .user-quotes .quote-footer {
-    font-size: var(--text-xs);
-  }
+  .user-quotes .quote-footer { font-size: var(--text-xs); }
 }
 
-/* ---------------- DARK MODE ---------------- */
+/* ================= DARK MODE ================= */
 body.dark-mode .quotes-page {
   background-color: rgba(255, 235, 120, 0.1);
-  color: #60a5fa; /* light blue */
+  color: #5aa0ff;
 }
 
 body.dark-mode .featured-quotes-container .quote-text,
-body.dark-mode .user-quotes .quote-text {
-  color: #93c5fd; /* lighter blue for readability */
+body.dark-mode .user-quotes .quote-text,
+body.dark-mode .form-section input,
+body.dark-mode .form-section textarea,
+body.dark-mode .form-section select {
+  color: #5aa0ff;
+}
+
+body.dark-mode .featured-quotes-container .quote-footer,
+body.dark-mode .user-quotes .quote-footer,
+body.dark-mode .form-section label {
+  color: #93c5fd;
+}
+
+body.dark-mode .user-quotes .quote-meta {
+  color: #60a5fa;
+}
+
+body.dark-mode .btn-add-quote {
+  color: var(--color-btn-add);
+}
+
+body.dark-mode .btn-add-quote:hover {
+  color: #fff;
 }
