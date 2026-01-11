@@ -1,4 +1,4 @@
-/* ================= GLOBAL THEME VARIABLES ================= */
+/* ================= GLOBAL VARIABLES ================= */
 :root {
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -15,6 +15,12 @@
   --text-lg: 1.125rem;
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
+
+  --color-bg-featured: rgba(255, 255, 150, 0.15);
+  --color-bg-user: rgba(255, 255, 150, 0.25);
+  --color-border: rgba(0,0,0,0.15);
+  --color-text: #1e3a8a;
+  --color-text-light: #3b82f6;
 }
 
 /* ================= GLOBAL RESET ================= */
@@ -25,17 +31,15 @@
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-html {
-  font-size: 16px;
-}
+html { font-size: 16px; }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: var(--text-base);
   line-height: 1.5;
   min-height: 100vh;
-  background-color: rgba(255, 235, 120, 0.2); /* transparent yellow like book page */
-  color: #1e3a8a; /* deep blue text */
+  background-color: rgba(255, 235, 120, 0.2);
+  color: var(--color-text);
 }
 
 /* ================= QUOTES PAGE ================= */
@@ -56,13 +60,13 @@ body {
 }
 
 .page-header h1 {
-  color: #1e3a8a;
+  color: var(--color-text);
   font-weight: 700;
   font-size: var(--text-2xl);
 }
 
 .page-header .page-subtitle {
-  color: #3b82f6;
+  color: var(--color-text-light);
   font-weight: 500;
   font-size: var(--text-md);
   line-height: 1.6;
@@ -70,50 +74,91 @@ body {
   margin: var(--space-3) auto 0;
 }
 
+/* ================= FEATURED QUOTES ================= */
+.featured-quotes-container {
+  background-color: var(--color-bg-featured);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  padding: var(--space-6);
+  margin-top: var(--space-6);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.featured-quotes-container .section-header h2 {
+  color: var(--color-text);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-3);
+}
+
+.featured-quotes-container .quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.featured-quotes-container .quote-card {
+  background: none;
+  border: none;
+  padding: var(--space-2) 0;
+}
+
+.featured-quotes-container .quote-text {
+  color: var(--color-text);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: 1.6;
+}
+
+.featured-quotes-container .quote-footer {
+  color: var(--color-text-light);
+  font-size: var(--text-sm);
+  text-align: right;
+  font-weight: 600;
+}
+
 /* ================= USER-ADDED QUOTES ================= */
 .user-quotes .section-header h2 {
   font-size: var(--text-xl);
-  color: #1e3a8a;
+  color: var(--color-text);
   margin-bottom: var(--space-1);
 }
 
 .user-quotes .section-header p {
-  color: #3b82f6;
+  color: var(--color-text-light);
   font-size: var(--text-md);
   margin-bottom: var(--space-4);
 }
 
 .user-quotes .quote-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-4);
 }
 
 .user-quotes .quote-card {
-  background-color: rgba(255, 255, 150, 0.25);
+  background-color: var(--color-bg-user);
   border-radius: 16px;
-  padding: var(--space-4);
-  border: 1px solid var(--border-primary);
-  transition: all 0.3s;
-  color: #1e3a8a;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .user-quotes .quote-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  border-color: #f59e0b;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
 .user-quotes .quote-text {
-  font-size: var(--text-lg);
   font-style: italic;
-  line-height: 1.6;
+  font-size: var(--text-lg);
   margin-bottom: var(--space-2);
+  color: var(--color-text);
 }
 
 .user-quotes .quote-footer {
   font-size: var(--text-sm);
-  color: #3b82f6;
+  color: var(--color-text-light);
   text-align: right;
   font-weight: 600;
 }
@@ -121,8 +166,8 @@ body {
 .user-quotes .quote-meta {
   font-size: var(--text-sm);
   color: #2563eb;
-  margin-top: var(--space-2);
-  border-top: 1px solid var(--border-primary);
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
   padding-top: var(--space-2);
 }
 
@@ -166,64 +211,6 @@ body {
   transform: translateY(-1px);
 }
 
-/* ================= FEATURED QUOTES ================= */
-.featured-quotes-container {
-  background-color: rgba(255, 255, 150, 0.15);
-  border-radius: 16px;
-  border: 1px solid rgba(0,0,0,0.15);
-  padding: var(--space-6);
-  margin-top: var(--space-6);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-}
-
-.featured-quotes-container .section-header h2 {
-  color: #1e3a8a;
-  font-size: var(--text-xl);
-  margin-bottom: var(--space-3);
-}
-
-.featured-quotes-container .quotes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-4);
-  margin-top: var(--space-4);
-}
-
-.featured-quotes-container .quote-card {
-  background: none;
-  border: none;
-  padding: var(--space-2) 0;
-}
-
-.featured-quotes-container .quote-card:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-.featured-quotes-container .quote-text {
-  color: #1e3a8a; /* deep blue in light mode */
-  font-style: italic;
-  font-size: var(--text-lg);
-  line-height: 1.6;
-}
-
-.featured-quotes-container .quote-footer {
-  color: #3b82f6;
-  font-size: var(--text-sm);
-  text-align: right;
-  font-weight: 600;
-}
-
-/* ---------------- Dark Mode ---------------- */
-body.dark-mode .quotes-page {
-  background-color: rgba(255, 235, 120, 0.1);
-  color: #5aa0ff;
-}
-
-body.dark-mode .featured-quotes-container .quote-text {
-  color: #a5d8ff; /* lighter blue for readability in dark mode */
-}
-
 /* ================= QUOTE FORM ================= */
 .form-section {
   background-color: rgba(255, 255, 255, 0.15);
@@ -235,31 +222,31 @@ body.dark-mode .featured-quotes-container .quote-text {
 
 .form-section .section-header h3 {
   font-size: var(--text-xl);
-  color: #1e3a8a;
+  color: var(--color-text);
   margin-bottom: var(--space-2);
 }
 
 .form-section .section-header p {
-  color: #3b82f6;
+  color: var(--color-text-light);
   margin-bottom: var(--space-4);
 }
 
 .btn-add-quote {
-  background-color: rgba(245, 158, 11, 0.15); /* transparent burnt orange */
-  color: #1e3a8a;
+  background-color: rgba(245, 158, 11, 0.2);
+  color: var(--color-text);
   border: 2px solid rgba(245, 158, 11, 0.6);
-  padding: var(--space-3) var(--space-6);
+  padding: 0.5rem 1rem;
   border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
+  margin-top: var(--space-3);
 }
 
 .btn-add-quote:hover:not(:disabled) {
   background-color: rgba(245, 158, 11, 0.35);
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.5);
+  transform: translateY(-1px);
 }
 
 /* ================= EMPTY STATE ================= */
@@ -268,9 +255,9 @@ body.dark-mode .featured-quotes-container .quote-text {
   padding: var(--space-6);
   font-style: italic;
   color: #2563eb;
-  border: 2px dashed var(--border-primary);
+  border: 2px dashed var(--color-border);
   border-radius: 16px;
-  background: rgba(255, 255, 150, 0.15);
+  background: var(--color-bg-featured);
 }
 
 /* ================= RESPONSIVE ================= */
@@ -315,4 +302,15 @@ body.dark-mode .featured-quotes-container .quote-text {
   .featured-quotes-container .quote-footer {
     font-size: var(--text-xs);
   }
+}
+
+/* ---------------- DARK MODE ---------------- */
+body.dark-mode .quotes-page {
+  background-color: rgba(255, 235, 120, 0.1);
+  color: #5aa0ff;
+}
+
+body.dark-mode .featured-quotes-container .quote-text,
+body.dark-mode .user-quotes .quote-text {
+  color: #a5d8ff;
 }

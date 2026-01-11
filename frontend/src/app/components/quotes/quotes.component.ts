@@ -17,7 +17,6 @@ import { AuthService } from '../../services/auth.service';
 export class QuotesComponent implements OnInit {
   globalQuotes: Quote[] = [];
   userQuotes: Quote[] = [];
-  allQuotes: Quote[] = [];
   books: Book[] = [];
   quoteForm: FormGroup;
   isLoading = false;
