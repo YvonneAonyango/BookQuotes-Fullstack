@@ -22,6 +22,10 @@
   "quoteTooShort": "Quote must be at least 10 characters",
   "edit": "Edit",
   "delete": "Delete",
+  "personalCollection": "Your personal collection",
+  "noBook": "No book",
+  "visibleToAll": "Visible to everyone",
+  "fromBook": "From",
 
   "whatBookWebAppOffers": "What BookWebApp Offers",
   "transformYourReadingExperience": "Transform your reading experience with our powerful features",

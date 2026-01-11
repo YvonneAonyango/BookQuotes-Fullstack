@@ -85,7 +85,7 @@
 
 /* === QUOTE FORM CARD === */
 .quote-form .card {
-  background: rgba(255,243,179,0.4); /* warm fluorescent yellow */
+  background: rgba(255,243,179,0.4);
   border: 1px solid rgba(255,223,128,0.6);
   box-shadow: 0 6px 15px rgba(255,223,128,0.3);
   border-radius: 16px;
@@ -131,23 +131,27 @@
   margin-top: 0.75rem;
 }
 
-/* Add / Update Button */
+/* === ADD / UPDATE BUTTON – FLUORESCENT BLUE === */
 .quote-form .form-buttons button[type="submit"] {
-  background: linear-gradient(135deg, #fff176, #ffd54f);
-  color: #1a1a1a;
+  background: linear-gradient(135deg, #00ffff, #6ffbff);
+  color: #003333;
   font-weight: 700;
   font-size: 0.9rem;
-  padding: 0.45rem 1rem;
-  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
   border: none;
   cursor: pointer;
-  flex: 0 0 auto;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(255,223,128,0.5);
+  box-shadow:
+    0 0 6px rgba(0,255,255,0.8),
+    0 6px 14px rgba(0,255,255,0.45);
 }
+
 .quote-form .form-buttons button[type="submit"]:hover {
-  background: linear-gradient(135deg, #fff59d, #ffeb3b);
-  box-shadow: 0 6px 12px rgba(255,223,128,0.6);
+  background: linear-gradient(135deg, #66ffff, #00e5ff);
+  box-shadow:
+    0 0 10px rgba(0,255,255,0.95),
+    0 10px 22px rgba(0,255,255,0.6);
   transform: translateY(-2px);
 }
 
@@ -170,11 +174,11 @@
   transform: translateY(-2px);
 }
 
-/* === QUOTES GRID - bookshelf style === */
+/* === QUOTES GRID === */
 .quotes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
+  gap: 1.6rem;
   justify-items: center;
   width: 100%;
   margin-bottom: 2rem;
@@ -199,21 +203,26 @@
   box-shadow: 0 8px 20px rgba(255,223,128,0.4);
   transform: translateY(-3px);
 }
+
+/* Quote text + author proximity */
 .quote-text {
   font-size: 0.9rem;
-  line-height: 1.25rem;
+  line-height: 1.3rem;
+  margin-bottom: 0.35rem;
   flex: 1;
-  overflow: hidden;
 }
+
 .quote-footer {
   font-size: 0.75rem;
   color: var(--text-secondary);
-  margin-top: 0.5rem;
+  margin-top: 0;
 }
+
+/* Actions */
 .quote-card-footer {
   display: flex;
   gap: 0.4rem;
-  margin-top: 0.75rem;
+  margin-top: 0.9rem;
 }
 .quote-card-footer button {
   padding: 0.25rem 0.45rem;
