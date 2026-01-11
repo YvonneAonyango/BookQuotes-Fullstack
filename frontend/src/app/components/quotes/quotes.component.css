@@ -16,11 +16,11 @@
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
 
-  --color-bg-featured: rgba(255, 255, 150, 0.15);
+  --color-bg-featured: rgba(255, 235, 120, 0.2);
   --color-bg-user: rgba(255, 255, 150, 0.25);
   --color-border: rgba(0,0,0,0.15);
-  --color-text: #1e3a8a;
-  --color-text-light: #3b82f6;
+  --color-text: #3b82f6;       /* light blue for quote text */
+  --color-text-light: #60a5fa; /* lighter blue for author/footer */
 }
 
 /* ================= GLOBAL RESET ================= */
@@ -91,15 +91,17 @@ body {
 }
 
 .featured-quotes-container .quotes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: var(--space-4);
 }
 
 .featured-quotes-container .quote-card {
-  background: none;
-  border: none;
-  padding: var(--space-2) 0;
+  background-color: rgba(255, 255, 150, 0.15);
+  border-radius: 12px;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .featured-quotes-container .quote-text {
@@ -107,6 +109,7 @@ body {
   font-style: italic;
   font-size: var(--text-lg);
   line-height: 1.6;
+  margin-bottom: var(--space-2);
 }
 
 .featured-quotes-container .quote-footer {
@@ -116,7 +119,11 @@ body {
   font-weight: 600;
 }
 
-/* ================= USER-ADDED QUOTES ================= */
+/* ================= USER-ADDED QUOTES (NOW CONTAINERS) ================= */
+.user-quotes {
+  margin-top: var(--space-6);
+}
+
 .user-quotes .section-header h2 {
   font-size: var(--text-xl);
   color: var(--color-text);
@@ -130,15 +137,15 @@ body {
 }
 
 .user-quotes .quote-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: var(--space-4);
 }
 
 .user-quotes .quote-card {
   background-color: var(--color-bg-user);
   border-radius: 16px;
-  padding: var(--space-5);
+  padding: var(--space-4);
   border: 1px solid var(--color-border);
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -165,7 +172,7 @@ body {
 
 .user-quotes .quote-meta {
   font-size: var(--text-sm);
-  color: #2563eb;
+  color: #60a5fa; /* lighter blue for book info */
   margin-top: var(--space-3);
   border-top: 1px solid var(--color-border);
   padding-top: var(--space-2);
@@ -177,6 +184,7 @@ body {
   margin-top: var(--space-4);
 }
 
+/* CRUD buttons unchanged */
 .user-quotes .quote-card-footer button:first-child {
   background-color: #3b82f6;
   color: white;
@@ -249,26 +257,14 @@ body {
   transform: translateY(-1px);
 }
 
-/* ================= EMPTY STATE ================= */
-.empty-state {
-  text-align: center;
-  padding: var(--space-6);
-  font-style: italic;
-  color: #2563eb;
-  border: 2px dashed var(--color-border);
-  border-radius: 16px;
-  background: var(--color-bg-featured);
-}
-
 /* ================= RESPONSIVE ================= */
 @media (max-width: 992px) {
   .quotes-page {
     padding: var(--space-5) var(--space-3);
   }
 
-  .user-quotes .quote-list,
-  .featured-quotes-container .quotes-grid {
-    grid-template-columns: 1fr;
+  .featured-quotes-container .quotes-grid,
+  .user-quotes .quote-list {
     gap: var(--space-4);
   }
 }
@@ -293,13 +289,13 @@ body {
     font-size: 0.95rem;
   }
 
-  .user-quotes .quote-card,
-  .featured-quotes-container .quote-card {
+  .featured-quotes-container .quote-card,
+  .user-quotes .quote-card {
     padding: var(--space-3);
   }
 
-  .user-quotes .quote-footer,
-  .featured-quotes-container .quote-footer {
+  .featured-quotes-container .quote-footer,
+  .user-quotes .quote-footer {
     font-size: var(--text-xs);
   }
 }
@@ -307,10 +303,10 @@ body {
 /* ---------------- DARK MODE ---------------- */
 body.dark-mode .quotes-page {
   background-color: rgba(255, 235, 120, 0.1);
-  color: #5aa0ff;
+  color: #60a5fa; /* light blue */
 }
 
 body.dark-mode .featured-quotes-container .quote-text,
 body.dark-mode .user-quotes .quote-text {
-  color: #a5d8ff;
+  color: #93c5fd; /* lighter blue for readability */
 }
