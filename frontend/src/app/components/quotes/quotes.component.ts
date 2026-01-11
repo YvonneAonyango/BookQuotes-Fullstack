@@ -22,7 +22,7 @@ export class QuotesComponent implements OnInit {
   isLoading = false;
   isEdit = false;
   editingQuoteId?: number;
-  errorMessage = '';
+  errorMessage = '';  // used for inline notifications
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -85,8 +85,11 @@ export class QuotesComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.errorMessage = ''; // clear previous messages
+
     if (!this.isLoggedIn()) {
-      alert('Please log in to add a quote.');
+      // Inline notification instead of alert
+      this.errorMessage = 'Please log in to add a quote.';
       return;
     }
 
@@ -122,7 +125,8 @@ export class QuotesComponent implements OnInit {
           this.isLoading = false;
         },
         error: () => {
-          this.errorMessage = 'Failed to create quote.';
+          // Inline login notification for failed create (usually unauthenticated)
+          this.errorMessage = 'Please log in to add a quote.';
           this.isLoading = false;
         }
       });
@@ -153,7 +157,9 @@ export class QuotesComponent implements OnInit {
       next: () => {
         this.userQuotes = this.userQuotes.filter(q => q.id !== id);
       },
-      error: () => alert('Failed to delete quote.')
+      error: () => {
+        this.errorMessage = 'Failed to delete quote.';
+      }
     });
   }
 
@@ -161,6 +167,7 @@ export class QuotesComponent implements OnInit {
     this.quoteForm.reset({ text: '', author: '', bookId: null });
     this.isEdit = false;
     this.editingQuoteId = undefined;
+    this.errorMessage = ''; // clear inline error
   }
 
   isLoggedIn(): boolean {
