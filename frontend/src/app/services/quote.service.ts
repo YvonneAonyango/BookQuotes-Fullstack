@@ -1,3 +1,4 @@
+// src/app/services/quote.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -5,19 +6,20 @@ import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 
-export interface Book {
-  id: number;
-  title: string;
-  author: string;
-}
-
 export interface Quote {
   id?: number;
   text: string;
   author: string;
   bookId?: number | null;
   userId?: number;
+  isGlobal?: boolean;
   book?: Book;
+}
+
+export interface Book {
+  id: number;
+  title: string;
+  author: string;
 }
 
 @Injectable({
@@ -36,13 +38,25 @@ export class QuoteService {
     return new HttpHeaders(headersConfig);
   }
 
-  // PUBLIC: loads seeded, public quotes
+  // Get the 5 global quotes (for everyone)
+  getGlobalQuotes(): Observable<Quote[]> {
+    return this.http.get<Quote[]>(`${this.apiUrl}/quotes/global`)
+      .pipe(catchError(error => throwError(() => error)));
+  }
+
+  // Get all quotes (global + user's own if logged in)
   getQuotes(): Observable<Quote[]> {
     return this.http.get<Quote[]>(`${this.apiUrl}/quotes`)
       .pipe(catchError(error => throwError(() => error)));
   }
 
-  // AUTH REQUIRED
+  // Get user's personal quotes (requires login)
+  getMyQuotes(): Observable<Quote[]> {
+    return this.http.get<Quote[]>(`${this.apiUrl}/quotes/my`, {
+      headers: this.getAuthHeaders()
+    }).pipe(catchError(error => throwError(() => error)));
+  }
+
   createQuote(quote: Quote): Observable<Quote> {
     if (!this.auth.isAuthenticated()) {
       throw new Error('Not logged in');
@@ -59,7 +73,6 @@ export class QuoteService {
     }).pipe(catchError(error => throwError(() => error)));
   }
 
-  // AUTH REQUIRED
   updateQuote(id: number, quote: Quote): Observable<Quote> {
     const payload = {
       Text: quote.text.trim(),
@@ -72,7 +85,6 @@ export class QuoteService {
     }).pipe(catchError(error => throwError(() => error)));
   }
 
-  // AUTH REQUIRED
   deleteQuote(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/quotes/${id}`, {
       headers: this.getAuthHeaders()

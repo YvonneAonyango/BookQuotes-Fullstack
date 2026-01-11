@@ -1,5 +1,7 @@
+// BookWebApp.Api/Data/AppDbContext.cs
 using Microsoft.EntityFrameworkCore;
 using BookWebApp.Api.Models;
+using System.Reflection.Emit;
 
 namespace BookWebApp.Api.Data
 {
@@ -18,13 +20,13 @@ namespace BookWebApp.Api.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Book -> Quote (one-to-many) - Make BookId optional
+            // Book -> Quote (one-to-many)
             modelBuilder.Entity<Book>()
                 .HasMany(b => b.Quotes)
                 .WithOne(q => q.Book)
                 .HasForeignKey(q => q.BookId)
-                .IsRequired(false)                   // Make the foreign key optional
-                .OnDelete(DeleteBehavior.SetNull);   // Set BookId to null if Book is deleted
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // User -> Quote (one-to-many)
             modelBuilder.Entity<User>()
@@ -32,6 +34,67 @@ namespace BookWebApp.Api.Data
                 .WithOne(q => q.User)
                 .HasForeignKey(q => q.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Seed System User (for global quotes)
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 999, // Use a high ID to avoid conflicts
+                    Username = "System",
+                    Email = "system@bookwebapp.com",
+                    PasswordHash = "", // Not for login
+                    CreatedAt = DateTime.UtcNow
+                }
+            );
+
+            // Seed 5 Global Quotes
+            modelBuilder.Entity<Quote>().HasData(
+                new Quote 
+                { 
+                    Id = 1001, 
+                    Text = "Be the change you wish to see in the world.", 
+                    Author = "Mahatma Gandhi", 
+                    UserId = 999, // System user
+                    IsGlobal = true,
+                    BookId = null
+                },
+                new Quote 
+                { 
+                    Id = 1002, 
+                    Text = "The only thing that you absolutely have to know, is the location of the library.", 
+                    Author = "Albert Einstein", 
+                    UserId = 999,
+                    IsGlobal = true,
+                    BookId = null
+                },
+                new Quote 
+                { 
+                    Id = 1003, 
+                    Text = "A reader lives a thousand lives before he dies… The man who never reads lives only one.", 
+                    Author = "George R.R. Martin", 
+                    UserId = 999,
+                    IsGlobal = true,
+                    BookId = null
+                },
+                new Quote 
+                { 
+                    Id = 1004, 
+                    Text = "Tomorrow's success is determined by an accumulation of current efforts", 
+                    Author = "Yvonne", 
+                    UserId = 999,
+                    IsGlobal = true,
+                    BookId = null
+                },
+                new Quote 
+                { 
+                    Id = 1005, 
+                    Text = "It is during our darkest moments that we must focus to see the light.", 
+                    Author = "Aristotle", 
+                    UserId = 999,
+                    IsGlobal = true,
+                    BookId = null
+                }
+            );
         }
     }
 }

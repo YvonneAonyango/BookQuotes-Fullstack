@@ -1,3 +1,4 @@
+// BookWebApp.Api/Models/Quote.cs
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -15,10 +16,15 @@ public class Quote
 
     public int? BookId { get; set; }
 
-    [JsonIgnore]   // Prevent serialization cycle
+    [JsonIgnore]
     public Book? Book { get; set; }
 
     [Required]
     public int UserId { get; set; }
+    
+    [JsonIgnore]
     public User? User { get; set; }
+    
+    // global property
+    public bool IsGlobal { get; set; } = false;
 }

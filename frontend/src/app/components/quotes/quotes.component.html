@@ -1,3 +1,4 @@
+<!-- src/app/components/quotes/quotes.component.html -->
 <div class="quotes-page">
   <header class="page-header">
     <h1>{{ 'myQuotes' | translate }}</h1>
@@ -11,69 +12,121 @@
     <a routerLink="/register">register</a> to add and manage your own quotes.
   </div>
 
-  <div class="quotes-container">
-    <!-- QUOTE FORM -->
-    <section class="quote-form">
+  <!-- GLOBAL QUOTES SECTION (The 5 default quotes) -->
+  <section class="global-quotes-section">
+    <h2>Favorite Quotes for Everyone</h2>
+    <p class="lead">These quotes are visible to all visitors.</p>
+    
+    <div *ngIf="isLoading" class="loading-spinner">
+      Loading quotes...
+    </div>
+
+    <div *ngIf="globalQuotes.length > 0" class="global-quotes-grid">
+      <div *ngFor="let quote of globalQuotes" class="global-quote-card">
+        <div class="global-quote-content">
+          <p class="global-quote-text">"{{ quote.text }}"</p>
+          <div class="global-quote-footer">
+            <span class="global-quote-author">— {{ quote.author }}</span>
+            <span class="global-quote-badge">Everyone</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USER QUOTES SECTION (Only for logged in users) -->
+  <div *ngIf="isLoggedIn()">
+    <!-- USER'S QUOTES LIST -->
+    <section class="user-quotes-section">
+      <h2>My Personal Quotes</h2>
+      <p class="lead">These quotes are only visible to you.</p>
+      
+      <div *ngIf="userQuotes.length > 0" class="user-quotes-grid">
+        <div *ngFor="let quote of userQuotes" class="user-quote-card">
+          <p class="user-quote-text">"{{ quote.text }}"</p>
+          <div class="user-quote-footer">
+            <span class="user-quote-author">— {{ quote.author }}</span>
+            <span *ngIf="quote.book?.title" class="user-quote-book">From: {{ quote.book?.title }}</span>
+          </div>
+          <div class="user-quote-actions">
+            <button class="btn-edit" (click)="editQuote(quote.id!)">{{ 'edit' | translate }}</button>
+            <button class="btn-delete" (click)="deleteQuote(quote.id!)">{{ 'delete' | translate }}</button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="userQuotes.length === 0" class="no-quotes-message">
+        <p>You haven't added any personal quotes yet. Use the form below to add your first quote!</p>
+      </div>
+    </section>
+
+    <!-- QUOTE FORM (Only visible when logged in) -->
+    <section class="quote-form-section">
       <div class="card">
         <div class="card-header">
           <h5>{{ isEdit ? ('editQuote' | translate) : ('addNewQuote' | translate) }}</h5>
         </div>
         <div class="card-body">
           <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-            <fieldset [disabled]="!isLoggedIn()">
-              <div class="form-group">
-                <label>{{ 'quoteText' | translate }}</label>
-                <textarea formControlName="text" rows="4"></textarea>
+            <div class="form-group">
+              <label>{{ 'quoteText' | translate }}</label>
+              <textarea formControlName="text" rows="4" 
+                placeholder="Enter your favorite quote here..."></textarea>
+              <div *ngIf="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched" 
+                   class="error-message">
+                Quote text is required and must be at least 10 characters.
               </div>
+            </div>
 
-              <div class="form-group">
-                <label>{{ 'author' | translate }}</label>
-                <input type="text" formControlName="author">
+            <div class="form-group">
+              <label>{{ 'author' | translate }}</label>
+              <input type="text" formControlName="author" 
+                placeholder="Author of the quote">
+              <div *ngIf="quoteForm.get('author')?.invalid && quoteForm.get('author')?.touched" 
+                   class="error-message">
+                Author is required.
               </div>
+            </div>
 
-              <div class="form-group">
-                <label>{{ 'bookOptional' | translate }}</label>
-                <select formControlName="bookId">
-                  <option [ngValue]="null">{{ 'selectBook' | translate }}</option>
-                  <option *ngFor="let book of books" [ngValue]="book.id">
-                    {{ book.title }} - {{ book.author }}
-                  </option>
-                </select>
-              </div>
+            <div class="form-group">
+              <label>{{ 'bookOptional' | translate }}</label>
+              <select formControlName="bookId">
+                <option [ngValue]="null">{{ 'selectBook' | translate }}</option>
+                <option *ngFor="let book of books" [ngValue]="book.id">
+                  {{ book.title }} - {{ book.author }}
+                </option>
+              </select>
+            </div>
 
-              <button type="submit" [disabled]="quoteForm.invalid || isLoading">
+            <div class="form-buttons">
+              <button type="submit" [disabled]="quoteForm.invalid || isLoading" 
+                class="btn-submit">
                 {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
               </button>
-            </fieldset>
+              <button type="button" (click)="resetForm()" class="btn-cancel" 
+                *ngIf="isEdit">
+                Cancel
+              </button>
+            </div>
+            
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              {{ errorMessage }}
+            </div>
           </form>
         </div>
       </div>
     </section>
+  </div>
 
-    <!-- QUOTES LIST -->
-    <section class="quotes-list">
-      <h3>{{ 'allQuotes' | translate }}</h3>
-
-      <div *ngIf="quotes.length > 0" class="quotes-grid">
-        <div *ngFor="let quote of quotes" class="quote-card">
-          <p class="quote-text">"{{ quote.text }}"</p>
-          <div class="quote-footer">
-            <span class="quote-author">— {{ quote.author }}</span>
-            <span *ngIf="quote.book?.title">From: {{ quote.book?.title }}</span>
-          </div>
-
-          <div *ngIf="isLoggedIn()" class="quote-card-footer">
-            <button (click)="editQuote(quote.id!)">{{ 'edit' | translate }}</button>
-            <button (click)="deleteQuote(quote.id!)">{{ 'delete' | translate }}</button>
-          </div>
-        </div>
+  <!-- FRIENDLY MESSAGE FOR NON-LOGGED IN USERS -->
+  <div *ngIf="!isLoggedIn()" class="guest-message">
+    <div class="alert alert-secondary">
+      <h4>Want to save your own quotes?</h4>
+      <p>Log in or register to create, edit, and save your personal collection of quotes!</p>
+      <div class="guest-buttons">
+        <a routerLink="/login" class="btn btn-primary">Log In</a>
+        <a routerLink="/register" class="btn btn-outline-primary">Register</a>
       </div>
-
-      <!-- FRIENDLY MESSAGE -->
-      <div class="alert alert-secondary mt-4 text-center">
-        Feel free to add your own quotes as your personal library
-        to keep track of your favourites.
-      </div>
-    </section>
+    </div>
   </div>
 </div>
