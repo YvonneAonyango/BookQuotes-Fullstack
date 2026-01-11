@@ -6,35 +6,7 @@
     <p class="page-subtitle">{{ 'quoteCollectionDesc' | translate }}</p>
   </header>
 
-  <!-- MY QUOTES -->
-  <section class="section">
-    <header class="section-header">
-      <h2>{{ 'myQuotes' | translate }}</h2>
-      <p>{{ 'personalCollection' | translate }}</p>
-    </header>
-
-    <div class="quote-list" *ngIf="userQuotes.length > 0">
-      <div class="quote-card" *ngFor="let quote of userQuotes">
-        <p class="quote-text">“{{ quote.text }}”</p>
-        <p class="quote-footer">— {{ quote.author }}</p>
-
-        <div class="quote-meta" *ngIf="quote.book as book">
-          {{ 'fromBook' | translate }} <strong>{{ book.title }}</strong>
-        </div>
-
-        <div class="quote-card-footer">
-          <button (click)="editQuote(quote.id!)">{{ 'edit' | translate }}</button>
-          <button (click)="deleteQuote(quote.id!)">{{ 'delete' | translate }}</button>
-        </div>
-      </div>
-    </div>
-
-    <p class="empty-state" *ngIf="userQuotes.length === 0">
-      {{ 'noQuotesYet' | translate }}
-    </p>
-  </section>
-
-  <!-- FEATURED QUOTES (MOVE ABOVE FORM) -->
+  <!-- FEATURED QUOTES -->
   <section class="section featured">
     <header class="section-header">
       <h2>{{ 'featuredQuotes' | translate }}</h2>
