@@ -1,17 +1,17 @@
 /* === THEME VARIABLES === */
 :root {
-  --bg-page: rgba(248,250,252,0.98);
+  --bg-page: #fff9c4; /* light warm yellow */
   --text-primary: #0f172a;
   --text-secondary: #334155;
-  --card-bg: rgba(64,224,208,0.2);
+  --card-bg: rgba(255, 249, 196, 0.6); /* warm translucent yellow for cards */
   --card-border: rgba(0,0,0,0.12);
 
-  --btn-primary-bg: #00ffff;
-  --btn-primary-hover: #00e5ff;
-  --btn-edit-bg: #00ffff;
-  --btn-edit-hover: #00e5ff;
-  --btn-delete-bg: #00ffff;
-  --btn-delete-hover: #00e5ff;
+  --btn-primary-bg: #ffd54f; /* warm fluorescent yellow */
+  --btn-primary-hover: #ffc107;
+  --btn-edit-bg: #4dd0e1;
+  --btn-edit-hover: #26c6da;
+  --btn-delete-bg: #ff8a65;
+  --btn-delete-hover: #ff7043;
 
   --alert-danger-bg: #fee2e2;
   --alert-danger-border: #f87171;
@@ -27,12 +27,12 @@
   --card-bg: rgba(64,224,208,0.3);
   --card-border: rgba(255,255,255,0.2);
 
-  --btn-primary-bg: #00ffff;
-  --btn-primary-hover: #00e5ff;
-  --btn-edit-bg: #00ffff;
-  --btn-edit-hover: #00e5ff;
-  --btn-delete-bg: #00ffff;
-  --btn-delete-hover: #00e5ff;
+  --btn-primary-bg: #ffd54f;
+  --btn-primary-hover: #ffc107;
+  --btn-edit-bg: #4dd0e1;
+  --btn-edit-hover: #26c6da;
+  --btn-delete-bg: #ff8a65;
+  --btn-delete-hover: #ff7043;
 }
 
 /* === PAGE LAYOUT === */
@@ -83,9 +83,26 @@
   border-left: 4px solid #f87171;
 }
 
+/* === FEATURED QUOTES CONTAINER === */
+.featured-quotes-container {
+  background: rgba(255, 235, 59, 0.2); /* soft warm yellow */
+  border-left: 6px solid #ffd54f;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+.featured-quotes-container h2 {
+  margin-top: 0;
+  color: #f57f17; /* deeper yellow accent */
+}
+.featured-quotes-container .quote-card {
+  background: rgba(255, 245, 157, 0.6); /* warm lighter yellow */
+  border: 1px solid rgba(255, 193, 7, 0.6);
+}
+
 /* === QUOTE FORM CARD === */
 .quote-form .card {
-  background: rgba(255,243,179,0.4);
+  background: rgba(255,243,179,0.6);
   border: 1px solid rgba(255,223,128,0.6);
   box-shadow: 0 6px 15px rgba(255,223,128,0.3);
   border-radius: 16px;
@@ -118,10 +135,7 @@
   width: 100%;
   box-sizing: border-box;
 }
-.quote-form textarea {
-  min-height: 100px;
-  resize: vertical;
-}
+.quote-form textarea { min-height: 100px; resize: vertical; }
 
 /* === FORM BUTTONS === */
 .quote-form .form-buttons {
@@ -131,10 +145,10 @@
   margin-top: 0.75rem;
 }
 
-/* === ADD / UPDATE BUTTON – FLUORESCENT BLUE === */
+/* === ADD / UPDATE BUTTON – WARM FLUORESCENT YELLOW === */
 .quote-form .form-buttons button[type="submit"] {
-  background: linear-gradient(135deg, #00ffff, #6ffbff);
-  color: #003333;
+  background: linear-gradient(135deg, #ffd54f, #ffeb3b);
+  color: #333;
   font-weight: 700;
   font-size: 0.9rem;
   padding: 0.5rem 1.1rem;
@@ -143,15 +157,14 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow:
-    0 0 6px rgba(0,255,255,0.8),
-    0 6px 14px rgba(0,255,255,0.45);
+    0 0 6px rgba(255, 235, 59, 0.8),
+    0 6px 14px rgba(255, 235, 59, 0.45);
 }
-
 .quote-form .form-buttons button[type="submit"]:hover {
-  background: linear-gradient(135deg, #66ffff, #00e5ff);
+  background: linear-gradient(135deg, #ffeb3b, #ffd54f);
   box-shadow:
-    0 0 10px rgba(0,255,255,0.95),
-    0 10px 22px rgba(0,255,255,0.6);
+    0 0 10px rgba(255, 235, 59, 0.95),
+    0 10px 22px rgba(255, 235, 59, 0.6);
   transform: translateY(-2px);
 }
 
@@ -186,7 +199,7 @@
 
 /* === QUOTE CARD === */
 .quote-card {
-  background: rgba(255,243,179,0.45);
+  background: rgba(255,245,157,0.6);
   border-radius: 16px;
   border: 1px solid rgba(255,223,128,0.6);
   display: flex;
@@ -200,30 +213,16 @@
   box-sizing: border-box;
 }
 .quote-card:hover {
-  box-shadow: 0 8px 20px rgba(255,223,128,0.4);
+  box-shadow: 0 8px 20px rgba(255,223,128,0.5);
   transform: translateY(-3px);
 }
 
 /* Quote text + author proximity */
-.quote-text {
-  font-size: 0.9rem;
-  line-height: 1.3rem;
-  margin-bottom: 0.35rem;
-  flex: 1;
-}
-
-.quote-footer {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  margin-top: 0;
-}
+.quote-text { font-size: 0.9rem; line-height: 1.3rem; margin-bottom: 0.35rem; flex: 1; }
+.quote-footer { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0; }
 
 /* Actions */
-.quote-card-footer {
-  display: flex;
-  gap: 0.4rem;
-  margin-top: 0.9rem;
-}
+.quote-card-footer { display: flex; gap: 0.4rem; margin-top: 0.9rem; }
 .quote-card-footer button {
   padding: 0.25rem 0.45rem;
   font-size: 0.75rem;
@@ -234,14 +233,10 @@
   cursor: pointer;
   font-weight: 600;
 }
-.quote-card-footer button:hover {
-  background-color: #66d5e1;
-}
+.quote-card-footer button:hover { background-color: #66d5e1; }
 
 /* === RESPONSIVE === */
-@media (max-width: 1200px) {
-  .quote-card { max-width: 280px; }
-}
+@media (max-width: 1200px) { .quote-card { max-width: 280px; } }
 @media (max-width: 992px) {
   .quotes-page { padding: 1.5rem; }
   .quote-form .card { padding: 1rem; }

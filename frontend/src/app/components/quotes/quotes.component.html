@@ -14,15 +14,15 @@
     </header>
 
     <div class="quote-list" *ngIf="userQuotes.length > 0">
-      <div class="quote-item" *ngFor="let quote of userQuotes">
+      <div class="quote-card" *ngFor="let quote of userQuotes">
         <p class="quote-text">“{{ quote.text }}”</p>
-        <p class="quote-author">— {{ quote.author }}</p>
+        <p class="quote-footer">— {{ quote.author }}</p>
 
         <div class="quote-meta" *ngIf="quote.book as book">
           {{ 'fromBook' | translate }} <strong>{{ book.title }}</strong>
         </div>
 
-        <div class="quote-actions">
+        <div class="quote-card-footer">
           <button (click)="editQuote(quote.id!)">{{ 'edit' | translate }}</button>
           <button (click)="deleteQuote(quote.id!)">{{ 'delete' | translate }}</button>
         </div>
@@ -34,6 +34,21 @@
     </p>
   </section>
 
+  <!-- FEATURED QUOTES (MOVE ABOVE FORM) -->
+  <section class="section featured">
+    <header class="section-header">
+      <h2>{{ 'featuredQuotes' | translate }}</h2>
+      <p>{{ 'visibleToAll' | translate }}</p>
+    </header>
+
+    <div class="quotes-grid">
+      <div class="quote-card featured-quote" *ngFor="let quote of globalQuotes">
+        <p class="quote-text">“{{ quote.text }}”</p>
+        <p class="quote-footer">— {{ quote.author }}</p>
+      </div>
+    </div>
+  </section>
+
   <!-- QUOTE FORM (VISIBLE TO ALL) -->
   <section class="section form-section">
     <header class="section-header">
@@ -41,9 +56,8 @@
       <p>{{ 'manageQuotesDesc' | translate }}</p>
     </header>
 
-    <div class="form-container">
+    <div class="quote-form">
       <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-
         <div class="form-group">
           <label>{{ 'quoteText' | translate }}</label>
           <textarea
@@ -89,21 +103,6 @@
           {{ errorMessage }}
         </div>
       </form>
-    </div>
-  </section>
-
-  <!-- FEATURED QUOTES -->
-  <section class="section featured">
-    <header class="section-header">
-      <h2>{{ 'featuredQuotes' | translate }}</h2>
-      <p>{{ 'visibleToAll' | translate }}</p>
-    </header>
-
-    <div class="quote-list">
-      <div class="quote-item featured-quote" *ngFor="let quote of globalQuotes">
-        <p class="quote-text">“{{ quote.text }}”</p>
-        <p class="quote-author">— {{ quote.author }}</p>
-      </div>
     </div>
   </section>
 
