@@ -8,7 +8,21 @@
     </p>
   </header>
 
-  <!-- USER-ADDED QUOTES (retain cards for CRUD) -->
+  <!-- FEATURED QUOTES -->
+  <section class="section featured featured-quotes-container">
+    <header class="section-header">
+      <h2>{{ 'featuredQuotes' | translate }}</h2>
+    </header>
+
+    <div class="quotes-grid">
+      <div class="quote-card featured-quote" *ngFor="let quote of globalQuotes">
+        <p class="quote-text">“{{ quote.text }}”</p>
+        <p class="quote-footer">— {{ quote.author }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USER-ADDED QUOTES -->
   <section class="section user-quotes" *ngIf="userQuotes.length > 0">
     <header class="section-header">
       <h2>My Quotes</h2>
@@ -32,20 +46,6 @@
     </div>
   </section>
 
-  <!-- FEATURED QUOTES CONTAINER -->
-  <section class="section featured featured-quotes-container">
-    <header class="section-header">
-      <h2>{{ 'featuredQuotes' | translate }}</h2>
-    </header>
-
-    <div class="quotes-grid">
-      <div class="quote-card featured-quote" *ngFor="let quote of globalQuotes">
-        <p class="quote-text">“{{ quote.text }}”</p>
-        <p class="quote-footer">— {{ quote.author }}</p>
-      </div>
-    </div>
-  </section>
-
   <!-- QUOTE FORM -->
   <section class="section form-section">
     <header class="section-header">
@@ -55,7 +55,24 @@
 
     <div class="quote-form">
       <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-        <!-- form fields unchanged -->
+        <div class="form-group">
+          <label for="text">{{ 'quoteText' | translate }}</label>
+          <textarea id="text" formControlName="text" rows="3" placeholder="{{ 'quotePlaceholder' | translate }}"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="author">{{ 'quoteAuthor' | translate }}</label>
+          <input id="author" type="text" formControlName="author" placeholder="{{ 'authorPlaceholder' | translate }}">
+        </div>
+
+        <div class="form-group">
+          <label for="bookId">{{ 'selectBook' | translate }}</label>
+          <select id="bookId" formControlName="bookId">
+            <option [ngValue]="null">{{ 'none' | translate }}</option>
+            <option *ngFor="let book of books" [ngValue]="book.id">{{ book.title }}</option>
+          </select>
+        </div>
+
         <div class="form-buttons">
           <button type="submit" class="btn-add-quote" [disabled]="isLoading">
             {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}

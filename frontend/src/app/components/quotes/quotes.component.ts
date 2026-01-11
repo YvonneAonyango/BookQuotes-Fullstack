@@ -1,4 +1,3 @@
-// src/app/components/quotes/quotes.component.ts
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,25 +10,20 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-quotes',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslateModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './quotes.component.html',
   styleUrls: ['./quotes.component.css']
 })
 export class QuotesComponent implements OnInit {
-  globalQuotes: Quote[] = [];  // The 5 default quotes everyone sees
-  userQuotes: Quote[] = [];    // User's personal quotes (only when logged in)
-  allQuotes: Quote[] = [];     // Combined for display
+  globalQuotes: Quote[] = [];
+  userQuotes: Quote[] = [];
+  allQuotes: Quote[] = [];
   books: Book[] = [];
   quoteForm: FormGroup;
   isLoading = false;
   isEdit = false;
   editingQuoteId?: number;
   errorMessage = '';
-  selectedQuote?: Quote;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -50,22 +44,15 @@ export class QuotesComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Quotes');
-    this.translate.get('quoteCollectionDesc').subscribe(translated => {
-      this.meta.updateTag({
-        name: 'description',
-        content: translated || 'Save and manage your favorite quotes.'
-      });
+    this.translate.get('quoteCollectionDesc').subscribe(desc => {
+      this.meta.updateTag({ name: 'description', content: desc || 'Save and manage your favorite quotes.' });
     });
 
-    // Always load global quotes
     this.loadGlobalQuotes();
 
     if (this.isLoggedIn()) {
       this.loadUserQuotes();
       this.loadBooks();
-    } else {
-      // If not logged in, just show global quotes
-      this.allQuotes = [...this.globalQuotes];
     }
   }
 
@@ -74,7 +61,6 @@ export class QuotesComponent implements OnInit {
     this.quoteService.getGlobalQuotes().subscribe({
       next: quotes => {
         this.globalQuotes = quotes;
-        this.updateAllQuotes();
         this.isLoading = false;
       },
       error: () => {
@@ -86,19 +72,10 @@ export class QuotesComponent implements OnInit {
 
   loadUserQuotes(): void {
     if (!this.isLoggedIn()) return;
-    
     this.quoteService.getMyQuotes().subscribe({
-      next: quotes => {
-        this.userQuotes = quotes;
-        this.updateAllQuotes();
-      },
+      next: quotes => this.userQuotes = quotes,
       error: () => console.error('Failed to load user quotes')
     });
-  }
-
-  updateAllQuotes(): void {
-    // Combine global quotes first, then user quotes
-    this.allQuotes = [...this.globalQuotes, ...this.userQuotes];
   }
 
   loadBooks(): void {
@@ -106,6 +83,51 @@ export class QuotesComponent implements OnInit {
       next: books => this.books = books,
       error: err => console.error('Error loading books:', err)
     });
+  }
+
+  onSubmit(): void {
+    if (!this.isLoggedIn()) {
+      alert('Please log in to add a quote.');
+      return;
+    }
+
+    if (this.quoteForm.invalid) return;
+
+    const formValue = this.quoteForm.value;
+    const quoteData: Quote = {
+      text: formValue.text.trim(),
+      author: formValue.author.trim(),
+      bookId: formValue.bookId
+    };
+
+    this.isLoading = true;
+
+    if (this.isEdit && this.editingQuoteId) {
+      this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
+        next: updated => {
+          const index = this.userQuotes.findIndex(q => q.id === updated.id);
+          if (index !== -1) this.userQuotes[index] = updated;
+          this.resetForm();
+          this.isLoading = false;
+        },
+        error: () => {
+          this.errorMessage = 'Failed to update quote.';
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.quoteService.createQuote(quoteData).subscribe({
+        next: newQuote => {
+          this.userQuotes.unshift(newQuote);
+          this.resetForm();
+          this.isLoading = false;
+        },
+        error: () => {
+          this.errorMessage = 'Failed to create quote.';
+          this.isLoading = false;
+        }
+      });
+    }
   }
 
   editQuote(id: number): void {
@@ -131,52 +153,9 @@ export class QuotesComponent implements OnInit {
     this.quoteService.deleteQuote(id).subscribe({
       next: () => {
         this.userQuotes = this.userQuotes.filter(q => q.id !== id);
-        this.updateAllQuotes();
       },
       error: () => alert('Failed to delete quote.')
     });
-  }
-
-  onSubmit(): void {
-    if (!this.isLoggedIn() || this.quoteForm.invalid) return;
-
-    const formValue = this.quoteForm.value;
-    const quoteData: Quote = {
-      text: formValue.text.trim(),
-      author: formValue.author.trim(),
-      bookId: formValue.bookId
-    };
-
-    this.isLoading = true;
-
-    if (this.isEdit && this.editingQuoteId) {
-      this.quoteService.updateQuote(this.editingQuoteId, quoteData).subscribe({
-        next: updated => {
-          const index = this.userQuotes.findIndex(q => q.id === updated.id);
-          if (index !== -1) this.userQuotes[index] = updated;
-          this.updateAllQuotes();
-          this.resetForm();
-          this.isLoading = false;
-        },
-        error: () => {
-          this.errorMessage = 'Failed to update quote.';
-          this.isLoading = false;
-        }
-      });
-    } else {
-      this.quoteService.createQuote(quoteData).subscribe({
-        next: newQuote => {
-          this.userQuotes.unshift(newQuote);
-          this.updateAllQuotes();
-          this.resetForm();
-          this.isLoading = false;
-        },
-        error: () => {
-          this.errorMessage = 'Failed to create quote.';
-          this.isLoading = false;
-        }
-      });
-    }
   }
 
   resetForm(): void {

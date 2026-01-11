@@ -1,4 +1,4 @@
-/* ================= ROOT VARIABLES ================= */
+/* ================= GLOBAL THEME VARIABLES ================= */
 :root {
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -34,7 +34,8 @@ body {
   font-size: var(--text-base);
   line-height: 1.5;
   min-height: 100vh;
-  background-color: rgba(255, 235, 120, 0.2); /* transparent yellow */
+  background-color: rgba(255, 235, 120, 0.2); /* transparent yellow like book page */
+  color: #1e3a8a; /* deep blue text */
 }
 
 /* ================= QUOTES PAGE ================= */
@@ -42,7 +43,6 @@ body {
   padding: var(--space-6) var(--space-4);
   max-width: 1200px;
   margin: 0 auto;
-  color: #1e3a8a; /* deep blue text */
   min-height: 100vh;
   backdrop-filter: blur(6px);
 }
@@ -201,9 +201,10 @@ body {
 }
 
 .featured-quotes-container .quote-text {
-  color: #1e3a8a;
-  font-size: var(--text-lg);
+  color: #1e3a8a; /* deep blue in light mode */
   font-style: italic;
+  font-size: var(--text-lg);
+  line-height: 1.6;
 }
 
 .featured-quotes-container .quote-footer {
@@ -211,6 +212,16 @@ body {
   font-size: var(--text-sm);
   text-align: right;
   font-weight: 600;
+}
+
+/* ---------------- Dark Mode ---------------- */
+body.dark-mode .quotes-page {
+  background-color: rgba(255, 235, 120, 0.1);
+  color: #5aa0ff;
+}
+
+body.dark-mode .featured-quotes-container .quote-text {
+  color: #a5d8ff; /* lighter blue for readability in dark mode */
 }
 
 /* ================= QUOTE FORM ================= */
@@ -228,17 +239,13 @@ body {
   margin-bottom: var(--space-2);
 }
 
-.form-section .section-header h3::before {
-  content: none;
-}
-
 .form-section .section-header p {
   color: #3b82f6;
   margin-bottom: var(--space-4);
 }
 
 .btn-add-quote {
-  background-color: rgba(245, 158, 11, 0.15);
+  background-color: rgba(245, 158, 11, 0.15); /* transparent burnt orange */
   color: #1e3a8a;
   border: 2px solid rgba(245, 158, 11, 0.6);
   padding: var(--space-3) var(--space-6);
