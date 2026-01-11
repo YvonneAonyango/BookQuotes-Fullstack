@@ -22,11 +22,12 @@
   --color-bg-user: rgba(255, 255, 150, 0.25);
   --color-border: rgba(0,0,0,0.15);
 
-  --color-text: #1e3a8a;       /* deep blue main text */
-  --color-text-light: #3b82f6; /* light blue author/footer */
-  --color-text-meta: #2563eb;  /* neon-ish blue for book info */
+  /* CHANGED: Light blue and fluorescent blue text colors */
+  --color-text: #3b82f6;       /* light blue main text */
+  --color-text-light: #60a5fa; /* lighter blue author/footer */
+  --color-text-meta: #0ff;     /* fluorescent blue for book info */
   --color-btn-add: #f59e0b;    /* standout orange for add quote button */
-  --color-btn-edit: #0ff;      /* neon blue edit button */
+  --color-btn-edit: #0ff;      /* fluorescent blue edit button */
   --color-btn-delete: #00f;    /* blue delete button */
 }
 
@@ -103,6 +104,8 @@ body {
   gap: var(--space-4);
 }
 
+/* FIXED: Match your HTML classes */
+.featured-quote-card,
 .featured-quotes-container .quote-card {
   background-color: var(--color-bg-featured);
   border-radius: 16px;
@@ -111,7 +114,8 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.featured-quotes-container .quote-text {
+.featured-quote-card .quote-text,
+.featured-quotes-container .quote-card .quote-text {
   font-style: italic;
   font-size: var(--text-lg);
   line-height: 1.6;
@@ -119,7 +123,8 @@ body {
   color: var(--color-text);
 }
 
-.featured-quotes-container .quote-footer {
+.featured-quote-card .quote-footer,
+.featured-quotes-container .quote-card .quote-footer {
   color: var(--color-text-light);
   font-size: var(--text-sm);
   text-align: right;
@@ -297,14 +302,13 @@ body {
 .alert-danger {
   background-color: rgba(245, 158, 11, 0.15);
   border-color: #f59e0b;
-  color: #1e3a8a;
-  content: "Login to add a quote";
+  color: var(--color-text);
 }
 
 .alert-success {
   background-color: rgba(59, 130, 246, 0.15);
   border-color: #3b82f6;
-  color: #1e3a8a;
+  color: var(--color-text);
 }
 
 /* ================= RESPONSIVE ================= */
@@ -322,9 +326,11 @@ body {
 @media (max-width: 480px) {
   .page-header h1 { font-size: 1.5rem; }
   .page-header .page-subtitle { font-size: 0.95rem; }
+  .featured-quote-card,
   .featured-quotes-container .quote-card,
   .user-quotes .quote-card { padding: var(--space-3); }
-  .featured-quotes-container .quote-footer,
+  .featured-quote-card .quote-footer,
+  .featured-quotes-container .quote-card .quote-footer,
   .user-quotes .quote-footer { font-size: var(--text-xs); }
 }
 
@@ -334,6 +340,7 @@ body.dark-mode .quotes-page {
   color: #5aa0ff;
 }
 
+body.dark-mode .featured-quote-card,
 body.dark-mode .featured-quotes-container .quote-card,
 body.dark-mode .user-quotes .quote-card,
 body.dark-mode .form-section input,
@@ -342,7 +349,8 @@ body.dark-mode .form-section select {
   color: #5aa0ff;
 }
 
-body.dark-mode .featured-quotes-container .quote-footer,
+body.dark-mode .featured-quote-card .quote-footer,
+body.dark-mode .featured-quotes-container .quote-card .quote-footer,
 body.dark-mode .user-quotes .quote-footer,
 body.dark-mode .form-section label {
   color: #93c5fd;
