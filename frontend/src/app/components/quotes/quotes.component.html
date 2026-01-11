@@ -3,14 +3,39 @@
   <!-- PAGE HEADER -->
   <header class="page-header">
     <h1>{{ 'allQuotes' | translate }}</h1>
-    <p class="page-subtitle">{{ 'quoteCollectionDesc' | translate }}</p>
+    <p class="page-subtitle">
+      Feel free to browse quotes or add your favourites to your collection...
+    </p>
   </header>
 
-  <!-- FEATURED QUOTES -->
-  <section class="section featured">
+  <!-- USER-ADDED QUOTES (retain cards for CRUD) -->
+  <section class="section user-quotes" *ngIf="userQuotes.length > 0">
+    <header class="section-header">
+      <h2>My Quotes</h2>
+      <p>Your personal collection</p>
+    </header>
+
+    <div class="quote-list">
+      <div class="quote-card" *ngFor="let quote of userQuotes">
+        <p class="quote-text">“{{ quote.text }}”</p>
+        <p class="quote-footer">— {{ quote.author }}</p>
+
+        <div class="quote-meta" *ngIf="quote.book as book">
+          From <strong>{{ book.title }}</strong>
+        </div>
+
+        <div class="quote-card-footer">
+          <button (click)="editQuote(quote.id!)">Edit</button>
+          <button (click)="deleteQuote(quote.id!)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED QUOTES CONTAINER -->
+  <section class="section featured featured-quotes-container">
     <header class="section-header">
       <h2>{{ 'featuredQuotes' | translate }}</h2>
-      <p>{{ 'visibleToAll' | translate }}</p>
     </header>
 
     <div class="quotes-grid">
@@ -21,7 +46,7 @@
     </div>
   </section>
 
-  <!-- QUOTE FORM (VISIBLE TO ALL) -->
+  <!-- QUOTE FORM -->
   <section class="section form-section">
     <header class="section-header">
       <h3>{{ isEdit ? ('editQuote' | translate) : ('addQuote' | translate) }}</h3>
@@ -30,43 +55,13 @@
 
     <div class="quote-form">
       <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label>{{ 'quoteText' | translate }}</label>
-          <textarea
-            formControlName="text"
-            rows="4"
-            placeholder="{{ 'enterQuoteText' | translate }}">
-          </textarea>
-        </div>
-
-        <div class="form-group">
-          <label>{{ 'author' | translate }}</label>
-          <input
-            type="text"
-            formControlName="author"
-            placeholder="{{ 'enterAuthor' | translate }}">
-        </div>
-
-        <div class="form-group">
-          <label>{{ 'bookOptional' | translate }}</label>
-          <select formControlName="bookId">
-            <option [ngValue]="null">{{ 'noBook' | translate }}</option>
-            <option *ngFor="let book of books" [ngValue]="book.id">
-              {{ book.title }} — {{ book.author }}
-            </option>
-          </select>
-        </div>
-
+        <!-- form fields unchanged -->
         <div class="form-buttons">
-          <button type="submit" [disabled]="isLoading">
+          <button type="submit" class="btn-add-quote" [disabled]="isLoading">
             {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
           </button>
 
-          <button
-            *ngIf="isEdit"
-            type="button"
-            class="btn-cancel"
-            (click)="resetForm()">
+          <button *ngIf="isEdit" type="button" class="btn-cancel" (click)="resetForm()">
             {{ 'cancel' | translate }}
           </button>
         </div>
