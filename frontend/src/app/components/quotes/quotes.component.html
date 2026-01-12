@@ -53,46 +53,54 @@
       <p>{{ 'manageQuotesDesc' | translate }}</p>
     </header>
 
-    <div class="quote-form">
-      <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
 
-        <div class="form-group">
-          <label for="text">{{ 'quoteText' | translate }}</label>
-          <textarea id="text" formControlName="text" rows="3"
-            placeholder="{{ 'enterQuoteText' | translate }}"></textarea>
-        </div>
+      <div class="form-group">
+        <label for="text">{{ 'quoteText' | translate }}</label>
+        <textarea
+          id="text"
+          formControlName="text"
+          rows="3"
+          placeholder="{{ 'enterQuoteText' | translate }}">
+        </textarea>
+      </div>
 
-        <div class="form-group">
-          <label for="author">{{ 'Author' }}</label>
-          <input id="author" type="text" formControlName="author"
-            placeholder="{{ 'Enter author' }}">
-        </div>
+      <div class="form-group">
+        <label for="author">{{ 'Author' }}</label>
+        <input
+          id="author"
+          type="text"
+          formControlName="author"
+          placeholder="{{ 'Enter author' }}">
+      </div>
 
-        <div class="form-group">
-          <label for="bookId">{{ 'selectBook' | translate }}</label>
-          <select id="bookId" formControlName="bookId">
-            <option [ngValue]="null">{{ 'noBook' | translate }}</option>
-            <option *ngFor="let book of books" [ngValue]="book.id">{{ book.title }}</option>
-          </select>
-        </div>
+      <div class="form-group">
+        <label for="bookId">{{ 'selectBook' | translate }}</label>
+        <select id="bookId" formControlName="bookId">
+          <option [ngValue]="null">{{ 'noBook' | translate }}</option>
+          <option *ngFor="let book of books" [ngValue]="book.id">
+            {{ book.title }}
+          </option>
+        </select>
+      </div>
 
-        <div class="form-buttons">
-          <!-- Add Quote Button -->
-          <button type="submit" class="btn-add-quote" [disabled]="isLoading">
-            {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
-          </button>
+      <div class="form-buttons">
+        <!-- ADD QUOTE BUTTON -->
+        <button type="submit" class="btn-add-quote" [disabled]="isLoading">
+          {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
+        </button>
 
-          <!-- Cancel Button -->
-          <button *ngIf="isEdit" type="button" class="btn-cancel" (click)="resetForm()">
-            {{ 'cancel' | translate }}
-          </button>
-        </div>
+        <!-- CANCEL BUTTON -->
+        <button type="button" class="btn-cancel" (click)="resetForm()">
+          {{ 'cancel' | translate }}
+        </button>
+      </div>
 
-        <div *ngIf="errorMessage" class="alert alert-danger">
-          {{ errorMessage }}
-        </div>
-      </form>
-    </div>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+    </form>
   </section>
 
 </div>

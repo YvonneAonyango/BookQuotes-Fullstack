@@ -16,13 +16,21 @@
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
 
-  /* Page and element colors */
-  --color-bg-page: #ffffff;               /* White page background */
-  --color-bg-featured: rgba(255, 251, 204, 0.3); /* Soft light yellow for containers */
-  --color-text-heading: #1e3a8a;          /* Deep blue for headings */
-  --color-text-subheading: #3b82f6;       /* Light blue for subheadings */
-  --color-btn-add: #cc6600;               /* Warm burnt orange */
-  --color-btn-cancel: rgba(153, 0, 0, 0.6); /* Dark warm red, slightly transparent */
+  /* ================= Colors for Quotes Page ================= */
+  --color-bg-page: rgba(255, 235, 120, 0.2);       /* page background (soft yellow) */
+  --color-bg-featured: rgba(255, 255, 150, 0.2);   /* featured quotes container (warm light yellow) */
+  --color-bg-user: rgba(255, 255, 150, 0.25);      /* user-added quotes container */
+  --color-border: rgba(0,0,0,0.15);
+
+  /* Text colors */
+  --color-text: #3b82f6;        /* light blue headings */
+  --color-text-light: #0ff;     /* fluorescent blue subheadings/footers */
+  --color-text-meta: #0ff;      /* fluorescent blue for meta info */
+
+  /* Buttons */
+  --color-btn-add: #cc6600;     /* warm burnt orange add quote button */
+  --color-btn-edit: #0ff;       /* neon blue edit button */
+  --color-btn-delete: #00f;     /* blue delete button */
 }
 
 /* ================= GLOBAL RESET ================= */
@@ -33,7 +41,9 @@
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-html { font-size: 16px; }
+html {
+  font-size: 16px;
+}
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -41,7 +51,7 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   background-color: var(--color-bg-page);
-  color: var(--color-text-heading);
+  color: var(--color-text);
 }
 
 /* ================= QUOTES PAGE ================= */
@@ -58,17 +68,17 @@ body {
   text-align: center;
   padding-bottom: var(--space-6);
   margin-bottom: var(--space-5);
-  border-bottom: 1px solid var(--border-primary);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .page-header h1 {
-  color: var(--color-text-heading);
+  color: var(--color-text);
   font-weight: 700;
   font-size: var(--text-2xl);
 }
 
 .page-header .page-subtitle {
-  color: var(--color-text-subheading);
+  color: var(--color-text-light);
   font-weight: 500;
   font-size: var(--text-md);
   line-height: 1.6;
@@ -80,40 +90,180 @@ body {
 .featured-quotes-container {
   background-color: var(--color-bg-featured);
   border-radius: 16px;
-  border: 1px solid var(--border-primary);
+  border: 1px solid var(--color-border);
   padding: var(--space-6);
   margin-top: var(--space-6);
   box-shadow: 0 6px 15px rgba(0,0,0,0.08);
 }
 
 .featured-quotes-container .section-header h2 {
-  color: var(--color-text-heading);
+  color: var(--color-text); /* light blue */
   font-size: var(--text-xl);
   margin-bottom: var(--space-3);
 }
 
-/* Quote cards remain untouched */
-.featured-quotes-container .quotes-grid .quote-card {}
-
-/* ================= USER-ADDED QUOTES ================= */
-.user-quotes .section-header h2 {
-  font-size: var(--text-xl);
-  color: var(--color-text-heading);
-  margin-bottom: var(--space-1);
-}
-
-.user-quotes .section-header p {
-  color: var(--color-text-subheading);
+.featured-quotes-container .section-header p {
+  color: var(--color-text-light); /* fluorescent blue */
   font-size: var(--text-md);
   margin-bottom: var(--space-4);
 }
 
-/* Quote cards remain untouched */
-.user-quotes .quote-list .quote-card {}
+.featured-quotes-container .quotes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ================= USER-ADDED QUOTES ================= */
+.user-quotes {
+  margin-top: var(--space-6);
+}
+
+.user-quotes .section-header h2 {
+  font-size: var(--text-xl);
+  color: var(--color-text); /* light blue */
+  margin-bottom: var(--space-1);
+}
+
+.user-quotes .section-header p {
+  color: var(--color-text-light); /* fluorescent blue */
+  font-size: var(--text-md);
+  margin-bottom: var(--space-4);
+}
+
+.user-quotes .quote-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---------------- Quote Cards (unchanged) ---------------- */
+.user-quotes .quote-card,
+.featured-quotes-container .quote-card {
+  background-color: #fff; /* leave default white */
+  border-radius: 16px;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.user-quotes .quote-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.user-quotes .quote-text,
+.featured-quotes-container .quote-text {
+  font-style: italic;
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-2);
+  color: #000; /* keep black inside quote cards */
+}
+
+.user-quotes .quote-footer,
+.featured-quotes-container .quote-footer {
+  font-size: var(--text-sm);
+  color: #555; /* keep default inside cards */
+  text-align: right;
+  font-weight: 600;
+}
+
+.user-quotes .quote-meta {
+  font-size: var(--text-sm);
+  color: #555; /* keep default inside cards */
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-2);
+}
+
+/* ---------------- CRUD BUTTONS ---------------- */
+.user-quotes .quote-card-footer {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.user-quotes .quote-card-footer button:first-child {
+  background-color: var(--color-btn-edit);
+  color: #000;
+  border: 1px solid var(--color-btn-edit);
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.user-quotes .quote-card-footer button:first-child:hover {
+  background-color: #00f;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.user-quotes .quote-card-footer button:last-child {
+  background-color: var(--color-btn-delete);
+  color: #000;
+  border: 1px solid var(--color-btn-delete);
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.user-quotes .quote-card-footer button:last-child:hover {
+  background-color: #00f;
+  color: #fff;
+  transform: translateY(-1px);
+}
 
 /* ================= QUOTE FORM ================= */
+.form-section {
+  background-color: rgba(255, 235, 120, 0.15);
+  border-radius: 16px;
+  padding: var(--space-6);
+  margin-top: var(--space-6);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.form-section .section-header h3 {
+  font-size: var(--text-xl);
+  color: var(--color-text); /* light blue */
+  margin-bottom: var(--space-2);
+}
+
+.form-section .section-header p {
+  color: var(--color-text-light); /* fluorescent blue */
+  margin-bottom: var(--space-4);
+}
+
+.form-section label {
+  color: #000; /* keep default */
+  font-weight: 600;
+}
+
+.form-section input,
+.form-section textarea,
+.form-section select {
+  color: #000; /* keep default */
+  background-color: rgba(255,255,255,0.2);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.5rem;
+  width: 100%;
+  font-size: var(--text-base);
+}
+
+.form-section input::placeholder,
+.form-section textarea::placeholder {
+  color: #555; /* default */
+}
+
 .btn-add-quote {
-  background-color: var(--color-btn-add);
+  background-color: var(--color-btn-add); /* warm burnt orange */
   color: #fff;
   border-radius: 12px;
   font-weight: 600;
@@ -124,35 +274,8 @@ body {
 }
 
 .btn-add-quote:hover:not(:disabled) {
-  background-color: #b35900; /* Darker burnt orange on hover */
+  background-color: #b35900; /* darker burnt orange on hover */
   transform: translateY(-1px);
-}
-
-.btn-cancel {
-  background-color: var(--color-btn-cancel);
-  color: #fff;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  margin-left: var(--space-2);
-  transition: all 0.25s ease;
-}
-
-.btn-cancel:hover {
-  background-color: #990000; /* Solid dark red on hover */
-  transform: translateY(-1px);
-}
-
-/* Form inputs remain as they are */
-.form-section input,
-.form-section textarea,
-.form-section select {
-  border: 1px solid var(--border-primary);
-  border-radius: 8px;
-  padding: 0.5rem;
-  width: 100%;
-  font-size: var(--text-base);
 }
 
 /* ================= INLINE ALERTS ================= */
@@ -167,13 +290,13 @@ body {
 .alert-danger {
   background-color: rgba(245, 158, 11, 0.15);
   border-color: #f59e0b;
-  color: var(--color-text-heading);
+  color: var(--color-text);
 }
 
 .alert-success {
   background-color: rgba(59, 130, 246, 0.15);
   border-color: #3b82f6;
-  color: var(--color-text-heading);
+  color: var(--color-text);
 }
 
 /* ================= RESPONSIVE ================= */
@@ -185,7 +308,7 @@ body {
 
 @media (max-width: 768px) {
   .form-buttons { flex-direction: column; }
-  .btn-add-quote, .btn-cancel { width: 100%; margin-left: 0; text-align: center; margin-top: var(--space-2); }
+  .btn-add-quote { width: 100%; text-align: center; }
 }
 
 @media (max-width: 480px) {
@@ -198,30 +321,59 @@ body {
 }
 
 /* ================= DARK MODE ================= */
-body.dark-mode {
-  background-color: #fefefe;
+body.dark-mode .quotes-page {
+  background-color: rgba(255, 235, 120, 0.1);
   color: #5aa0ff;
 }
 
 body.dark-mode .featured-quotes-container {
-  background-color: rgba(255, 251, 204, 0.15);
+  background-color: rgba(255, 255, 150, 0.15);
 }
 
-body.dark-mode .page-header h1,
-body.dark-mode .featured-quotes-container .section-header h2,
-body.dark-mode .user-quotes .section-header h2 {
+body.dark-mode .form-section,
+body.dark-mode .user-quotes {
   color: #5aa0ff;
 }
 
-body.dark-mode .page-header .page-subtitle,
-body.dark-mode .user-quotes .section-header p {
-  color: #93c5fd;
+body.dark-mode .btn-add-quote {
+  background-color: #cc6600;
+  color: #fff;
 }
 
-body.dark-mode .btn-add-quote { background-color: #cc6600; }
-body.dark-mode .btn-add-quote:hover { background-color: #b35900; }
-body.dark-mode .btn-cancel { background-color: rgba(153, 0, 0, 0.6); }
-body.dark-mode .btn-cancel:hover { background-color: #990000; }
+body.dark-mode .btn-add-quote:hover {
+  background-color: #b35900;
+}
 
-body.dark-mode .alert-danger { color: #5aa0ff; }
-body.dark-mode .alert-success { color: #5aa0ff; }
+/* ================= CUSTOM THEME OVERRIDES ================= */
+:root {
+  --color-header-deep: #1e3a8a;      /* deep blue header */
+  --color-subheader-light: #60a5fa;  /* light blue subheader */
+  --color-btn-cancel: #f87171;       /* warm light red cancel button */
+}
+
+/* Header overrides */
+.page-header h1 {
+  color: var(--color-header-deep);
+}
+
+.page-header .page-subtitle {
+  color: var(--color-subheader-light);
+}
+
+/* Cancel button styling */
+.btn-cancel {
+  background-color: var(--color-btn-cancel);
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: all 0.25s ease;
+  margin-top: var(--space-3);
+  border: none;
+}
+
+.btn-cancel:hover {
+  background-color: #ef4444;
+  transform: translateY(-1px);
+}
