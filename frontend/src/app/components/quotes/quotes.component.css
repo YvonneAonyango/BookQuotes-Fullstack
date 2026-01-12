@@ -1,379 +1,204 @@
-/* ================= GLOBAL THEME VARIABLES ================= */
-:root {
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-
-  --border-primary: rgba(0,0,0,0.15);
-
-  --text-base: 0.9375rem;
-  --text-sm: 0.75rem;
-  --text-md: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-
-  /* ================= Colors for Quotes Page ================= */
-  --color-bg-page: rgba(255, 235, 120, 0.2);       /* page background (soft yellow) */
-  --color-bg-featured: rgba(255, 255, 150, 0.2);   /* featured quotes container (warm light yellow) */
-  --color-bg-user: rgba(255, 255, 150, 0.25);      /* user-added quotes container */
-  --color-border: rgba(0,0,0,0.15);
-
-  /* Text colors */
-  --color-text: #3b82f6;        /* light blue headings */
-  --color-text-light: #0ff;     /* fluorescent blue subheadings/footers */
-  --color-text-meta: #0ff;      /* fluorescent blue for meta info */
-
-  /* Buttons */
-  --color-btn-add: #cc6600;     /* warm burnt orange add quote button */
-  --color-btn-edit: #0ff;       /* neon blue edit button */
-  --color-btn-delete: #00f;     /* blue delete button */
-}
-
-/* ================= GLOBAL RESET ================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-html {
-  font-size: 16px;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: var(--text-base);
-  line-height: 1.5;
-  min-height: 100vh;
-  background-color: var(--color-bg-page);
-  color: var(--color-text);
-}
-
-/* ================= QUOTES PAGE ================= */
+/* ================= QUOTES PAGE: FULL SPECIFIC ================= */
 .quotes-page {
-  padding: var(--space-6) var(--space-4);
-  max-width: 1200px;
-  margin: 0 auto;
-  min-height: 100vh;
-  backdrop-filter: blur(6px);
+  padding: 2rem 1rem !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  min-height: 100vh !important;
+  background-color: rgba(255, 235, 120, 0.2) !important; /* soft yellow page bg */
+  color: #1e3a8a !important; /* deep blue default text */
+  backdrop-filter: blur(6px) !important;
 }
 
 /* ---------------- PAGE HEADER ---------------- */
-.page-header {
-  text-align: center;
-  padding-bottom: var(--space-6);
-  margin-bottom: var(--space-5);
-  border-bottom: 1px solid var(--color-border);
+.quotes-page .page-header {
+  text-align: center !important;
+  padding-bottom: 2rem !important;
+  margin-bottom: 1.5rem !important;
+  border-bottom: 1px solid rgba(0,0,0,0.15) !important;
 }
 
-.page-header h1 {
-  color: var(--color-text);
-  font-weight: 700;
-  font-size: var(--text-2xl);
+.quotes-page .page-header h1 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #1e3a8a !important; /* deep blue heading */
 }
 
-.page-header .page-subtitle {
-  color: var(--color-text-light);
-  font-weight: 500;
-  font-size: var(--text-md);
-  line-height: 1.6;
-  max-width: 60ch;
-  margin: var(--space-3) auto 0;
+.quotes-page .page-header .page-subtitle {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  color: #60a5fa !important; /* light blue subtitle */
+  line-height: 1.6 !important;
+  max-width: 60ch !important;
+  margin: 0.75rem auto 0 !important;
 }
 
-/* ================= FEATURED QUOTES ================= */
-.featured-quotes-container {
-  background-color: var(--color-bg-featured);
-  border-radius: 16px;
-  border: 1px solid var(--color-border);
-  padding: var(--space-6);
-  margin-top: var(--space-6);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+/* ---------------- FEATURED QUOTES ---------------- */
+.quotes-page .featured-quotes-container {
+  background-color: rgba(255, 255, 150, 0.2) !important; /* light yellow container */
+  border-radius: 16px !important;
+  border: 1px solid rgba(0,0,0,0.15) !important;
+  padding: 2rem !important;
+  margin-top: 2rem !important;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08) !important;
 }
 
-.featured-quotes-container .section-header h2 {
-  color: var(--color-text); /* light blue */
-  font-size: var(--text-xl);
-  margin-bottom: var(--space-3);
+.quotes-page .featured-quotes-container .section-header h2 {
+  color: #1e3a8a !important;
+  font-size: 1.25rem !important;
+  margin-bottom: 0.75rem !important;
 }
 
-.featured-quotes-container .section-header p {
-  color: var(--color-text-light); /* fluorescent blue */
-  font-size: var(--text-md);
-  margin-bottom: var(--space-4);
+.quotes-page .featured-quotes-container .section-header p {
+  color: #60a5fa !important;
+  font-size: 1rem !important;
+  margin-bottom: 1rem !important;
 }
 
-.featured-quotes-container .quotes-grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+/* ---------------- USER QUOTES ---------------- */
+.quotes-page .user-quotes {
+  margin-top: 2rem !important;
 }
 
-/* ================= USER-ADDED QUOTES ================= */
-.user-quotes {
-  margin-top: var(--space-6);
+.quotes-page .user-quotes .section-header h2 {
+  font-size: 1.25rem !important;
+  color: #1e3a8a !important;
+  margin-bottom: 0.25rem !important;
 }
 
-.user-quotes .section-header h2 {
-  font-size: var(--text-xl);
-  color: var(--color-text); /* light blue */
-  margin-bottom: var(--space-1);
+.quotes-page .user-quotes .section-header p {
+  font-size: 1rem !important;
+  color: #60a5fa !important;
+  margin-bottom: 1rem !important;
 }
 
-.user-quotes .section-header p {
-  color: var(--color-text-light); /* fluorescent blue */
-  font-size: var(--text-md);
-  margin-bottom: var(--space-4);
+/* ---------------- QUOTE CARDS ---------------- */
+.quotes-page .quote-card {
+  background-color: #fff !important;
+  border-radius: 16px !important;
+  padding: 1rem !important;
+  border: 1px solid rgba(0,0,0,0.15) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
 }
 
-.user-quotes .quote-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+.quotes-page .quote-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1) !important;
 }
 
-/* ---------------- Quote Cards (unchanged) ---------------- */
-.user-quotes .quote-card,
-.featured-quotes-container .quote-card {
-  background-color: #fff; /* leave default white */
-  border-radius: 16px;
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
+.quotes-page .quote-text {
+  font-style: italic !important;
+  font-size: 1.125rem !important;
+  margin-bottom: 0.5rem !important;
+  color: #000 !important;
 }
 
-.user-quotes .quote-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+.quotes-page .quote-footer {
+  font-size: 0.75rem !important;
+  color: #555 !important;
+  text-align: right !important;
+  font-weight: 600 !important;
 }
 
-.user-quotes .quote-text,
-.featured-quotes-container .quote-text {
-  font-style: italic;
-  font-size: var(--text-lg);
-  margin-bottom: var(--space-2);
-  color: #000; /* keep black inside quote cards */
-}
-
-.user-quotes .quote-footer,
-.featured-quotes-container .quote-footer {
-  font-size: var(--text-sm);
-  color: #555; /* keep default inside cards */
-  text-align: right;
-  font-weight: 600;
-}
-
-.user-quotes .quote-meta {
-  font-size: var(--text-sm);
-  color: #555; /* keep default inside cards */
-  margin-top: var(--space-3);
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-2);
+.quotes-page .quote-meta {
+  font-size: 0.75rem !important;
+  color: #555 !important;
+  margin-top: 0.75rem !important;
+  border-top: 1px solid rgba(0,0,0,0.15) !important;
+  padding-top: 0.5rem !important;
 }
 
 /* ---------------- CRUD BUTTONS ---------------- */
-.user-quotes .quote-card-footer {
-  display: flex;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
+.quotes-page .quote-card-footer {
+  display: flex !important;
+  gap: 0.5rem !important;
+  margin-top: 1rem !important;
 }
 
-.user-quotes .quote-card-footer button:first-child {
-  background-color: var(--color-btn-edit);
-  color: #000;
-  border: 1px solid var(--color-btn-edit);
-  flex: 1;
-  padding: 0.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+.quotes-page .quote-card-footer .btn-edit {
+  background-color: #0ff !important;
+  color: #000 !important;
+  border: 1px solid #0ff !important;
+  flex: 1 !important;
+  padding: 0.5rem !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
 }
 
-.user-quotes .quote-card-footer button:first-child:hover {
-  background-color: #00f;
-  color: #fff;
-  transform: translateY(-1px);
+.quotes-page .quote-card-footer .btn-edit:hover {
+  background-color: #00f !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
 }
 
-.user-quotes .quote-card-footer button:last-child {
-  background-color: var(--color-btn-delete);
-  color: #000;
-  border: 1px solid var(--color-btn-delete);
-  flex: 1;
-  padding: 0.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+.quotes-page .quote-card-footer .btn-delete {
+  background-color: #00f !important;
+  color: #000 !important;
+  border: 1px solid #00f !important;
+  flex: 1 !important;
+  padding: 0.5rem !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
 }
 
-.user-quotes .quote-card-footer button:last-child:hover {
-  background-color: #00f;
-  color: #fff;
-  transform: translateY(-1px);
+.quotes-page .quote-card-footer .btn-delete:hover {
+  background-color: #00f !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
 }
 
-/* ================= QUOTE FORM ================= */
-.form-section {
-  background-color: rgba(255, 235, 120, 0.15);
-  border-radius: 16px;
-  padding: var(--space-6);
-  margin-top: var(--space-6);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+/* ---------------- QUOTE FORM BUTTONS ---------------- */
+.quotes-page .btn-add-quote {
+  background-color: #cc6600 !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.25s ease !important;
+  margin-top: 0.75rem !important;
 }
 
-.form-section .section-header h3 {
-  font-size: var(--text-xl);
-  color: var(--color-text); /* light blue */
-  margin-bottom: var(--space-2);
+.quotes-page .btn-add-quote:hover {
+  background-color: #b35900 !important;
+  transform: translateY(-1px) !important;
 }
 
-.form-section .section-header p {
-  color: var(--color-text-light); /* fluorescent blue */
-  margin-bottom: var(--space-4);
+.quotes-page .btn-cancel {
+  background-color: #f87171 !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.25s ease !important;
+  margin-top: 0.75rem !important;
+  border: none !important;
 }
 
-.form-section label {
-  color: #000; /* keep default */
-  font-weight: 600;
+.quotes-page .btn-cancel:hover {
+  background-color: #ef4444 !important;
+  transform: translateY(-1px) !important;
 }
 
-.form-section input,
-.form-section textarea,
-.form-section select {
-  color: #000; /* keep default */
-  background-color: rgba(255,255,255,0.2);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 0.5rem;
-  width: 100%;
-  font-size: var(--text-base);
-}
-
-.form-section input::placeholder,
-.form-section textarea::placeholder {
-  color: #555; /* default */
-}
-
-.btn-add-quote {
-  background-color: var(--color-btn-add); /* warm burnt orange */
-  color: #fff;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  transition: all 0.25s ease;
-  margin-top: var(--space-3);
-}
-
-.btn-add-quote:hover:not(:disabled) {
-  background-color: #b35900; /* darker burnt orange on hover */
-  transform: translateY(-1px);
-}
-
-/* ================= INLINE ALERTS ================= */
-.alert {
-  border-radius: 12px;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-  margin-top: var(--space-3);
-  border: 1px solid transparent;
-}
-
-.alert-danger {
-  background-color: rgba(245, 158, 11, 0.15);
-  border-color: #f59e0b;
-  color: var(--color-text);
-}
-
-.alert-success {
-  background-color: rgba(59, 130, 246, 0.15);
-  border-color: #3b82f6;
-  color: var(--color-text);
-}
-
-/* ================= RESPONSIVE ================= */
+/* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 992px) {
-  .quotes-page { padding: var(--space-5) var(--space-3); }
-  .featured-quotes-container .quotes-grid,
-  .user-quotes .quote-list { gap: var(--space-4); }
+  .quotes-page { padding: 1.5rem 0.75rem !important; }
+  .quotes-page .quote-card-footer { flex-direction: column !important; }
 }
 
 @media (max-width: 768px) {
-  .form-buttons { flex-direction: column; }
-  .btn-add-quote { width: 100%; text-align: center; }
+  .quotes-page .btn-add-quote,
+  .quotes-page .btn-cancel { width: 100% !important; text-align: center !important; }
 }
 
 @media (max-width: 480px) {
-  .page-header h1 { font-size: 1.5rem; }
-  .page-header .page-subtitle { font-size: 0.95rem; }
-  .featured-quotes-container .quote-card,
-  .user-quotes .quote-card { padding: var(--space-3); }
-  .featured-quotes-container .quote-footer,
-  .user-quotes .quote-footer { font-size: var(--text-xs); }
-}
-
-/* ================= DARK MODE ================= */
-body.dark-mode .quotes-page {
-  background-color: rgba(255, 235, 120, 0.1);
-  color: #5aa0ff;
-}
-
-body.dark-mode .featured-quotes-container {
-  background-color: rgba(255, 255, 150, 0.15);
-}
-
-body.dark-mode .form-section,
-body.dark-mode .user-quotes {
-  color: #5aa0ff;
-}
-
-body.dark-mode .btn-add-quote {
-  background-color: #cc6600;
-  color: #fff;
-}
-
-body.dark-mode .btn-add-quote:hover {
-  background-color: #b35900;
-}
-
-/* ================= CUSTOM THEME OVERRIDES ================= */
-:root {
-  --color-header-deep: #1e3a8a;      /* deep blue header */
-  --color-subheader-light: #60a5fa;  /* light blue subheader */
-  --color-btn-cancel: #f87171;       /* warm light red cancel button */
-}
-
-/* Header overrides */
-.page-header h1 {
-  color: var(--color-header-deep);
-}
-
-.page-header .page-subtitle {
-  color: var(--color-subheader-light);
-}
-
-/* Cancel button styling */
-.btn-cancel {
-  background-color: var(--color-btn-cancel);
-  color: #fff;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  transition: all 0.25s ease;
-  margin-top: var(--space-3);
-  border: none;
-}
-
-.btn-cancel:hover {
-  background-color: #ef4444;
-  transform: translateY(-1px);
+  .quotes-page .page-header h1 { font-size: 1.25rem !important; }
+  .quotes-page .page-header .page-subtitle { font-size: 0.95rem !important; }
+  .quotes-page .quote-card { padding: 0.75rem !important; }
+  .quotes-page .quote-footer { font-size: 0.65rem !important; }
 }
