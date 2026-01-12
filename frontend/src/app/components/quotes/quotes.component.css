@@ -154,39 +154,35 @@
 /* ---------------- QUOTE FORM BUTTONS ---------------- */
 .quotes-page .form-buttons {
   display: flex !important;
-  gap: 0.75rem !important; /* space between buttons */
+  gap: 0.5rem !important; /* space between add and cancel */
   margin-top: 0.75rem !important;
 }
 
-.quotes-page .form-buttons .btn-add-quote,
-.quotes-page .form-buttons .btn-cancel {
-  flex: 1 !important; /* same width */
-  padding: 0.5rem 1rem !important;
+.quotes-page .btn-add-quote,
+.quotes-page .btn-cancel {
+  background-color: #e6a84d !important; /* lighter burnt orange for add */
+  color: #fff !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
   cursor: pointer !important;
+  padding: 0.5rem 1rem !important;
   transition: all 0.25s ease !important;
+  flex: 1 !important;
+  max-width: 150px !important; /* avoids long sausage */
 }
 
-/* lighten colors */
-.quotes-page .form-buttons .btn-add-quote {
-  background-color: #e08c4f !important; /* lighter burnt orange */
-  color: #fff !important;
-}
-
-.quotes-page .form-buttons .btn-add-quote:hover {
-  background-color: #d97706 !important;
+.quotes-page .btn-add-quote:hover {
+  background-color: #d18c3d !important; /* slightly darker on hover */
   transform: translateY(-1px) !important;
 }
 
-.quotes-page .form-buttons .btn-cancel {
+.quotes-page .btn-cancel {
   background-color: #fca5a5 !important; /* lighter red */
-  color: #fff !important;
   border: none !important;
 }
 
-.quotes-page .form-buttons .btn-cancel:hover {
-  background-color: #f87171 !important;
+.quotes-page .btn-cancel:hover {
+  background-color: #f87171 !important; /* darker red on hover */
   transform: translateY(-1px) !important;
 }
 
@@ -197,8 +193,8 @@
 }
 
 @media (max-width: 768px) {
-  .quotes-page .form-buttons .btn-add-quote,
-  .quotes-page .form-buttons .btn-cancel { width: 100% !important; text-align: center !important; }
+  .quotes-page .btn-add-quote,
+  .quotes-page .btn-cancel { width: 100% !important; text-align: center !important; max-width: none !important; }
 }
 
 @media (max-width: 480px) {
