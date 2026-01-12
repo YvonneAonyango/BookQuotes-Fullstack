@@ -1,16 +1,25 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+  console.log('Interceptor triggered for:', req.url);
+  
   const token = localStorage.getItem('authToken');
+  console.log('Token exists:', !!token);
+  console.log('Token value:', token ? `${token.substring(0, 20)}...` : 'none');
 
   if (token) {
-    req = req.clone({
+    const clonedReq = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${token}`
       }
     });
+    
+    console.log('Adding Authorization header');
+    console.log('Final headers:', clonedReq.headers.keys());
+    
+    return next(clonedReq);
   }
 
+  console.log('No token found, sending request without Authorization');
   return next(req);
 };

@@ -2,8 +2,13 @@ import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } fr
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+// FIX: Use provideHttpClient instead of HttpClientModule
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+
+// Import your interceptor
+import { AuthInterceptor } from './interceptors/auth.interceptor'; // Adjust path
 
 // FINAL WORKING TRANSLATION LOADER
 export function createTranslateLoader(http: HttpClient) {
@@ -24,8 +29,10 @@ export const appConfig: ApplicationConfig = {
     // Router
     provideRouter(routes),
 
-    // HttpClient (legacy support)
-    importProvidersFrom(HttpClientModule),
+    // FIX: Use provideHttpClient with interceptor
+    provideHttpClient(
+      withInterceptors([AuthInterceptor]) // <-- THIS IS CRITICAL!
+    ),
 
     // ngx-translate
     importProvidersFrom(
