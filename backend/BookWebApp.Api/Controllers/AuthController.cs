@@ -23,7 +23,6 @@ public class AuthController : ControllerBase
         _logger = logger;
     }
 
-    // TEST ENDPOINT
     [HttpGet("test")]
     public IActionResult Test()
     {
@@ -35,154 +34,104 @@ public class AuthController : ControllerBase
         });
     }
 
-    
-    // SETUP ADMIN ACCOUNT (ONE TIME USE)
     [HttpPost("setup-admin")]
     public async Task<IActionResult> SetupAdmin([FromBody] SetupAdminDto model)
     {
-        try
-        {
-            _logger.LogInformation("Setting up admin user: {Username}", model.Username);
+        if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
+            return BadRequest(new { message = "Username and password are required" });
 
-            if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
-                return BadRequest(new { message = "Username and password are required" });
+        if (model.Password != model.ConfirmPassword)
+            return BadRequest(new { message = "Passwords do not match" });
 
-            if (model.Password != model.ConfirmPassword)
-                return BadRequest(new { message = "Passwords do not match" });
+        if (model.Password.Length < 6)
+            return BadRequest(new { message = "Password must be at least 6 characters long" });
 
-            if (model.Password.Length < 6)
-                return BadRequest(new { message = "Password must be at least 6 characters long" });
+        var success = await _authService.CreateAdminUser(model.Username, model.Password);
 
-            var success = await _authService.CreateAdminUser(model.Username, model.Password);
-
-            if (success)
-            {
-                _logger.LogInformation("Admin created: {Username}", model.Username);
-                return Ok(new { message = "Admin user created successfully" });
-            }
-
-            return BadRequest(new { message = "Failed to create admin user" });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error setting up admin user");
-            return StatusCode(500, new { message = ex.Message });
-        }
+        return success
+            ? Ok(new { message = "Admin user created successfully" })
+            : BadRequest(new { message = "Failed to create admin user" });
     }
 
-    // REGISTER USER
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto model)
     {
-        try
+        if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
+            return BadRequest(new { message = "Username and password are required" });
+
+        if (model.Password != model.ConfirmPassword)
+            return BadRequest(new { message = "Passwords do not match" });
+
+        if (model.Password.Length < 6)
+            return BadRequest(new { message = "Password must be at least 6 characters long" });
+
+        if (string.IsNullOrEmpty(model.Role))
+            model.Role = "User";
+
+        var user = await _authService.Register(model.Username, model.Password, model.Role);
+        if (user == null)
+            return BadRequest(new { message = "Username already exists" });
+
+        var token = GenerateJwtToken(user);
+
+        return Ok(new
         {
-            _logger.LogInformation("Register attempt for {Username}", model.Username);
-
-            if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
-                return BadRequest(new { message = "Username and password are required" });
-
-            if (model.Password != model.ConfirmPassword)
-                return BadRequest(new { message = "Passwords do not match" });
-
-            if (model.Password.Length < 6)
-                return BadRequest(new { message = "Password must be at least 6 characters long" });
-
-            // Default role to User
-            if (string.IsNullOrEmpty(model.Role))
-                model.Role = "User";
-
-            if (model.Role != "User" && model.Role != "Admin")
-                return BadRequest(new { message = "Invalid role. Must be 'User' or 'Admin'" });
-
-            var user = await _authService.Register(model.Username, model.Password, model.Role);
-            if (user == null)
-                return BadRequest(new { message = "Username already exists" });
-
-            var token = GenerateJwtToken(user);
-
-            return Ok(new
-            {
-                token,
-                username = user.Username,
-                role = user.Role.ToString(),
-                message = "Registration successful"
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error during registration");
-            return StatusCode(500, new { message = ex.Message });
-        }
+            token,
+            username = user.Username,
+            role = user.Role.ToString(),
+            userId = user.Id,
+            message = "Registration successful"
+        });
     }
 
-    // LOGIN USER
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto model)
     {
-        try
+        if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
+            return BadRequest(new { message = "Username and password are required" });
+
+        var user = await _authService.Login(model.Username, model.Password);
+        if (user == null)
+            return Unauthorized(new { message = "Invalid credentials" });
+
+        var token = GenerateJwtToken(user);
+
+        return Ok(new
         {
-            _logger.LogInformation("Login attempt for {Username}", model.Username);
-
-            if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
-                return BadRequest(new { message = "Username and password are required" });
-
-            var user = await _authService.Login(model.Username, model.Password);
-            if (user == null)
-                return Unauthorized(new { message = "Invalid credentials" });
-
-            var token = GenerateJwtToken(user);
-
-            return Ok(new
-            {
-                token,
-                username = user.Username,
-                role = user.Role.ToString(),
-                message = "Login successful"
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error during login");
-            return StatusCode(500, new { message = ex.Message });
-        }
+            token,
+            username = user.Username,
+            role = user.Role.ToString(),
+            userId = user.Id,
+            message = "Login successful"
+        });
     }
 
-    // LOGIN ADMIN ONLY
     [HttpPost("admin/login")]
     public async Task<IActionResult> AdminLogin([FromBody] LoginDto model)
     {
-        try
+        var user = await _authService.Login(model.Username, model.Password);
+
+        if (user == null || user.Role != UserRole.Admin)
+            return Unauthorized(new { message = "Invalid admin credentials" });
+
+        var token = GenerateJwtToken(user);
+
+        return Ok(new
         {
-            var user = await _authService.Login(model.Username, model.Password);
-
-            if (user == null || user.Role != UserRole.Admin)
-                return Unauthorized(new { message = "Invalid admin credentials" });
-
-            var token = GenerateJwtToken(user);
-
-            return Ok(new
-            {
-                token,
-                username = user.Username,
-                role = user.Role.ToString(),
-                message = "Admin login successful"
-            });
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { message = ex.Message });
-        }
+            token,
+            username = user.Username,
+            role = user.Role.ToString(),
+            userId = user.Id,
+            message = "Admin login successful"
+        });
     }
 
-   
-    // LOGOUT
     [HttpPost("logout")]
     public IActionResult Logout()
     {
         return Ok(new { message = "Logged out successfully. Remove token client-side." });
     }
 
-    // JWT VALIDATION
     [HttpPost("validate-token")]
     public IActionResult ValidateToken([FromBody] ValidateTokenDto model)
     {
@@ -220,7 +169,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    // GET CURRENT USER WITH TOKEN
     [HttpGet("user-info")]
     [Microsoft.AspNetCore.Authorization.Authorize]
     public async Task<IActionResult> GetUserInfo()
@@ -241,10 +189,12 @@ public class AuthController : ControllerBase
         });
     }
 
-    // JWT TOKEN GENERATION
     private string GenerateJwtToken(User user)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? throw new Exception("Missing JWT key")));
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? throw new Exception("Missing JWT key"))
+        );
+
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
