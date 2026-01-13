@@ -112,7 +112,6 @@
   "registrationFailed": "Registration failed. Please check your information",
   "registrationSuccess": "Registration successful!",
 
-  
   "edit": "Edit",
   "delete": "Delete",
   "cancel": "Cancel",
@@ -131,5 +130,19 @@
   "errorUpdatingBook": "Failed to update book. Please try again.",
 
   "serverError": "Server error. Please try again later.",
-  "anErrorOccurred": "An error occurred:"
+  "anErrorOccurred": "An error occurred:",
+
+  "elevateYourReadingExperience": "Elevate your reading experience",
+  "organizeAndTrackBooks": "Organize and track your books effortlessly",
+  "saveAndRevisitFavoriteLines": "Save and revisit your favorite lines from books",
+  "seeProgressAndPatterns": "See your reading progress and patterns over time",
+  "howItWorks": "How It Works",
+  "startInThreeEasySteps": "Start in three easy steps",
+  "addBooksQuickly": "Add Books Quickly",
+  "curateYourCollectionInMinutes": "Curate your book collection in minutes",
+  "captureQuotes": "Capture Quotes",
+  "saveAndOrganizeQuotesEasily": "Save and organize quotes easily",
+  "gainInsights": "Gain Insights",
+  "trackReadingAndDiscoverTrends": "Track your reading and discover trends",
+  "loginToYourAccount": "Login to your account"
 }

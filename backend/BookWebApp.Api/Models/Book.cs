@@ -16,6 +16,9 @@ public class Book
 
     public int? UserId { get; set; }  // Owner of the book
 
+    // NEW: Cover image URL (optional)
+    public string? CoverUrl { get; set; }
+
     // Navigation
     public User? User { get; set; }
     public ICollection<Quote> Quotes { get; set; } = new List<Quote>();
