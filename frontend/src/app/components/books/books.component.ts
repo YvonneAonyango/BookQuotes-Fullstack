@@ -53,7 +53,7 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  // 🔐 Only logged in users can add
+  // Only logged in users can add
   addBook(): void {
     if (!this.isLoggedIn()) {
       this.router.navigate(['/login']);
