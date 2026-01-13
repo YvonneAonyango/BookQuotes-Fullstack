@@ -16,7 +16,7 @@ export interface Book {
   author: string;
   publishDate?: string;
   quotes?: Quote[];
-  isOwner?: boolean; // for frontend logic
+  isOwner?: boolean; // backend-driven
 }
 
 @Injectable({
@@ -31,29 +31,28 @@ export class BookService {
     return localStorage.getItem('authToken') || localStorage.getItem('token');
   }
 
-  private getCurrentUserId(): number | null {
-    const id = localStorage.getItem('userId');
-    return id ? Number(id) : null;
-  }
-
   private getAuthHeaders(json = false): HttpHeaders {
     const token = this.getToken();
     if (!token) return new HttpHeaders();
 
     return json
-      ? new HttpHeaders({ 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' })
-      : new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+      ? new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        })
+      : new HttpHeaders({
+          Authorization: `Bearer ${token}`
+        });
   }
 
   private mapBookFromApi(book: any): Book {
-    const currentUserId = this.getCurrentUserId();
     return {
       id: book.id,
       title: book.title,
       author: book.author,
       publishDate: book.publishDate ?? book.PublishDate,
       quotes: book.quotes,
-      isOwner: currentUserId !== null && book.userId === currentUserId
+      isOwner: book.isOwner ?? book.IsOwner ?? false
     };
   }
 
@@ -62,7 +61,8 @@ export class BookService {
   }
 
   getBooks(): Observable<Book[]> {
-    return this.http.get<any[]>(this.apiUrl, { headers: this.getAuthHeaders() })
+    return this.http
+      .get<any[]>(this.apiUrl, { headers: this.getAuthHeaders() })
       .pipe(
         map(books => this.mapBooksFromApi(books)),
         catchError(err => throwError(() => err))
@@ -70,7 +70,8 @@ export class BookService {
   }
 
   getBook(id: number): Observable<Book> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() })
+    return this.http
+      .get<any>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() })
       .pipe(
         map(book => this.mapBookFromApi(book)),
         catchError(err => throwError(() => err))
@@ -78,17 +79,20 @@ export class BookService {
   }
 
   createBook(book: Book): Observable<Book> {
-    return this.http.post<Book>(this.apiUrl, book, { headers: this.getAuthHeaders(true) })
+    return this.http
+      .post<Book>(this.apiUrl, book, { headers: this.getAuthHeaders(true) })
       .pipe(catchError(err => throwError(() => err)));
   }
 
   updateBook(id: number, book: Book): Observable<Book> {
-    return this.http.put<Book>(`${this.apiUrl}/${id}`, book, { headers: this.getAuthHeaders(true) })
+    return this.http
+      .put<Book>(`${this.apiUrl}/${id}`, book, { headers: this.getAuthHeaders(true) })
       .pipe(catchError(err => throwError(() => err)));
   }
 
   deleteBook(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() })
+    return this.http
+      .delete<void>(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() })
       .pipe(catchError(err => throwError(() => err)));
   }
 }

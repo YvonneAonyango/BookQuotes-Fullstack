@@ -29,8 +29,10 @@
   <div class="books-container">
     <div *ngFor="let book of books" class="book-card">
 
-      <!-- Favorite Star -->
-      <span class="book-fav-icon">★</span>
+      <!-- Book Favorite Icon -->
+      <span class="book-fav-icon">
+        <i class="fa fa-book"></i>
+      </span>
 
       <div class="book-card-header">
         <i class="fa fa-book book-icon"></i>
@@ -38,33 +40,36 @@
 
       <div class="book-card-body">
         <h5 class="book-title">{{ book.title }}</h5>
-        <p class="book-author" *ngIf="book.author">
+
+        <p class="book-author">
           <i class="fa fa-user"></i> {{ book.author }}
         </p>
 
         <div class="book-meta">
-          <small *ngIf="book.publishDate">{{ formatDate(book.publishDate) }}</small>
+          <small *ngIf="book.publishDate">
+            {{ formatDate(book.publishDate) }}
+          </small>
         </div>
       </div>
 
-      <div class="book-card-footer" *ngIf="book.isOwner">
-        <button class="btn-edit" (click)="editBook(book.id!)">
+      <!-- Buttons ALWAYS visible -->
+      <div class="book-card-footer">
+        <button
+          class="btn-edit"
+          [class.btn-disabled]="!book.isOwner"
+          (click)="editBook(book)">
           <i class="fa fa-edit"></i> {{ 'editItem' | translate }}
         </button>
 
-        <button class="btn-delete" (click)="deleteBook(book.id!)">
+        <button
+          class="btn-delete"
+          [class.btn-disabled]="!book.isOwner"
+          (click)="deleteBook(book)">
           <i class="fa fa-trash"></i> {{ 'deleteItem' | translate }}
         </button>
       </div>
+
     </div>
   </div>
-
-  <!-- Book Form Modal -->
-  <app-book-form
-    *ngIf="showFormModal"
-    [book]="editingBook"
-    [isEdit]="isEditMode"
-    (close)="closeForm($event)">
-  </app-book-form>
 
 </div>

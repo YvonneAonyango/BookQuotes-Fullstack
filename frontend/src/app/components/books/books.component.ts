@@ -4,13 +4,12 @@ import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { BookFormComponent } from '../book-form/book-form.component';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, TranslateModule, BookFormComponent],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
@@ -18,10 +17,6 @@ export class BooksComponent implements OnInit {
   books: Book[] = [];
   isLoading = false;
   errorMessage = '';
-
-  showFormModal = false;
-  editingBook?: Book;
-  isEditMode = false;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -58,40 +53,32 @@ export class BooksComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-    this.openForm();
+    this.router.navigate(['/books/new']);
   }
 
-  editBook(id: number): void {
-    const book = this.books.find(b => b.id === id);
-    if (book && book.isOwner) {
-      this.openForm(book);
+  editBook(book: Book): void {
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
     }
+    this.router.navigate(['/books/edit', book.id]);
   }
 
-  deleteBook(id: number): void {
-    const book = this.books.find(b => b.id === id);
-    if (!book || !book.isOwner) return;
+  deleteBook(book: Book): void {
+    if (!this.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
 
     this.translate.get('confirmDeleteBook').subscribe(msg => {
       if (confirm(msg)) {
-        this.bookService.deleteBook(id).subscribe(() => {
-          this.books = this.books.filter(b => b.id !== id);
+        this.bookService.deleteBook(book.id!).subscribe({
+          next: () => {
+            this.books = this.books.filter(b => b.id !== book.id);
+          }
         });
       }
     });
-  }
-
-  openForm(book?: Book): void {
-    this.isEditMode = !!book;
-    this.editingBook = book ? { ...book } : undefined;
-    this.showFormModal = true;
-  }
-
-  closeForm(reload = false): void {
-    this.showFormModal = false;
-    this.editingBook = undefined;
-    this.isEditMode = false;
-    if (reload) this.loadBooks();
   }
 
   formatDate(dateString?: string): string {

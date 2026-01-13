@@ -6,8 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
 using DotNetEnv;
+using Npgsql;
 
-Env.Load(); // Load environment variables from .env
+Env.Load(); // Load .env if exists
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +20,35 @@ var connString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
                  ?? builder.Configuration.GetConnectionString("DefaultConnection")
                  ?? "Data Source=books.db";
 
+// If the connection string is in "postgresql://" URL form, convert it
+if (connString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+{
+    var uri = new Uri(connString);
+
+    var userInfo = uri.UserInfo.Split(':');
+    var username = userInfo[0];
+    var password = userInfo.Length > 1 ? userInfo[1] : "";
+
+    var pgConn = new NpgsqlConnectionStringBuilder
+    {
+        Host = uri.Host,
+        Port = uri.Port > 0 ? uri.Port : 5432,
+        Database = uri.AbsolutePath.TrimStart('/'),
+        Username = username,
+        Password = password,
+        SslMode = SslMode.Require,
+        TrustServerCertificate = true
+    };
+
+    connString = pgConn.ToString();
+}
+
+// Add DbContext
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
-    if (connString.Contains("Host=")) // PostgreSQL
+    if (connString.Contains("Host=")) // PostgreSQL keyword format
         opt.UseNpgsql(connString);
-    else // SQLite
+    else
         opt.UseSqlite(connString);
 });
 
