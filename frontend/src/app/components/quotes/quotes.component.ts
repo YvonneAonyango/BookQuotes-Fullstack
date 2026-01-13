@@ -153,15 +153,13 @@ export class QuotesComponent implements OnInit {
 
   // ------------------- ONLY YVONNE CAN ADD/EDIT QUOTES -------------------
   isOwner(): boolean {
-    const user: any = this.auth.getCurrentUser(); // type any to avoid TS errors
+    const user: any = this.auth.getCurrentUser();
     if (!user) return false;
 
-    // If user object has a username
     if (typeof user === 'object' && user.username) {
       return user.username.toLowerCase() === 'yvonne';
     }
 
-    // If user is a string
     if (typeof user === 'string') {
       return user.toLowerCase() === 'yvonne';
     }
