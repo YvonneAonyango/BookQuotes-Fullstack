@@ -53,12 +53,12 @@
   display: flex !important;
   flex-wrap: wrap !important;
   gap: 2rem !important;
-  justify-content: center !important;
+  justify-content: flex-start !important; /* aligned as added */
 }
 
 /* ---------------- BOOK CARD ---------------- */
 .book-card {
-  position: relative !important; /* ✅ REQUIRED FOR FAVORITE ICON */
+  position: relative !important; /* REQUIRED FOR FAVORITE ICON */
   background-color: rgba(255, 255, 150, 0.2) !important;
   border-radius: 16px !important;
   border: 1px solid rgba(0,0,0,0.15) !important;
@@ -185,9 +185,6 @@
 
 /* ---------------- RESPONSIVE ---------------- */
 @media (min-width: 992px) {
-  .books-container {
-    justify-content: space-between !important;
-  }
   .book-card {
     flex: 0 0 calc(33.333% - 1rem) !important;
   }

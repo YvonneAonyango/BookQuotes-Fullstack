@@ -58,14 +58,14 @@
           class="btn-edit"
           [class.btn-disabled]="!book.isOwner"
           (click)="editBook(book)">
-          <i class="fa fa-edit"></i> {{ 'editItem' | translate }}
+          <i class="fa fa-edit"></i> {{ 'edit' | translate }}
         </button>
 
         <button
           class="btn-delete"
           [class.btn-disabled]="!book.isOwner"
           (click)="deleteBook(book)">
-          <i class="fa fa-trash"></i> {{ 'deleteItem' | translate }}
+          <i class="fa fa-trash"></i> {{ 'delete' | translate }}
         </button>
       </div>
 

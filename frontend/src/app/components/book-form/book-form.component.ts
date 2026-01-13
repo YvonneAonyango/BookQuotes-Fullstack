@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import { Component, Input, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Book, BookService } from '../../services/book.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-book-form',
@@ -13,25 +14,36 @@ import { CommonModule } from '@angular/common';
 })
 export class BookFormComponent implements OnInit {
   @Input() book?: Book;
-  @Input() isEdit: boolean = false;
-  @Output() close = new EventEmitter<boolean>();
-
   bookForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
+  isEdit = false;
 
   private bookService = inject(BookService);
   private fb = inject(FormBuilder);
   private translate = inject(TranslateService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   ngOnInit(): void {
-    // Map backend PublishDate → frontend publishDate
-    if (this.book && (this.book as any).PublishDate && !this.book.publishDate) {
-      this.book.publishDate = (this.book as any).PublishDate;
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEdit = true;
+      this.bookService.getBook(+id).subscribe({
+        next: book => {
+          this.book = book;
+          this.initForm();
+        },
+        error: () => {
+          this.errorMessage = this.translate.instant('errorLoadingBook');
+        }
+      });
+    } else {
+      this.initForm();
     }
+  }
 
-    this.isEdit = !!this.book;
-
+  initForm(): void {
     this.bookForm = this.fb.group({
       title: [this.book?.title || '', [Validators.required, Validators.minLength(2)]],
       author: [this.book?.author || '', [Validators.required, Validators.minLength(2)]],
@@ -53,7 +65,9 @@ export class BookFormComponent implements OnInit {
       : this.bookService.createBook(data);
 
     request.subscribe({
-      next: () => this.close.emit(true),
+      next: () => {
+        this.router.navigate(['/books']); // immediate redirect
+      },
       error: err => {
         console.error(err);
         this.errorMessage = this.translate.instant(this.book?.id ? 'errorUpdatingBook' : 'errorAddingBook');
@@ -63,20 +77,7 @@ export class BookFormComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.close.emit(false);
-  }
-
-  formatDate(dateString: string): string {
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    } catch {
-      return dateString;
-    }
-  }
-
-  formatDateForDisplay(dateString: string): string {
-    return this.formatDate(dateString);
+    this.router.navigate(['/books']);
   }
 
   getTodayDate(): string {

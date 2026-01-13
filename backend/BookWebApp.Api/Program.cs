@@ -20,11 +20,10 @@ var connString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
                  ?? builder.Configuration.GetConnectionString("DefaultConnection")
                  ?? "Data Source=books.db";
 
-// If the connection string is in "postgresql://" URL form, convert it
+// PostgreSQL URI -> connection string
 if (connString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
 {
     var uri = new Uri(connString);
-
     var userInfo = uri.UserInfo.Split(':');
     var username = userInfo[0];
     var password = userInfo.Length > 1 ? userInfo[1] : "";
@@ -36,8 +35,8 @@ if (connString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
         Database = uri.AbsolutePath.TrimStart('/'),
         Username = username,
         Password = password,
-        SslMode = SslMode.Require,
-        TrustServerCertificate = true
+        SslMode = SslMode.Require
+        // TrustServerCertificate removed (obsolete)
     };
 
     connString = pgConn.ToString();
@@ -46,7 +45,7 @@ if (connString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
 // Add DbContext
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
-    if (connString.Contains("Host=")) // PostgreSQL keyword format
+    if (connString.Contains("Host="))
         opt.UseNpgsql(connString);
     else
         opt.UseSqlite(connString);
@@ -97,14 +96,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// CORS
+// CORS: Allow frontend + localhost
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-                "http://localhost:4200",
-                "https://book-quotes-web-app-frontend.onrender.com"
+                "https://book-quotes-web-app-frontend.onrender.com",
+                "http://localhost:4200"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
@@ -130,8 +129,9 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("Database initialized");
 }
 
-// MIDDLEWARE
-app.UseCors("AllowFrontend");
+// MIDDLEWARE ORDER IS CRUCIAL
+app.UseRouting();                 // must come first
+app.UseCors("AllowFrontend");     // <-- CORS BEFORE auth
 app.UseAuthentication();
 app.UseAuthorization();
 

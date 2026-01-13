@@ -2,14 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Book, BookService } from '../../services/book.service';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
@@ -75,6 +75,9 @@ export class BooksComponent implements OnInit {
         this.bookService.deleteBook(book.id!).subscribe({
           next: () => {
             this.books = this.books.filter(b => b.id !== book.id);
+          },
+          error: () => {
+            alert(this.translate.instant('errorDeleteBook'));
           }
         });
       }
