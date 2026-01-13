@@ -2,52 +2,25 @@
 
   <!-- PAGE HEADER -->
   <header class="page-header">
-    <h1>{{ 'allQuotes' | translate }}</h1>
-    <p class="page-subtitle">{{ 'quoteCollectionDesc' | translate }}</p>
+    <h1>{{ 'myQuotes' | translate }}</h1>
+    <p class="page-subtitle">
+      Browse some of my favourite quotes
+    </p>
   </header>
 
-  <!-- FEATURED QUOTES -->
-  <section class="section featured featured-quotes-container">
-    <header class="section-header">
-      <h2>{{ 'featuredQuotes' | translate }}</h2>
-    </header>
-
+  <!-- QUOTES LIST -->
+  <section class="section quotes-list">
     <div class="quotes-grid">
-      <div class="featured-quote-card" *ngFor="let quote of globalQuotes">
-        <div class="quote-card featured-quote">
-          <p class="quote-text">“{{ quote.text }}”</p>
-          <p class="quote-footer">— {{ quote.author }}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- USER-ADDED QUOTES -->
-  <section class="section user-quotes" *ngIf="userQuotes.length > 0">
-    <header class="section-header">
-      <h2>{{ 'myQuotes' | translate }}</h2>
-      <p>{{ 'personalCollection' | translate }}</p>
-    </header>
-
-    <div class="quote-list">
-      <div class="quote-card" *ngFor="let quote of userQuotes">
+      <div class="quote-card" *ngFor="let quote of globalQuotes">
+        <span class="quote-fav-icon">★</span>
         <p class="quote-text">“{{ quote.text }}”</p>
         <p class="quote-footer">— {{ quote.author }}</p>
-
-        <div class="quote-meta" *ngIf="quote.book as book">
-          {{ 'fromBook' | translate }} <strong>{{ book.title }}</strong>
-        </div>
-
-        <div class="quote-card-footer">
-          <button (click)="editQuote(quote.id!)">{{ 'edit' | translate }}</button>
-          <button (click)="deleteQuote(quote.id!)">{{ 'delete' | translate }}</button>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- QUOTE FORM -->
-  <section class="section form-section">
+  <!-- USER-ADDED QUOTES FORM (ONLY VISIBLE TO OWNER) -->
+  <section class="section form-section" *ngIf="isOwner()">
     <header class="section-header">
       <h3>{{ isEdit ? ('editQuote' | translate) : ('addQuote' | translate) }}</h3>
       <p>{{ 'manageQuotesDesc' | translate }}</p>
@@ -66,12 +39,12 @@
       </div>
 
       <div class="form-group">
-        <label for="author">{{ 'Author' }}</label>
+        <label for="author">{{ 'author' | translate }}</label>
         <input
           id="author"
           type="text"
           formControlName="author"
-          placeholder="{{ 'Enter author' }}">
+          placeholder="Yvonne">
       </div>
 
       <div class="form-group">
@@ -85,12 +58,10 @@
       </div>
 
       <div class="form-buttons">
-        <!-- ADD QUOTE BUTTON -->
         <button type="submit" class="btn-add-quote" [disabled]="isLoading">
           {{ isEdit ? ('updateQuote' | translate) : ('addQuote' | translate) }}
         </button>
 
-        <!-- CANCEL BUTTON -->
         <button type="button" class="btn-cancel" (click)="resetForm()">
           {{ 'cancel' | translate }}
         </button>

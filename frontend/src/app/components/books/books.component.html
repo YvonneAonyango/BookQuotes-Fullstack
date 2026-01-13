@@ -5,15 +5,15 @@
     <h1>{{ 'myBooks' | translate }}</h1>
     <p class="lead">{{ 'manageBookCollection' | translate }}</p>
 
-    <!-- Add button ONLY if logged in -->
+    <!-- Add Book Button -->
     <button
       *ngIf="isLoggedIn()"
-      class="btn btn-primary"
+      class="btn-add-book"
       (click)="addBook()">
       {{ 'addNewBook' | translate }}
     </button>
 
-    <!-- Guest hint -->
+    <!-- Guest Hint -->
     <p *ngIf="!isLoggedIn()" class="text-muted">
       Browse books freely 📚
       <a routerLink="/login">Login</a> to add or manage books.
@@ -26,30 +26,40 @@
   </div>
 
   <!-- Books Grid -->
-  <div class="books-grid">
+  <div class="books-container">
     <div *ngFor="let book of books" class="book-card">
 
-      <h5>{{ book.title }}</h5>
-      <p *ngIf="book.author">{{ book.author }}</p>
+      <!-- Favorite Star -->
+      <span class="book-fav-icon">★</span>
 
-      <small *ngIf="book.publishDate">
-        {{ formatDate(book.publishDate) }}
-      </small>
-
-      <!-- Actions ONLY if logged in -->
-      <div class="book-card-footer" *ngIf="isLoggedIn()">
-        <button (click)="editBook(book.id!)">
-          {{ 'editItem' | translate }}
-        </button>
-        <button (click)="deleteBook(book.id!)">
-          {{ 'deleteItem' | translate }}
-        </button>
+      <div class="book-card-header">
+        <i class="fa fa-book book-icon"></i>
       </div>
 
+      <div class="book-card-body">
+        <h5 class="book-title">{{ book.title }}</h5>
+        <p class="book-author" *ngIf="book.author">
+          <i class="fa fa-user"></i> {{ book.author }}
+        </p>
+
+        <div class="book-meta">
+          <small *ngIf="book.publishDate">{{ formatDate(book.publishDate) }}</small>
+        </div>
+      </div>
+
+      <div class="book-card-footer" *ngIf="book.isOwner">
+        <button class="btn-edit" (click)="editBook(book.id!)">
+          <i class="fa fa-edit"></i> {{ 'editItem' | translate }}
+        </button>
+
+        <button class="btn-delete" (click)="deleteBook(book.id!)">
+          <i class="fa fa-trash"></i> {{ 'deleteItem' | translate }}
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Book Form -->
+  <!-- Book Form Modal -->
   <app-book-form
     *ngIf="showFormModal"
     [book]="editingBook"

@@ -1,4 +1,3 @@
-// src/app/services/quote.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -38,19 +37,13 @@ export class QuoteService {
     return new HttpHeaders(headersConfig);
   }
 
-  // Get the 5 global quotes (for everyone)
+  // Get all global quotes (public)
   getGlobalQuotes(): Observable<Quote[]> {
     return this.http.get<Quote[]>(`${this.apiUrl}/quotes/global`)
       .pipe(catchError(error => throwError(() => error)));
   }
 
-  // Get all quotes (global + user's own if logged in)
-  getQuotes(): Observable<Quote[]> {
-    return this.http.get<Quote[]>(`${this.apiUrl}/quotes`)
-      .pipe(catchError(error => throwError(() => error)));
-  }
-
-  // Get user's personal quotes (requires login)
+  // Get current user's quotes (owner only)
   getMyQuotes(): Observable<Quote[]> {
     return this.http.get<Quote[]>(`${this.apiUrl}/quotes/my`, {
       headers: this.getAuthHeaders()
@@ -58,10 +51,6 @@ export class QuoteService {
   }
 
   createQuote(quote: Quote): Observable<Quote> {
-    if (!this.auth.isAuthenticated()) {
-      throw new Error('Not logged in');
-    }
-
     const payload = {
       Text: quote.text.trim(),
       Author: quote.author.trim(),

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, map } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
 
 export interface Quote {
   id?: number;
@@ -14,20 +13,29 @@ export interface Book {
   id?: number;
   title: string;
   author: string;
-  publishDate?: string; // frontend uses camelCase
+  publishDate?: string;
   quotes?: Quote[];
+
+  // Added for frontend logic
+  isOwner?: boolean;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = `${environment.apiUrl}/books`;
+  // Replace with your backend URL
+  private apiUrl = 'https://localhost:5001/api/books';
 
   constructor(private http: HttpClient) {}
 
   private getToken(): string | null {
     return localStorage.getItem('authToken') || localStorage.getItem('token');
+  }
+
+  private getCurrentUserId(): number | null {
+    const id = localStorage.getItem('userId');
+    return id ? Number(id) : null;
   }
 
   private getAuthHeaders(json = false): HttpHeaders {
@@ -39,14 +47,15 @@ export class BookService {
       : new HttpHeaders({ 'Authorization': `Bearer ${token}` });
   }
 
-  // Map backend PublishDate → frontend publishDate
   private mapBookFromApi(book: any): Book {
+    const currentUserId = this.getCurrentUserId();
     return {
       id: book.id,
       title: book.title,
       author: book.author,
-      publishDate: book.publishDate ?? book.PublishDate, // handle both
-      quotes: book.quotes
+      publishDate: book.publishDate ?? book.PublishDate,
+      quotes: book.quotes,
+      isOwner: currentUserId !== null && book.userId === currentUserId
     };
   }
 

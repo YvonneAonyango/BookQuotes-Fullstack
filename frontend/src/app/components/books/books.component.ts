@@ -53,7 +53,6 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  // Only logged in users can add
   addBook(): void {
     if (!this.isLoggedIn()) {
       this.router.navigate(['/login']);
@@ -63,19 +62,15 @@ export class BooksComponent implements OnInit {
   }
 
   editBook(id: number): void {
-    if (!this.isLoggedIn()) {
-      this.router.navigate(['/login']);
-      return;
-    }
     const book = this.books.find(b => b.id === id);
-    if (book) this.openForm(book);
+    if (book && book.isOwner) {
+      this.openForm(book);
+    }
   }
 
   deleteBook(id: number): void {
-    if (!this.isLoggedIn()) {
-      this.router.navigate(['/login']);
-      return;
-    }
+    const book = this.books.find(b => b.id === id);
+    if (!book || !book.isOwner) return;
 
     this.translate.get('confirmDeleteBook').subscribe(msg => {
       if (confirm(msg)) {

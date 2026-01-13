@@ -20,13 +20,13 @@
 .quotes-page .page-header h1 {
   font-size: 1.5rem !important;
   font-weight: 700 !important;
-  color: #1e3a8a !important; /* deep blue heading */
+  color: #1e3a8a !important;
 }
 
 .quotes-page .page-header .page-subtitle {
   font-size: 1rem !important;
   font-weight: 500 !important;
-  color: #60a5fa !important; /* light blue subtitle */
+  color: #60a5fa !important;
   line-height: 1.6 !important;
   max-width: 60ch !important;
   margin: 0.75rem auto 0 !important;
@@ -34,7 +34,7 @@
 
 /* ---------------- FEATURED QUOTES ---------------- */
 .quotes-page .featured-quotes-container {
-  background-color: rgba(255, 255, 150, 0.2) !important; /* light yellow container */
+  background-color: rgba(255, 255, 150, 0.2) !important;
   border-radius: 16px !important;
   border: 1px solid rgba(0,0,0,0.15) !important;
   padding: 2rem !important;
@@ -54,38 +54,43 @@
   margin-bottom: 1rem !important;
 }
 
-/* ---------------- USER QUOTES ---------------- */
-.quotes-page .user-quotes {
-  margin-top: 2rem !important;
-}
-
-.quotes-page .user-quotes .section-header h2 {
-  font-size: 1.25rem !important;
-  color: #1e3a8a !important;
-  margin-bottom: 0.25rem !important;
-}
-
-.quotes-page .user-quotes .section-header p {
-  font-size: 1rem !important;
-  color: #60a5fa !important;
-  margin-bottom: 1rem !important;
+/* ---------------- QUOTES GRID ---------------- */
+.quotes-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 1.5rem !important;
 }
 
 /* ---------------- QUOTE CARDS ---------------- */
-.quotes-page .quote-card {
-  background-color: #fff !important;
+.quote-card {
+  background-color: rgba(152, 251, 152, 0.3) !important;
   border-radius: 16px !important;
   padding: 1rem !important;
   border: 1px solid rgba(0,0,0,0.15) !important;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
   transition: transform 0.2s, box-shadow 0.2s !important;
+  position: relative !important;
 }
 
-.quotes-page .quote-card:hover {
+.quote-card:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 6px 18px rgba(0,0,0,0.1) !important;
 }
 
+/* ---------------- FAVORITE STAR ICON ---------------- */
+.quote-fav-icon {
+  display: block !important;
+  position: absolute !important;
+  top: 0.5rem !important;
+  right: 0.5rem !important;
+  color: #facc15 !important;
+  font-size: 1.25rem !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+  pointer-events: none !important;
+  z-index: 10 !important; /* ensure it’s above other elements */
+}
+
+/* ---------------- QUOTE TEXT & FOOTER ---------------- */
 .quotes-page .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
@@ -108,59 +113,50 @@
   padding-top: 0.5rem !important;
 }
 
-/* ---------------- CRUD BUTTONS ---------------- */
-.quotes-page .quote-card-footer {
+/* ---------------- USER QUOTES CRUD BUTTONS ---------------- */
+.quotes-page .user-quotes .quote-card-footer {
   display: flex !important;
   gap: 0.5rem !important;
   margin-top: 1rem !important;
 }
 
-.quotes-page .quote-card-footer .btn-edit {
-  background-color: #0ff !important;
-  color: #000 !important;
-  border: 1px solid #0ff !important;
+.quotes-page .user-quotes .quote-card-footer button {
   flex: 1 !important;
   padding: 0.5rem !important;
-  border-radius: 8px !important;
+  border-radius: 10px !important;
   font-weight: 600 !important;
   cursor: pointer !important;
-  transition: all 0.2s !important;
-}
-
-.quotes-page .quote-card-footer .btn-edit:hover {
-  background-color: #00f !important;
+  transition: all 0.3s ease !important;
+  border: 1px solid rgba(0,0,139,0.5) !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,139,0.35),
+    rgba(0,0,139,0.6)
+  ) !important;
   color: #fff !important;
-  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1) !important;
 }
 
-.quotes-page .quote-card-footer .btn-delete {
-  background-color: #00f !important;
-  color: #000 !important;
-  border: 1px solid #00f !important;
-  flex: 1 !important;
-  padding: 0.5rem !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.2s !important;
-}
-
-.quotes-page .quote-card-footer .btn-delete:hover {
-  background-color: #00f !important;
-  color: #fff !important;
-  transform: translateY(-1px) !important;
+.quotes-page .user-quotes .quote-card-footer button:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,139,0.7),
+    rgba(0,0,139,0.9)
+  ) !important;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2) !important;
+  transform: translateY(-2px) !important;
 }
 
 /* ---------------- QUOTE FORM BUTTONS ---------------- */
 .quotes-page .form-buttons {
   display: flex !important;
-  gap: 0.5rem !important; /* space between add and cancel */
+  gap: 0.5rem !important;
   margin-top: 0.75rem !important;
 }
 
 .quotes-page .btn-add-quote,
 .quotes-page .btn-cancel {
-  background-color: #e6a84d !important; /* lighter burnt orange for add */
+  background-color: #e6a84d !important;
   color: #fff !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
@@ -168,38 +164,58 @@
   padding: 0.5rem 1rem !important;
   transition: all 0.25s ease !important;
   flex: 1 !important;
-  max-width: 150px !important; /* avoids long sausage */
+  max-width: 150px !important;
 }
 
 .quotes-page .btn-add-quote:hover {
-  background-color: #d18c3d !important; /* slightly darker on hover */
+  background-color: #d18c3d !important;
   transform: translateY(-1px) !important;
 }
 
 .quotes-page .btn-cancel {
-  background-color: #fca5a5 !important; /* lighter red */
+  background-color: #fca5a5 !important;
   border: none !important;
 }
 
 .quotes-page .btn-cancel:hover {
-  background-color: #f87171 !important; /* darker red on hover */
+  background-color: #f87171 !important;
   transform: translateY(-1px) !important;
 }
 
 /* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 992px) {
-  .quotes-page { padding: 1.5rem 0.75rem !important; }
-  .quotes-page .quote-card-footer { flex-direction: column !important; }
+  .quotes-page {
+    padding: 1.5rem 0.75rem !important;
+  }
+
+  .quotes-page .quote-card-footer {
+    flex-direction: column !important;
+  }
 }
 
 @media (max-width: 768px) {
   .quotes-page .btn-add-quote,
-  .quotes-page .btn-cancel { width: 100% !important; text-align: center !important; max-width: none !important; }
+  .quotes-page .btn-cancel {
+    width: 100% !important;
+    max-width: none !important;
+    text-align: center !important;
+  }
 }
 
 @media (max-width: 480px) {
-  .quotes-page .page-header h1 { font-size: 1.25rem !important; }
-  .quotes-page .page-header .page-subtitle { font-size: 0.95rem !important; }
-  .quotes-page .quote-card { padding: 0.75rem !important; }
-  .quotes-page .quote-footer { font-size: 0.65rem !important; }
+  .quotes-page .page-header h1 {
+    font-size: 1.25rem !important;
+  }
+
+  .quotes-page .page-header .page-subtitle {
+    font-size: 0.95rem !important;
+  }
+
+  .quotes-page .quote-card {
+    padding: 0.75rem !important;
+  }
+
+  .quotes-page .quote-footer {
+    font-size: 0.65rem !important;
+  }
 }
