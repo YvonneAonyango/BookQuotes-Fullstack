@@ -13,11 +13,11 @@
           {{ errorMessage }}
         </div>
 
-        <!-- Username Field -->
+        <!-- USERNAME FIELD -->
         <div class="form-group">
-          <label for="username">{{ 'username' | translate }}</label>
-          <input type="text" 
-                 id="username" 
+          <label for="username">{{ 'usernameLabel' | translate }}</label>
+          <input type="text"
+                 id="username"
                  formControlName="username"
                  placeholder="{{ 'enterUsername' | translate }}"
                  [class.is-invalid]="hasError('username')">
@@ -26,11 +26,11 @@
           </div>
         </div>
 
-        <!-- Password Field -->
+        <!-- PASSWORD FIELD -->
         <div class="form-group">
           <label for="password">{{ 'password' | translate }}</label>
-          <input type="password" 
-                 id="password" 
+          <input type="password"
+                 id="password"
                  formControlName="password"
                  placeholder="{{ 'enterPassword' | translate }}"
                  [class.is-invalid]="hasError('password')">
@@ -39,19 +39,19 @@
           </div>
         </div>
 
-        <!-- Login Button -->
-        <button type="submit" 
-                class="btn-login" 
+        <!-- LOGIN BUTTON -->
+        <button type="submit"
+                class="btn-login"
                 [disabled]="loginForm.invalid || isLoading">
           <span *ngIf="isLoading" class="spinner"></span>
           <i *ngIf="!isLoading" class="bi bi-box-arrow-in-right"></i>
           {{ isLoading ? ('loggingIn' | translate) : ('login' | translate) }}
         </button>
 
-        <!-- Register Link -->
+        <!-- REGISTER LINK -->
         <div class="register-link">
           <p>
-            {{ 'dontHaveAccount' | translate }} 
+            {{ 'dontHaveAccount' | translate }}
             <a routerLink="/register">{{ 'register' | translate }}</a>
           </p>
         </div>

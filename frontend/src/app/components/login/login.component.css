@@ -1,50 +1,37 @@
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fdfdfd; /* light mode default */
-  color: #1f2937;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-body.dark-mode {
-  background-color: #0f172a;
-  color: #e2e8f0;
-}
-
-.login-page,
-.register-page {
+/* ================= LOGIN PAGE ================= */
+.login-page {
   min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   padding: 20px;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.login-card,
-.register-card {
+/* ================= LOGIN CARD ================= */
+.login-card {
   width: 100%;
   max-width: 450px;
   border-radius: 16px;
   overflow: hidden;
   background-color: #ffffff;
   border: 1px solid #d1d9e6;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
   transition: all 0.3s ease;
 }
 
-body.dark-mode .login-card,
-body.dark-mode .register-card {
+body.dark-mode .login-card {
   background-color: #1e293b;
   border-color: #334155;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
 }
 
+/* ================= CARD HEADER ================= */
 .card-header {
   text-align: center;
   padding: 32px 24px;
   background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  color: white;
+  color: #ffffff;
 }
 
 .card-header h2 {
@@ -59,6 +46,7 @@ body.dark-mode .register-card {
   opacity: 0.9;
 }
 
+/* ================= CARD BODY ================= */
 .card-body {
   padding: 32px 24px;
 }
@@ -71,8 +59,8 @@ label {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: inherit;
   font-size: 0.95rem;
+  color: inherit;
 }
 
 input[type="text"],
@@ -96,7 +84,7 @@ body.dark-mode input[type="password"] {
 }
 
 input:focus {
-  border-color: #3b82f6;
+  border-color: #3877db;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
   outline: none;
 }
@@ -109,72 +97,14 @@ input::placeholder {
   border-color: #ef4444 !important;
 }
 
-.invalid-feedback,
 .error-text {
   color: #ef4444;
   font-size: 0.85rem;
   margin-top: 6px;
 }
 
-
-.password-strength {
-  font-size: 0.85rem;
-  margin-top: 5px;
-}
-
-.password-requirement {
-  margin-bottom: 4px;
-}
-
-.requirement-met {
-  color: #3e6747;
-}
-
-.alert {
-  padding: 14px 16px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  font-size: 0.95rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.alert-danger {
-  background: #fee2e2;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
-}
-
-body.dark-mode .alert-danger {
-  background: #7f1d1d;
-  color: #fecaca;
-  border-color: #fca5a5;
-}
-
-.alert-success {
-  background: #d1fae5;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
-}
-
-body.dark-mode .alert-success {
-  background: #064e3b;
-  color: #a7f3d0;
-  border-color: #065f46;
-}
-
-.btn-close {
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  color: inherit;
-}
-
-
-.btn-login,
-.btn-register {
+/* ================= BUTTONS ================= */
+.btn-login {
   width: 100%;
   padding: 16px;
   border-radius: 10px;
@@ -187,27 +117,26 @@ body.dark-mode .alert-success {
   gap: 10px;
   border: none;
   color: white;
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  background: linear-gradient(135deg, #1e3a8a, #3f71c1);
   transition: all 0.2s ease;
 }
 
-.btn-login:hover:not(:disabled),
-.btn-register:hover:not(:disabled) {
+.btn-login:hover:not(:disabled) {
   background: linear-gradient(135deg, #1b2e6f, #2563eb);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
 
-.btn-login:disabled,
-.btn-register:disabled {
+.btn-login:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
+/* ================= SPINNER ================= */
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255,255,255,0.3);
   border-top-color: white;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -215,47 +144,42 @@ body.dark-mode .alert-success {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.login-link,
+/* ================= REGISTER LINK ================= */
 .register-link {
   text-align: center;
   margin-top: 20px;
   font-size: 0.95rem;
 }
 
-.login-link a,
 .register-link a {
-  color: #3b82f6;
+  color: #2f66c0;
   font-weight: 600;
   text-decoration: none;
   margin-left: 6px;
 }
 
-body.dark-mode .login-link a,
-body.dark-mode .register-link a {
-  color: #2563eb;
-}
-
-.login-link a:hover,
 .register-link a:hover {
   text-decoration: underline;
 }
 
+body.dark-mode .register-link a {
+  color: #325ebd;
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-  .login-card,
-  .register-card { max-width: 400px; }
+  .login-card { max-width: 400px; }
   .card-body { padding: 28px 20px; }
   .card-header { padding: 28px 20px; }
 }
 
 @media (max-width: 480px) {
-  .login-card,
-  .register-card { max-width: 100%; border-radius: 12px; }
+  .login-card { max-width: 100%; border-radius: 12px; }
   .card-body { padding: 24px 16px; }
   .card-header { padding: 24px 16px; }
   .card-header h2 { font-size: 1.4rem; }
   input[type="text"], input[type="password"] { padding: 12px 14px; font-size: 0.95rem; }
-  .btn-login,
-  .btn-register { padding: 14px; font-size: 0.95rem; }
+  .btn-login { padding: 14px; font-size: 0.95rem; }
 }
 
 @media (max-width: 360px) {
