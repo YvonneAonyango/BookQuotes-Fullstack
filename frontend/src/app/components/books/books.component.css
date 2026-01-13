@@ -7,6 +7,7 @@
   background-color: rgba(255, 235, 120, 0.2) !important;
   color: #1e3a8a !important;
   backdrop-filter: blur(6px) !important;
+  position: relative !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -54,11 +55,11 @@
 
 /* ---------------- BOOKS CONTAINER ---------------- */
 .books-container {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  display: flex !important;
+  flex-direction: column !important; /* Vertical stack */
   gap: 2rem !important;
   width: 100% !important;
-  justify-items: center !important;
+  align-items: center !important;
 }
 
 /* ---------------- BOOK CARD ---------------- */
@@ -67,7 +68,8 @@
   background-color: rgba(255, 224, 130, 0.3) !important;
   border-radius: 16px !important;
   border: 1px solid rgba(0, 0, 0, 0.15) !important;
-  width: 100% !important;
+  width: 90% !important; /* almost full width */
+  max-width: 500px !important; /* larger card on desktop */
   aspect-ratio: 1 / 1 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -97,14 +99,14 @@
 
 /* ---------------- BOOK CARD HEADER ---------------- */
 .book-card-header {
-  height: 45% !important;
+  height: 50% !important; /* taller cover for a professional look */
   background: linear-gradient(135deg, rgba(255, 210, 120, 0.6), rgba(255, 165, 0, 0.4)) !important;
   background-size: cover !important;
   background-position: center !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 
 /* ---------------- BOOK CARD BODY ---------------- */
@@ -134,22 +136,22 @@
   font-size: 0.75rem !important;
   color: #2563eb !important;
   margin-top: auto !important;
-  border-top: 1px solid rgba(0,0,0,0.15) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
   padding-top: 0.25rem !important;
 }
 
 /* ---------------- BOOK CARD FOOTER ---------------- */
 .book-card-footer {
   display: flex !important;
-  gap: 0.5rem !important;
+  gap: 0.4rem !important;
   padding: 0.25rem !important;
   margin-top: auto !important;
 }
 
 .btn-edit, .btn-delete {
   flex: 1 !important;
-  font-size: 0.8rem !important;
-  padding: 0.4rem !important;
+  font-size: 0.7rem !important; /* slightly smaller */
+  padding: 0.25rem !important; /* slightly smaller */
   border-radius: 8px !important;
   font-weight: 600 !important;
   cursor: pointer !important;
@@ -175,25 +177,16 @@
 }
 
 /* ---------------- RESPONSIVE ---------------- */
-@media (max-width: 1200px) {
-  .books-container { gap: 1.5rem !important; }
+@media (max-width: 1024px) { /* iPad landscape */
+  .book-card { width: 95% !important; max-width: 450px !important; }
 }
 
-@media (max-width: 992px) {
-  .books-container { gap: 1rem !important; }
+@media (max-width: 768px) { /* iPad portrait / large phones */
+  .book-card { width: 95% !important; max-width: 400px !important; }
 }
 
-@media (max-width: 768px) {
-  .books-container {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .books-container {
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-  }
+@media (max-width: 480px) { /* mobile phones */
+  .book-card { width: 100% !important; max-width: 100% !important; }
   .book-card-footer { flex-direction: column !important; }
   .btn-add-book { width: 100% !important; }
 }
