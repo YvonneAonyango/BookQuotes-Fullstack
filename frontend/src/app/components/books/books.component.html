@@ -1,75 +1,31 @@
 <div class="books-page">
 
-  <!-- Header -->
-  <div class="page-header">
+  <header class="page-header">
     <h1>{{ 'myBooks' | translate }}</h1>
     <p class="lead">{{ 'manageBookCollection' | translate }}</p>
+  </header>
 
-    <!-- Add Book Button -->
-    <button
-      *ngIf="isLoggedIn()"
-      class="btn-add-book"
-      (click)="addBook()">
-      {{ 'addNewBook' | translate }}
-    </button>
+  <section class="section books-list">
+    <div *ngIf="isLoading">{{ 'loadingBooks' | translate }}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
-    <!-- Guest Hint -->
-    <p *ngIf="!isLoggedIn()" class="text-muted">
-      Browse books freely 📚
-      <a routerLink="/login">Login</a> to add or manage books.
-    </p>
-  </div>
+    <ul *ngIf="books.length > 0">
+      <li *ngFor="let book of books">
+        <strong>{{ book.title }}</strong> by {{ book.author }}
+        <small>({{ formatDate(book.publishDate) }})</small>
 
-  <!-- Loading -->
-  <div *ngIf="isLoading" class="loading-state">
-    <p>{{ 'loadingBooks' | translate }}</p>
-  </div>
-
-  <!-- Books Grid -->
-  <div class="books-container">
-    <div *ngFor="let book of books" class="book-card">
-
-      <!-- Book Favorite Icon -->
-      <span class="book-fav-icon">
-        <i class="fa fa-book"></i>
-      </span>
-
-      <div class="book-card-header">
-        <i class="fa fa-book book-icon"></i>
-      </div>
-
-      <div class="book-card-body">
-        <h5 class="book-title">{{ book.title }}</h5>
-
-        <p class="book-author">
-          <i class="fa fa-user"></i> {{ book.author }}
-        </p>
-
-        <div class="book-meta">
-          <small *ngIf="book.publishDate">
-            {{ formatDate(book.publishDate) }}
-          </small>
-        </div>
-      </div>
-
-      <!-- Buttons ALWAYS visible -->
-      <div class="book-card-footer">
-        <button
-          class="btn-edit"
-          [class.btn-disabled]="!book.isOwner"
-          (click)="editBook(book)">
+        <button *ngIf="isLoggedIn()" (click)="editBook(book)">
           <i class="fa fa-edit"></i> {{ 'edit' | translate }}
         </button>
-
-        <button
-          class="btn-delete"
-          [class.btn-disabled]="!book.isOwner"
-          (click)="deleteBook(book)">
+        <button *ngIf="isLoggedIn()" (click)="deleteBook(book)">
           <i class="fa fa-trash"></i> {{ 'delete' | translate }}
         </button>
-      </div>
+      </li>
+    </ul>
 
-    </div>
-  </div>
+    <p *ngIf="books.length === 0">{{ 'noBooksYet' | translate }}</p>
+
+    <button *ngIf="isLoggedIn()" (click)="addBook()">{{ 'addNewBook' | translate }}</button>
+  </section>
 
 </div>

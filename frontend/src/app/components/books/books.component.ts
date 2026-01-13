@@ -2,14 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Book, BookService } from '../../services/book.service';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule], // <- TranslateModule added
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
