@@ -1,247 +1,230 @@
-:host {
-  display: block;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  transition: background-color 0.3s, color 0.3s;
+/* ================= BOOKS PAGE ================= */
+.books-page {
+  padding: 2rem 1rem !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  min-height: 100vh !important;
+  background-color: rgba(255, 235, 120, 0.2) !important;
+  color: #1e3a8a !important;
+  backdrop-filter: blur(6px) !important;
+  position: relative !important;
 }
 
-/* ---------- Page Layout ---------- */
-.register-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: #fdfdfd; /* light mode default */
-  color: #1f2937; /* light text */
-  transition: background-color 0.3s, color 0.3s;
+/* ---------------- PAGE HEADER ---------------- */
+.header-text-center {
+  text-align: center !important;
+  margin-bottom: 0.75rem !important;
 }
 
-/* ---------- Dark Mode ---------- */
-body.dark-mode .register-page {
-  background-color: #0f172a;
-  color: #e2e8f0;
+.header-text-center h1 {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: #1e3a8a !important;
 }
 
-/* ---------- Card ---------- */
-.register-card {
-  width: 100%;
-  max-width: 450px;
-  border-radius: 16px;
-  overflow: hidden;
-  background-color: #ffffff;
-  border: 1px solid #d1d9e6;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+.header-text-center .lead {
+  font-size: 1rem !important;
+  color: #3b82f6 !important;
+  margin-top: 0.25rem !important;
 }
 
-body.dark-mode .register-card {
-  background-color: #1e293b;
-  border-color: #334155;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+/* Add book button below subheader, aligned right */
+.header-action {
+  display: flex !important;
+  justify-content: flex-end !important;
+  margin-bottom: 2rem !important;
 }
 
-/* ---------- Header ---------- */
-.card-header {
-  text-align: center;
-  padding: 32px 24px;
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  color: white;
+.btn-add-book {
+  background-color: #fcd34d !important;
+  color: #1e3a8a !important;
+  border-radius: 12px !important;
+  padding: 0.5rem 1rem !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
 }
 
-.card-header h2 {
-  margin: 0;
-  font-size: 1.6rem;
-  font-weight: 600;
+.btn-add-book:hover {
+  background-color: #fbbf24 !important;
+  transform: translateY(-1px) !important;
 }
 
-/* ---------- Body ---------- */
-.card-body {
-  padding: 32px 24px;
+/* ---------------- BOOKS CONTAINER ---------------- */
+.books-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 2rem !important;
+  justify-content: flex-start !important;
+  margin-top: 1rem !important;
 }
 
-/* ---------- Form Group ---------- */
-.form-group {
-  margin-bottom: 20px;
+/* ---------------- BOOK CARD ---------------- */
+.book-card {
+  position: relative !important;
+  background-color: rgba(255, 224, 130, 0.3) !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  width: 100% !important;
+  max-width: 180px !important; /* slightly larger than before */
+  aspect-ratio: 1 / 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  transition: all 0.3s !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  overflow: hidden !important;
+  color: #1e3a8a !important;
 }
 
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: inherit;
-  font-size: 0.95rem;
+.book-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* ---------- Inputs ---------- */
-input[type="text"],
-input[type="password"] {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: 1px solid #d1d9e6;
-  background-color: #f8fafc;
-  color: #1f2937;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
+/* ---------------- STAR ICON ---------------- */
+.book-fav-icon {
+  position: absolute !important;
+  top: 12px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #fbbf24 !important;
+  font-size: 1.35rem !important;
+  padding: 0.35rem 0.55rem !important;
+  border-radius: 50% !important;
+  z-index: 5 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
 }
 
-body.dark-mode input[type="text"],
-body.dark-mode input[type="password"] {
-  background-color: #0f172a;
-  color: #e2e8f0;
-  border-color: #475569;
+/* ---------------- BOOK CARD HEADER ---------------- */
+.book-card-header {
+  background: linear-gradient(135deg, rgba(255, 210, 120, 0.6), rgba(255, 165, 0, 0.4)) !important;
+  height: 80px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-size: cover !important;
+  background-position: center !important;
 }
 
-input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  outline: none;
+.book-icon {
+  font-size: 2rem !important;
 }
 
-.is-invalid {
-  border-color: #ef4444 !important;
+/* ---------------- BOOK CARD BODY ---------------- */
+.book-card-body {
+  padding: 0.75rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
 }
 
-.invalid-feedback {
-  color: #ef4444;
-  font-size: 0.85rem;
-  margin-top: 6px;
+.book-title {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: #1e3a8a !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
-/* ---------- Password Strength ---------- */
-.password-strength {
-  font-size: 0.85rem;
-  margin-top: 5px;
+.book-author {
+  font-size: 0.875rem !important;
+  color: #3b82f6 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
 }
 
-.password-requirement {
-  margin-bottom: 4px;
+.book-meta {
+  margin-top: auto !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
+  padding-top: 0.25rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  font-size: 0.7rem !important;
+  color: #2563eb !important;
 }
 
-.requirement-met {
-  color: #3e6747;
+/* ---------------- BOOK CARD FOOTER BUTTONS ---------------- */
+.book-card-footer {
+  display: flex !important;
+  gap: 0.5rem !important;
+  padding: 0.25rem !important;
+  margin-top: auto !important;
 }
 
-/* ---------- Alerts ---------- */
-.alert {
-  padding: 14px 16px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  font-size: 0.95rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.btn-edit {
+  background-color: rgba(0, 0, 139, 0.4) !important;
+  color: #fff !important;
+  flex: 1 !important;
+  border-radius: 10px !important;
+  padding: 0.35rem !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important; /* smaller buttons */
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
 }
 
-.alert-danger {
-  background: #fee2e2;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
+.btn-edit:hover {
+  background-color: rgba(0, 0, 255, 0.6) !important;
+  transform: translateY(-1px) !important;
 }
 
-body.dark-mode .alert-danger {
-  background: #7f1d1d;
-  color: #fecaca;
-  border-color: #fca5a5;
+.btn-delete {
+  background-color: rgba(255, 69, 0, 0.4) !important;
+  color: #fff !important;
+  flex: 1 !important;
+  border-radius: 10px !important;
+  padding: 0.35rem !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
 }
 
-.alert-success {
-  background: #d1fae5;
-  color: #065f46;
-  border: 1px solid #a7f3d0;
+.btn-delete:hover {
+  background-color: rgba(255, 69, 0, 0.7) !important;
+  transform: translateY(-1px) !important;
 }
 
-body.dark-mode .alert-success {
-  background: #064e3b;
-  color: #a7f3d0;
-  border-color: #065f46;
+/* ---------------- RESPONSIVE ---------------- */
+@media (min-width: 1200px) {
+  .book-card {
+    flex: 0 0 calc(20% - 1rem) !important;
+  }
 }
 
-.btn-close {
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  color: inherit;
+@media (max-width: 1200px) {
+  .books-container {
+    gap: 1.5rem !important;
+  }
+  .book-card {
+    flex: 0 0 calc(25% - 1rem) !important;
+  }
 }
 
-/* ---------- Button ---------- */
-.btn-register {
-  width: 100%;
-  padding: 16px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  color: white;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  font-size: 1rem;
+@media (max-width: 992px) {
+  .book-card {
+    flex: 0 0 calc(33.333% - 1rem) !important;
+  }
 }
 
-.btn-register:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1b2e6f, #2563eb);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-}
-
-.btn-register:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Spinner */
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* ---------- Login Link ---------- */
-.login-link {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 0.95rem;
-}
-
-.login-link a {
-  color: #3b82f6;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-body.dark-mode .login-link a {
-  color: #2563eb;
-}
-
-.login-link a:hover {
-  text-decoration: underline;
-}
-
-/* ---------- Responsiveness ---------- */
 @media (max-width: 768px) {
-  .register-card { max-width: 400px; }
-  .card-body { padding: 28px 20px; }
-  .card-header { padding: 28px 20px; }
+  .book-card {
+    flex: 0 0 calc(50% - 1rem) !important;
+  }
 }
 
 @media (max-width: 480px) {
-  .register-card { max-width: 100%; border-radius: 12px; }
-  .card-body { padding: 24px 16px; }
-  .card-header { padding: 24px 16px; }
-  .card-header h2 { font-size: 1.4rem; }
-  input[type="text"], input[type="password"] { padding: 12px 14px; font-size: 0.95rem; }
-  .btn-register { padding: 14px; font-size: 0.95rem; }
+  .book-card-footer {
+    flex-direction: column !important;
+  }
+  .btn-add-book {
+    width: 100% !important;
+    text-align: center !important;
+    margin-top: 0.5rem !important;
+  }
 }

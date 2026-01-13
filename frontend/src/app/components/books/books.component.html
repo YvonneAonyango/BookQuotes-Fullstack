@@ -1,16 +1,15 @@
 <div class="books-page">
 
   <header class="page-header">
-    <div class="header-row">
-      <div class="header-text">
-        <h1>{{ 'myBooks' | translate }}</h1>
-        <p class="lead">{{ 'manageBookCollection' | translate }}</p>
-      </div>
+    <h1>{{ 'myBooks' | translate }}</h1>
+    <p class="lead">{{ 'manageBookCollection' | translate }}</p>
 
-      <button *ngIf="isLoggedIn()" class="btn-add-book" (click)="addBook()">
-        {{ 'addNewBook' | translate }}
-      </button>
-    </div>
+    <button
+      *ngIf="isLoggedIn()"
+      class="btn-add-book"
+      (click)="addBook()">
+      {{ 'addNewBook' | translate }}
+    </button>
   </header>
 
   <section class="section books-list">

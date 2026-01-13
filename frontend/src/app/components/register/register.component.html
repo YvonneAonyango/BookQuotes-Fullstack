@@ -1,82 +1,87 @@
 <div class="register-page">
-  <div class="register-card">
-    <div class="card-header">
-      <h2>{{ 'createAccount' | translate }}</h2>
+
+  <header class="page-header">
+    <div class="header-text-center">
+      <h1>{{ 'createAccount' | translate }}</h1>
+      <p class="lead">{{ 'register' | translate }}</p>
     </div>
-    <div class="card-body">
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  </header>
 
-        <!-- Error Message -->
-        <div *ngIf="errorMessage" class="alert alert-danger">
-          {{ errorMessage }}
-          <button type="button" class="btn-close" (click)="clearMessages()"></button>
+  <section class="section register-form">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <!-- USERNAME -->
+      <div class="form-group">
+        <label for="username">{{ 'usernameLabel' | translate }}</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          [class.invalid]="registerForm.get('username')?.touched && registerForm.get('username')?.invalid"
+          placeholder="{{ 'enterUsername' | translate }}"
+        />
+        <div class="error-message" *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')">
+          {{ 'usernameRequired' | translate }}
         </div>
-
-        <!-- Success Message -->
-        <div *ngIf="successMessage" class="alert alert-success">
-          {{ successMessage }}
-          <button type="button" class="btn-close" (click)="clearMessages()"></button>
+        <div class="error-message" *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.hasError('minlength')">
+          {{ 'usernameMinLength' | translate }}
         </div>
+      </div>
 
-        <!-- Username Field -->
-        <div class="form-group">
-          <label>{{ 'username' | translate }}</label>
-          <input type="text" formControlName="username" 
-                 placeholder="{{ 'enterUsername' | translate }}"
-                 [class.is-invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
-                 [class.is-valid]="registerForm.get('username')?.valid && registerForm.get('username')?.touched">
-          <div class="invalid-feedback" *ngIf="registerForm.get('username')?.errors?.['required']">
-            {{ 'usernameRequired' | translate }}
-          </div>
-          <div class="invalid-feedback" *ngIf="registerForm.get('username')?.errors?.['minlength']">
-            {{ 'usernameMinLength' | translate }}
-          </div>
+      <!-- PASSWORD -->
+      <div class="form-group">
+        <label for="password">{{ 'password' | translate }}</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="{{ 'enterPassword' | translate }}"
+          [class.invalid]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+        />
+        <div class="password-rules">
+          <small [class.valid]="passwordErrors.minLength">{{ 'min6Chars' | translate }}</small>
+          <small [class.valid]="passwordErrors.hasLowercase">{{ 'lowercaseRequired' | translate }}</small>
+          <small [class.valid]="passwordErrors.hasUppercase">{{ 'uppercaseRequired' | translate }}</small>
+          <small [class.valid]="passwordErrors.hasNumber">{{ 'numberRequired' | translate }}</small>
+          <small [class.valid]="passwordErrors.hasSymbol">{{ 'symbolRequired' | translate }}</small>
         </div>
+      </div>
 
-        <!-- Password Field -->
-        <div class="form-group">
-          <label>{{ 'password' | translate }}</label>
-          <input type="password" formControlName="password"
-                 placeholder="{{ 'createPassword' | translate }}"
-                 [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-                 [class.is-valid]="registerForm.get('password')?.valid && registerForm.get('password')?.touched">
-          <div class="password-strength" *ngIf="registerForm.get('password')?.value">
-            <div class="password-requirement" [class.requirement-met]="passwordErrors.minLength">{{ 'min6Chars' | translate }}</div>
-            <div class="password-requirement" [class.requirement-met]="passwordErrors.hasLowercase">{{ 'lowercaseRequired' | translate }}</div>
-            <div class="password-requirement" [class.requirement-met]="passwordErrors.hasUppercase">{{ 'uppercaseRequired' | translate }}</div>
-            <div class="password-requirement" [class.requirement-met]="passwordErrors.hasNumber">{{ 'numberRequired' | translate }}</div>
-            <div class="password-requirement" [class.requirement-met]="passwordErrors.hasSymbol">{{ 'symbolRequired' | translate }}</div>
-          </div>
+      <!-- CONFIRM PASSWORD -->
+      <div class="form-group">
+        <label for="confirmPassword">{{ 'confirmPassword' | translate }}</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          placeholder="{{ 'confirmPassword' | translate }}"
+          [class.invalid]="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid"
+        />
+        <div class="error-message" *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.hasError('passwordMismatch')">
+          {{ 'passwordsMismatch' | translate }}
         </div>
+      </div>
 
-        <!-- Confirm Password Field -->
-        <div class="form-group">
-          <label>{{ 'confirmPassword' | translate }}</label>
-          <input type="password" formControlName="confirmPassword"
-                 placeholder="{{ 'confirmPassword' | translate }}"
-                 [class.is-invalid]="registerForm.get('confirmPassword')?.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched"
-                 [class.is-valid]="!registerForm.get('confirmPassword')?.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched">
-          <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">
-            {{ 'confirmPasswordRequired' | translate }}
-          </div>
-          <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">
-            {{ 'passwordsMismatch' | translate }}
-          </div>
-        </div>
+      <!-- ERROR / SUCCESS MESSAGES -->
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn-register" [disabled]="registerForm.invalid || isLoading">
-          <span *ngIf="isLoading" class="spinner"></span>
-          {{ isLoading ? ('creatingAccount' | translate) : ('createAccount' | translate) }}
-        </button>
+      <!-- SUBMIT BUTTON -->
+      <button type="submit" class="btn-submit" [disabled]="isLoading">
+        {{ isLoading ? ( 'creatingAccount' | translate ) : ( 'createAccount' | translate ) }}
+      </button>
 
-        <!-- Login Link -->
-        <div class="login-link">
-          {{ 'alreadyHaveAccount' | translate }} 
-          <a routerLink="/login">{{ 'loginToAccount' | translate }}</a>
-        </div>
+    </form>
 
-      </form>
-    </div>
-  </div>
+    <p class="login-link">
+      {{ 'alreadyHaveAccount' | translate }} 
+      <a routerLink="/login">{{ 'loginToAccount' | translate }}</a>
+    </p>
+
+  </section>
+
 </div>

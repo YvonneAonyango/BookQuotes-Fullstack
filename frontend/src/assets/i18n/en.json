@@ -53,10 +53,10 @@
   "noQuotesYet": "No quotes yet",
   "startByAddingQuote": "Start by adding your first quote!",
 
-  "myBooks": "My Books",
-  "manageBookCollection": "Manage your book collection",
-  "addBook": "Add Book",
-  "addNewBook": "Add new book",
+  
+  "myBooks": "The Library",
+  "manageBookCollection": "Manage the book collection",
+  "addNewBook": "Add New Book",
   "editBook": "Edit Book",
   "updateBook": "Update Book",
   "confirmDeleteBook": "Are you sure you want to delete this book?",
@@ -80,6 +80,7 @@
   "loginDescription": "Login to access your personal library and manage your books and quotes",
 
   "enterUsername": "Enter your username",
+  "usernameLabel": "Username",
   "usernameRequired": "Username is required",
 
   "password": "Password",

@@ -26,7 +26,7 @@ export class BooksComponent implements OnInit {
   private auth = inject(AuthService);
 
   ngOnInit(): void {
-    this.titleService.setTitle('BookWebApp - Books');
+    this.titleService.setTitle('BookWebApp - The Library');
     this.meta.updateTag({
       name: 'description',
       content: 'Browse books freely. Login to manage your collection.'
