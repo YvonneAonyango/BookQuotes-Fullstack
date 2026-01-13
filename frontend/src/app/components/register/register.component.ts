@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -13,7 +13,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslateModule],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+  encapsulation: ViewEncapsulation.None   // <<< allows global CSS
 })
 export class RegisterComponent {
   registerForm: FormGroup;
@@ -23,11 +24,7 @@ export class RegisterComponent {
 
   private translate = inject(TranslateService);
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private http: HttpClient
-  ) {
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient) {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [
@@ -113,10 +110,5 @@ export class RegisterComponent {
           setTimeout(() => this.router.navigate(['/login']), 2000);
         }
       });
-  }
-
-  clearMessages() {
-    this.errorMessage = '';
-    this.successMessage = '';
   }
 }

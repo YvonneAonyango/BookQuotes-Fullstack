@@ -5,7 +5,14 @@
   justify-content: center !important;
   align-items: center !important;
   padding: 20px !important;
+  background-color: #fdfdfd !important;
+  color: #1f2937 !important;
   transition: background-color 0.3s, color 0.3s !important;
+}
+
+body.dark-mode .register-page {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
 }
 
 /* ================= REGISTER CARD ================= */
@@ -51,6 +58,7 @@ body.dark-mode .register-card {
   padding: 32px 24px !important;
 }
 
+/* ================= FORM GROUP ================= */
 .register-card .form-group {
   margin-bottom: 20px !important;
 }
@@ -63,6 +71,7 @@ body.dark-mode .register-card {
   color: inherit !important;
 }
 
+/* ================= INPUTS ================= */
 .register-card input[type="text"],
 .register-card input[type="password"] {
   width: 100% !important;
@@ -101,6 +110,66 @@ body.dark-mode .register-card input[type="password"] {
   color: #ef4444 !important;
   font-size: 0.85rem !important;
   margin-top: 6px !important;
+}
+
+/* ================= PASSWORD RULES ================= */
+.password-rules {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+  font-size: 0.85rem !important;
+  margin-top: 5px !important;
+}
+
+.password-rules small {
+  color: #94a3b8 !important;
+}
+
+.password-rules small.valid {
+  color: #3e6747 !important;
+}
+
+/* ================= ALERTS ================= */
+.alert {
+  padding: 14px 16px !important;
+  border-radius: 10px !important;
+  margin-bottom: 20px !important;
+  font-size: 0.95rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.alert-danger {
+  background: #fee2e2 !important;
+  color: #b91c1c !important;
+  border: 1px solid #fecaca !important;
+}
+
+body.dark-mode .alert-danger {
+  background: #7f1d1d !important;
+  color: #fecaca !important;
+  border-color: #fca5a5 !important;
+}
+
+.alert-success {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+body.dark-mode .alert-success {
+  background: #064e3b !important;
+  color: #a7f3d0 !important;
+  border-color: #065f46 !important;
+}
+
+.btn-close {
+  background: transparent !important;
+  border: none !important;
+  font-size: 1rem !important;
+  cursor: pointer !important;
+  color: inherit !important;
 }
 
 /* ================= BUTTON ================= */
@@ -145,27 +214,27 @@ body.dark-mode .register-card input[type="password"] {
 @keyframes spin { to { transform: rotate(360deg) !important; } }
 
 /* ================= LOGIN LINK ================= */
-.login-link {
+.register-link {
   text-align: center !important;
   margin-top: 20px !important;
   font-size: 0.95rem !important;
 }
 
-.login-link a {
+.register-link a {
   color: #2f66c0 !important;
   font-weight: 600 !important;
   text-decoration: none !important;
 }
 
-body.dark-mode .login-link a {
-  color: #325ebd !important;
-}
-
-.login-link a:hover {
+.register-link a:hover {
   text-decoration: underline !important;
 }
 
-/* ================= RESPONSIVE ================= */
+body.dark-mode .register-link a {
+  color: #325ebd !important;
+}
+
+/* ================= RESPONSIVENESS ================= */
 @media (max-width: 768px) {
   .register-card { max-width: 400px !important; }
   .register-card .card-body { padding: 28px 20px !important; }
