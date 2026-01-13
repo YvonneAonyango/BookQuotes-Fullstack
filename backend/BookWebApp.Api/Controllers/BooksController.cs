@@ -16,45 +16,74 @@ public class BooksController : ControllerBase
 
     public BooksController(AppDbContext context) => _context = context;
 
-    // GET: api/books
+    // ----------------- DTO -----------------
+    public class BookDto
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = "";
+        public string Author { get; set; } = "";
+        public DateTime? PublishDate { get; set; }
+        public bool IsOwner { get; set; } // <-- computed property
+    }
+
+    // ----------------- GET ALL BOOKS -----------------
     [HttpGet]
-    public async Task<IEnumerable<Book>> GetAll()
+    [AllowAnonymous] // Everyone can see books
+    public async Task<IEnumerable<BookDto>> GetAll()
     {
         var userId = GetUserId();
 
-        if (IsAdmin())
-            return await _context.Books.Include(b => b.Quotes).ToListAsync();
+        var books = await _context.Books.ToListAsync();
 
-        return await _context.Books
-            .Where(b => b.UserId == userId)
-            .Include(b => b.Quotes.Where(q => q.UserId == userId))
-            .ToListAsync();
+        return books.Select(b => new BookDto
+        {
+            Id = b.Id,
+            Title = b.Title,
+            Author = b.Author,
+            PublishDate = b.PublishDate,
+            IsOwner = b.UserId == userId || IsAdmin()
+        });
     }
 
-    // GET: api/books/5
+    // ----------------- GET SINGLE BOOK -----------------
     [HttpGet("{id}")]
-    public async Task<ActionResult<Book>> Get(int id)
+    [AllowAnonymous] // Everyone can see books
+    public async Task<ActionResult<BookDto>> Get(int id)
     {
-        var book = await _context.Books.Include(b => b.Quotes).FirstOrDefaultAsync(b => b.Id == id);
+        var book = await _context.Books.FindAsync(id);
         if (book == null) return NotFound();
 
-        if (!IsAdmin() && book.UserId != GetUserId())
-            return Forbid();
+        var userId = GetUserId();
 
-        return Ok(book);
+        return new BookDto
+        {
+            Id = book.Id,
+            Title = book.Title,
+            Author = book.Author,
+            PublishDate = book.PublishDate,
+            IsOwner = book.UserId == userId || IsAdmin()
+        };
     }
 
-    // POST: api/books
+    // ----------------- CREATE -----------------
     [HttpPost]
     public async Task<IActionResult> Create(Book book)
     {
-        book.UserId = GetUserId();
+        book.UserId = GetUserId(); // Set owner
         _context.Books.Add(book);
         await _context.SaveChangesAsync();
-        return Ok(book);
+
+        return Ok(new BookDto
+        {
+            Id = book.Id,
+            Title = book.Title,
+            Author = book.Author,
+            PublishDate = book.PublishDate,
+            IsOwner = true
+        });
     }
 
-    // PUT: api/books/5
+    // ----------------- UPDATE -----------------
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, Book updated)
     {
@@ -69,10 +98,18 @@ public class BooksController : ControllerBase
         book.PublishDate = updated.PublishDate;
 
         await _context.SaveChangesAsync();
-        return Ok(book);
+
+        return Ok(new BookDto
+        {
+            Id = book.Id,
+            Title = book.Title,
+            Author = book.Author,
+            PublishDate = book.PublishDate,
+            IsOwner = true
+        });
     }
 
-    // DELETE: api/books/5
+    // ----------------- DELETE -----------------
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -87,9 +124,9 @@ public class BooksController : ControllerBase
         return Ok();
     }
 
-    // Helpers
+    // ----------------- HELPERS -----------------
     private int GetUserId() =>
-        int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "0");
+        int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : 0;
 
     private bool IsAdmin() =>
         User.IsInRole("Admin");

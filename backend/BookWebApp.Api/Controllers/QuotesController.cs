@@ -15,7 +15,7 @@ public class QuotesController : ControllerBase
 
     public QuotesController(AppDbContext context) => _context = context;
 
-    // GET public global quotes
+    // GET public global quotes (all users see them)
     [HttpGet("global")]
     public async Task<IActionResult> GetGlobalQuotes()
     {
@@ -26,7 +26,7 @@ public class QuotesController : ControllerBase
         return Ok(quotes);
     }
 
-    // GET logged-in user's quotes
+    // GET logged-in user's personal quotes (only for owner, optional)
     [Authorize]
     [HttpGet("my")]
     public async Task<IActionResult> GetMyQuotes()
@@ -35,14 +35,14 @@ public class QuotesController : ControllerBase
         if (userId == null) return Unauthorized();
 
         var quotes = await _context.Quotes
-            .Where(q => q.UserId == userId && !q.IsGlobal)
+            .Where(q => q.UserId == userId && q.IsGlobal) // Only your quotes, all marked global
             .AsNoTracking()
             .ToListAsync();
 
         return Ok(quotes);
     }
 
-    // CREATE a user quote
+    // CREATE a quote (owner only)
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Quote q)
@@ -53,7 +53,7 @@ public class QuotesController : ControllerBase
         if (string.IsNullOrWhiteSpace(q.Author)) return BadRequest(new { message = "Author is required" });
 
         q.UserId = userId.Value;
-        q.IsGlobal = false;
+        q.IsGlobal = true; // all quotes created by owner are global
         q.BookId = q.BookId > 0 ? q.BookId : null;
 
         _context.Quotes.Add(q);
@@ -61,14 +61,13 @@ public class QuotesController : ControllerBase
         return Ok(q);
     }
 
-    // UPDATE a user quote
+    // UPDATE a quote (owner only)
     [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] Quote updated)
     {
         var quote = await _context.Quotes.FindAsync(id);
         if (quote == null) return NotFound();
-        if (quote.IsGlobal) return Forbid();
 
         var userId = GetUserId();
         if (quote.UserId != userId) return Forbid();
@@ -81,14 +80,13 @@ public class QuotesController : ControllerBase
         return Ok(quote);
     }
 
-    // DELETE a user quote
+    // DELETE a quote (owner only)
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var quote = await _context.Quotes.FindAsync(id);
         if (quote == null) return NotFound();
-        if (quote.IsGlobal) return Forbid();
 
         var userId = GetUserId();
         if (quote.UserId != userId) return Forbid();
