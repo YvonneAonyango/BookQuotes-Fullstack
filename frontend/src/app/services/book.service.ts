@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, map } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface Quote {
   id?: number;
@@ -15,17 +16,14 @@ export interface Book {
   author: string;
   publishDate?: string;
   quotes?: Quote[];
-
-  // Added for frontend logic
-  isOwner?: boolean;
+  isOwner?: boolean; // for frontend logic
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  // Replace with your backend URL
-  private apiUrl = 'https://localhost:5001/api/books';
+  private apiUrl = `${environment.apiUrl}/books`;
 
   constructor(private http: HttpClient) {}
 

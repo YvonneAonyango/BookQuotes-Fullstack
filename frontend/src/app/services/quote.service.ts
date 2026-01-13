@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { AuthService } from './auth.service';
 
 export interface Quote {
   id?: number;
@@ -27,10 +26,14 @@ export interface Book {
 export class QuoteService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private http: HttpClient) {}
+
+  private getToken(): string | null {
+    return localStorage.getItem('authToken') || localStorage.getItem('token');
+  }
 
   private getAuthHeaders(jsonContent: boolean = false): HttpHeaders {
-    const token = this.auth.getToken();
+    const token = this.getToken();
     const headersConfig: { [key: string]: string } = {};
     if (token) headersConfig['Authorization'] = `Bearer ${token}`;
     if (jsonContent) headersConfig['Content-Type'] = 'application/json';
