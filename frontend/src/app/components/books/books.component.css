@@ -7,11 +7,16 @@
   background-color: rgba(255, 235, 120, 0.2) !important;
   color: #1e3a8a !important;
   backdrop-filter: blur(6px) !important;
+  position: relative !important;
 }
 
 /* ---------------- PAGE HEADER ---------------- */
 .page-header {
-  margin-bottom: 2.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  margin-bottom: 2rem !important;
   padding-bottom: 1rem !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
 }
@@ -19,17 +24,17 @@
 .header-row {
   display: flex !important;
   justify-content: space-between !important;
-  align-items: flex-end !important;
-  gap: 1rem !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
-.header-text h1 {
-  font-size: 1.6rem !important;
+.page-header h1 {
+  font-size: 1.5rem !important;
   font-weight: 700 !important;
   color: #1e3a8a !important;
 }
 
-.header-text .lead {
+.page-header .lead {
   font-size: 1rem !important;
   font-weight: 500 !important;
   color: #3b82f6 !important;
@@ -40,11 +45,10 @@
   background-color: #fcd34d !important;
   color: #1e3a8a !important;
   border-radius: 12px !important;
-  padding: 0.6rem 1.3rem !important;
+  padding: 0.75rem 1.5rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
   transition: all 0.25s ease !important;
-  white-space: nowrap !important;
 }
 
 .btn-add-book:hover {
@@ -56,8 +60,9 @@
 .books-container {
   display: flex !important;
   flex-wrap: wrap !important;
-  gap: 1.75rem !important;
+  gap: 2rem !important;
   justify-content: flex-start !important;
+  margin-top: 2rem !important;
 }
 
 /* ---------------- BOOK CARD ---------------- */
@@ -66,15 +71,15 @@
   background-color: rgba(255, 224, 130, 0.3) !important;
   border-radius: 16px !important;
   border: 1px solid rgba(0, 0, 0, 0.15) !important;
-  width: 100% !important;
-  max-width: 190px !important; /* +25% size */
-  aspect-ratio: 1 / 1.08 !important;
+  width: calc(20% + 1rem) !important; /* slightly larger */
+  aspect-ratio: 1 / 1 !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
   transition: all 0.3s !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
   overflow: hidden !important;
+  color: #1e3a8a !important;
 }
 
 .book-card:hover {
@@ -86,17 +91,15 @@
 .book-fav-icon {
   position: absolute !important;
   top: 12px !important;
-  right: 12px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #1e3a8a !important;
+  font-size: 1.25rem !important;
+  padding: 0.35rem 0.55rem !important;
+  border-radius: 50% !important;
   z-index: 5 !important;
-  background: transparent !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-}
-
-.book-icon {
-  font-size: 1.6rem !important;
-  color: #f59e0b !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* ---------------- BOOK COVER ---------------- */
@@ -107,11 +110,12 @@
   background-repeat: no-repeat !important;
   border-top-left-radius: 16px !important;
   border-top-right-radius: 16px !important;
+  transition: all 0.25s ease !important;
 }
 
 /* ---------------- BOOK CARD BODY ---------------- */
 .book-card-body {
-  padding: 0.65rem !important;
+  padding: 0.75rem !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 0.25rem !important;
@@ -127,14 +131,19 @@
 }
 
 .book-author {
-  font-size: 0.85rem !important;
+  font-size: 0.875rem !important;
   color: #3b82f6 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.25rem !important;
 }
 
 .book-meta {
   margin-top: auto !important;
   border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
-  padding-top: 0.35rem !important;
+  padding-top: 0.25rem !important;
+  display: flex !important;
+  justify-content: space-between !important;
   font-size: 0.7rem !important;
   color: #2563eb !important;
 }
@@ -142,58 +151,74 @@
 /* ---------------- BOOK CARD FOOTER ---------------- */
 .book-card-footer {
   display: flex !important;
-  gap: 0.4rem !important;
-  padding: 0.35rem !important;
-}
-
-.btn-edit,
-.btn-delete {
-  flex: 1 !important;
-  border-radius: 8px !important;
+  gap: 0.5rem !important;
   padding: 0.25rem !important;
-  font-size: 0.7rem !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
+  margin-top: auto !important;
 }
 
 .btn-edit {
-  background-color: rgba(0, 0, 139, 0.45) !important;
+  background-color: rgba(0, 0, 139, 0.4) !important;
   color: #fff !important;
+  flex: 1 !important;
+  border-radius: 10px !important;
+  padding: 0.25rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  font-size: 0.75rem !important;
+  transition: all 0.25s ease !important;
 }
 
 .btn-edit:hover {
-  background-color: rgba(0, 0, 255, 0.65) !important;
+  background-color: rgba(0, 0, 255, 0.6) !important;
+  transform: translateY(-1px) !important;
 }
 
 .btn-delete {
-  background-color: rgba(255, 69, 0, 0.45) !important;
+  background-color: rgba(255, 69, 0, 0.4) !important;
   color: #fff !important;
+  flex: 1 !important;
+  border-radius: 10px !important;
+  padding: 0.25rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  font-size: 0.75rem !important;
+  transition: all 0.25s ease !important;
 }
 
 .btn-delete:hover {
   background-color: rgba(255, 69, 0, 0.7) !important;
+  transform: translateY(-1px) !important;
 }
 
-/* ---------------- RESPONSIVE GRID ---------------- */
-@media (max-width: 1024px) {
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 1200px) {
   .book-card {
-    max-width: calc(50% - 1rem) !important;
+    width: calc(25% + 1rem) !important;
   }
 }
 
-@media (max-width: 640px) {
-  .header-row {
-    flex-direction: column !important;
-    align-items: flex-start !important;
+@media (max-width: 992px) {
+  .book-card {
+    width: calc(33.33% + 1rem) !important;
   }
+}
 
+@media (max-width: 768px) {
+  .book-card {
+    width: calc(50% + 1rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-card {
+    width: 100% !important;
+  }
+  .book-card-footer {
+    flex-direction: column !important;
+  }
   .btn-add-book {
     width: 100% !important;
     text-align: center !important;
-  }
-
-  .book-card {
-    max-width: 100% !important;
+    margin-top: 1rem !important;
   }
 }

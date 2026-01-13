@@ -42,7 +42,7 @@ export class BooksComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        this.errorMessage = this.translate.instant('failedLoadBooks');
+        this.errorMessage = this.translate.instant('errorLoadingBook');
         this.isLoading = false;
       }
     });

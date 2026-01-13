@@ -17,6 +17,7 @@ export interface Book {
   publishDate?: string;
   quotes?: Quote[];
   isOwner?: boolean; // backend-driven
+  coverUrl?: string;  // <-- added
 }
 
 @Injectable({
@@ -52,7 +53,8 @@ export class BookService {
       author: book.author,
       publishDate: book.publishDate ?? book.PublishDate,
       quotes: book.quotes,
-      isOwner: book.isOwner ?? book.IsOwner ?? false
+      isOwner: book.isOwner ?? book.IsOwner ?? false,
+      coverUrl: book.coverUrl ?? book.CoverUrl ?? undefined // <-- added
     };
   }
 
