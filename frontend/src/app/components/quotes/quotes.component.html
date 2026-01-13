@@ -16,7 +16,7 @@
         <p class="quote-footer">— {{ quote.author }}</p>
 
         <!-- EDIT / DELETE BUTTONS (only visible to Yvonne) -->
-        <div class="quote-buttons" *ngIf="isOwner()">
+        <div class="quote-buttons" role="group" *ngIf="isOwner()">
           <button type="button" (click)="editQuote(quote)">Edit</button>
           <button type="button" (click)="deleteQuote(quote.id)">Delete</button>
         </div>

@@ -69,16 +69,19 @@
   display: flex;
   gap: 0.5rem;
   margin-top: 0.5rem;
+  justify-content: flex-end;
 }
 
 .quote-buttons button {
   background-color: #2563eb;
   color: #fff;
+  border: none;
   border-radius: 8px;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  pointer-events: auto;
 }
 
 .quote-buttons button:hover {
