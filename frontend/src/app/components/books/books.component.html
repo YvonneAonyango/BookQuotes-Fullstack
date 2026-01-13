@@ -1,44 +1,33 @@
 <div class="books-page">
 
-  <!-- PAGE HEADER -->
   <header class="page-header">
     <h1>{{ 'myBooks' | translate }}</h1>
     <p class="lead">{{ 'manageBookCollection' | translate }}</p>
+    <button *ngIf="isLoggedIn()" class="btn-add-book" (click)="addBook()">
+      {{ 'addNewBook' | translate }}
+    </button>
   </header>
 
-  <!-- ADD BOOK BUTTON -->
-  <div class="add-book-container" *ngIf="isLoggedIn()">
-    <button class="btn-add-book" (click)="addBook()">{{ 'addNewBook' | translate }}</button>
-  </div>
-
-  <!-- BOOKS LIST -->
   <section class="section books-list">
-
-    <!-- LOADING / ERROR -->
-    <div *ngIf="isLoading">{{ 'loadingBooks' | translate }}</div>
+    <div *ngIf="isLoading" class="loading">{{ 'loadingBooks' | translate }}</div>
     <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
-    <div class="books-container" *ngIf="books.length > 0">
-      <div class="book-card" *ngFor="let book of books">
-
-        <!-- FAVORITE ICON -->
-        <span class="book-fav-icon">★</span>
-
-        <!-- CARD HEADER -->
-        <div class="book-card-header">
+    <div *ngIf="books.length > 0" class="books-container">
+      <div *ngFor="let book of books" class="book-card">
+        <div class="book-fav-icon">
           <i class="fa fa-book book-icon"></i>
         </div>
 
-        <!-- CARD BODY -->
+        <div class="book-card-header"></div>
+
         <div class="book-card-body">
           <div class="book-title">{{ book.title }}</div>
-          <div class="book-author">by {{ book.author }}</div>
+          <div class="book-author">{{ book.author }}</div>
           <div class="book-meta">
-            <span>{{ formatDate(book.publishDate) }}</span>
+            {{ formatDate(book.publishDate) }}
           </div>
         </div>
 
-        <!-- CARD FOOTER BUTTONS -->
         <div class="book-card-footer" *ngIf="isLoggedIn()">
           <button class="btn-edit" (click)="editBook(book)">
             <i class="fa fa-edit"></i> {{ 'edit' | translate }}
@@ -47,13 +36,10 @@
             <i class="fa fa-trash"></i> {{ 'delete' | translate }}
           </button>
         </div>
-
       </div>
     </div>
 
-    <!-- NO BOOKS -->
-    <p *ngIf="books.length === 0">{{ 'noBooksYet' | translate }}</p>
-
+    <p *ngIf="books.length === 0" class="no-books">{{ 'noBooksYet' | translate }}</p>
   </section>
 
 </div>

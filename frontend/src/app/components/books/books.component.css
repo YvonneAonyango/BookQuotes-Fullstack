@@ -7,6 +7,7 @@
   background-color: rgba(255, 235, 120, 0.2) !important;
   color: #1e3a8a !important;
   backdrop-filter: blur(6px) !important;
+  position: relative !important; /* for absolute add-book button */
 }
 
 /* ---------------- PAGE HEADER ---------------- */
@@ -17,7 +18,7 @@
   gap: 0.75rem !important;
   margin-bottom: 2rem !important;
   padding-bottom: 1rem !important;
-  border-bottom: 1px solid rgba(0,0,0,0.15) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
 }
 
 .page-header h1 {
@@ -34,8 +35,11 @@
 
 /* ---------------- ADD BOOK BUTTON ---------------- */
 .btn-add-book {
-  background-color: #f59e0b !important;
-  color: #fff !important;
+  position: absolute !important;
+  top: 2rem !important;
+  right: 2rem !important;
+  background-color: #fcd34d !important; /* warm yellow */
+  color: #1e3a8a !important;
   border-radius: 12px !important;
   padding: 0.75rem 1.5rem !important;
   font-weight: 600 !important;
@@ -44,7 +48,7 @@
 }
 
 .btn-add-book:hover {
-  background-color: #d97706 !important;
+  background-color: #fbbf24 !important;
   transform: translateY(-2px) !important;
 }
 
@@ -53,36 +57,37 @@
   display: flex !important;
   flex-wrap: wrap !important;
   gap: 2rem !important;
-  justify-content: flex-start !important; /* aligned as added */
+  justify-content: flex-start !important;
+  margin-top: 4rem !important; /* space below add-book button */
 }
 
 /* ---------------- BOOK CARD ---------------- */
 .book-card {
-  position: relative !important; /* REQUIRED FOR FAVORITE ICON */
-  background-color: rgba(255, 255, 150, 0.2) !important;
+  position: relative !important; /* for fav icon */
+  background-color: rgba(255, 224, 130, 0.3) !important; /* warm yellow */
   border-radius: 16px !important;
-  border: 1px solid rgba(0,0,0,0.15) !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
   width: 100% !important;
-  max-width: 300px !important;
+  max-width: 150px !important; /* smaller card */
   aspect-ratio: 1 / 1 !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
   transition: all 0.3s !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
   overflow: hidden !important;
   color: #1e3a8a !important;
 }
 
 .book-card:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* ---------------- FAVORITE BOOK ICON ---------------- */
 .book-fav-icon {
   position: absolute !important;
-  top: 8px !important;
+  top: 16px !important; /* slightly lower */
   left: 50% !important;
   transform: translateX(-50%) !important;
   background: rgba(255, 255, 255, 0.95) !important;
@@ -91,33 +96,33 @@
   padding: 0.35rem 0.55rem !important;
   border-radius: 50% !important;
   z-index: 5 !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* ---------------- BOOK CARD HEADER ---------------- */
 .book-card-header {
-  background: linear-gradient(135deg, rgba(255,255,0,0.4), rgba(255,165,0,0.4)) !important;
-  height: 120px !important;
+  background: linear-gradient(135deg, rgba(255, 210, 120, 0.6), rgba(255, 165, 0, 0.4)) !important;
+  height: 80px !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
 }
 
 .book-icon {
-  font-size: 3rem !important;
-  color: rgba(0,0,128,0.9) !important;
+  font-size: 2rem !important;
+  color: rgba(0, 0, 128, 0.9) !important;
 }
 
 /* ---------------- BOOK CARD BODY ---------------- */
 .book-card-body {
-  padding: 1rem !important;
+  padding: 0.75rem !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.5rem !important;
+  gap: 0.25rem !important;
 }
 
 .book-title {
-  font-size: 1.125rem !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
   color: #1e3a8a !important;
   overflow: hidden !important;
@@ -126,7 +131,7 @@
 }
 
 .book-author {
-  font-size: 1rem !important;
+  font-size: 0.875rem !important;
   color: #3b82f6 !important;
   display: flex !important;
   align-items: center !important;
@@ -135,11 +140,11 @@
 
 .book-meta {
   margin-top: auto !important;
-  border-top: 1px solid rgba(0,0,0,0.15) !important;
-  padding-top: 0.5rem !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.15) !important;
+  padding-top: 0.25rem !important;
   display: flex !important;
   justify-content: space-between !important;
-  font-size: 0.75rem !important;
+  font-size: 0.7rem !important;
   color: #2563eb !important;
 }
 
@@ -147,7 +152,7 @@
 .book-card-footer {
   display: flex !important;
   gap: 0.5rem !important;
-  padding: 0.5rem !important;
+  padding: 0.25rem !important;
   margin-top: auto !important;
 }
 
@@ -156,7 +161,7 @@
   color: #fff !important;
   flex: 1 !important;
   border-radius: 10px !important;
-  padding: 0.5rem !important;
+  padding: 0.35rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
   transition: all 0.25s ease !important;
@@ -172,7 +177,7 @@
   color: #fff !important;
   flex: 1 !important;
   border-radius: 10px !important;
-  padding: 0.5rem !important;
+  padding: 0.35rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
   transition: all 0.25s ease !important;
@@ -184,24 +189,30 @@
 }
 
 /* ---------------- RESPONSIVE ---------------- */
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
+  .book-card {
+    flex: 0 0 calc(20% - 1rem) !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .books-container {
+    gap: 1.5rem !important;
+  }
+  .book-card {
+    flex: 0 0 calc(25% - 1rem) !important;
+  }
+}
+
+@media (max-width: 992px) {
   .book-card {
     flex: 0 0 calc(33.333% - 1rem) !important;
   }
 }
 
-@media (max-width: 992px) {
-  .books-container {
-    gap: 1.5rem !important;
-  }
-  .book-card {
-    flex: 0 0 calc(50% - 1rem) !important;
-  }
-}
-
 @media (max-width: 768px) {
   .book-card {
-    flex: 0 0 100% !important;
+    flex: 0 0 calc(50% - 1rem) !important;
   }
 }
 
@@ -212,5 +223,7 @@
   .btn-add-book {
     width: 100% !important;
     text-align: center !important;
+    top: 1rem !important;
+    right: 1rem !important;
   }
 }

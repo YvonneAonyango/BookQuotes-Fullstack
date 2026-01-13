@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, TranslateModule], // <- TranslateModule added
+  imports: [CommonModule, TranslateModule],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
