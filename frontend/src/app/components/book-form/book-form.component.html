@@ -2,7 +2,7 @@
   <div class="card">
     <!-- Header -->
     <div class="card-header">
-      <h2>{{ isEdit ? ('editBook' | translate) : ('addBook' | translate) }}</h2>
+      <h2>{{ isEdit ? 'Update Book' : 'Add Book' }}</h2>
     </div>
 
     <div class="card-body">
@@ -65,7 +65,7 @@
             <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
             <i *ngIf="!isLoading && isEdit" class="bi bi-pencil-square me-2"></i>
             <i *ngIf="!isLoading && !isEdit" class="bi bi-plus-circle me-2"></i>
-            {{ isEdit ? ('updateBook' | translate) : ('addBook' | translate) }}
+            {{ isEdit ? 'Update Book' : 'Add Book' }}
           </button>
         </div>
       </form>

@@ -84,7 +84,6 @@ export class BookFormComponent implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
-  // ------------------- NEW METHOD TO FIX BUILD -------------------
   formatDateForDisplay(date: string): string {
     if (!date) return '';
     const d = new Date(date);
