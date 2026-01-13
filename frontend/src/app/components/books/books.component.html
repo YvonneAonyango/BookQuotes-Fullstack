@@ -1,31 +1,59 @@
 <div class="books-page">
 
+  <!-- PAGE HEADER -->
   <header class="page-header">
     <h1>{{ 'myBooks' | translate }}</h1>
     <p class="lead">{{ 'manageBookCollection' | translate }}</p>
   </header>
 
+  <!-- ADD BOOK BUTTON -->
+  <div class="add-book-container" *ngIf="isLoggedIn()">
+    <button class="btn-add-book" (click)="addBook()">{{ 'addNewBook' | translate }}</button>
+  </div>
+
+  <!-- BOOKS LIST -->
   <section class="section books-list">
+
+    <!-- LOADING / ERROR -->
     <div *ngIf="isLoading">{{ 'loadingBooks' | translate }}</div>
     <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
-    <ul *ngIf="books.length > 0">
-      <li *ngFor="let book of books">
-        <strong>{{ book.title }}</strong> by {{ book.author }}
-        <small>({{ formatDate(book.publishDate) }})</small>
+    <div class="books-container" *ngIf="books.length > 0">
+      <div class="book-card" *ngFor="let book of books">
 
-        <button *ngIf="isLoggedIn()" (click)="editBook(book)">
-          <i class="fa fa-edit"></i> {{ 'edit' | translate }}
-        </button>
-        <button *ngIf="isLoggedIn()" (click)="deleteBook(book)">
-          <i class="fa fa-trash"></i> {{ 'delete' | translate }}
-        </button>
-      </li>
-    </ul>
+        <!-- FAVORITE ICON -->
+        <span class="book-fav-icon">★</span>
 
+        <!-- CARD HEADER -->
+        <div class="book-card-header">
+          <i class="fa fa-book book-icon"></i>
+        </div>
+
+        <!-- CARD BODY -->
+        <div class="book-card-body">
+          <div class="book-title">{{ book.title }}</div>
+          <div class="book-author">by {{ book.author }}</div>
+          <div class="book-meta">
+            <span>{{ formatDate(book.publishDate) }}</span>
+          </div>
+        </div>
+
+        <!-- CARD FOOTER BUTTONS -->
+        <div class="book-card-footer" *ngIf="isLoggedIn()">
+          <button class="btn-edit" (click)="editBook(book)">
+            <i class="fa fa-edit"></i> {{ 'edit' | translate }}
+          </button>
+          <button class="btn-delete" (click)="deleteBook(book)">
+            <i class="fa fa-trash"></i> {{ 'delete' | translate }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NO BOOKS -->
     <p *ngIf="books.length === 0">{{ 'noBooksYet' | translate }}</p>
 
-    <button *ngIf="isLoggedIn()" (click)="addBook()">{{ 'addNewBook' | translate }}</button>
   </section>
 
 </div>
