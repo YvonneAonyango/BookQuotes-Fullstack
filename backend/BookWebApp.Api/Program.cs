@@ -36,6 +36,9 @@ else
         : builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=books.db";
 }
 
+// DEBUG: Show which database we're using
+Console.WriteLine($"Using database: {(connectionString.Contains("Host=") ? "PostgreSQL" : "SQLite")}");
+
 // ----------------- EF CORE -----------------
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -44,8 +47,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(connectionString, npgsql =>
         {
             npgsql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
-            npgsql.CommandTimeout(60); 
-            npgsql.MigrationsAssembly(typeof(Program).Assembly.FullName);
+            npgsql.CommandTimeout(60);
         });
     }
     else
@@ -124,21 +126,45 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// ----------------- TEMPORARY DATABASE RESET -----------------
-// ⚠️ Use only in development to fix CRUD issues. Remove after testing!
+// ----------------- DATABASE INITIALIZATION -----------------
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    Console.WriteLine("Deleting existing database...");
-    db.Database.EnsureDeleted(); // Deletes all tables
-    Console.WriteLine("Applying migrations...");
-    db.Database.Migrate();       // Recreates tables from migrations
-    Console.WriteLine("Database ready");
+    
+    Console.WriteLine("Creating database from DbContext...");
+    
+    try
+    {
+        // This creates all tables directly from your model (no migrations needed)
+        var created = await db.Database.EnsureCreatedAsync();
+        
+        if (created)
+        {
+            Console.WriteLine("✅ Database created successfully");
+            Console.WriteLine("Tables: Books, Users, Quotes");
+        }
+        else
+        {
+            Console.WriteLine("✅ Database already exists");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Error creating database: {ex.Message}");
+        
+        if (ex.InnerException != null)
+        {
+            Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+        }
+        
+        // Don't crash the app - try to continue
+        Console.WriteLine("⚠️ Continuing without database initialization...");
+    }
 }
 
 // ----------------- MIDDLEWARE -----------------
 app.UseRouting();
-app.UseCors("AllowFrontend");  // Must be BEFORE auth
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -152,13 +178,25 @@ if (app.Environment.IsDevelopment())
 // ----------------- HEALTH CHECK -----------------
 app.MapGet("/health", async (AppDbContext db) =>
 {
-    var canConnect = await db.Database.CanConnectAsync();
-    return Results.Ok(new
+    try
     {
-        status = canConnect ? "healthy" : "unhealthy",
-        provider = db.Database.ProviderName,
-        time = DateTime.UtcNow
-    });
+        var canConnect = await db.Database.CanConnectAsync();
+        return Results.Ok(new
+        {
+            status = canConnect ? "healthy" : "unhealthy",
+            provider = db.Database.ProviderName,
+            time = DateTime.UtcNow
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Ok(new
+        {
+            status = "unhealthy",
+            error = ex.Message,
+            time = DateTime.UtcNow
+        });
+    }
 }).AllowAnonymous();
 
 // ----------------- CONTROLLERS -----------------
@@ -168,13 +206,13 @@ app.MapControllers();
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
 // ----------------- STARTUP LOG -----------------
-Console.WriteLine("========================================");
+Console.WriteLine("\n========================================");
 Console.WriteLine("BookWebApp API started");
 Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($"Database: {(connectionString.Contains("Host=") ? "PostgreSQL" : "SQLite")}");
 Console.WriteLine("CORS Origins: https://book-quotes-web-app-frontend.onrender.com, http://localhost:4200");
 Console.WriteLine("✅ All frontend requests are allowed (books, quotes, etc.)");
-Console.WriteLine("========================================");
+Console.WriteLine("========================================\n");
 
 app.Run();
 
