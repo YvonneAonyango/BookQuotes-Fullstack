@@ -1,7 +1,6 @@
 using BookWebApp.Api.Data;
 using BookWebApp.Api.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -11,7 +10,6 @@ namespace BookWebApp.Api.Controllers;
 [ApiController]
 [Route("api/books")]
 [Authorize]
-[EnableCors("AllowFrontend")] // <-- ADD THIS LINE
 public class BooksController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -25,7 +23,7 @@ public class BooksController : ControllerBase
         public string Title { get; set; } = "";
         public string Author { get; set; } = "";
         public DateTime? PublishDate { get; set; }
-        public bool IsOwner { get; set; } // <-- computed property
+        public bool IsOwner { get; set; } // computed property
     }
 
     // ----------------- GET ALL BOOKS -----------------
@@ -33,9 +31,9 @@ public class BooksController : ControllerBase
     [AllowAnonymous] // Everyone can see books
     public async Task<IEnumerable<BookDto>> GetAll()
     {
-        var userId = GetUserId();
+        var userId = GetUserId() ?? 0;
 
-        var books = await _context.Books.ToListAsync();
+        var books = await _context.Books.AsNoTracking().ToListAsync();
 
         return books.Select(b => new BookDto
         {
@@ -49,13 +47,13 @@ public class BooksController : ControllerBase
 
     // ----------------- GET SINGLE BOOK -----------------
     [HttpGet("{id}")]
-    [AllowAnonymous] // Everyone can see books
+    [AllowAnonymous] 
     public async Task<ActionResult<BookDto>> Get(int id)
     {
         var book = await _context.Books.FindAsync(id);
         if (book == null) return NotFound();
 
-        var userId = GetUserId();
+        var userId = GetUserId() ?? 0;
 
         return new BookDto
         {
@@ -71,7 +69,10 @@ public class BooksController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(Book book)
     {
-        book.UserId = GetUserId(); // Set owner
+        var userId = GetUserId();
+        if (userId == null) return Unauthorized();
+
+        book.UserId = userId.Value;
         _context.Books.Add(book);
         await _context.SaveChangesAsync();
 
@@ -92,7 +93,10 @@ public class BooksController : ControllerBase
         var book = await _context.Books.FindAsync(id);
         if (book == null) return NotFound();
 
-        if (!IsAdmin() && book.UserId != GetUserId())
+        var userId = GetUserId();
+        if (userId == null) return Unauthorized();
+
+        if (!IsAdmin() && book.UserId != userId)
             return Forbid();
 
         book.Title = updated.Title;
@@ -118,7 +122,10 @@ public class BooksController : ControllerBase
         var book = await _context.Books.FindAsync(id);
         if (book == null) return NotFound();
 
-        if (!IsAdmin() && book.UserId != GetUserId())
+        var userId = GetUserId();
+        if (userId == null) return Unauthorized();
+
+        if (!IsAdmin() && book.UserId != userId)
             return Forbid();
 
         _context.Books.Remove(book);
@@ -127,8 +134,8 @@ public class BooksController : ControllerBase
     }
 
     // ----------------- HELPERS -----------------
-    private int GetUserId() =>
-        int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : 0;
+    private int? GetUserId() =>
+        int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
 
     private bool IsAdmin() =>
         User.IsInRole("Admin");

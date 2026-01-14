@@ -8,11 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 
-Env.Load(); // Load .env for local dev
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add environment variables
 builder.Configuration.AddEnvironmentVariables();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -45,7 +44,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(connectionString, npgsql =>
         {
             npgsql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
-            npgsql.CommandTimeout(60); // ✅ method call, not assignment
+            npgsql.CommandTimeout(60); // method call
             npgsql.MigrationsAssembly(typeof(Program).Assembly.FullName);
         });
     }
@@ -64,7 +63,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Services
 builder.Services.AddScoped<AuthService>();
 
-// ⚡ Fully open CORS for frontend
+// ⚡ Global CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -73,9 +72,9 @@ builder.Services.AddCors(options =>
                 "https://book-quotes-web-app-frontend.onrender.com",
                 "http://localhost:4200"
             )
-            .AllowAnyHeader()    // ✅ Allow Authorization, Content-Type, etc.
-            .AllowAnyMethod()    // ✅ Allow GET, POST, PUT, DELETE
-            .AllowCredentials(); // ✅ Needed if cookies/JWT are sent
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -134,10 +133,10 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("Database ready");
 }
 
-// ⚡ Middleware order
+// ⚡ Middleware order: Routing → CORS → Auth → Controllers
 app.UseRouting();
 
-app.UseCors("AllowFrontend");  // ✅ Global CORS first
+app.UseCors("AllowFrontend");  // ✅ Must be BEFORE auth
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -161,7 +160,7 @@ app.MapGet("/health", async (AppDbContext db) =>
 }).AllowAnonymous();
 
 // Controllers
-app.MapControllers(); // ✅ Global CORS applies here
+app.MapControllers();
 
 // SPA fallback
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
@@ -190,7 +189,6 @@ static string BuildPostgresConnectionString(string databaseUrl)
         Username = userInfo[0],
         Password = userInfo.Length > 1 ? userInfo[1] : "",
         SslMode = SslMode.Require,
-        TrustServerCertificate = true,
         Pooling = true,
         MinPoolSize = 1,
         MaxPoolSize = 10,
