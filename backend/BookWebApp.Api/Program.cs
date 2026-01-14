@@ -86,7 +86,6 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        // Log error but continue - app might still work
         Console.WriteLine($"Database error: {ex.Message}");
     }
 
@@ -94,9 +93,14 @@ using (var scope = app.Services.CreateScope())
     var yvonne = await db.Users.FirstOrDefaultAsync(u => u.Username == "Yvonne");
     if (yvonne == null)
     {
-        yvonne = await authService.CreateAdminUser("Yvonne", "Monday123!");
+        // CreateAdminUser now returns bool
+        var success = await authService.CreateAdminUser("Yvonne", "Monday123!");
         
-        if (yvonne == null)
+        if (success)
+        {
+            yvonne = await db.Users.FirstOrDefaultAsync(u => u.Username == "Yvonne");
+        }
+        else
         {
             // Fallback: Create user directly
             using var hmac = new System.Security.Cryptography.HMACSHA512();
