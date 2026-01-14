@@ -8,53 +8,36 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 
-// Load .env for local development
-Env.Load();
+Env.Load(); // Load .env for local dev
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add environment variables + logging
+// Add environment variables
 builder.Configuration.AddEnvironmentVariables();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
-// Read Render / custom database URL
-var databaseUrl =
-    Environment.GetEnvironmentVariable("DATABASE_URL") ??
-    Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+// Database connection
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL") 
+                  ?? Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 
 string connectionString;
-
-// Production must use PostgreSQL
 if (builder.Environment.IsProduction())
 {
     if (string.IsNullOrWhiteSpace(databaseUrl))
         throw new Exception("DATABASE_URL is required in production");
 
-    Console.WriteLine("Production environment detected");
-    Console.WriteLine("Using PostgreSQL");
-
     connectionString = BuildPostgresConnectionString(databaseUrl);
 }
 else
 {
-    // Development: PostgreSQL if provided, otherwise SQLite
-    if (!string.IsNullOrWhiteSpace(databaseUrl))
-    {
-        Console.WriteLine("Development using PostgreSQL");
-        connectionString = BuildPostgresConnectionString(databaseUrl);
-    }
-    else
-    {
-        Console.WriteLine("Development using SQLite");
-        connectionString =
-            builder.Configuration.GetConnectionString("DefaultConnection")
-            ?? "Data Source=books.db";
-    }
+    connectionString = !string.IsNullOrWhiteSpace(databaseUrl)
+        ? BuildPostgresConnectionString(databaseUrl)
+        : builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=books.db";
 }
 
-// Configure EF Core
+// EF Core
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     if (connectionString.Contains("Host="))
@@ -78,10 +61,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     }
 });
 
-// App services
+// Services
 builder.Services.AddScoped<AuthService>();
 
-// ⚡ CRITICAL FIX: Configure CORS BEFORE AddControllers()
+// ⚡ CORS – global policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -92,15 +75,11 @@ builder.Services.AddCors(options =>
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials()
-            .WithExposedHeaders("Authorization", "Content-Disposition")
-            .SetPreflightMaxAge(TimeSpan.FromHours(1));
+            .AllowCredentials();
     });
-    
-    // Add a default policy as fallback
-    options.DefaultPolicyName = "AllowFrontend";
 });
 
+// Controllers
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
@@ -112,21 +91,18 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// JWT configuration
-var jwtKey =
-    Environment.GetEnvironmentVariable("JWT_KEY")
-    ?? builder.Configuration["Jwt:Key"]
-    ?? throw new Exception("JWT_KEY is missing");
+// JWT
+var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
+             ?? builder.Configuration["Jwt:Key"] 
+             ?? throw new Exception("JWT_KEY is missing");
 
-var issuer =
-    Environment.GetEnvironmentVariable("JWT_ISSUER")
-    ?? builder.Configuration["Jwt:Issuer"]
-    ?? "BookWebApp";
+var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") 
+             ?? builder.Configuration["Jwt:Issuer"] 
+             ?? "BookWebApp";
 
-var audience =
-    Environment.GetEnvironmentVariable("JWT_AUDIENCE")
-    ?? builder.Configuration["Jwt:Audience"]
-    ?? "BookWebAppUsers";
+var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") 
+               ?? builder.Configuration["Jwt:Audience"] 
+               ?? "BookWebAppUsers";
 
 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
 
@@ -145,88 +121,35 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero,
             RoleClaimType = System.Security.Claims.ClaimTypes.Role
         };
-        
-        // For debugging
-        opt.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = context =>
-            {
-                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
-                return Task.CompletedTask;
-            },
-            OnMessageReceived = context =>
-            {
-                Console.WriteLine($"Token received: {!string.IsNullOrEmpty(context.Token)}");
-                return Task.CompletedTask;
-            }
-        };
     });
 
-// Render port
-builder.WebHost.ConfigureKestrel(opt =>
-{
-    var port = Environment.GetEnvironmentVariable("PORT");
-    opt.ListenAnyIP(!string.IsNullOrEmpty(port) ? int.Parse(port) : 5000);
-});
-
+// App
 var app = builder.Build();
 
-// Apply migrations only (NO EnsureCreated)
+// Apply migrations
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    Console.WriteLine("Applying database migrations...");
+    Console.WriteLine("Applying migrations...");
     db.Database.Migrate();
     Console.WriteLine("Database ready");
 }
 
-// ⚡ CRITICAL: Middleware order - Add explicit CORS handling first
-app.Use(async (context, next) =>
-{
-    // Handle OPTIONS requests immediately
-    if (context.Request.Method == "OPTIONS")
-    {
-        context.Response.Headers.Add("Access-Control-Allow-Origin", 
-            "https://book-quotes-web-app-frontend.onrender.com");
-        context.Response.Headers.Add("Access-Control-Allow-Methods", 
-            "GET, POST, PUT, DELETE, PATCH, OPTIONS");
-        context.Response.Headers.Add("Access-Control-Allow-Headers", 
-            "Authorization, Content-Type, X-Requested-With, Accept");
-        context.Response.Headers.Add("Access-Control-Allow-Credentials", 
-            "true");
-        context.Response.Headers.Add("Access-Control-Max-Age", 
-            "3600");
-        context.Response.StatusCode = 200;
-        await context.Response.CompleteAsync();
-        return;
-    }
-    
-    // Log all requests for debugging
-    Console.WriteLine($"[{DateTime.UtcNow:HH:mm:ss}] {context.Request.Method} {context.Request.Path} " +
-                      $"- Origin: {context.Request.Headers["Origin"]}");
-    
-    await next();
-    
-    // Log response
-    Console.WriteLine($"[{DateTime.UtcNow:HH:mm:ss}] Response: {context.Response.StatusCode}");
-});
-
+// ⚡ Middleware order is critical
 app.UseRouting();
 
-// ⚡ Apply CORS policy
-app.UseCors("AllowFrontend");
-
+app.UseCors("AllowFrontend"); // ✅ Must be BEFORE auth
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Swagger in development only
+// Swagger in dev
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Health check - NO CORS needed for health checks
+// Health check
 app.MapGet("/health", async (AppDbContext db) =>
 {
     var canConnect = await db.Database.CanConnectAsync();
@@ -238,10 +161,10 @@ app.MapGet("/health", async (AppDbContext db) =>
     });
 }).AllowAnonymous();
 
-// ⚡ Apply CORS to all controllers
+// Controllers
 app.MapControllers().RequireCors("AllowFrontend");
 
-// Catch-all for SPA routing if needed
+// SPA fallback
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
 // Startup log
@@ -249,17 +172,16 @@ Console.WriteLine("========================================");
 Console.WriteLine("BookWebApp API started");
 Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($"Database: {(connectionString.Contains("Host=") ? "PostgreSQL" : "SQLite")}");
-Console.WriteLine($"CORS Origins: https://book-quotes-web-app-frontend.onrender.com, http://localhost:4200");
+Console.WriteLine("CORS Origins: https://book-quotes-web-app-frontend.onrender.com, http://localhost:4200");
 Console.WriteLine("========================================");
 
 app.Run();
 
-// PostgreSQL URL parser (Render compatible)
+// PostgreSQL URL parser
 static string BuildPostgresConnectionString(string databaseUrl)
 {
     var uri = new Uri(databaseUrl);
     var userInfo = uri.UserInfo.Split(':');
-
     return new NpgsqlConnectionStringBuilder
     {
         Host = uri.Host,
