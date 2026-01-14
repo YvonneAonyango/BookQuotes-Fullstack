@@ -10,20 +10,10 @@ using Npgsql;
 
 Env.Load();
 
-// ----------------- CREATE BUILDER WITH WINDOWS-SAFE CONFIG -----------------
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    Args = args,
-    ApplicationName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name,
-    ContentRootPath = AppContext.BaseDirectory
-});
+var builder = WebApplication.CreateBuilder(args);
 
 // ----------------- CONFIGURATION -----------------
-// Disable reloadOnChange to avoid FileSystemWatcher limits on Windows
-builder.Configuration
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
-    .AddEnvironmentVariables();
+builder.Configuration.AddEnvironmentVariables();
 
 // ----------------- LOGGING -----------------
 builder.Logging.ClearProviders();
@@ -49,7 +39,6 @@ else
         : builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=books.db";
 }
 
-// DEBUG: Show which database we're using
 Console.WriteLine($"Using database: {(connectionString.Contains("Host=") ? "PostgreSQL" : "SQLite")}");
 
 // ----------------- EF CORE -----------------
@@ -94,6 +83,7 @@ builder.Services.AddCors(options =>
 });
 
 // ----------------- CONTROLLERS -----------------
+// THIS IS CRITICAL: Add controllers to services
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
@@ -172,8 +162,12 @@ using (var scope = app.Services.CreateScope())
 }
 
 // ----------------- MIDDLEWARE -----------------
+// CORRECT ORDER IS CRITICAL:
 app.UseRouting();
+
+// CORS must come after UseRouting but before UseAuthentication
 app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -208,10 +202,44 @@ app.MapGet("/health", async (AppDbContext db) =>
     }
 }).AllowAnonymous();
 
+// ----------------- DEBUG ENDPOINTS -----------------
+// Add these BEFORE MapControllers to test routing
+app.MapGet("/", () => "BookQuotes API").AllowAnonymous();
+app.MapGet("/api", () => "BookQuotes API Base").AllowAnonymous();
+app.MapGet("/api/test", () => new 
+{ 
+    message = "API is working", 
+    time = DateTime.UtcNow 
+}).AllowAnonymous();
+
+app.MapGet("/api/debug/database", async (AppDbContext db) =>
+{
+    try
+    {
+        var canConnect = await db.Database.CanConnectAsync();
+        return Results.Ok(new
+        {
+            connected = canConnect,
+            provider = db.Database.ProviderName,
+            time = DateTime.UtcNow
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Ok(new
+        {
+            connected = false,
+            error = ex.Message,
+            time = DateTime.UtcNow
+        });
+    }
+}).AllowAnonymous();
+
 // ----------------- CONTROLLERS -----------------
+// THIS LINE MAPS ALL CONTROLLERS - MUST BE AFTER MIDDLEWARE
 app.MapControllers();
 
-// ----------------- SPA FALLBACK -----------------
+// ----------------- FALLBACK -----------------
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
 // ----------------- STARTUP LOG -----------------
