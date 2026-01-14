@@ -45,7 +45,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(connectionString, npgsql =>
         {
             npgsql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
-            npgsql.CommandTimeout(60);
+            npgsql.CommandTimeout(60); // ✅ method call, not assignment
             npgsql.MigrationsAssembly(typeof(Program).Assembly.FullName);
         });
     }
@@ -64,7 +64,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Services
 builder.Services.AddScoped<AuthService>();
 
-// ⚡ CORS – global policy
+// ⚡ Fully open CORS for frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -73,9 +73,9 @@ builder.Services.AddCors(options =>
                 "https://book-quotes-web-app-frontend.onrender.com",
                 "http://localhost:4200"
             )
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowAnyHeader()    // ✅ Allow Authorization, Content-Type, etc.
+            .AllowAnyMethod()    // ✅ Allow GET, POST, PUT, DELETE
+            .AllowCredentials(); // ✅ Needed if cookies/JWT are sent
     });
 });
 
@@ -91,7 +91,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// JWT
+// JWT Authentication
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
              ?? builder.Configuration["Jwt:Key"] 
              ?? throw new Exception("JWT_KEY is missing");
@@ -123,7 +123,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// App
 var app = builder.Build();
 
 // Apply migrations
@@ -135,10 +134,10 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("Database ready");
 }
 
-// ⚡ Middleware order is critical
+// ⚡ Middleware order
 app.UseRouting();
 
-app.UseCors("AllowFrontend"); // ✅ Must be BEFORE auth
+app.UseCors("AllowFrontend");  // ✅ Global CORS first
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -162,7 +161,7 @@ app.MapGet("/health", async (AppDbContext db) =>
 }).AllowAnonymous();
 
 // Controllers
-app.MapControllers().RequireCors("AllowFrontend");
+app.MapControllers(); // ✅ Global CORS applies here
 
 // SPA fallback
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
@@ -173,6 +172,7 @@ Console.WriteLine("BookWebApp API started");
 Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($"Database: {(connectionString.Contains("Host=") ? "PostgreSQL" : "SQLite")}");
 Console.WriteLine("CORS Origins: https://book-quotes-web-app-frontend.onrender.com, http://localhost:4200");
+Console.WriteLine("✅ All frontend requests are allowed (books, quotes, etc.)");
 Console.WriteLine("========================================");
 
 app.Run();
