@@ -17,7 +17,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
-// Database connection
+// ----------------- DATABASE CONNECTION -----------------
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL") 
                   ?? Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 
@@ -36,7 +36,7 @@ else
         : builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=books.db";
 }
 
-// EF Core
+// ----------------- EF CORE -----------------
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     if (connectionString.Contains("Host="))
@@ -44,7 +44,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(connectionString, npgsql =>
         {
             npgsql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
-            npgsql.CommandTimeout(60); // method call
+            npgsql.CommandTimeout(60); 
             npgsql.MigrationsAssembly(typeof(Program).Assembly.FullName);
         });
     }
@@ -60,10 +60,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     }
 });
 
-// Services
+// ----------------- SERVICES -----------------
 builder.Services.AddScoped<AuthService>();
 
-// ⚡ Global CORS
+// ----------------- CORS -----------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -78,7 +78,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Controllers
+// ----------------- CONTROLLERS -----------------
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
@@ -86,11 +86,11 @@ builder.Services.AddControllers()
         opt.JsonSerializerOptions.WriteIndented = true;
     });
 
-// Swagger
+// ----------------- SWAGGER -----------------
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// JWT Authentication
+// ----------------- JWT AUTH -----------------
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
              ?? builder.Configuration["Jwt:Key"] 
              ?? throw new Exception("JWT_KEY is missing");
@@ -124,30 +124,32 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Apply migrations
+// ----------------- TEMPORARY DATABASE RESET -----------------
+// ⚠️ Use only in development to fix CRUD issues. Remove after testing!
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    Console.WriteLine("Deleting existing database...");
+    db.Database.EnsureDeleted(); // Deletes all tables
     Console.WriteLine("Applying migrations...");
-    db.Database.Migrate();
+    db.Database.Migrate();       // Recreates tables from migrations
     Console.WriteLine("Database ready");
 }
 
-// ⚡ Middleware order: Routing → CORS → Auth → Controllers
+// ----------------- MIDDLEWARE -----------------
 app.UseRouting();
-
-app.UseCors("AllowFrontend");  // ✅ Must be BEFORE auth
+app.UseCors("AllowFrontend");  // Must be BEFORE auth
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Swagger in dev
+// ----------------- SWAGGER -----------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Health check
+// ----------------- HEALTH CHECK -----------------
 app.MapGet("/health", async (AppDbContext db) =>
 {
     var canConnect = await db.Database.CanConnectAsync();
@@ -159,13 +161,13 @@ app.MapGet("/health", async (AppDbContext db) =>
     });
 }).AllowAnonymous();
 
-// Controllers
+// ----------------- CONTROLLERS -----------------
 app.MapControllers();
 
-// SPA fallback
+// ----------------- SPA FALLBACK -----------------
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
-// Startup log
+// ----------------- STARTUP LOG -----------------
 Console.WriteLine("========================================");
 Console.WriteLine("BookWebApp API started");
 Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
@@ -176,7 +178,7 @@ Console.WriteLine("========================================");
 
 app.Run();
 
-// PostgreSQL URL parser
+// ----------------- POSTGRES CONNECTION PARSER -----------------
 static string BuildPostgresConnectionString(string databaseUrl)
 {
     var uri = new Uri(databaseUrl);

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookWebApp.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260113170641_BaselinePostgres")]
-    partial class BaselinePostgres
+    [Migration("20260114170543_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace BookWebApp.Api.Migrations
 
                     b.Property<string>("Author")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CoverUrl")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("PublishDate")
