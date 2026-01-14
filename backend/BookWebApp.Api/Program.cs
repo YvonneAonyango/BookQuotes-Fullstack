@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using BookWebApp.Api.Data;
+using BookWebApp.Api.Models;
 using BookWebApp.Api.Services;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -83,7 +84,6 @@ builder.Services.AddCors(options =>
 });
 
 // ----------------- CONTROLLERS -----------------
-// THIS IS CRITICAL: Add controllers to services
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
@@ -142,32 +142,63 @@ using (var scope = app.Services.CreateScope())
         
         if (created)
         {
-            Console.WriteLine("✅ Database created successfully");
+            Console.WriteLine("Database created successfully");
             Console.WriteLine("Tables: Books, Users, Quotes");
+
+            // ----------------- SEED 5 GLOBAL QUOTES -----------------
+            Console.WriteLine("Seeding 5 global quotes...");
+            var quotes = new List<Quote>
+            {
+                new Quote
+                {
+                    Text = "Tomorrow's results are determined by current accumulation of success.",
+                    Author = "Yvonne",
+                    IsGlobal = true
+                },
+                new Quote
+                {
+                    Text = "The only thing that you absolutely have to know, is the location of the library.",
+                    Author = "Albert Einstein",
+                    IsGlobal = true
+                },
+                new Quote
+                {
+                    Text = "A reader lives a thousand lives before he dies… The man who never reads lives only one.",
+                    Author = "George R.R. Martin",
+                    IsGlobal = true
+                },
+                new Quote
+                {
+                    Text = "Life is ours to be spent, not to be saved.",
+                    Author = "D.H. Lawrence",
+                    IsGlobal = true
+                },
+                new Quote
+                {
+                    Text = "The secret of getting ahead is getting started.",
+                    Author = "Mark Twain",
+                    IsGlobal = true
+                }
+            };
+
+            db.Quotes.AddRange(quotes); // <-- AddRange for a list
+            await db.SaveChangesAsync();
+            Console.WriteLine("Seeded 5 global quotes successfully");
         }
         else
         {
-            Console.WriteLine("✅ Database already exists");
+            Console.WriteLine("Database already exists");
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"❌ Error creating database: {ex.Message}");
-        if (ex.InnerException != null)
-        {
-            Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-        }
-        Console.WriteLine("⚠️ Continuing without database initialization...");
+        Console.WriteLine($"Error creating database: {ex.Message}");
     }
 }
 
 // ----------------- MIDDLEWARE -----------------
-// CORRECT ORDER IS CRITICAL:
 app.UseRouting();
-
-// CORS must come after UseRouting but before UseAuthentication
 app.UseCors("AllowFrontend");
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -202,54 +233,18 @@ app.MapGet("/health", async (AppDbContext db) =>
     }
 }).AllowAnonymous();
 
-// ----------------- DEBUG ENDPOINTS -----------------
-// Add these BEFORE MapControllers to test routing
-app.MapGet("/", () => "BookQuotes API").AllowAnonymous();
-app.MapGet("/api", () => "BookQuotes API Base").AllowAnonymous();
-app.MapGet("/api/test", () => new 
-{ 
-    message = "API is working", 
-    time = DateTime.UtcNow 
-}).AllowAnonymous();
-
-app.MapGet("/api/debug/database", async (AppDbContext db) =>
-{
-    try
-    {
-        var canConnect = await db.Database.CanConnectAsync();
-        return Results.Ok(new
-        {
-            connected = canConnect,
-            provider = db.Database.ProviderName,
-            time = DateTime.UtcNow
-        });
-    }
-    catch (Exception ex)
-    {
-        return Results.Ok(new
-        {
-            connected = false,
-            error = ex.Message,
-            time = DateTime.UtcNow
-        });
-    }
-}).AllowAnonymous();
-
 // ----------------- CONTROLLERS -----------------
-// THIS LINE MAPS ALL CONTROLLERS - MUST BE AFTER MIDDLEWARE
 app.MapControllers();
 
 // ----------------- FALLBACK -----------------
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
 // ----------------- STARTUP LOG -----------------
-Console.WriteLine("\n========================================");
-Console.WriteLine("BookWebApp API started");
+Console.WriteLine("\nBookWebApp API started");
 Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($"Database: {(connectionString.Contains("Host=") ? "PostgreSQL" : "SQLite")}");
 Console.WriteLine("CORS Origins: https://book-quotes-web-app-frontend.onrender.com, http://localhost:4200");
-Console.WriteLine("✅ All frontend requests are allowed (books, quotes, etc.)");
-Console.WriteLine("========================================\n");
+Console.WriteLine("All frontend requests are allowed");
 
 app.Run();
 
