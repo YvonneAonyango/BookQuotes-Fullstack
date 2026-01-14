@@ -73,13 +73,15 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(
+        policy
+            .WithOrigins(
                 "https://book-quotes-web-app-frontend.onrender.com",
                 "http://localhost:4200"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowCredentials()
+            .SetIsOriginAllowed(origin => true); // for Render preflight
     });
 });
 
@@ -129,7 +131,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// ----------------- DATABASE INITIALIZATION -----------------
+// ----------------- DATABASE INITIALIZATION + SEED -----------------
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -142,63 +144,45 @@ using (var scope = app.Services.CreateScope())
         
         if (created)
         {
-            Console.WriteLine("Database created successfully");
+            Console.WriteLine("✅ Database created successfully");
             Console.WriteLine("Tables: Books, Users, Quotes");
-
-            // ----------------- SEED 5 GLOBAL QUOTES -----------------
-            Console.WriteLine("Seeding 5 global quotes...");
-            var quotes = new List<Quote>
-            {
-                new Quote
-                {
-                    Text = "Tomorrow's results are determined by current accumulation of success.",
-                    Author = "Yvonne",
-                    IsGlobal = true
-                },
-                new Quote
-                {
-                    Text = "The only thing that you absolutely have to know, is the location of the library.",
-                    Author = "Albert Einstein",
-                    IsGlobal = true
-                },
-                new Quote
-                {
-                    Text = "A reader lives a thousand lives before he dies… The man who never reads lives only one.",
-                    Author = "George R.R. Martin",
-                    IsGlobal = true
-                },
-                new Quote
-                {
-                    Text = "Life is ours to be spent, not to be saved.",
-                    Author = "D.H. Lawrence",
-                    IsGlobal = true
-                },
-                new Quote
-                {
-                    Text = "The secret of getting ahead is getting started.",
-                    Author = "Mark Twain",
-                    IsGlobal = true
-                }
-            };
-
-            db.Quotes.AddRange(quotes); // <-- AddRange for a list
-            await db.SaveChangesAsync();
-            Console.WriteLine("Seeded 5 global quotes successfully");
         }
         else
         {
-            Console.WriteLine("Database already exists");
+            Console.WriteLine("✅ Database already exists");
+        }
+
+        // ----------------- SEED QUOTES IF EMPTY -----------------
+        if (!db.Quotes.Any())
+        {
+            var seedQuotes = new List<Quote>
+            {
+                new Quote { Text = "Tomorrow's results are determined by current accumulation of success.", Author = "Yvonne", IsGlobal = true },
+                new Quote { Text = "The only thing that you absolutely have to know, is the location of the library.", Author = "Albert Einstein", IsGlobal = true },
+                new Quote { Text = "A reader lives a thousand lives before he dies… The man who never reads lives only one.", Author = "George R.R. Martin", IsGlobal = true },
+                new Quote { Text = "Life is ours to be spent, not to be saved.", Author = "D.H. Lawrence", IsGlobal = true },
+                new Quote { Text = "The secret of getting ahead is getting started.", Author = "Mark Twain", IsGlobal = true }
+            };
+            db.Quotes.AddRange(seedQuotes);
+            await db.SaveChangesAsync();
+            Console.WriteLine("✅ Seeded 5 global quotes");
+        }
+        else
+        {
+            Console.WriteLine("✅ Quotes table already has data, skipping seed");
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Error creating database: {ex.Message}");
+        Console.WriteLine($"❌ Error initializing database: {ex.Message}");
+        if (ex.InnerException != null)
+            Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
     }
 }
 
 // ----------------- MIDDLEWARE -----------------
 app.UseRouting();
-app.UseCors("AllowFrontend");
+app.UseCors("AllowFrontend"); // CORS must be before auth
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -233,18 +217,25 @@ app.MapGet("/health", async (AppDbContext db) =>
     }
 }).AllowAnonymous();
 
+// ----------------- DEBUG ENDPOINTS -----------------
+app.MapGet("/", () => "BookQuotes API").AllowAnonymous();
+app.MapGet("/api", () => "BookQuotes API Base").AllowAnonymous();
+app.MapGet("/api/test", () => new { message = "API is working", time = DateTime.UtcNow }).AllowAnonymous();
+
 // ----------------- CONTROLLERS -----------------
-app.MapControllers();
+app.MapControllers(); // must come AFTER middleware
 
 // ----------------- FALLBACK -----------------
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
 // ----------------- STARTUP LOG -----------------
-Console.WriteLine("\nBookWebApp API started");
+Console.WriteLine("\n========================================");
+Console.WriteLine("BookWebApp API started");
 Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($"Database: {(connectionString.Contains("Host=") ? "PostgreSQL" : "SQLite")}");
 Console.WriteLine("CORS Origins: https://book-quotes-web-app-frontend.onrender.com, http://localhost:4200");
-Console.WriteLine("All frontend requests are allowed");
+Console.WriteLine("✅ All frontend requests are allowed (books, quotes, etc.)");
+Console.WriteLine("========================================\n");
 
 app.Run();
 
