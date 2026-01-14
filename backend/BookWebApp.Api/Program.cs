@@ -162,7 +162,10 @@ using (var scope = app.Services.CreateScope())
 
 // Middleware order
 app.UseRouting();
+
+// ⚡ Enable CORS BEFORE auth
 app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
