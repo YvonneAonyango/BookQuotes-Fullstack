@@ -10,9 +10,22 @@ using Npgsql;
 
 Env.Load();
 
-var builder = WebApplication.CreateBuilder(args);
+// ----------------- CREATE BUILDER WITH WINDOWS-SAFE CONFIG -----------------
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ApplicationName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name,
+    ContentRootPath = AppContext.BaseDirectory
+});
 
-builder.Configuration.AddEnvironmentVariables();
+// ----------------- CONFIGURATION -----------------
+// Disable reloadOnChange to avoid FileSystemWatcher limits on Windows
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
+    .AddEnvironmentVariables();
+
+// ----------------- LOGGING -----------------
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
@@ -135,7 +148,6 @@ using (var scope = app.Services.CreateScope())
     
     try
     {
-        // This creates all tables directly from your model (no migrations needed)
         var created = await db.Database.EnsureCreatedAsync();
         
         if (created)
@@ -151,13 +163,10 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         Console.WriteLine($"❌ Error creating database: {ex.Message}");
-        
         if (ex.InnerException != null)
         {
             Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
         }
-        
-        // Don't crash the app - try to continue
         Console.WriteLine("⚠️ Continuing without database initialization...");
     }
 }
