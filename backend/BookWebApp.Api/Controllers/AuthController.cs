@@ -11,7 +11,7 @@ namespace BookWebApp.Api.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-[EnableCors("AllowFrontend")]  // <-- ADD THIS ATTRIBUTE
+[EnableCors("AllowFrontend")]  
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;

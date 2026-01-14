@@ -12,10 +12,10 @@ namespace BookWebApp.Api.Services
 {
     public class AuthService
     {
-        private readonly AppDbContext _context; // Changed from ApplicationDbContext
+        private readonly AppDbContext _context;
         private readonly IConfiguration _config;
 
-        public AuthService(AppDbContext context, IConfiguration config) // Changed here too
+        public AuthService(AppDbContext context, IConfiguration config)
         {
             _context = context;
             _config = config;
@@ -141,19 +141,27 @@ namespace BookWebApp.Api.Services
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        // Create admin user (for setup)
-        public async Task<bool> CreateAdminUser(string username, string password)
+        // Create admin user (for setup) - CHANGED TO RETURN User?
+        public async Task<User?> CreateAdminUser(string username, string password)
         {
             try
             {
                 Console.WriteLine($"=== CREATE ADMIN USER ===");
                 
-                // Check if any admin already exists
+                // Check if user already exists
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+                if (existingUser != null)
+                {
+                    Console.WriteLine($"User '{username}' already exists");
+                    return existingUser;
+                }
+
+                // Check if any admin already exists (optional - remove if you want multiple admins)
                 var adminExists = await _context.Users.AnyAsync(u => u.Role == UserRole.Admin);
                 if (adminExists)
                 {
-                    Console.WriteLine("⚠️ Admin user already exists");
-                    return false;
+                    Console.WriteLine("⚠️ An admin user already exists");
+                    // Continue anyway to create this user as admin
                 }
 
                 // Create password hash
@@ -174,12 +182,12 @@ namespace BookWebApp.Api.Services
                 Console.WriteLine($"✅ Admin user created: {username}");
                 Console.WriteLine($"=== END CREATE ADMIN ===");
                 
-                return true;
+                return adminUser;  // Return the user object
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"!!! CREATE ADMIN EXCEPTION: {ex.Message}");
-                return false;
+                return null;  // Return null on error
             }
         }
 
