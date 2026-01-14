@@ -1,4 +1,5 @@
 using BookWebApp.Api.Services;
+using Microsoft.AspNetCore.Cors;  // <-- ADD THIS USING
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,6 +11,7 @@ namespace BookWebApp.Api.Controllers;
 
 [ApiController]
 [Route("api/auth")]
+[EnableCors("AllowFrontend")]  // <-- ADD THIS ATTRIBUTE
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;

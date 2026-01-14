@@ -81,6 +81,26 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // App services
 builder.Services.AddScoped<AuthService>();
 
+// ⚡ CRITICAL FIX: Configure CORS BEFORE AddControllers()
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins(
+                "https://book-quotes-web-app-frontend.onrender.com",
+                "http://localhost:4200"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .WithExposedHeaders("Authorization", "Content-Disposition")
+            .SetPreflightMaxAge(TimeSpan.FromHours(1));
+    });
+    
+    // Add a default policy as fallback
+    options.DefaultPolicyName = "AllowFrontend";
+});
+
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
     {
@@ -125,22 +145,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero,
             RoleClaimType = System.Security.Claims.ClaimTypes.Role
         };
+        
+        // For debugging
+        opt.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnMessageReceived = context =>
+            {
+                Console.WriteLine($"Token received: {!string.IsNullOrEmpty(context.Token)}");
+                return Task.CompletedTask;
+            }
+        };
     });
-
-// ⚡ CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins(
-                "https://book-quotes-web-app-frontend.onrender.com",
-                "http://localhost:4200"
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
 
 // Render port
 builder.WebHost.ConfigureKestrel(opt =>
@@ -160,10 +180,40 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("Database ready");
 }
 
-// Middleware order
+// ⚡ CRITICAL: Middleware order - Add explicit CORS handling first
+app.Use(async (context, next) =>
+{
+    // Handle OPTIONS requests immediately
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.Headers.Add("Access-Control-Allow-Origin", 
+            "https://book-quotes-web-app-frontend.onrender.com");
+        context.Response.Headers.Add("Access-Control-Allow-Methods", 
+            "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+        context.Response.Headers.Add("Access-Control-Allow-Headers", 
+            "Authorization, Content-Type, X-Requested-With, Accept");
+        context.Response.Headers.Add("Access-Control-Allow-Credentials", 
+            "true");
+        context.Response.Headers.Add("Access-Control-Max-Age", 
+            "3600");
+        context.Response.StatusCode = 200;
+        await context.Response.CompleteAsync();
+        return;
+    }
+    
+    // Log all requests for debugging
+    Console.WriteLine($"[{DateTime.UtcNow:HH:mm:ss}] {context.Request.Method} {context.Request.Path} " +
+                      $"- Origin: {context.Request.Headers["Origin"]}");
+    
+    await next();
+    
+    // Log response
+    Console.WriteLine($"[{DateTime.UtcNow:HH:mm:ss}] Response: {context.Response.StatusCode}");
+});
+
 app.UseRouting();
 
-// ⚡ Enable CORS BEFORE auth
+// ⚡ Apply CORS policy
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
@@ -176,7 +226,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Health check
+// Health check - NO CORS needed for health checks
 app.MapGet("/health", async (AppDbContext db) =>
 {
     var canConnect = await db.Database.CanConnectAsync();
@@ -186,16 +236,20 @@ app.MapGet("/health", async (AppDbContext db) =>
         provider = db.Database.ProviderName,
         time = DateTime.UtcNow
     });
-});
+}).AllowAnonymous();
 
-// Map controllers
-app.MapControllers();
+// ⚡ Apply CORS to all controllers
+app.MapControllers().RequireCors("AllowFrontend");
+
+// Catch-all for SPA routing if needed
+app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
 // Startup log
 Console.WriteLine("========================================");
 Console.WriteLine("BookWebApp API started");
 Console.WriteLine($"Environment: {app.Environment.EnvironmentName}");
 Console.WriteLine($"Database: {(connectionString.Contains("Host=") ? "PostgreSQL" : "SQLite")}");
+Console.WriteLine($"CORS Origins: https://book-quotes-web-app-frontend.onrender.com, http://localhost:4200");
 Console.WriteLine("========================================");
 
 app.Run();

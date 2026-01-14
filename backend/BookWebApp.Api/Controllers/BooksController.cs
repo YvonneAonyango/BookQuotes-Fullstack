@@ -1,6 +1,7 @@
 using BookWebApp.Api.Data;
 using BookWebApp.Api.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ namespace BookWebApp.Api.Controllers;
 [ApiController]
 [Route("api/books")]
 [Authorize]
+[EnableCors("AllowFrontend")] // <-- ADD THIS LINE
 public class BooksController : ControllerBase
 {
     private readonly AppDbContext _context;
