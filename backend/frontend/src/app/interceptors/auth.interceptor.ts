@@ -1,3 +1,4 @@
+// src/app/interceptors/auth.interceptor.ts
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
@@ -7,9 +8,9 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  console.log('Interceptor triggered for:', req.url);
+  console.log('Interceptor triggered for:', req.url, 'Method:', req.method);
 
-  // List of public endpoints that should NEVER get auth headers
+  // List of public endpoints (GET requests only)
   const publicEndpoints = [
     '/api/books',
     '/api/quotes/global',
@@ -20,24 +21,19 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     '/api/auth/admin/login'
   ];
 
-  // Check if this is a public endpoint
-  const isPublicEndpoint = publicEndpoints.some(endpoint => req.url.includes(endpoint));
+  // Only skip token for GET requests on public endpoints
+  const isPublicGet = publicEndpoints.some(endpoint =>
+    req.url.includes(endpoint) && req.method === 'GET'
+  );
 
-  console.log('Is public endpoint?', isPublicEndpoint);
+  console.log('Is public GET endpoint?', isPublicGet);
 
-  // For public endpoints: NEVER add Authorization header
-  if (isPublicEndpoint) {
-    console.log('Public endpoint detected - SENDING WITHOUT Authorization header');
-    
-    // Clone request WITHOUT Authorization header
-    const publicReq = req.clone({
-      headers: req.headers.delete('Authorization')
-    });
-    
-    return next(publicReq);
+  if (isPublicGet) {
+    console.log('Public GET - sending without Authorization header');
+    return next(req);
   }
 
-  // Only for private endpoints: check for token
+  // For all other requests (POST, PUT, DELETE, etc.) attach token
   const token = localStorage.getItem('authToken');
   console.log('Token exists:', !!token);
   console.log('Token value:', token ? `${token.substring(0, 20)}...` : 'none');
@@ -48,11 +44,10 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Bearer ${token}`
       }
     });
-
     console.log('Adding Authorization header for private endpoint');
     return next(clonedReq);
   }
 
-  console.log('No token found for private endpoint, sending without Authorization');
+  console.log('No token found - sending request without Authorization');
   return next(req);
 };
