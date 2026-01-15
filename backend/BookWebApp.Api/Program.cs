@@ -81,7 +81,8 @@ builder.Services
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero,
 
-            NameClaimType = ClaimTypes.Name,
+            // ⚡ CRITICAL FIX:
+            NameClaimType = ClaimTypes.NameIdentifier, // <- so GetUserId() works
             RoleClaimType = ClaimTypes.Role
         };
     });
@@ -92,9 +93,7 @@ var app = builder.Build();
 
 // ----------------- MIDDLEWARE (ORDER MATTERS) -----------------
 app.UseRouting();
-
 app.UseCors("AllowFrontend");
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -120,8 +119,8 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"Database error: {ex.Message}");
     }
 
+    // --- ADMIN SEED ---
     var yvonne = await db.Users.FirstOrDefaultAsync(u => u.Username == "Yvonne");
-
     if (yvonne == null)
     {
         var success = await authService.CreateAdminUser("Yvonne", "Monday123!");
@@ -140,6 +139,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
+    // --- QUOTES SEED ---
     if (!await db.Quotes.AnyAsync() && yvonne != null)
     {
         db.Quotes.AddRange(
@@ -151,11 +151,20 @@ using (var scope = app.Services.CreateScope())
         );
         await db.SaveChangesAsync();
     }
+
+    // --- BOOKS SEED EXAMPLE (optional, for initial list) ---
+    if (!await db.Books.AnyAsync())
+    {
+        db.Books.AddRange(
+            new Book { Title = "1984", Author = "George Orwell", PublishDate = DateTime.Parse("1949-06-08") },
+            new Book { Title = "Pride and Prejudice", Author = "Jane Austen", PublishDate = DateTime.Parse("1813-01-28") }
+        );
+        await db.SaveChangesAsync();
+    }
 }
 
 // ----------------- HEALTH CHECKS -----------------
 app.MapGet("/", () => "BookQuotes API").AllowAnonymous();
-
 app.MapGet("/health", async (AppDbContext db) =>
 {
     try
@@ -169,12 +178,7 @@ app.MapGet("/health", async (AppDbContext db) =>
     }
     catch (Exception ex)
     {
-        return Results.Ok(new
-        {
-            status = "error",
-            error = ex.Message,
-            time = DateTime.UtcNow
-        });
+        return Results.Ok(new { status = "error", error = ex.Message, time = DateTime.UtcNow });
     }
 }).AllowAnonymous();
 

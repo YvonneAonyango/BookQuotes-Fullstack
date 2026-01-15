@@ -113,3 +113,4 @@ public class QuotesController : ControllerBase
     private int? GetUserId() =>
         int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
 }
+
