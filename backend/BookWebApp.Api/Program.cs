@@ -46,30 +46,15 @@ builder.Services.AddCors(options =>
 // ----------------- CONTROLLERS -----------------
 builder.Services.AddControllers();
 
-// ----------------- SWAGGER -----------------
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-}
-
 // ----------------- JWT AUTH -----------------
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
              ?? builder.Configuration["Jwt:Key"]
              ?? throw new InvalidOperationException("JWT_KEY is required");
 
-var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "BookQuotesApi";
-var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "BookQuotesClient";
-
 var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 
-// FIXED: Configure JWT to allow anonymous access on public endpoints
 builder.Services
-    .AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -77,76 +62,27 @@ builder.Services
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
 
-            // Make these optional for now
             ValidateIssuer = false,
-            ValidIssuer = jwtIssuer,
-
             ValidateAudience = false,
-            ValidAudience = jwtAudience,
 
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.FromMinutes(5), // Add some leeway
+            ClockSkew = TimeSpan.FromMinutes(5),
 
             NameClaimType = ClaimTypes.Name,
             RoleClaimType = ClaimTypes.Role
         };
-        
-        // CRITICAL FIX: Don't fail on anonymous endpoints
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = context =>
-            {
-                // If authentication fails on a public endpoint, just continue
-                var path = context.HttpContext.Request.Path;
-                var method = context.HttpContext.Request.Method;
-                
-                // Allow anonymous access to these public endpoints
-                if ((path.StartsWithSegments("/api/books") && method == "GET") ||
-                    path.StartsWithSegments("/api/quotes/global") ||
-                    path.StartsWithSegments("/api/auth/login") ||
-                    path.StartsWithSegments("/api/auth/register") ||
-                    path.StartsWithSegments("/api/auth/test"))
-                {
-                    // Don't fail the request, let it proceed without authentication
-                    context.NoResult();
-                }
-                
-                return Task.CompletedTask;
-            },
-            OnForbidden = context =>
-            {
-                Console.WriteLine($"Forbidden access to: {context.HttpContext.Request.Path}");
-                return Task.CompletedTask;
-            }
-        };
     });
 
-builder.Services.AddAuthorization(options =>
-{
-    // By default, no policy is required (anonymous allowed)
-    options.FallbackPolicy = null;
-    
-    // You can add specific policies if needed
-    options.AddPolicy("RequireAuthenticated", policy =>
-    {
-        policy.RequireAuthenticatedUser();
-    });
-});
+builder.Services.AddAuthorization();
 
+// ----------------- BUILD APP -----------------
 var app = builder.Build();
 
 // ----------------- MIDDLEWARE (ORDER MATTERS) -----------------
 app.UseRouting();
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
-app.UseAuthorization(); // This doesn't require auth by default
-
-// ----------------- SWAGGER UI -----------------
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseAuthorization();
 
 // ----------------- DATABASE INIT & SEED -----------------
 using (var scope = app.Services.CreateScope())
@@ -201,9 +137,20 @@ using (var scope = app.Services.CreateScope())
     {
         var books = new List<Book>
         {
-            new Book { Title = "1984", Author = "George Orwell", PublishDate = DateTime.SpecifyKind(DateTime.Parse("1949-06-08"), DateTimeKind.Utc) },
-            new Book { Title = "Pride and Prejudice", Author = "Jane Austen", PublishDate = DateTime.SpecifyKind(DateTime.Parse("1813-01-28"), DateTimeKind.Utc) }
+            new Book
+            {
+                Title = "1984",
+                Author = "George Orwell",
+                PublishDate = DateTime.SpecifyKind(DateTime.Parse("1949-06-08"), DateTimeKind.Utc)
+            },
+            new Book
+            {
+                Title = "Pride and Prejudice",
+                Author = "Jane Austen",
+                PublishDate = DateTime.SpecifyKind(DateTime.Parse("1813-01-28"), DateTimeKind.Utc)
+            }
         };
+
         db.Books.AddRange(books);
         await db.SaveChangesAsync();
     }
