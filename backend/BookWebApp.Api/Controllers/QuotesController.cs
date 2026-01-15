@@ -59,7 +59,7 @@ public class QuotesController : ControllerBase
             return BadRequest(new { message = "Author is required" });
 
         q.UserId = userId.Value;
-        q.IsGlobal = true; // all quotes by owner are global
+        q.IsGlobal = true; // only your quotes are global
         q.BookId = q.BookId > 0 ? q.BookId : null;
 
         _context.Quotes.Add(q);
@@ -113,4 +113,3 @@ public class QuotesController : ControllerBase
     private int? GetUserId() =>
         int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
 }
-

@@ -82,7 +82,7 @@ builder.Services
             ClockSkew = TimeSpan.Zero,
 
             // ⚡ CRITICAL FIX:
-            NameClaimType = ClaimTypes.NameIdentifier, // <- so GetUserId() works
+            NameClaimType = ClaimTypes.NameIdentifier, // ensures GetUserId() works
             RoleClaimType = ClaimTypes.Role
         };
     });
@@ -152,19 +152,22 @@ using (var scope = app.Services.CreateScope())
         await db.SaveChangesAsync();
     }
 
-    // --- BOOKS SEED EXAMPLE (optional, for initial list) ---
+    // --- BOOKS SEED ---
     if (!await db.Books.AnyAsync())
     {
-        db.Books.AddRange(
-            new Book { Title = "1984", Author = "George Orwell", PublishDate = DateTime.Parse("1949-06-08") },
-            new Book { Title = "Pride and Prejudice", Author = "Jane Austen", PublishDate = DateTime.Parse("1813-01-28") }
-        );
+        var books = new List<Book>
+        {
+            new Book { Title = "1984", Author = "George Orwell", PublishDate = DateTime.SpecifyKind(DateTime.Parse("1949-06-08"), DateTimeKind.Utc) },
+            new Book { Title = "Pride and Prejudice", Author = "Jane Austen", PublishDate = DateTime.SpecifyKind(DateTime.Parse("1813-01-28"), DateTimeKind.Utc) }
+        };
+        db.Books.AddRange(books);
         await db.SaveChangesAsync();
     }
 }
 
 // ----------------- HEALTH CHECKS -----------------
 app.MapGet("/", () => "BookQuotes API").AllowAnonymous();
+
 app.MapGet("/health", async (AppDbContext db) =>
 {
     try

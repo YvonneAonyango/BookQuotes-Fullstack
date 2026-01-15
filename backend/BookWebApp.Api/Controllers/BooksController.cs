@@ -20,7 +20,6 @@ public class BooksController : ControllerBase
     public async Task<IActionResult> GetBooks()
     {
         var books = await _context.Books
-            .Include(b => b.Quotes)
             .AsNoTracking()
             .ToListAsync();
 
@@ -34,24 +33,26 @@ public class BooksController : ControllerBase
     {
         var book = await _context.Books
             .Include(b => b.Quotes)
+            .AsNoTracking()
             .FirstOrDefaultAsync(b => b.Id == id);
 
         if (book == null) return NotFound();
         return Ok(book);
     }
 
-    // ----------------- CREATE -----------------
+    // ----------------- CREATE BOOK -----------------
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Book book)
     {
         if (string.IsNullOrWhiteSpace(book.Title))
             return BadRequest(new { message = "Title is required" });
-
         if (string.IsNullOrWhiteSpace(book.Author))
             return BadRequest(new { message = "Author is required" });
 
-        book.PublishDate ??= DateTime.UtcNow;
+        // ⚡ Convert PublishDate to UTC
+        if (book.PublishDate.HasValue)
+            book.PublishDate = DateTime.SpecifyKind(book.PublishDate.Value, DateTimeKind.Utc);
 
         _context.Books.Add(book);
         await _context.SaveChangesAsync();
@@ -59,7 +60,7 @@ public class BooksController : ControllerBase
         return Ok(book);
     }
 
-    // ----------------- UPDATE -----------------
+    // ----------------- UPDATE BOOK -----------------
     [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] Book updated)
@@ -69,13 +70,15 @@ public class BooksController : ControllerBase
 
         book.Title = updated.Title;
         book.Author = updated.Author;
-        book.PublishDate = updated.PublishDate ?? book.PublishDate;
+
+        if (updated.PublishDate.HasValue)
+            book.PublishDate = DateTime.SpecifyKind(updated.PublishDate.Value, DateTimeKind.Utc);
 
         await _context.SaveChangesAsync();
         return Ok(book);
     }
 
-    // ----------------- DELETE -----------------
+    // ----------------- DELETE BOOK -----------------
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
