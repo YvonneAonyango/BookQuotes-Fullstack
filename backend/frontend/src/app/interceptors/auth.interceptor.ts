@@ -10,8 +10,8 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
 
   console.log('Interceptor triggered for:', req.url, 'Method:', req.method);
 
-  // List of public endpoints (GET requests only)
-  const publicEndpoints = [
+  // List of public GET endpoints (no Authorization required)
+  const publicGetEndpoints = [
     '/api/books',
     '/api/quotes/global',
     '/api/auth/login',
@@ -21,30 +21,25 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     '/api/auth/admin/login'
   ];
 
-  // Only skip token for GET requests on public endpoints
-  const isPublicGet = publicEndpoints.some(endpoint =>
+  const isPublicGet = publicGetEndpoints.some(endpoint =>
     req.url.includes(endpoint) && req.method === 'GET'
   );
 
-  console.log('Is public GET endpoint?', isPublicGet);
-
   if (isPublicGet) {
-    console.log('Public GET - sending without Authorization header');
+    console.log('Public GET endpoint - sending request without Authorization header');
     return next(req);
   }
 
-  // For all other requests (POST, PUT, DELETE, etc.) attach token
+  // Attach token for all other requests (POST, PUT, DELETE, etc.)
   const token = localStorage.getItem('authToken');
-  console.log('Token exists:', !!token);
-  console.log('Token value:', token ? `${token.substring(0, 20)}...` : 'none');
 
   if (token) {
+    console.log('Token found - attaching Authorization header');
     const clonedReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
-    console.log('Adding Authorization header for private endpoint');
     return next(clonedReq);
   }
 
