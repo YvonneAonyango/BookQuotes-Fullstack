@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://content-intuition-production.up.railway.app/api'
+  apiUrl: 'https://content-intuition-production.up.railway.app/api',
+  enableDebug: false
 };

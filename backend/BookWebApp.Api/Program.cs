@@ -3,6 +3,7 @@ using BookWebApp.Api.Data;
 using BookWebApp.Api.Models;
 using BookWebApp.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +39,8 @@ builder.Services.AddCors(options =>
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowCredentials()
+            .SetPreflightMaxAge(TimeSpan.FromHours(24)); // Cache preflight
     });
 });
 
@@ -62,8 +64,10 @@ builder.Services.AddAuthentication().AddJwtBearer();
 var app = builder.Build();
 
 // ----------------- MIDDLEWARE -----------------
-app.UseRouting();
+// FIX: CORS must be BEFORE UseRouting
 app.UseCors("AllowFrontend");
+
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -186,4 +190,3 @@ static string BuildPostgresConnectionString(string databaseUrl)
         Timeout = 30
     }.ToString();
 }
-

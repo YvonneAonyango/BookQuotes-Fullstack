@@ -1,5 +1,5 @@
 using BookWebApp.Api.Services;
-using Microsoft.AspNetCore.Cors;  // <-- ADD THIS USING
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,8 +10,8 @@ using BookWebApp.Api.Models;
 namespace BookWebApp.Api.Controllers;
 
 [ApiController]
-[Route("api/auth")]
-[EnableCors("AllowFrontend")]  
+[Route("api/[controller]")]
+[EnableCors("AllowFrontend")]
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
@@ -23,6 +23,22 @@ public class AuthController : ControllerBase
         _authService = authService;
         _config = config;
         _logger = logger;
+    }
+
+    // FIX: Add explicit OPTIONS handler for CORS preflight
+    [HttpOptions]
+    [HttpOptions("register")]
+    [HttpOptions("login")]
+    [HttpOptions("admin/login")]
+    [HttpOptions("validate-token")]
+    [HttpOptions("user-info")]
+    [HttpOptions("setup-admin")]
+    [HttpOptions("logout")]
+    [HttpOptions("test")]
+    public IActionResult Options()
+    {
+        // This handles OPTIONS preflight requests for CORS
+        return Ok();
     }
 
     [HttpGet("test")]
