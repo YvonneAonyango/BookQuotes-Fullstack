@@ -3,7 +3,6 @@ using BookWebApp.Api.Data;
 using BookWebApp.Api.Models;
 using BookWebApp.Api.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +16,9 @@ var connectionString = !string.IsNullOrEmpty(databaseUrl)
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     if (connectionString.Contains("Host="))
-    {
         options.UseNpgsql(connectionString);
-    }
     else
-    {
         options.UseSqlite(connectionString);
-    }
 });
 
 builder.Services.AddScoped<AuthService>();
@@ -33,21 +28,22 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(
-                "https://bookquotes-frontend.vercel.app",  // <-- Vercel frontend
-                "http://localhost:4200"                     // <-- local dev
+        policy
+            .WithOrigins(
+                "https://bookquotes-frontend.vercel.app",
+                "http://localhost:4200"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials()
-            .SetPreflightMaxAge(TimeSpan.FromHours(24)); // Cache preflight
+            .SetPreflightMaxAge(TimeSpan.FromHours(24));
     });
 });
 
 // ----------------- CONTROLLERS -----------------
 builder.Services.AddControllers();
 
-// ----------------- SWAGGER (Development only) -----------------
+// ----------------- SWAGGER -----------------
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddEndpointsApiExplorer();
@@ -55,19 +51,23 @@ if (builder.Environment.IsDevelopment())
 }
 
 // ----------------- JWT AUTH -----------------
-var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
-             ?? builder.Configuration["Jwt:Key"] 
+var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
+             ?? builder.Configuration["Jwt:Key"]
              ?? throw new InvalidOperationException("JWT_KEY is required");
 
-builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services
+    .AddAuthentication("Bearer")
+    .AddJwtBearer();
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// ----------------- MIDDLEWARE -----------------
-// FIX: CORS must be BEFORE UseRouting
+// ----------------- MIDDLEWARE (ORDER MATTERS) -----------------
+app.UseRouting();
+
 app.UseCors("AllowFrontend");
 
-app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -78,7 +78,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// ----------------- DATABASE INITIALIZATION & SEEDING -----------------
+// ----------------- DATABASE INIT & SEED -----------------
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -93,27 +93,20 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"Database error: {ex.Message}");
     }
 
-    // Ensure admin user exists
     var yvonne = await db.Users.FirstOrDefaultAsync(u => u.Username == "Yvonne");
+
     if (yvonne == null)
     {
         var success = await authService.CreateAdminUser("Yvonne", "Monday123!");
-        
-        if (success)
-        {
-            yvonne = await db.Users.FirstOrDefaultAsync(u => u.Username == "Yvonne");
-        }
-        else
+
+        if (!success)
         {
             using var hmac = new System.Security.Cryptography.HMACSHA512();
-            var passwordSalt = hmac.Key;
-            var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Monday123!"));
-            
             yvonne = new User
             {
                 Username = "Yvonne",
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Monday123!")),
+                PasswordSalt = hmac.Key,
                 Role = UserRole.Admin
             };
             db.Users.Add(yvonne);
@@ -121,34 +114,30 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    // Seed quotes if none exist
     if (!await db.Quotes.AnyAsync() && yvonne != null)
     {
-        var quotes = new List<Quote>
-        {
+        db.Quotes.AddRange(
             new Quote { Text = "Tomorrow's results are determined by current accumulation of success.", Author = "Yvonne", UserId = yvonne.Id, IsGlobal = true },
             new Quote { Text = "The only thing that you absolutely have to know is the location of the library.", Author = "Albert Einstein", UserId = yvonne.Id, IsGlobal = true },
-            new Quote { Text = "A reader lives a thousand lives before he dies… The man who never reads lives only one.", Author = "George R.R. Martin", UserId = yvonne.Id, IsGlobal = true },
+            new Quote { Text = "A reader lives a thousand lives before he dies…", Author = "George R.R. Martin", UserId = yvonne.Id, IsGlobal = true },
             new Quote { Text = "Life is ours to be spent, not to be saved.", Author = "D.H. Lawrence", UserId = yvonne.Id, IsGlobal = true },
             new Quote { Text = "The secret of getting ahead is getting started.", Author = "Mark Twain", UserId = yvonne.Id, IsGlobal = true }
-        };
+        );
 
-        db.Quotes.AddRange(quotes);
         await db.SaveChangesAsync();
     }
 }
 
-// ----------------- HEALTH CHECK -----------------
+// ----------------- HEALTH CHECKS -----------------
 app.MapGet("/", () => "BookQuotes API").AllowAnonymous();
 
 app.MapGet("/health", async (AppDbContext db) =>
 {
     try
     {
-        var canConnect = await db.Database.CanConnectAsync();
         return Results.Ok(new
         {
-            status = canConnect ? "healthy" : "unhealthy",
+            status = await db.Database.CanConnectAsync() ? "healthy" : "unhealthy",
             provider = db.Database.ProviderName,
             time = DateTime.UtcNow
         });
@@ -165,18 +154,19 @@ app.MapGet("/health", async (AppDbContext db) =>
 }).AllowAnonymous();
 
 // ----------------- CONTROLLERS -----------------
-app.MapControllers();
+app.MapControllers().RequireCors("AllowFrontend");
 
 // ----------------- FALLBACK -----------------
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
 app.Run();
 
-// ----------------- POSTGRES CONNECTION PARSER -----------------
+// ----------------- POSTGRES PARSER -----------------
 static string BuildPostgresConnectionString(string databaseUrl)
 {
     var uri = new Uri(databaseUrl);
     var userInfo = uri.UserInfo.Split(':');
+
     return new Npgsql.NpgsqlConnectionStringBuilder
     {
         Host = uri.Host,
