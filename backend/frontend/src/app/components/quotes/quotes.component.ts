@@ -58,9 +58,39 @@ export class QuotesComponent implements OnInit {
   loadQuotes(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    this.quoteService.getQuotes().subscribe({
-      next: quotes => { this.quotes = quotes; this.isLoading = false; },
-      error: () => { this.errorMessage = this.translate.instant('failedLoadQuotes') || 'Failed to load quotes.'; this.isLoading = false; }
+    
+    if (this.auth.isAuthenticated()) {
+      // Load user's quotes
+      this.quoteService.getMyQuotes().subscribe({
+        next: quotes => {
+          this.quotes = quotes;
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error loading quotes:', err);
+          this.errorMessage = 'Failed to load your quotes.';
+          this.isLoading = false;
+          // Fallback to global quotes
+          this.loadGlobalQuotes();
+        }
+      });
+    } else {
+      // Load global quotes for non-logged users
+      this.loadGlobalQuotes();
+    }
+  }
+
+  loadGlobalQuotes(): void {
+    this.quoteService.getGlobalQuotes().subscribe({
+      next: quotes => {
+        this.quotes = quotes;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading global quotes:', err);
+        this.errorMessage = 'Failed to load quotes.';
+        this.isLoading = false;
+      }
     });
   }
 
@@ -103,7 +133,10 @@ export class QuotesComponent implements OnInit {
           this.quotes = this.quotes.filter(q => q.id !== id); 
           if (this.selectedQuote?.id === id) this.selectedQuote = undefined; 
         },
-        error: () => alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.')
+        error: (err) => {
+          console.error('Error deleting quote:', err);
+          alert(this.translate.instant('failedDeleteQuote') || 'Failed to delete quote.');
+        }
       });
     });
   }
@@ -126,8 +159,9 @@ export class QuotesComponent implements OnInit {
           this.resetForm(); 
           this.isLoading = false; 
         },
-        error: () => { 
-          this.errorMessage = this.translate.instant('failedUpdateQuote') || 'Failed to update quote.'; 
+        error: (err) => { 
+          console.error('Error updating quote:', err);
+          this.errorMessage = 'Failed to update quote.'; 
           this.isLoading = false; 
         }
       });
@@ -138,8 +172,9 @@ export class QuotesComponent implements OnInit {
           this.resetForm(); 
           this.isLoading = false; 
         },
-        error: () => { 
-          this.errorMessage = this.translate.instant('failedCreateQuote') || 'Failed to create quote.'; 
+        error: (err) => { 
+          console.error('Error creating quote:', err);
+          this.errorMessage = 'Failed to create quote.'; 
           this.isLoading = false; 
         }
       });

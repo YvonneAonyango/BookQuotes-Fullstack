@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -18,6 +18,7 @@ export interface Quote {
   bookId?: number | null;
   userId?: number;
   book?: Book;
+  isGlobal?: boolean;
 }
 
 @Injectable({
@@ -28,58 +29,85 @@ export class QuoteService {
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
-  private getAuthHeaders(jsonContent: boolean = false): HttpHeaders {
-    const token = this.auth.getToken();
-    const headersConfig: { [key: string]: string } = {};
-    if (token) headersConfig['Authorization'] = `Bearer ${token}`;
-    if (jsonContent) headersConfig['Content-Type'] = 'application/json';
-    return new HttpHeaders(headersConfig);
+  // Get user's quotes (requires auth)
+  getMyQuotes(): Observable<Quote[]> {
+    if (!this.auth.isAuthenticated()) {
+      return throwError(() => new Error('Not authenticated'));
+    }
+    
+    return this.http.get<Quote[]>(`${this.apiUrl}/quotes/my`)
+      .pipe(
+        catchError(error => {
+          console.error('Error loading user quotes:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
-  getQuotes(): Observable<Quote[]> {
-    return this.http.get<Quote[]>(`${this.apiUrl}/quotes?mine=true`, {
-      headers: this.getAuthHeaders(),
-      withCredentials: true
-    }).pipe(catchError(error => throwError(() => error)));
+  // Get global quotes (public, no auth needed)
+  getGlobalQuotes(): Observable<Quote[]> {
+    return this.http.get<Quote[]>(`${this.apiUrl}/quotes/global`)
+      .pipe(
+        catchError(error => {
+          console.error('Error loading global quotes:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   createQuote(quote: Quote): Observable<Quote> {
-    if (!this.auth.isAuthenticated()) throw new Error('Not logged in');
-    const userId = this.auth.getCurrentUserId();
+    if (!this.auth.isAuthenticated()) {
+      return throwError(() => new Error('Not authenticated'));
+    }
 
+    // Use camelCase to match C# model
     const payload = {
-      Text: quote.text.trim(),
-      Author: quote.author.trim(),
-      UserId: userId || 0,
-      BookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
+      text: quote.text.trim(),
+      author: quote.author.trim(),
+      bookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
+      // UserId will be set by backend from token
     };
 
-    return this.http.post<Quote>(`${this.apiUrl}/quotes`, payload, {
-      headers: this.getAuthHeaders(true),
-      withCredentials: true
-    }).pipe(catchError(error => throwError(() => error)));
+    return this.http.post<Quote>(`${this.apiUrl}/quotes`, payload)
+      .pipe(
+        catchError(error => {
+          console.error('Error creating quote:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   updateQuote(id: number, quote: Quote): Observable<Quote> {
-    const userId = this.auth.getCurrentUserId();
+    if (!this.auth.isAuthenticated()) {
+      return throwError(() => new Error('Not authenticated'));
+    }
 
     const payload = {
-      Text: quote.text.trim(),
-      Author: quote.author.trim(),
-      UserId: userId || 0,
-      BookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
+      text: quote.text.trim(),
+      author: quote.author.trim(),
+      bookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
     };
 
-    return this.http.put<Quote>(`${this.apiUrl}/quotes/${id}`, payload, {
-      headers: this.getAuthHeaders(true),
-      withCredentials: true
-    }).pipe(catchError(error => throwError(() => error)));
+    return this.http.put<Quote>(`${this.apiUrl}/quotes/${id}`, payload)
+      .pipe(
+        catchError(error => {
+          console.error('Error updating quote:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   deleteQuote(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/quotes/${id}`, {
-      headers: this.getAuthHeaders(),
-      withCredentials: true
-    }).pipe(catchError(error => throwError(() => error)));
+    if (!this.auth.isAuthenticated()) {
+      return throwError(() => new Error('Not authenticated'));
+    }
+
+    return this.http.delete<void>(`${this.apiUrl}/quotes/${id}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error deleting quote:', error);
+          return throwError(() => error);
+        })
+      );
   }
 }
