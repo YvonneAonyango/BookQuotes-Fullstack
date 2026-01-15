@@ -5,7 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { BookFormComponent } from '../book-form/book-form.component';
-import { AuthService } from '../../services/auth.service'; // ADDED
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-books',
@@ -28,7 +28,7 @@ export class BooksComponent implements OnInit {
   private bookService = inject(BookService);
   private router = inject(Router);
   private translate = inject(TranslateService);
-  private auth = inject(AuthService); // ADDED
+  private auth = inject(AuthService);
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - Books');
@@ -73,19 +73,48 @@ export class BooksComponent implements OnInit {
 
   addBook(): void {
     if (!this.isLoggedIn()) {
-      alert(this.translate.instant('loginRequired'));
-      this.router.navigate(['/login']);
+      this.translate.get('loginRequired').subscribe(msg => {
+        const message = msg || 'You need to login to add a book. Go to login page?';
+        if (confirm(message)) {
+          this.router.navigate(['/login'], { 
+            queryParams: { returnUrl: this.router.url }
+          });
+        }
+      });
       return;
     }
     this.openForm();
   }
 
   editBook(id: number): void {
+    if (!this.isLoggedIn()) {
+      this.translate.get('loginRequired').subscribe(msg => {
+        const message = msg || 'You need to login to edit a book. Go to login page?';
+        if (confirm(message)) {
+          this.router.navigate(['/login'], { 
+            queryParams: { returnUrl: this.router.url }
+          });
+        }
+      });
+      return;
+    }
     const book = this.books.find(b => b.id === id);
     if (book) this.openForm(book);
   }
 
   deleteBook(id: number): void {
+    if (!this.isLoggedIn()) {
+      this.translate.get('loginRequired').subscribe(msg => {
+        const message = msg || 'You need to login to delete a book. Go to login page?';
+        if (confirm(message)) {
+          this.router.navigate(['/login'], { 
+            queryParams: { returnUrl: this.router.url }
+          });
+        }
+      });
+      return;
+    }
+    
     this.translate.get('confirmDeleteBook').subscribe(msg => {
       if (confirm(msg)) {
         this.bookService.deleteBook(id).subscribe({
@@ -107,6 +136,6 @@ export class BooksComponent implements OnInit {
   }
 
   private isLoggedIn(): boolean {
-    return this.auth.isAuthenticated(); 
+    return this.auth.isAuthenticated();
   }
 }

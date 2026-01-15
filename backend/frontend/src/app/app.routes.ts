@@ -16,8 +16,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
-  // Public routes
+  // Public routes - anyone can view
   { path: '', component: HomeComponent },
+  { path: 'books', component: BooksComponent }, // PUBLIC viewing
+  { path: 'quotes', component: QuotesComponent }, // PUBLIC viewing
+  
+  // Auth routes - for login/register
   { 
     path: 'login', 
     component: LoginComponent,
@@ -31,11 +35,9 @@ export const routes: Routes = [
     data: { requiresGuest: true } // redirect if already logged in
   },
 
-  // Protected routes (authenticated users)
-  { path: 'books', component: BooksComponent, canActivate: [AuthGuard] },
+  // Protected CRUD routes - only logged in users
   { path: 'books/new', component: BookFormComponent, canActivate: [AuthGuard] },
   { path: 'books/edit/:id', component: BookFormComponent, canActivate: [AuthGuard] },
-  { path: 'quotes', component: QuotesComponent, canActivate: [AuthGuard] },
 
   // Admin routes
   { 

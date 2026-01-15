@@ -6,6 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Quote, QuoteService } from '../../services/quote.service';
 import { Book, BookService } from '../../services/book.service';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quotes',
@@ -32,6 +33,7 @@ export class QuotesComponent implements OnInit {
   private titleService = inject(Title);
   private translate = inject(TranslateService);
   private auth = inject(AuthService);
+  private router = inject(Router);
 
   constructor(
     private quoteService: QuoteService,
@@ -112,6 +114,18 @@ export class QuotesComponent implements OnInit {
   }
 
   editQuote(id: number): void {
+    if (!this.isLoggedIn()) {
+      this.translate.get('loginRequired').subscribe(msg => {
+        const message = msg || 'You need to login to edit a quote. Go to login page?';
+        if (confirm(message)) {
+          this.router.navigate(['/login'], { 
+            queryParams: { returnUrl: this.router.url }
+          });
+        }
+      });
+      return;
+    }
+    
     const quote = this.quotes.find(q => q.id === id);
     if (!quote) return;
     this.isEdit = true;
@@ -125,7 +139,20 @@ export class QuotesComponent implements OnInit {
   }
 
   deleteQuote(id?: number): void {
-    if (!id || !this.isLoggedIn()) return;
+    if (!id) return;
+    
+    if (!this.isLoggedIn()) {
+      this.translate.get('loginRequired').subscribe(msg => {
+        const message = msg || 'You need to login to delete a quote. Go to login page?';
+        if (confirm(message)) {
+          this.router.navigate(['/login'], { 
+            queryParams: { returnUrl: this.router.url }
+          });
+        }
+      });
+      return;
+    }
+    
     this.translate.get('confirmDeleteQuote').subscribe(msg => {
       if (!confirm(msg || 'Are you sure you want to delete this quote?')) return;
       this.quoteService.deleteQuote(id).subscribe({
@@ -142,7 +169,20 @@ export class QuotesComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.quoteForm.valid || !this.isLoggedIn()) return;
+    if (!this.quoteForm.valid) return;
+    
+    if (!this.isLoggedIn()) {
+      this.translate.get('loginRequired').subscribe(msg => {
+        const message = msg || 'You need to login to add or edit quotes. Go to login page?';
+        if (confirm(message)) {
+          this.router.navigate(['/login'], { 
+            queryParams: { returnUrl: this.router.url }
+          });
+        }
+      });
+      return;
+    }
+    
     this.isLoading = true;
     const formValue = this.quoteForm.value;
     const quoteData: Quote = {

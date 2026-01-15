@@ -138,5 +138,9 @@
   "updateQuote": "Update Quote",
   "addQuote": "Add Quote",
   "noQuotesYet": "No quotes yet",
-  "startByAddingQuote": "Start by adding your first quote!"
+  "startByAddingQuote": "Start by adding your first quote!",
+  "loginRequired": "You need to login to perform this action. Go to login page?",
+   "loginRequired": "Login required to perform this action",
+  "loginToAddQuotes": "Login to add or edit quotes",
+  "loginToAddBooks": "Login to add or edit books"
 }

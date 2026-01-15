@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Book, BookService } from '../../services/book.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-form',
@@ -23,6 +25,8 @@ export class BookFormComponent implements OnInit {
   private bookService = inject(BookService);
   private fb = inject(FormBuilder);
   private translate = inject(TranslateService);
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     // Map backend PublishDate → frontend publishDate
@@ -44,6 +48,19 @@ export class BookFormComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.bookForm.valid) return;
+
+    // Check if user is logged in
+    if (!this.auth.isAuthenticated()) {
+      this.translate.get('loginRequired').subscribe(msg => {
+        const message = msg || 'You need to login to save a book. Go to login page?';
+        if (confirm(message)) {
+          this.router.navigate(['/login'], { 
+            queryParams: { returnUrl: this.router.url }
+          });
+        }
+      });
+      return;
+    }
 
     this.isLoading = true;
     const data: Book = this.bookForm.value;
