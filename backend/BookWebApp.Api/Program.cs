@@ -6,6 +6,7 @@ using BookWebApp.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,15 +32,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy
-            .WithOrigins(
-                "https://bookquotes-frontend.vercel.app",
-                "http://localhost:4200"
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials()
-            .SetPreflightMaxAge(TimeSpan.FromHours(24));
+        policy.WithOrigins("https://bookquotes-frontend.vercel.app", "http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -50,6 +46,8 @@ builder.Services.AddControllers();
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
              ?? builder.Configuration["Jwt:Key"]
              ?? throw new InvalidOperationException("JWT_KEY is required");
+
+Console.WriteLine($"JWT Key configured: {!string.IsNullOrEmpty(jwtKey)}");
 
 var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 
@@ -62,14 +60,28 @@ builder.Services
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
 
-            ValidateIssuer = false,
-            ValidateAudience = false,
+            // Match appsettings.json
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "BookWebApp",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? "BookWebAppUsers",
 
             ValidateLifetime = true,
             ClockSkew = TimeSpan.FromMinutes(5),
 
-            NameClaimType = ClaimTypes.Name,
-            RoleClaimType = ClaimTypes.Role
+            // Match your token claims exactly
+            NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+            RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        };
+
+        // Debug events
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            }
         };
     });
 
@@ -78,11 +90,22 @@ builder.Services.AddAuthorization();
 // ----------------- BUILD APP -----------------
 var app = builder.Build();
 
-// ----------------- MIDDLEWARE (ORDER MATTERS) -----------------
+// ----------------- MIDDLEWARE ORDER -----------------
 app.UseRouting();
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Debug logging (remove in production)
+if (app.Environment.IsDevelopment())
+{
+    app.Use(async (context, next) =>
+    {
+        Console.WriteLine($"{context.Request.Method} {context.Request.Path}");
+        await next();
+        Console.WriteLine($"Response: {context.Response.StatusCode}");
+    });
+}
 
 // ----------------- DATABASE INIT & SEED -----------------
 using (var scope = app.Services.CreateScope())
@@ -99,7 +122,7 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"Database error: {ex.Message}");
     }
 
-    // --- ADMIN SEED ---
+    // Seed data...
     var yvonne = await db.Users.FirstOrDefaultAsync(u => u.Username == "Yvonne");
     if (yvonne == null)
     {
@@ -119,7 +142,6 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    // --- QUOTES SEED ---
     if (!await db.Quotes.AnyAsync() && yvonne != null)
     {
         db.Quotes.AddRange(
@@ -132,31 +154,19 @@ using (var scope = app.Services.CreateScope())
         await db.SaveChangesAsync();
     }
 
-    // --- BOOKS SEED ---
     if (!await db.Books.AnyAsync())
     {
         var books = new List<Book>
         {
-            new Book
-            {
-                Title = "1984",
-                Author = "George Orwell",
-                PublishDate = DateTime.SpecifyKind(DateTime.Parse("1949-06-08"), DateTimeKind.Utc)
-            },
-            new Book
-            {
-                Title = "Pride and Prejudice",
-                Author = "Jane Austen",
-                PublishDate = DateTime.SpecifyKind(DateTime.Parse("1813-01-28"), DateTimeKind.Utc)
-            }
+            new Book { Title = "1984", Author = "George Orwell", PublishDate = DateTime.SpecifyKind(DateTime.Parse("1949-06-08"), DateTimeKind.Utc) },
+            new Book { Title = "Pride and Prejudice", Author = "Jane Austen", PublishDate = DateTime.SpecifyKind(DateTime.Parse("1813-01-28"), DateTimeKind.Utc) }
         };
-
         db.Books.AddRange(books);
         await db.SaveChangesAsync();
     }
 }
 
-// ----------------- HEALTH CHECKS -----------------
+// ----------------- ROUTES -----------------
 app.MapGet("/", () => "BookQuotes API").AllowAnonymous();
 
 app.MapGet("/health", async (AppDbContext db) =>
@@ -176,10 +186,8 @@ app.MapGet("/health", async (AppDbContext db) =>
     }
 }).AllowAnonymous();
 
-// ----------------- CONTROLLERS -----------------
-app.MapControllers().RequireCors("AllowFrontend");
+app.MapControllers();
 
-// ----------------- FALLBACK -----------------
 app.MapFallback(() => Results.NotFound("API endpoint not found"));
 
 app.Run();
@@ -189,7 +197,6 @@ static string BuildPostgresConnectionString(string databaseUrl)
 {
     var uri = new Uri(databaseUrl);
     var userInfo = uri.UserInfo.Split(':');
-
     return new Npgsql.NpgsqlConnectionStringBuilder
     {
         Host = uri.Host,
