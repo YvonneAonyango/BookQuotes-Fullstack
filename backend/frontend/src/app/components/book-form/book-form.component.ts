@@ -49,7 +49,7 @@ export class BookFormComponent implements OnInit {
   onSubmit(): void {
     if (!this.bookForm.valid) return;
 
-    // Check if user is logged in
+    // ADD THIS CHECK: Verify user is logged in
     if (!this.auth.isAuthenticated()) {
       this.translate.get('loginRequired').subscribe(msg => {
         const message = msg || 'You need to login to save a book. Go to login page?';

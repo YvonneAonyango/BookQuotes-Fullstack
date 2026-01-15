@@ -58,13 +58,18 @@ var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
              ?? builder.Configuration["Jwt:Key"]
              ?? throw new InvalidOperationException("JWT_KEY is required");
 
-var jwtIssuer = builder.Configuration["Jwt:Issuer"];
-var jwtAudience = builder.Configuration["Jwt:Audience"];
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "BookQuotesApi";
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "BookQuotesClient";
 
 var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
 
+// FIXED: Configure JWT to allow anonymous access on public endpoints
 builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -72,22 +77,61 @@ builder.Services
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
 
-            ValidateIssuer = !string.IsNullOrEmpty(jwtIssuer),
+            // Make these optional for now
+            ValidateIssuer = false,
             ValidIssuer = jwtIssuer,
 
-            ValidateAudience = !string.IsNullOrEmpty(jwtAudience),
+            ValidateAudience = false,
             ValidAudience = jwtAudience,
 
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero,
+            ClockSkew = TimeSpan.FromMinutes(5), // Add some leeway
 
-            // ⚡ CRITICAL FIX:
-            NameClaimType = ClaimTypes.NameIdentifier, // ensures GetUserId() works
+            NameClaimType = ClaimTypes.Name,
             RoleClaimType = ClaimTypes.Role
+        };
+        
+        // CRITICAL FIX: Don't fail on anonymous endpoints
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                // If authentication fails on a public endpoint, just continue
+                var path = context.HttpContext.Request.Path;
+                var method = context.HttpContext.Request.Method;
+                
+                // Allow anonymous access to these public endpoints
+                if ((path.StartsWithSegments("/api/books") && method == "GET") ||
+                    path.StartsWithSegments("/api/quotes/global") ||
+                    path.StartsWithSegments("/api/auth/login") ||
+                    path.StartsWithSegments("/api/auth/register") ||
+                    path.StartsWithSegments("/api/auth/test"))
+                {
+                    // Don't fail the request, let it proceed without authentication
+                    context.NoResult();
+                }
+                
+                return Task.CompletedTask;
+            },
+            OnForbidden = context =>
+            {
+                Console.WriteLine($"Forbidden access to: {context.HttpContext.Request.Path}");
+                return Task.CompletedTask;
+            }
         };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    // By default, no policy is required (anonymous allowed)
+    options.FallbackPolicy = null;
+    
+    // You can add specific policies if needed
+    options.AddPolicy("RequireAuthenticated", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+    });
+});
 
 var app = builder.Build();
 
@@ -95,7 +139,7 @@ var app = builder.Build();
 app.UseRouting();
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthorization(); // This doesn't require auth by default
 
 // ----------------- SWAGGER UI -----------------
 if (app.Environment.IsDevelopment())

@@ -29,7 +29,7 @@ export class QuoteService {
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
-  // Get user's quotes (requires auth)
+  // Get user's quotes (requires auth - interceptor adds it)
   getMyQuotes(): Observable<Quote[]> {
     if (!this.auth.isAuthenticated()) {
       return throwError(() => new Error('Not authenticated'));
@@ -44,7 +44,7 @@ export class QuoteService {
       );
   }
 
-  // Get global quotes (public, no auth needed)
+  // Get global quotes (public - no auth)
   getGlobalQuotes(): Observable<Quote[]> {
     return this.http.get<Quote[]>(`${this.apiUrl}/quotes/global`)
       .pipe(
@@ -60,12 +60,10 @@ export class QuoteService {
       return throwError(() => new Error('Not authenticated'));
     }
 
-    // Use camelCase to match C# model
     const payload = {
       text: quote.text.trim(),
       author: quote.author.trim(),
       bookId: quote.bookId && quote.bookId > 0 ? quote.bookId : null
-      // UserId will be set by backend from token
     };
 
     return this.http.post<Quote>(`${this.apiUrl}/quotes`, payload)

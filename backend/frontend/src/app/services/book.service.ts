@@ -43,6 +43,7 @@ export class BookService {
 
   // Books are public - NO auth required for GET
   getBooks(): Observable<Book[]> {
+    // This should NOT have any Authorization header - interceptor handles it
     return this.http.get<any[]>(this.apiUrl)
       .pipe(
         map(books => this.mapBooksFromApi(books)),
@@ -54,6 +55,7 @@ export class BookService {
   }
 
   getBook(id: number): Observable<Book> {
+    // Books are public - NO auth required for GET
     return this.http.get<any>(`${this.apiUrl}/${id}`)
       .pipe(
         map(book => this.mapBookFromApi(book)),
@@ -64,7 +66,7 @@ export class BookService {
       );
   }
 
-  // CREATE, UPDATE, DELETE still need auth
+  // CREATE, UPDATE, DELETE need auth (interceptor adds it)
   createBook(book: Book): Observable<Book> {
     return this.http.post<Book>(this.apiUrl, book)
       .pipe(
