@@ -1,8 +1,11 @@
 using System.Text;
+using System.Security.Claims;
 using BookWebApp.Api.Data;
 using BookWebApp.Api.Models;
 using BookWebApp.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,9 +58,33 @@ var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
              ?? builder.Configuration["Jwt:Key"]
              ?? throw new InvalidOperationException("JWT_KEY is required");
 
+var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+var jwtAudience = builder.Configuration["Jwt:Audience"];
+
+var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+
 builder.Services
-    .AddAuthentication("Bearer")
-    .AddJwtBearer();
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+
+            ValidateIssuer = !string.IsNullOrEmpty(jwtIssuer),
+            ValidIssuer = jwtIssuer,
+
+            ValidateAudience = !string.IsNullOrEmpty(jwtAudience),
+            ValidAudience = jwtAudience,
+
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero,
+
+            NameClaimType = ClaimTypes.Name,
+            RoleClaimType = ClaimTypes.Role
+        };
+    });
 
 builder.Services.AddAuthorization();
 
@@ -98,7 +125,6 @@ using (var scope = app.Services.CreateScope())
     if (yvonne == null)
     {
         var success = await authService.CreateAdminUser("Yvonne", "Monday123!");
-
         if (!success)
         {
             using var hmac = new System.Security.Cryptography.HMACSHA512();
@@ -123,7 +149,6 @@ using (var scope = app.Services.CreateScope())
             new Quote { Text = "Life is ours to be spent, not to be saved.", Author = "D.H. Lawrence", UserId = yvonne.Id, IsGlobal = true },
             new Quote { Text = "The secret of getting ahead is getting started.", Author = "Mark Twain", UserId = yvonne.Id, IsGlobal = true }
         );
-
         await db.SaveChangesAsync();
     }
 }
