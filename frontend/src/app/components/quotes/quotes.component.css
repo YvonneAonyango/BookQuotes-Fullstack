@@ -17,7 +17,7 @@
 }
 
 .quotes-page .page-header h1 {
-  font-size: 1.5rem !important;
+  font-size: 1.65rem !important; /* slightly increased */
   font-weight: 700 !important;
   color: #1e3a8a !important;
 }
@@ -53,14 +53,14 @@
 .quote-item .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
-  color: #1e3a8a !important;
+  color: #60a5fa !important; /* light blue for dark mode visibility */
   margin-bottom: 0.25rem !important;
 }
 
 .quote-item .quote-footer {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  color: #555 !important;
+  color: #93c5fd !important; /* softer light blue */
   text-align: right !important;
 }
 
@@ -141,7 +141,7 @@
 
 @media (max-width: 480px) {
   .quotes-page .page-header h1 {
-    font-size: 1.25rem !important;
+    font-size: 1.4rem !important;
   }
 
   .quotes-page .page-header .page-subtitle {
