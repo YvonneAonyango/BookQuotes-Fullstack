@@ -82,11 +82,12 @@
   color: #1e3a8a !important;
 }
 
-/* Dark mode card surface */
+/* ---- DARK MODE: MATCH PAGE TRANSPARENT YELLOW ---- */
 .dark-mode .book-card {
-  background: rgba(30, 41, 59, 0.7) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  color: #bfdbfe !important;
+  background: rgba(252, 211, 77, 0.18) !important;
+  backdrop-filter: blur(6px) saturate(120%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #e9d5ff !important;
 }
 
 .book-card:hover {
@@ -123,6 +124,15 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
 
+/* ---- DARK MODE HEADER: SOFT PURPLE ---- */
+.dark-mode .book-card-header {
+  background: linear-gradient(
+    135deg,
+    rgba(216, 180, 254, 0.35),
+    rgba(192, 132, 252, 0.25)
+  ) !important;
+}
+
 /* ---------------- BOOK CARD BODY ---------------- */
 .book-card-body {
   padding: 0.4rem 0.6rem !important;
@@ -142,13 +152,18 @@
   white-space: nowrap !important;
 }
 
+/* ---- DARK MODE TITLE: LIGHT PURPLE ---- */
+.dark-mode .book-title {
+  color: #e9d5ff !important;
+}
+
 .book-author {
   font-size: 0.8rem !important;
   color: #3b82f6 !important;
 }
 
 .dark-mode .book-author {
-  color: #93c5fd !important;
+  color: #c4b5fd !important;
 }
 
 .book-meta {
@@ -160,8 +175,8 @@
 }
 
 .dark-mode .book-meta {
-  color: #bfdbfe !important;
-  border-top-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ddd6fe !important;
+  border-top-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* ---------------- BOOK CARD FOOTER ---------------- */

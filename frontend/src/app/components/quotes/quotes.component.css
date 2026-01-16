@@ -19,7 +19,7 @@
 .quotes-page .page-header h1 {
   font-size: 1.65rem !important; /* slightly increased */
   font-weight: 700 !important;
-  color: #1e3a8a !important;
+  color: #e9d5ff !important; /* light purple to match books page */
 }
 
 .quotes-page .page-header .page-subtitle {
