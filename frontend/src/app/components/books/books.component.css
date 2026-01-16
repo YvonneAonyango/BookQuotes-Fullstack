@@ -5,6 +5,7 @@
   margin: 0 auto !important;
   min-height: 100vh !important;
 
+  /* translucent yellow matching page container */
   background: rgba(252, 211, 77, 0.15) !important;
   backdrop-filter: saturate(120%) blur(2px) !important;
 
@@ -27,7 +28,7 @@
 .page-header h1 {
   font-size: 2rem !important;
   font-weight: 700 !important;
-  color: #1e3a8a !important;
+  color: #e9d5ff !important; /* light purple header */
 }
 
 .page-header .lead {
@@ -69,8 +70,11 @@
 /* ---------------- BOOK CARD ---------------- */
 .book-card {
   position: relative !important;
-  background: rgba(255, 251, 230, 0.75) !important;
-  backdrop-filter: blur(6px) saturate(120%) !important;
+
+  /* translucent yellow matching page */
+  background: rgba(252, 211, 77, 0.15) !important;
+  backdrop-filter: saturate(120%) blur(2px) !important;
+
   border-radius: 12px !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
   width: 160px !important;
@@ -82,10 +86,10 @@
   color: #1e3a8a !important;
 }
 
-/* ---- DARK MODE: MATCH PAGE TRANSPARENT YELLOW ---- */
+/* Dark mode matching page container */
 .dark-mode .book-card {
-  background: rgba(252, 211, 77, 0.18) !important;
-  backdrop-filter: blur(6px) saturate(120%) !important;
+  background: rgba(252, 211, 77, 0.15) !important;
+  backdrop-filter: saturate(120%) blur(2px) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   color: #e9d5ff !important;
 }
@@ -124,7 +128,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
 
-/* ---- DARK MODE HEADER: SOFT PURPLE ---- */
+/* Dark mode header softer gradient */
 .dark-mode .book-card-header {
   background: linear-gradient(
     135deg,
@@ -146,15 +150,10 @@
 .book-title {
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  color: inherit !important;
+  color: #e9d5ff !important; /* light purple */
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
-}
-
-/* ---- DARK MODE TITLE: LIGHT PURPLE ---- */
-.dark-mode .book-title {
-  color: #e9d5ff !important;
 }
 
 .book-author {
