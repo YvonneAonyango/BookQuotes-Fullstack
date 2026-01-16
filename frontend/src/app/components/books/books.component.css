@@ -5,7 +5,6 @@
   margin: 0 auto !important;
   min-height: 100vh !important;
 
-  /* translucent light-yellow that adapts to dark mode */
   background: rgba(252, 211, 77, 0.15) !important;
   backdrop-filter: saturate(120%) blur(2px) !important;
 
@@ -70,7 +69,8 @@
 /* ---------------- BOOK CARD ---------------- */
 .book-card {
   position: relative !important;
-  background-color: #fffbe6 !important;
+  background: rgba(255, 251, 230, 0.75) !important;
+  backdrop-filter: blur(6px) saturate(120%) !important;
   border-radius: 12px !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
   width: 160px !important;
@@ -80,6 +80,13 @@
   transition: all 0.3s ease !important;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1) !important;
   color: #1e3a8a !important;
+}
+
+/* Dark mode card surface */
+.dark-mode .book-card {
+  background: rgba(30, 41, 59, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #bfdbfe !important;
 }
 
 .book-card:hover {
@@ -129,7 +136,7 @@
 .book-title {
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  color: #1e3a8a !important;
+  color: inherit !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
@@ -140,12 +147,21 @@
   color: #3b82f6 !important;
 }
 
+.dark-mode .book-author {
+  color: #93c5fd !important;
+}
+
 .book-meta {
   font-size: 0.7rem !important;
   color: #2563eb !important;
   margin-top: auto !important;
   border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
   padding-top: 0.2rem !important;
+}
+
+.dark-mode .book-meta {
+  color: #bfdbfe !important;
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 /* ---------------- BOOK CARD FOOTER ---------------- */
@@ -208,14 +224,19 @@
 
 @media (max-width: 480px) {
   .book-card {
-    width: 100% !important;
+    width: 92% !important;
+    max-width: 360px !important;
+    margin: 0 auto !important;
   }
+
   .book-card-header {
     height: 140px !important;
   }
+
   .book-card-footer {
     flex-direction: column !important;
   }
+
   .btn-add-book {
     width: 100% !important;
   }
@@ -223,11 +244,14 @@
 
 @media (max-width: 360px) {
   .book-card {
-    width: 100% !important;
+    width: 94% !important;
+    max-width: 320px !important;
   }
+
   .book-card-header {
     height: 130px !important;
   }
+
   .book-fav-icon {
     font-size: 1rem !important;
     top: 8px !important;
