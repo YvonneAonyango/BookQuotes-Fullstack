@@ -28,7 +28,7 @@
 .page-header h1 {
   font-size: 2rem !important;
   font-weight: 700 !important;
-  color: #e9d5ff !important; /* light purple header */
+  color: #7c3aed !important; /* dark purple header matching homepage */
 }
 
 .page-header .lead {
@@ -91,7 +91,7 @@
   background: rgba(252, 211, 77, 0.15) !important;
   backdrop-filter: saturate(120%) blur(2px) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #e9d5ff !important;
+  color: #7c3aed !important; /* header & title purple in dark */
 }
 
 .book-card:hover {
@@ -128,12 +128,12 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Dark mode header softer gradient */
+/* Dark mode header softer purple gradient */
 .dark-mode .book-card-header {
   background: linear-gradient(
     135deg,
-    rgba(216, 180, 254, 0.35),
-    rgba(192, 132, 252, 0.25)
+    rgba(124, 58, 237, 0.35),
+    rgba(99, 39, 237, 0.25)
   ) !important;
 }
 
@@ -150,7 +150,7 @@
 .book-title {
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  color: #e9d5ff !important; /* light purple */
+  color: #7c3aed !important; /* dark purple */
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
@@ -158,11 +158,12 @@
 
 .book-author {
   font-size: 0.8rem !important;
-  color: #3b82f6 !important;
+  color: #3b82f6 !important; /* light blue */
 }
 
-.dark-mode .book-author {
-  color: #c4b5fd !important;
+.dark-mode .book-author,
+.dark-mode .book-meta {
+  color: #93c5fd !important; /* readable in dark */
 }
 
 .book-meta {
@@ -174,7 +175,6 @@
 }
 
 .dark-mode .book-meta {
-  color: #ddd6fe !important;
   border-top-color: rgba(255, 255, 255, 0.2) !important;
 }
 

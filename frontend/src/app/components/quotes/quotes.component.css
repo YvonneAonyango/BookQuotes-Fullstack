@@ -17,9 +17,9 @@
 }
 
 .quotes-page .page-header h1 {
-  font-size: 1.65rem !important; /* slightly increased */
+  font-size: 1.65rem !important;
   font-weight: 700 !important;
-  color: #e9d5ff !important; /* light purple to match books page */
+  color: #7c3aed !important; /* dark purple to match homepage & books */
 }
 
 .quotes-page .page-header .page-subtitle {
@@ -53,14 +53,14 @@
 .quote-item .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
-  color: #60a5fa !important; /* light blue for dark mode visibility */
+  color: #60a5fa !important; /* readable in dark */
   margin-bottom: 0.25rem !important;
 }
 
 .quote-item .quote-footer {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  color: #93c5fd !important; /* softer light blue */
+  color: #93c5fd !important; /* readable in dark */
   text-align: right !important;
 }
 
