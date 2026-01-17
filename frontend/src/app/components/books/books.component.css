@@ -25,13 +25,16 @@
   text-align: center !important;
 }
 
-/* THE LIBRARY TITLE - exact same as homepage hero */
+/* THE LIBRARY TITLE - smaller, thick, gradient like .num */
 .page-header h1 {
-  font-size: clamp(2rem, 6vw, 3rem) !important; /* matches homepage */
-  font-weight: 800 !important; /* matches homepage */
-  background: linear-gradient(135deg, #3b82f6, #7c3aed); /* same gradient as homepage */
+  font-size: 2rem !important; /* roughly match .num height */
+  height: 48px !important; 
+  line-height: 48px !important;
+  font-weight: 800 !important; 
+  background: linear-gradient(135deg, #3b82f6, #7c3aed); 
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
+  margin: 0 !important;
 }
 
 .page-header .lead {
@@ -179,7 +182,7 @@
   padding: 0.4rem !important;
 }
 
-/* GLASSY CRUD BUTTONS */
+/* GLASSY CRUD BUTTONS (EDIT / DELETE) */
 .btn-edit,
 .btn-delete {
   flex: 1 !important;
@@ -190,27 +193,19 @@
   font-weight: 600 !important;
   cursor: pointer !important;
   backdrop-filter: blur(6px) !important;
-  transition: all 0.2s ease !important;
+  transition: all 0.25s ease !important;
+
+  /* MATCH BOOK TEXT COLORS */
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--book-text-color) !important;
+  border: 1px solid rgba(30, 58, 138, 0.25) !important;
 }
 
-.btn-edit {
-  background: rgba(96, 165, 250, 0.35) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(96, 165, 250, 0.45) !important;
-}
-
-.btn-edit:hover {
-  background: rgba(96, 165, 250, 0.55) !important;
-}
-
-.btn-delete {
-  background: rgba(248, 113, 113, 0.35) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(248, 113, 113, 0.45) !important;
-}
-
+.btn-edit:hover,
 .btn-delete:hover {
-  background: rgba(248, 113, 113, 0.55) !important;
+  background: rgba(252, 211, 77, 0.55) !important; /* glassy like Add Book */
+  transform: translateY(-2px) !important; /* hover move up */
+  border: 1px solid rgba(252, 211, 77, 0.6) !important;
 }
 
 /* ---------------- NO BOOKS MESSAGE ---------------- */
@@ -245,7 +240,8 @@
   }
 
   .page-header h1 {
-    font-size: 2.2rem !important;
+    font-size: 1.6rem !important;
+    line-height: 48px !important;
   }
 
   .book-title {
