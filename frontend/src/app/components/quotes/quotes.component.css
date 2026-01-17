@@ -74,13 +74,11 @@
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* ---------------- QUOTE TEXT WITH GRADIENT ---------------- */
+/* ---------------- QUOTE TEXT ---------------- */
 .quote-item .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
-  background: linear-gradient(135deg, #b87c1e, #fcd77c) !important; /* warm gold gradient */
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
+  color: #1e3a8a !important; /* same as edit/delete buttons */
   margin-bottom: 0.25rem !important;
 }
 
@@ -88,9 +86,7 @@
 .quote-item .quote-footer {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  background: linear-gradient(135deg, #6b6b6b, #999) !important; /* gray gradient for author */
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
+  color: #1e3a8a !important; /* same as edit/delete buttons */
   text-align: right !important;
 }
 
@@ -195,7 +191,7 @@
 /* ---------------- DARK MODE SUPPORT ---------------- */
 @media (prefers-color-scheme: dark) {
   .quotes-page {
-    background-color: rgba(252, 211, 77, 0.15) !important;
+    background-color: rgba(252, 211, 77, 0.15) !important; /* maintain soft yellow */
     color: #e5e7eb !important;
   }
 
@@ -204,16 +200,9 @@
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
 
-  .quote-item .quote-text {
-    background: linear-gradient(135deg, #fcd77c, #ffeaa0) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-  }
-
+  .quote-item .quote-text,
   .quote-item .quote-footer {
-    background: linear-gradient(135deg, #dcdcdc, #f5f5f5) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
+    color: #111827 !important; /* match dark-mode edit/delete buttons */
   }
 
   .quote-buttons button,
