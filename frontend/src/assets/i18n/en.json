@@ -19,6 +19,10 @@
   "accessibleAnywhere": "Accessible anywhere",
 
   "howItWorks": "How It Works",
+  "browseBooksStepDesc": "All users can explore the library and discover books.",
+"readQuotesStepDesc": "Enjoy featured quotes from books. Quotes are read-only.",
+"manageBooksStepDesc": "Add, edit, or delete your own books after logging in.",
+
 
   "browseBooks": "Browse Books",
   "quoteCollection": "Quote Collection",

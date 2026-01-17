@@ -19,6 +19,9 @@
   "accessibleAnywhere": "Tillgängligt var som helst",
 
   "howItWorks": "Hur det fungerar",
+  "browseBooksStepDesc": "Alla användare kan utforska biblioteket och upptäcka böcker.",
+"readQuotesStepDesc": "Njut av utvalda citat från böcker. Citat är skrivskyddade.",
+"manageBooksStepDesc": "Lägg till, redigera eller ta bort dina egna böcker efter inloggning.",
 
   "browseBooks": "Bläddra i böcker",
   "quoteCollection": "Citatinsamling",

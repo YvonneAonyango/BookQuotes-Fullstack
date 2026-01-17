@@ -4,9 +4,12 @@
   max-width: 1200px !important;
   margin: 0 auto !important;
   min-height: 100vh !important;
-  background-color: rgba(255, 235, 120, 0.2) !important; /* fallback light theme */
-  color: #1e3a8a !important;
+  background-color: rgba(252, 211, 77, 0.15) !important; /* warm light transparent yellow */
+  color: #1e3a8a !important; 
   backdrop-filter: blur(6px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
 /* ---------------- PAGE HEADER ---------------- */
@@ -21,19 +24,17 @@
   gap: 0.5rem !important;
 }
 
-/* HEADER H1 - MATCH BOOKS PAGE, LIGHTER FONT */
 .quotes-page .page-header h1 {
   font-size: 1.8rem !important;
   height: 42px !important;
   line-height: 42px !important;
-  font-weight: 500 !important; /* lighter, natural page header */ 
+  font-weight: 500 !important;
   background: linear-gradient(135deg, #3b82f6, #7c3aed) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   margin: 0 !important;
 }
 
-/* SUBTITLE / LEAD - MATCH BOOKS PAGE */
 .quotes-page .page-header .page-subtitle {
   font-size: 1rem !important;
   font-weight: 500 !important;
@@ -56,7 +57,7 @@
 /* ---------------- GLASSY QUOTE CARD ---------------- */
 .quote-item {
   position: relative !important;
-  background: rgba(252, 211, 77, 0.25) !important; /* slightly opaque for readability */
+  background: rgba(252, 211, 77, 0.25) !important; 
   backdrop-filter: saturate(120%) blur(6px) !important;
   border-radius: 12px !important;
   border: 1px solid rgba(0, 0, 0, 0.15) !important;
@@ -73,11 +74,13 @@
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* ---------------- QUOTE TEXT ---------------- */
+/* ---------------- QUOTE TEXT WITH GRADIENT ---------------- */
 .quote-item .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
-  color: #b87c1e !important; /* harmonious gold for readability */
+  background: linear-gradient(135deg, #b87c1e, #fcd77c) !important; /* warm gold gradient */
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
   margin-bottom: 0.25rem !important;
 }
 
@@ -85,7 +88,9 @@
 .quote-item .quote-footer {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  color: #b87c1e !important; /* harmonious gold for readability */
+  background: linear-gradient(135deg, #6b6b6b, #999) !important; /* gray gradient for author */
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
   text-align: right !important;
 }
 
@@ -190,21 +195,25 @@
 /* ---------------- DARK MODE SUPPORT ---------------- */
 @media (prefers-color-scheme: dark) {
   .quotes-page {
-    background-color: rgba(30, 30, 30, 0.7) !important; /* subtle dark background */
-    color: #e5e7eb !important; /* light gray text */
+    background-color: rgba(252, 211, 77, 0.15) !important;
+    color: #e5e7eb !important;
   }
 
   .quote-item {
-    background: rgba(252, 211, 77, 0.15) !important; /* still yellowish but subtle */
+    background: rgba(252, 211, 77, 0.2) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
   }
 
   .quote-item .quote-text {
-    color: #fcd77c !important; /* harmonious gold for dark mode */
+    background: linear-gradient(135deg, #fcd77c, #ffeaa0) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
   }
 
   .quote-item .quote-footer {
-    color: #fbeaa0 !important; /* lighter gold for author */
+    background: linear-gradient(135deg, #dcdcdc, #f5f5f5) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
   }
 
   .quote-buttons button,
