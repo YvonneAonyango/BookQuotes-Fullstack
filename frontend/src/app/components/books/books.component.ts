@@ -5,17 +5,22 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome'; // ✅ import module
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    FontAwesomeModule // ✅ add FontAwesomeModule here
+  ],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
 export class BooksComponent implements OnInit {
-  books: (Book & { isFavorite: boolean })[] = []; // extend Book type to include isFavorite
+  books: (Book & { isFavorite: boolean })[] = [];
   isLoading = false;
   errorMessage = '';
 
@@ -27,6 +32,11 @@ export class BooksComponent implements OnInit {
   private router = inject(Router);
   private translate = inject(TranslateService);
   private auth = inject(AuthService);
+  private library = inject(FaIconLibrary);
+
+  constructor() {
+    this.library.addIcons(faStar); // ✅ add icon to library
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle('BookWebApp - The Library');
@@ -41,8 +51,7 @@ export class BooksComponent implements OnInit {
     this.isLoading = true;
     this.bookService.getBooks().subscribe({
       next: books => {
-        // initialize isFavorite safely
-        this.books = books.map(b => ({ ...b, isFavorite: false }));
+        this.books = books.map(b => ({ ...b, isFavorite: false })); // initialize favorites
         this.isLoading = false;
       },
       error: () => {
@@ -54,43 +63,33 @@ export class BooksComponent implements OnInit {
 
   toggleFavorite(book: Book & { isFavorite: boolean }): void {
     book.isFavorite = !book.isFavorite;
-    // Optionally: send favorite state to backend
   }
 
   addBook(): void {
-    if (!this.isLoggedIn()) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    this.router.navigate(['/books/new']);
+    if (!this.isLoggedIn()) this.router.navigate(['/login']);
+    else this.router.navigate(['/books/new']);
   }
 
   editBook(book: Book): void {
-    if (!this.isLoggedIn()) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    this.router.navigate(['/books/edit', book.id]);
+    if (!this.isLoggedIn()) this.router.navigate(['/login']);
+    else this.router.navigate(['/books/edit', book.id]);
   }
 
   deleteBook(book: Book): void {
-    if (!this.isLoggedIn()) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    this.translate.get('confirmDeleteBook').subscribe(msg => {
-      if (confirm(msg)) {
-        this.bookService.deleteBook(book.id!).subscribe({
-          next: () => {
-            this.books = this.books.filter(b => b.id !== book.id);
-          },
-          error: () => {
-            alert(this.translate.instant('errorDeleteBook'));
-          }
-        });
-      }
-    });
+    if (!this.isLoggedIn()) this.router.navigate(['/login']);
+    else
+      this.translate.get('confirmDeleteBook').subscribe(msg => {
+        if (confirm(msg)) {
+          this.bookService.deleteBook(book.id!).subscribe({
+            next: () => {
+              this.books = this.books.filter(b => b.id !== book.id);
+            },
+            error: () => {
+              alert(this.translate.instant('errorDeleteBook'));
+            }
+          });
+        }
+      });
   }
 
   formatDate(dateString?: string): string {
