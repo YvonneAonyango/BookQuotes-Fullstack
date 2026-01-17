@@ -13,7 +13,6 @@
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  color: #ffffff !important;
 }
 
 /* ---------------- PAGE HEADER ---------------- */
@@ -26,10 +25,13 @@
   text-align: center !important;
 }
 
+/* THE LIBRARY TITLE - exact same as homepage hero */
 .page-header h1 {
-  font-size: clamp(1.6rem, 4vw, 2rem) !important;
-  font-weight: 700 !important;
-  color: #482df4 !important;
+  font-size: clamp(2rem, 6vw, 3rem) !important; /* matches homepage */
+  font-weight: 800 !important; /* matches homepage */
+  background: linear-gradient(135deg, #3b82f6, #7c3aed); /* same gradient as homepage */
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
 .page-header .lead {
@@ -111,7 +113,7 @@
 }
 
 .book-fav-icon fa-icon:not(.favorite) {
-  color: rgba(30, 58, 138, 0.6); /* subtle blue for unfavorited */
+  color: rgba(30, 58, 138, 0.6);
 }
 
 /* ---------------- BOOK CARD HEADER ---------------- */
@@ -148,7 +150,7 @@
 .book-title,
 .book-author,
 .book-meta {
-  color: var(--book-text-color) !important; /* exact same blue as ADD NEW BOOK */
+  color: var(--book-text-color) !important; /* exact blue as ADD NEW BOOK */
 }
 
 .book-title {
@@ -166,7 +168,7 @@
 .book-meta {
   font-size: 0.7rem !important;
   margin-top: auto !important;
-  border-top: 1px solid rgba(30, 58, 138, 0.15) !important; /* subtle blue border for consistency */
+  border-top: 1px solid rgba(30, 58, 138, 0.15) !important;
   padding-top: 0.25rem !important;
 }
 
@@ -240,6 +242,10 @@
 @media (max-width: 360px) {
   .book-card-header {
     height: 130px !important;
+  }
+
+  .page-header h1 {
+    font-size: 2.2rem !important;
   }
 
   .book-title {
