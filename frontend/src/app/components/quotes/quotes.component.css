@@ -53,10 +53,10 @@
   gap: 1.25rem;
 }
 
-/* ---------------- GLASSY QUOTE CARD ---------------- */
+/* GLASSY QUOTE CARD */
 .quote-item {
   position: relative !important;
-  background: rgba(252, 211, 77, 0.15) !important; /* semi-transparent yellow like books */
+  background: rgba(252, 211, 77, 0.15) !important;
   backdrop-filter: saturate(120%) blur(4px) !important;
   border-radius: 12px !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
@@ -77,7 +77,7 @@
 .quote-item .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
-  color: #1e3a8a !important; /* match books text color */
+  color: #60a5fa !important; /* light blue for readability */
   margin-bottom: 0.25rem !important;
 }
 
@@ -85,7 +85,7 @@
 .quote-item .quote-footer {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  color: #3b82f6 !important; /* match books accent */
+  color: #93c5fd !important; /* lighter blue for author */
   text-align: right !important;
 }
 
@@ -115,7 +115,7 @@
   transform: translateY(-1px);
 }
 
-/* ---------------- FORM BUTTONS (SOFTENED) ---------------- */
+/* ---------------- FORM BUTTONS ---------------- */
 .quotes-page .form-buttons {
   display: flex !important;
   gap: 0.5rem !important;

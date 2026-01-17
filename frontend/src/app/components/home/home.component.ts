@@ -45,10 +45,11 @@ export class HomeComponent implements OnInit {
     document.body.classList.add('homepage');
     this.titleService.setTitle('BookWebApp - Home');
 
-    this.translate.get('homeDescription').subscribe((translated: string) => {
-      this.meta.updateTag({
-        name: 'description',
-        content: translated
+    // Ensure the current language is applied for template translation
+    const lang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
+    this.translate.use(lang).subscribe(() => {
+      this.translate.get('homeDescription').subscribe((translated: string) => {
+        this.meta.updateTag({ name: 'description', content: translated });
       });
     });
   }
