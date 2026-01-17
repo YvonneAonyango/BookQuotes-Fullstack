@@ -1,3 +1,4 @@
+/* ================= QUOTES PAGE ================= */
 .quotes-page {
   padding: 2rem 1rem !important;
   max-width: 1200px !important;
@@ -14,18 +15,29 @@
   padding-bottom: 2rem !important;
   margin-bottom: 1.5rem !important;
   border-bottom: 1px solid rgba(0,0,0,0.15) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
 }
 
+/* HEADER H1 - MATCH BOOKS PAGE */
 .quotes-page .page-header h1 {
-  font-size: 1.65rem !important;
-  font-weight: 700 !important;
-  color: #4034ed !important;
+  font-size: 1.8rem !important;
+  height: 42px !important;
+  line-height: 42px !important;
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #3b82f6, #7c3aed) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  margin: 0 !important;
 }
 
+/* SUBTITLE / LEAD - MATCH BOOKS PAGE */
 .quotes-page .page-header .page-subtitle {
   font-size: 1rem !important;
   font-weight: 500 !important;
-  color: #60a5fa !important;
+  color: #3b82f6 !important;
   line-height: 1.6 !important;
   max-width: 60ch !important;
   margin: 0.75rem auto 0 !important;
@@ -41,26 +53,39 @@
   gap: 1.25rem;
 }
 
+/* ---------------- GLASSY QUOTE CARD ---------------- */
 .quote-item {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative !important;
+  background: rgba(252, 211, 77, 0.15) !important; /* semi-transparent yellow like books */
+  backdrop-filter: saturate(120%) blur(4px) !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  padding: 1rem !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.quote-item:last-child {
-  border-bottom: none;
+.quote-item:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
+/* ---------------- QUOTE TEXT ---------------- */
 .quote-item .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
-  color: #60a5fa !important;
+  color: #1e3a8a !important; /* match books text color */
   margin-bottom: 0.25rem !important;
 }
 
+/* ---------------- QUOTE FOOTER / AUTHOR ---------------- */
 .quote-item .quote-footer {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  color: #93c5fd !important;
+  color: #3b82f6 !important; /* match books accent */
   text-align: right !important;
 }
 
@@ -73,19 +98,21 @@
 }
 
 .quote-buttons button {
-  background: rgba(96, 165, 250, 0.25);
-  color: #e0e7ff;
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  border-radius: 8px;
+  background: rgba(252, 211, 77, 0.25) !important;
+  color: #1e3a8a !important;
+  border: 1px solid rgba(252, 211, 77, 0.5) !important;
+  border-radius: 8px !important;
   padding: 0.35rem 0.75rem;
   font-size: 0.875rem;
+  font-weight: 600 !important;
   cursor: pointer;
   backdrop-filter: blur(6px);
   transition: all 0.2s ease;
 }
 
 .quote-buttons button:hover {
-  background: rgba(96, 165, 250, 0.4);
+  background: rgba(252, 211, 77, 0.45) !important;
+  transform: translateY(-1px);
 }
 
 /* ---------------- FORM BUTTONS (SOFTENED) ---------------- */
@@ -143,7 +170,8 @@
 
 @media (max-width: 480px) {
   .quotes-page .page-header h1 {
-    font-size: 1.4rem !important;
+    font-size: 1.6rem !important;
+    line-height: 42px !important;
   }
 
   .quotes-page .page-header .page-subtitle {
