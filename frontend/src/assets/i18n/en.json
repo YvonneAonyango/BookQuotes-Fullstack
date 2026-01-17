@@ -7,9 +7,12 @@
 
   "yourPersonalLibraryReimagined": "Your personal library, reimagined",
   "homeDescription": "BookWebApp - Your personal digital library for organizing books and capturing meaningful quotes. Transform your reading experience with smart book management and quote collection.",
+
   "getStarted": "Start Free Now",
   "browseLibrary": "Browse Library",
+
   "featuredQuotes": "Featured Quotes",
+
   "readyToStartYourJourney": "Ready to Start Your Journey?",
   "freeToGetStarted": "Free to get started",
   "noCreditCardRequired": "No credit card required",
@@ -18,12 +21,32 @@
 
   "whatBookWebAppOffers": "What BookWebApp Offers",
   "transformYourReadingExperience": "Transform your reading experience with our powerful features",
+
   "smartBookManagement": "Smart Book Management",
   "bookManagementDesc": "Add, categorize, and track all your books in one beautiful digital library.",
+
   "quoteCollection": "Quote Collection",
   "quoteCollectionDesc": "Save and manage your favorite quotes from books.",
+
   "readingInsights": "Reading Insights",
   "trackYourReadingHabits": "Track your reading habits and discover patterns in your literary journey",
+
+  "howItWorks": "How It Works",
+  "startInThreeEasySteps": "Start in three easy steps",
+
+  "addBooksQuickly": "Add Books Quickly",
+  "curateYourCollectionInMinutes": "Curate your collection in minutes",
+
+  "captureQuotes": "Capture Quotes",
+  "saveAndOrganizeQuotesEasily": "Save and organize quotes easily",
+
+  "gainInsights": "Gain Insights",
+  "trackReadingAndDiscoverTrends": "Track your reading and discover trends",
+
+  "elevateYourReadingExperience": "Elevate your reading experience",
+  "organizeAndTrackBooks": "Organize and track your books effortlessly",
+  "saveAndRevisitFavoriteLines": "Save and revisit your favorite lines from books",
+  "seeProgressAndPatterns": "See your reading progress and patterns over time",
 
   "myQuotes": "My Quotes",
   "myQuotesSubtitle": "Browse some of my favourite quotes",
@@ -53,7 +76,6 @@
   "noQuotesYet": "No quotes yet",
   "startByAddingQuote": "Start by adding your first quote!",
 
-  
   "myBooks": "The Library",
   "manageBookCollection": "Manage the book collection",
   "addNewBook": "Add New Book",
@@ -91,12 +113,14 @@
   "loggingIn": "Logging in...",
 
   "alreadyHaveAccount": "Already have an account?",
-  "loginToAccount": "Sign in here",
+  "loginToYourAccount": "Login to your account",
+
   "dontHaveAccount": "Don't have an account?",
   "register": "Register",
 
   "createAccount": "Create Account",
   "usernameMinLength": "Username must be at least 3 characters long",
+
   "createPassword": "Create a password",
   "confirmPassword": "Confirm Password",
   "confirmPasswordRequired": "Please confirm your password",
@@ -131,19 +155,5 @@
   "errorUpdatingBook": "Failed to update book. Please try again.",
 
   "serverError": "Server error. Please try again later.",
-  "anErrorOccurred": "An error occurred:",
-
-  "elevateYourReadingExperience": "Elevate your reading experience",
-  "organizeAndTrackBooks": "Organize and track your books effortlessly",
-  "saveAndRevisitFavoriteLines": "Save and revisit your favorite lines from books",
-  "seeProgressAndPatterns": "See your reading progress and patterns over time",
-  "howItWorks": "How It Works",
-  "startInThreeEasySteps": "Start in three easy steps",
-  "addBooksQuickly": "Add Books Quickly",
-  "curateYourCollectionInMinutes": "Curate your book collection in minutes",
-  "captureQuotes": "Capture Quotes",
-  "saveAndOrganizeQuotesEasily": "Save and organize quotes easily",
-  "gainInsights": "Gain Insights",
-  "trackReadingAndDiscoverTrends": "Track your reading and discover trends",
-  "loginToYourAccount": "Login to your account"
+  "anErrorOccurred": "An error occurred:"
 }

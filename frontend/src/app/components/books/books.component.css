@@ -5,7 +5,6 @@
   margin: 0 auto !important;
   min-height: 100vh !important;
 
-  /* translucent yellow matching page container */
   background: rgba(252, 211, 77, 0.15) !important;
   backdrop-filter: saturate(120%) blur(2px) !important;
 
@@ -26,40 +25,42 @@
 }
 
 .page-header h1 {
-  font-size: 2rem !important;
+  font-size: clamp(1.6rem, 4vw, 2rem) !important;
   font-weight: 700 !important;
-  color: #7c3aed !important; /* dark purple header matching homepage */
+  color: #7c3aed !important;
 }
 
 .page-header .lead {
   font-size: 1rem !important;
   font-weight: 500 !important;
   color: #3b82f6 !important;
+  max-width: 60ch !important;
 }
 
 /* ---------------- ADD BOOK BUTTON ---------------- */
 .btn-add-book {
   margin-top: 1rem !important;
-  background-color: #fcd34d !important;
+  background: rgba(252, 211, 77, 0.55) !important;
   color: #1e3a8a !important;
+  border: 1px solid rgba(252, 211, 77, 0.6) !important;
   border-radius: 12px !important;
-  padding: 0.5rem 1rem !important;
-  font-size: 0.875rem !important;
+  padding: 0.55rem 1.2rem !important;
+  font-size: 0.9rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
+  backdrop-filter: blur(6px) !important;
   transition: all 0.25s ease !important;
 }
 
 .btn-add-book:hover {
-  background-color: #fbbf24 !important;
+  background: rgba(252, 211, 77, 0.75) !important;
   transform: translateY(-2px) !important;
 }
 
 /* ---------------- BOOKS CONTAINER ---------------- */
 .books-container {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
   gap: 1.5rem !important;
   justify-content: center !important;
   width: 100% !important;
@@ -70,28 +71,26 @@
 /* ---------------- BOOK CARD ---------------- */
 .book-card {
   position: relative !important;
-
-  /* translucent yellow matching page */
   background: rgba(252, 211, 77, 0.15) !important;
   backdrop-filter: saturate(120%) blur(2px) !important;
-
   border-radius: 12px !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  width: 160px !important;
+
+  width: 100% !important;
+  max-width: 190px !important;
+
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
   transition: all 0.3s ease !important;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1) !important;
-  color: #1e3a8a !important;
 }
 
-/* Dark mode matching page container */
+/* DARK MODE — READABILITY FIX */
 .dark-mode .book-card {
   background: rgba(252, 211, 77, 0.15) !important;
-  backdrop-filter: saturate(120%) blur(2px) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #7c3aed !important; /* header & title purple in dark */
+  color: #ffffff !important;
 }
 
 .book-card:hover {
@@ -99,36 +98,19 @@
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* ---------------- STAR ICON ---------------- */
-.book-fav-icon {
-  position: absolute !important;
-  top: 10px !important;
-  left: 10px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #fbbf24 !important;
-  font-size: 1.1rem !important;
-  padding: 0.2rem 0.35rem !important;
-  border-radius: 50% !important;
-  z-index: 5 !important;
-}
-
 /* ---------------- BOOK CARD HEADER ---------------- */
 .book-card-header {
-  height: 160px !important;
+  height: 150px !important;
   background: linear-gradient(
     135deg,
     rgba(255, 210, 120, 0.6),
     rgba(255, 165, 0, 0.4)
   ) !important;
-  background-size: cover !important;
-  background-position: center !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Dark mode header softer purple gradient */
 .dark-mode .book-card-header {
   background: linear-gradient(
     135deg,
@@ -139,31 +121,32 @@
 
 /* ---------------- BOOK CARD BODY ---------------- */
 .book-card-body {
-  padding: 0.4rem 0.6rem !important;
+  padding: 0.5rem 0.65rem !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.2rem !important;
+  gap: 0.25rem !important;
   flex: 1 !important;
-  justify-content: flex-start !important;
 }
 
+/* TEXT — DARK MODE WHITE */
 .book-title {
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  color: #905bed !important; /* dark purple */
+  color: #7c3aed !important;
+  white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  white-space: nowrap !important;
+}
+
+.dark-mode .book-title,
+.dark-mode .book-author,
+.dark-mode .book-meta {
+  color: #ffffff !important;
 }
 
 .book-author {
   font-size: 0.8rem !important;
-  color: #3b82f6 !important; /* light blue */
-}
-
-.dark-mode .book-author,
-.dark-mode .book-meta {
-  color: #93c5fd !important; /* readable in dark */
+  color: #3b82f6 !important;
 }
 
 .book-meta {
@@ -171,49 +154,50 @@
   color: #2563eb !important;
   margin-top: auto !important;
   border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
-  padding-top: 0.2rem !important;
-}
-
-.dark-mode .book-meta {
-  border-top-color: rgba(255, 255, 255, 0.2) !important;
+  padding-top: 0.25rem !important;
 }
 
 /* ---------------- BOOK CARD FOOTER ---------------- */
 .book-card-footer {
   display: flex !important;
-  gap: 0.2rem !important;
-  padding: 0.3rem 0.4rem !important;
-  margin-top: auto !important;
-  justify-content: space-between !important;
+  gap: 0.35rem !important;
+  padding: 0.4rem !important;
 }
 
+/* GLASSY CRUD BUTTONS */
 .btn-edit,
 .btn-delete {
   flex: 1 !important;
-  font-size: 0.65rem !important;
-  padding: 0.25rem !important;
-  border-radius: 6px !important;
+  min-height: 34px !important;
+  font-size: 0.7rem !important;
+  padding: 0.35rem !important;
+  border-radius: 8px !important;
   font-weight: 600 !important;
   cursor: pointer !important;
+  backdrop-filter: blur(6px) !important;
   transition: all 0.2s ease !important;
 }
 
+/* EDIT */
 .btn-edit {
-  background-color: #2563eb !important;
-  color: #fff !important;
+  background: rgba(96, 165, 250, 0.35) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(96, 165, 250, 0.45) !important;
 }
 
 .btn-edit:hover {
-  background-color: #1e40af !important;
+  background: rgba(96, 165, 250, 0.55) !important;
 }
 
+/* DELETE */
 .btn-delete {
-  background-color: #ef4444 !important;
-  color: #fff !important;
+  background: rgba(248, 113, 113, 0.35) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(248, 113, 113, 0.45) !important;
 }
 
 .btn-delete:hover {
-  background-color: #b91c1c !important;
+  background: rgba(248, 113, 113, 0.55) !important;
 }
 
 /* ---------------- NO BOOKS MESSAGE ---------------- */
@@ -223,32 +207,14 @@
   margin-top: 2rem !important;
 }
 
-/* ---------------- RESPONSIVE ---------------- */
-@media (max-width: 1024px) {
-  .book-card {
-    width: 160px !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .book-card {
-    width: 45% !important;
-  }
-}
-
+/* ---------------- SMALL DEVICES ---------------- */
 @media (max-width: 480px) {
+  .books-container {
+    gap: 1rem !important;
+  }
+
   .book-card {
-    width: 92% !important;
-    max-width: 360px !important;
-    margin: 0 auto !important;
-  }
-
-  .book-card-header {
-    height: 140px !important;
-  }
-
-  .book-card-footer {
-    flex-direction: column !important;
+    max-width: 100% !important;
   }
 
   .btn-add-book {
@@ -256,19 +222,13 @@
   }
 }
 
+/* ---------------- EXTRA SMALL / FOLD ---------------- */
 @media (max-width: 360px) {
-  .book-card {
-    width: 94% !important;
-    max-width: 320px !important;
-  }
-
   .book-card-header {
     height: 130px !important;
   }
 
-  .book-fav-icon {
-    font-size: 1rem !important;
-    top: 8px !important;
-    left: 8px !important;
+  .book-title {
+    font-size: 0.9rem !important;
   }
 }

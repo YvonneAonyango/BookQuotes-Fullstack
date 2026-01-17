@@ -19,7 +19,7 @@
 .quotes-page .page-header h1 {
   font-size: 1.65rem !important;
   font-weight: 700 !important;
-  color: #8d5ae4 !important; /* dark purple to match homepage & books */
+  color: #8d5ae4 !important;
 }
 
 .quotes-page .page-header .page-subtitle {
@@ -53,14 +53,14 @@
 .quote-item .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
-  color: #60a5fa !important; /* readable in dark */
+  color: #60a5fa !important;
   margin-bottom: 0.25rem !important;
 }
 
 .quote-item .quote-footer {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  color: #93c5fd !important; /* readable in dark */
+  color: #93c5fd !important;
   text-align: right !important;
 }
 
@@ -73,22 +73,22 @@
 }
 
 .quote-buttons button {
-  background-color: #2563eb;
-  color: #fff;
-  border: none;
+  background: rgba(96, 165, 250, 0.25);
+  color: #e0e7ff;
+  border: 1px solid rgba(96, 165, 250, 0.35);
   border-radius: 8px;
   padding: 0.35rem 0.75rem;
   font-size: 0.875rem;
   cursor: pointer;
+  backdrop-filter: blur(6px);
   transition: all 0.2s ease;
-  pointer-events: auto;
 }
 
 .quote-buttons button:hover {
-  background-color: #1e40af;
+  background: rgba(96, 165, 250, 0.4);
 }
 
-/* ---------------- FORM BUTTONS ---------------- */
+/* ---------------- FORM BUTTONS (SOFTENED) ---------------- */
 .quotes-page .form-buttons {
   display: flex !important;
   gap: 0.5rem !important;
@@ -97,29 +97,31 @@
 
 .quotes-page .btn-add-quote,
 .quotes-page .btn-cancel {
-  background-color: #e6a84d !important;
-  color: #fff !important;
+  background: rgba(252, 211, 77, 0.45) !important;
+  color: #1e3a8a !important;
+  border: 1px solid rgba(252, 211, 77, 0.5) !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
   cursor: pointer !important;
   padding: 0.5rem 1rem !important;
+  backdrop-filter: blur(6px) !important;
   transition: all 0.25s ease !important;
   flex: 1 !important;
   max-width: 150px !important;
 }
 
 .quotes-page .btn-add-quote:hover {
-  background-color: #d18c3d !important;
+  background: rgba(252, 211, 77, 0.65) !important;
   transform: translateY(-1px) !important;
 }
 
 .quotes-page .btn-cancel {
-  background-color: #fca5a5 !important;
-  border: none !important;
+  background: rgba(248, 113, 113, 0.35) !important;
+  border: 1px solid rgba(248, 113, 113, 0.45) !important;
 }
 
 .quotes-page .btn-cancel:hover {
-  background-color: #f87171 !important;
+  background: rgba(248, 113, 113, 0.55) !important;
   transform: translateY(-1px) !important;
 }
 

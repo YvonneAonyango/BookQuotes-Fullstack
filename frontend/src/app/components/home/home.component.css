@@ -88,7 +88,6 @@ body.homepage {
   padding: 2rem;
   text-align: center;
   box-shadow: 0 4px 6px var(--shadow);
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .card:hover {
@@ -125,7 +124,6 @@ body.homepage {
 }
 
 .num {
-  display: inline-block;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -134,6 +132,7 @@ body.homepage {
   line-height: 48px;
   font-weight: bold;
   margin-bottom: 1rem;
+  display: inline-block;
 }
 
 /* === QUOTES SECTION === */
@@ -184,41 +183,107 @@ body.homepage {
   flex-wrap: wrap;
 }
 
-.btn-primary, .btn-outline {
+.btn-primary,
+.btn-outline {
   padding: 0.75rem 2rem;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   border: 2px solid var(--accent);
-  text-align: center;
 }
 
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-outline { background: transparent; color: var(--accent); }
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
 
-.cta-note { color: var(--text2); margin-top: 2rem; }
-.cta-note a { color: var(--accent); text-decoration: none; }
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+}
+
+/* CTA NOTE LINK */
+.cta-note {
+  color: var(--text2);
+  margin-top: 2rem;
+}
+
+.cta-note a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cta-note a:hover {
+  opacity: 0.85;
+}
 
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
-  .cards-grid, .steps-grid, .quotes-grid { gap: 1.5rem; }
+  .cards-grid,
+  .steps-grid,
+  .quotes-grid {
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .hero-title { font-size: 2.2rem; }
-  .cards-grid, .steps-grid, .quotes-grid { grid-template-columns: 1fr; }
-  .cta-buttons { flex-direction: column; align-items: center; }
-  .btn-primary, .btn-outline { width: 100%; max-width: 300px; }
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .cards-grid,
+  .steps-grid,
+  .quotes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 1.8rem; }
-  .hero-modern, .steps-modern, .featured-quotes, .cta-modern { padding: 2rem 1rem; }
-  .card, .quote-card { padding: 1.5rem; }
-  .cta-buttons { gap: 0.75rem; }
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-modern,
+  .steps-modern,
+  .featured-quotes,
+  .cta-modern {
+    padding: 2rem 1rem;
+  }
+
+  .card,
+  .quote-card {
+    padding: 1.5rem;
+  }
+
+  .cta-buttons {
+    gap: 0.75rem;
+  }
 }
 
 @media (max-width: 360px) {
-  .num { width: 40px; height: 40px; line-height: 40px; font-size: 0.85rem; }
-  .btn-primary, .btn-outline { font-size: 0.9rem; padding: 0.65rem 1.5rem; }
+  .num {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 0.85rem;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    font-size: 0.9rem;
+    padding: 0.65rem 1.5rem;
+  }
 }
