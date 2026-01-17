@@ -5,7 +5,7 @@
   "metaQuotesTitle": "BookWebApp - Mina citat",
   "metaQuotesDescription": "Bläddra bland några av mina favoritcitat",
 
-  "homeDescription": "BookWebApp – ditt personliga digitala bibliotek för att bläddra i böcker, läsa utvalda citat och hantera din egen samling när du är inloggad.",
+  "homeDescription": "Ditt personliga digitala bibliotek för att bläddra i böcker, läsa utvalda citat och hantera din egen samling.",
 
   "getStarted": "Börja gratis nu",
   "browseLibrary": "Bläddra i biblioteket",
@@ -18,43 +18,12 @@
   "useOnAnyDevice": "Använd på vilken enhet som helst",
   "accessibleAnywhere": "Tillgängligt var som helst",
 
-  "whatBookWebAppOffers": "Vad BookWebApp erbjuder",
-  "transformYourReadingExperience": "Förvandla din läsupplevelse med våra kraftfulla funktioner",
-
-  "smartBookManagement": "Smart bokhantering",
-  "bookManagementDesc": "Lägg till, kategorisera och spåra dina personliga böcker efter inloggning.",
-
-  "quoteCollection": "Citatinsamling",
-  "quoteCollectionDesc": "Läs utvalda citat från böcker. Citat är alltid skrivskyddade.",
-
-  "readingInsights": "Läsinsikter",
-  "trackYourReadingHabits": "Spåra dina läsvanor och upptäck mönster i din litterära resa",
-
   "howItWorks": "Hur det fungerar",
-  "startInThreeEasySteps": "Kom igång i några enkla steg",
 
-  "browseBooksStep": "Bläddra i böcker",
-  "browseBooksStepDesc": "Alla användare kan utforska biblioteket och upptäcka böcker.",
-
-  "readQuotesStep": "Läs citat",
-  "readQuotesStepDesc": "Njut av utvalda citat från böcker. Citat är skrivskyddade.",
-
-  "manageBooksStep": "Hantera böcker",
-  "manageBooksStepDesc": "Lägg till, redigera eller ta bort dina egna böcker efter inloggning.",
-
-  "addBooksQuickly": "Lägg till böcker snabbt",
-  "curateYourCollectionInMinutes": "Kurera din samling på några minuter",
-
-  "captureQuotes": "Fånga citat",
-  "saveAndOrganizeQuotesEasily": "Spara och organisera citat enkelt",
-
-  "gainInsights": "Få insikter",
-  "trackReadingAndDiscoverTrends": "Spåra ditt läsande och upptäck trender",
-
-  "elevateYourReadingExperience": "Förbättra din läsupplevelse",
-  "organizeAndTrackBooks": "Organisera och spåra dina böcker enkelt",
-  "saveAndRevisitFavoriteLines": "Spara och återbesök dina favoritcitat",
-  "seeProgressAndPatterns": "Se dina läsmönster över tid",
+  "browseBooks": "Bläddra i böcker",
+  "quoteCollection": "Citatinsamling",
+  "manageBooks": "Hantera böcker",
+  "readQuotes": "Läs citat",
 
   "myQuotes": "Mina citat",
   "myQuotesSubtitle": "Bläddra bland några av mina favoritcitat",
@@ -128,10 +97,20 @@
   "createAccount": "Skapa konto",
   "usernameMinLength": "Användarnamn måste vara minst 3 tecken",
 
+  "createPassword": "Skapa ett lösenord",
   "confirmPassword": "Bekräfta lösenord",
   "confirmPasswordRequired": "Vänligen bekräfta ditt lösenord",
   "passwordsMismatch": "Lösenorden matchar inte",
 
+  "min6Chars": "Minst 6 tecken",
+  "lowercaseRequired": "Minst en liten bokstav",
+  "uppercaseRequired": "Minst en stor bokstav",
+  "numberRequired": "Minst en siffra",
+  "symbolRequired": "Minst ett specialtecken (!@#$%^&*)",
+
+  "creatingAccount": "Skapar konto...",
+  "fillAllFieldsCorrectly": "Fyll i alla fält korrekt",
+  "registrationFailed": "Registrering misslyckades. Kontrollera informationen",
   "registrationSuccess": "Registreringen lyckades!",
 
   "edit": "Redigera",
@@ -142,14 +121,15 @@
   "loading": "Laddar...",
   "loadingBooks": "Laddar böcker...",
 
+  "errorLoadQuotes": "Misslyckades att ladda citat.",
+  "errorAddQuote": "Misslyckades att lägga till citat.",
+  "errorUpdateQuote": "Misslyckades att uppdatera citat.",
+  "errorDeleteQuote": "Misslyckades att ta bort citat.",
+
+  "errorLoadingBook": "Misslyckades att ladda bokdetaljer. Försök igen.",
+  "errorAddingBook": "Misslyckades att lägga till bok. Försök igen.",
+  "errorUpdatingBook": "Misslyckades att uppdatera bok. Försök igen.",
+
   "serverError": "Serverfel. Försök igen senare.",
-  "anErrorOccurred": "Ett fel uppstod:",
-  "creatingAccount": "Skapar konto...",
-"fillAllFieldsCorrectly": "Fyll i alla fält korrekt",
-"registrationFailed": "Registrering misslyckades. Kontrollera informationen",
-"min6Chars": "Minst 6 tecken",
-"lowercaseRequired": "Minst en liten bokstav",
-"uppercaseRequired": "Minst en stor bokstav",
-"numberRequired": "Minst en siffra",
-"symbolRequired": "Minst ett specialtecken (!@#$%^&*)"
+  "anErrorOccurred": "Ett fel uppstod:"
 }

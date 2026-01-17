@@ -2,15 +2,16 @@
   <!-- HERO SECTION -->
   <section class="hero-modern">
     <h1 class="hero-title">{{ 'brand' | translate }}</h1>
-    <p class="subtitle">{{ 'homeDescription' | translate }}</p>
+    <p class="subtitle">
+      {{ 'homeDescription' | translate }}
+    </p>
 
     <div class="cards-grid">
       <div class="card">
         <div class="icon">
           <fa-icon [icon]="faBook" size="2x"></fa-icon>
         </div>
-        <h3>{{ 'browseBooksStep' | translate }}</h3>
-        <p>{{ 'browseBooksStepDesc' | translate }}</p>
+        <h3>{{ 'browseBooks' | translate }}</h3>
       </div>
 
       <div class="card">
@@ -18,15 +19,13 @@
           <fa-icon [icon]="faQuoteLeft" size="2x"></fa-icon>
         </div>
         <h3>{{ 'quoteCollection' | translate }}</h3>
-        <p>{{ 'quoteCollectionDesc' | translate }}</p>
       </div>
 
       <div class="card">
         <div class="icon">
           <fa-icon [icon]="faChartLine" size="2x"></fa-icon>
         </div>
-        <h3>{{ 'manageBooksStep' | translate }}</h3>
-        <p>{{ 'manageBooksStepDesc' | translate }}</p>
+        <h3>{{ 'manageBooks' | translate }}</h3>
       </div>
     </div>
   </section>
@@ -34,27 +33,23 @@
   <!-- HOW IT WORKS -->
   <section class="steps-modern">
     <h2>{{ 'howItWorks' | translate }}</h2>
-    <p class="subtitle">{{ 'startInThreeEasySteps' | translate }}</p>
 
     <div class="steps-grid">
       <div class="step">
         <div class="num">1</div>
-        <h3>{{ 'browseBooksStep' | translate }}</h3>
-        <p>{{ 'browseBooksStepDesc' | translate }}</p>
+        <h3>{{ 'browseBooks' | translate }}</h3>
         <fa-icon [icon]="faBook" class="step-icon"></fa-icon>
       </div>
 
       <div class="step">
         <div class="num">2</div>
-        <h3>{{ 'readQuotesStep' | translate }}</h3>
-        <p>{{ 'readQuotesStepDesc' | translate }}</p>
+        <h3>{{ 'readQuotes' | translate }}</h3>
         <fa-icon [icon]="faQuoteLeft" class="step-icon"></fa-icon>
       </div>
 
       <div class="step">
         <div class="num">3</div>
-        <h3>{{ 'manageBooksStep' | translate }}</h3>
-        <p>{{ 'manageBooksStepDesc' | translate }}</p>
+        <h3>{{ 'manageBooks' | translate }}</h3>
         <fa-icon [icon]="faPlus" class="step-icon"></fa-icon>
       </div>
     </div>
@@ -67,14 +62,18 @@
     <div class="quotes-grid">
       <div class="quote-card">
         <fa-icon [icon]="faQuoteLeft" class="quote-icon"></fa-icon>
-        <p class="quote">{{ 'featuredQuote1' | translate }}</p>
-        <p class="author">— {{ 'featuredQuote1Author' | translate }}</p>
+        <p class="quote">
+          “A reader lives a thousand lives before he dies… The man who never reads lives only one.”
+        </p>
+        <p class="author">— George R.R. Martin</p>
       </div>
 
       <div class="quote-card">
         <fa-icon [icon]="faQuoteLeft" class="quote-icon"></fa-icon>
-        <p class="quote">{{ 'featuredQuote2' | translate }}</p>
-        <p class="author">— {{ 'featuredQuote2Author' | translate }}</p>
+        <p class="quote">
+          “The only thing that you absolutely have to know is the location of the library.”
+        </p>
+        <p class="author">— Albert Einstein</p>
       </div>
     </div>
   </section>

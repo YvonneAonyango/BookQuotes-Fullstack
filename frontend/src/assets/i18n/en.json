@@ -5,7 +5,7 @@
   "metaQuotesTitle": "BookWebApp - My Quotes",
   "metaQuotesDescription": "Browse some of my favourite quotes",
 
-  "homeDescription": "BookWebApp - Your personal digital library for browsing books, reading featured quotes, and managing your own collection once logged in.",
+  "homeDescription": "Your personal digital library for browsing books, reading featured quotes, and managing your own collection.",
 
   "getStarted": "Start Free Now",
   "browseLibrary": "Browse Library",
@@ -18,43 +18,12 @@
   "useOnAnyDevice": "Use on any device",
   "accessibleAnywhere": "Accessible anywhere",
 
-  "whatBookWebAppOffers": "What BookWebApp Offers",
-  "transformYourReadingExperience": "Transform your reading experience with our powerful features",
-
-  "smartBookManagement": "Smart Book Management",
-  "bookManagementDesc": "Add, categorize, and track your personal books after logging in.",
-
-  "quoteCollection": "Quote Collection",
-  "quoteCollectionDesc": "Read curated quotes from books. Quotes are always read-only.",
-
-  "readingInsights": "Reading Insights",
-  "trackYourReadingHabits": "Track your reading habits and discover patterns in your literary journey",
-
   "howItWorks": "How It Works",
-  "startInThreeEasySteps": "Get started in a few simple steps",
 
-  "browseBooksStep": "Browse Books",
-  "browseBooksStepDesc": "All users can explore the library and discover books.",
-
-  "readQuotesStep": "Read Quotes",
-  "readQuotesStepDesc": "Enjoy featured quotes from books. Quotes are read-only.",
-
-  "manageBooksStep": "Manage Books",
-  "manageBooksStepDesc": "Add, edit, or delete your own books after logging in.",
-
-  "addBooksQuickly": "Add Books Quickly",
-  "curateYourCollectionInMinutes": "Curate your collection in minutes",
-
-  "captureQuotes": "Capture Quotes",
-  "saveAndOrganizeQuotesEasily": "Save and organize quotes easily",
-
-  "gainInsights": "Gain Insights",
-  "trackReadingAndDiscoverTrends": "Track your reading and discover trends",
-
-  "elevateYourReadingExperience": "Elevate your reading experience",
-  "organizeAndTrackBooks": "Organize and track your books effortlessly",
-  "saveAndRevisitFavoriteLines": "Save and revisit your favorite lines from books",
-  "seeProgressAndPatterns": "See your reading progress and patterns over time",
+  "browseBooks": "Browse Books",
+  "quoteCollection": "Quote Collection",
+  "manageBooks": "Manage Books",
+  "readQuotes": "Read Quotes",
 
   "myQuotes": "My Quotes",
   "myQuotesSubtitle": "Browse some of my favourite quotes",
