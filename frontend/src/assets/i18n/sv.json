@@ -2,8 +2,7 @@
   "brand": "Book Quotes Buddy",
   "personalLibrary": "Din personliga bibliotekskompanjon",
 
-  "yourPersonalLibraryReimagined": "Ditt personliga bibliotek, omgjort",
-  "homeDescription": "BookWebApp – ditt personliga digitala bibliotek för att organisera böcker och samla meningsfulla citat.",
+  "homeDescription": "BookWebApp – ditt personliga digitala bibliotek för att bläddra i böcker, läsa utvalda citat och hantera din egen samling när du är inloggad.",
 
   "getStarted": "Börja gratis nu",
   "browseLibrary": "Bläddra i biblioteket",
@@ -20,16 +19,25 @@
   "transformYourReadingExperience": "Förvandla din läsupplevelse med våra kraftfulla funktioner",
 
   "smartBookManagement": "Smart bokhantering",
-  "bookManagementDesc": "Lägg till, kategorisera och spåra alla dina böcker i ett vackert digitalt bibliotek.",
+  "bookManagementDesc": "Lägg till, kategorisera och spåra dina personliga böcker efter inloggning.",
 
   "quoteCollection": "Citatinsamling",
-  "quoteCollectionDesc": "Spara och hantera dina favoritcitat från böcker.",
+  "quoteCollectionDesc": "Läs utvalda citat från böcker. Citat är alltid skrivskyddade.",
 
   "readingInsights": "Läsinsikter",
   "trackYourReadingHabits": "Spåra dina läsvanor och upptäck mönster i din litterära resa",
 
   "howItWorks": "Hur det fungerar",
-  "startInThreeEasySteps": "Börja i tre enkla steg",
+  "startInThreeEasySteps": "Kom igång i några enkla steg",
+
+  "browseBooksStep": "Bläddra i böcker",
+  "browseBooksStepDesc": "Alla användare kan utforska biblioteket och upptäcka böcker.",
+
+  "readQuotesStep": "Läs citat",
+  "readQuotesStepDesc": "Njut av utvalda citat från böcker. Citat är skrivskyddade.",
+
+  "manageBooksStep": "Hantera böcker",
+  "manageBooksStepDesc": "Lägg till, redigera eller ta bort dina egna böcker efter inloggning.",
 
   "addBooksQuickly": "Lägg till böcker snabbt",
   "curateYourCollectionInMinutes": "Kurera din samling på några minuter",
@@ -67,12 +75,15 @@
   "myBooks": "Mina böcker",
   "manageBookCollection": "Hantera din boksamling",
   "addNewBook": "Lägg till ny bok",
+  "editBook": "Redigera bok",
+  "updateBook": "Uppdatera bok",
+  "confirmDeleteBook": "Är du säker på att du vill ta bort denna bok?",
   "noBooksYet": "Inga böcker än",
   "startByAddingFirstBook": "Börja med att lägga till din första bok",
 
   "login": "Logga in",
-  "loginSubtitle": "Logga in för att komma åt ditt personliga bibliotek",
-  "loginDescription": "Logga in för att hantera dina böcker och citat.",
+  "loginSubtitle": "Logga in för att hantera dina böcker",
+  "loginDescription": "Logga in för att bläddra i biblioteket, hantera dina böcker och spara citat.",
 
   "enterUsername": "Ange ditt användarnamn",
   "usernameRequired": "Användarnamn krävs",
@@ -84,7 +95,7 @@
   "invalidCredentials": "Ogiltigt användarnamn eller lösenord",
   "loggingIn": "Loggar in...",
 
-  "alreadyHaveAnAccount": "Har du redan ett konto?",
+  "alreadyHaveAccount": "Har du redan ett konto?",
   "loginToYourAccount": "Logga in här",
 
   "dontHaveAccount": "Har du inget konto?",

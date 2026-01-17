@@ -5,6 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-books',
@@ -14,9 +15,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./books.component.css']
 })
 export class BooksComponent implements OnInit {
-  books: Book[] = [];
+  books: (Book & { isFavorite: boolean })[] = []; // extend Book type to include isFavorite
   isLoading = false;
   errorMessage = '';
+
+  faStar = faStar;
 
   private meta = inject(Meta);
   private titleService = inject(Title);
@@ -38,7 +41,8 @@ export class BooksComponent implements OnInit {
     this.isLoading = true;
     this.bookService.getBooks().subscribe({
       next: books => {
-        this.books = books;
+        // initialize isFavorite safely
+        this.books = books.map(b => ({ ...b, isFavorite: false }));
         this.isLoading = false;
       },
       error: () => {
@@ -46,6 +50,11 @@ export class BooksComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  toggleFavorite(book: Book & { isFavorite: boolean }): void {
+    book.isFavorite = !book.isFavorite;
+    // Optionally: send favorite state to backend
   }
 
   addBook(): void {

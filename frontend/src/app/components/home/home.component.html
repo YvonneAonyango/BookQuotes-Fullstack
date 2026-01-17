@@ -3,8 +3,8 @@
   <section class="hero-modern">
     <h1 class="hero-title">{{ 'brand' | translate }}</h1>
     <p class="subtitle">
-      Browse books, add your own collection, edit or delete your entries,
-      and explore inspiring quotes along the way.
+      Explore books from the library, check out featured quotes for inspiration,
+      and manage your own collection once you log in.
     </p>
 
     <div class="cards-grid">
@@ -12,10 +12,9 @@
         <div class="icon">
           <fa-icon [icon]="faBook" size="2x"></fa-icon>
         </div>
-        <h3>Browse & Manage Books</h3>
+        <h3>Browse Books</h3>
         <p>
-          Explore the library, add new books, edit details, or remove entries
-          anytime.
+          All users can view books in the library. Discover new titles and authors anytime.
         </p>
       </div>
 
@@ -23,10 +22,9 @@
         <div class="icon">
           <fa-icon [icon]="faQuoteLeft" size="2x"></fa-icon>
         </div>
-        <h3>Quotes Collection</h3>
+        <h3>Featured Quotes</h3>
         <p>
-          Save meaningful quotes, revisit your favorites, and get inspired
-          daily.
+          Read curated quotes from books. Quotes are read-only for all users.
         </p>
       </div>
 
@@ -34,10 +32,9 @@
         <div class="icon">
           <fa-icon [icon]="faChartLine" size="2x"></fa-icon>
         </div>
-        <h3>Reading Insights</h3>
+        <h3>Manage Your Library</h3>
         <p>
-          Track your activity and enjoy a growing, personalized reading
-          experience.
+          Add, edit, or delete your own books once logged in, and track your personal reading progress.
         </p>
       </div>
     </div>
@@ -46,42 +43,41 @@
   <!-- HOW IT WORKS -->
   <section class="steps-modern">
     <h2>How it works</h2>
-    <p class="subtitle">Get started in just a few simple steps</p>
+    <p class="subtitle">Get started in a few simple steps</p>
 
     <div class="steps-grid">
       <div class="step">
         <div class="num">1</div>
-        <h3>Add books</h3>
-        <p>Build your personal library in seconds.</p>
-        <fa-icon [icon]="faPlus" class="step-icon"></fa-icon>
+        <h3>Browse Books</h3>
+        <p>All users can explore the library and discover books.</p>
+        <fa-icon [icon]="faBook" class="step-icon"></fa-icon>
       </div>
 
       <div class="step">
         <div class="num">2</div>
-        <h3>Save quotes</h3>
-        <p>Capture memorable lines and favorite passages.</p>
-        <fa-icon [icon]="faStar" class="step-icon"></fa-icon>
+        <h3>Read Quotes</h3>
+        <p>Enjoy featured quotes from books. Quotes are always read-only.</p>
+        <fa-icon [icon]="faQuoteLeft" class="step-icon"></fa-icon>
       </div>
 
       <div class="step">
         <div class="num">3</div>
-        <h3>Enjoy & explore</h3>
-        <p>Browse your collection and discover inspiration.</p>
-        <fa-icon [icon]="faLightbulb" class="step-icon"></fa-icon>
+        <h3>Manage Your Books</h3>
+        <p>Add, edit, or delete books in your personal collection after logging in.</p>
+        <fa-icon [icon]="faPlus" class="step-icon"></fa-icon>
       </div>
     </div>
   </section>
 
   <!-- FEATURED QUOTES -->
   <section class="featured-quotes">
-    <h2>Featured quotes</h2>
+    <h2>Featured Quotes</h2>
 
     <div class="quotes-grid">
       <div class="quote-card">
         <fa-icon [icon]="faQuoteLeft" class="quote-icon"></fa-icon>
         <p class="quote">
-          "The only thing that you absolutely have to know, is the location of
-          the library."
+          "The only thing that you absolutely have to know, is the location of the library."
         </p>
         <p class="author">— Albert Einstein</p>
       </div>
@@ -89,8 +85,7 @@
       <div class="quote-card">
         <fa-icon [icon]="faQuoteLeft" class="quote-icon"></fa-icon>
         <p class="quote">
-          "A reader lives a thousand lives before he dies… The man who never
-          reads lives only one."
+          "A reader lives a thousand lives before he dies… The man who never reads lives only one."
         </p>
         <p class="author">— George R. R. Martin</p>
       </div>
@@ -113,10 +108,10 @@
       </button>
     </div>
 
-    <!--  LOGIN REDIRECT -->
+    <!-- LOGIN REDIRECT -->
     <p class="cta-note">
       Already have an account?
-      <a routerLink="/login">Log in to your account</a>
+      <a routerLink="/login">Log in to manage your books</a>
     </p>
   </section>
 </main>

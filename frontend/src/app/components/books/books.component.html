@@ -24,19 +24,19 @@
     <div *ngIf="books.length > 0" class="books-container">
       <div *ngFor="let book of books" class="book-card">
 
-        <!-- STAR ICON -->
-        <div class="book-fav-icon">
-          <i class="fa fa-star book-icon"></i>
+        <!-- STAR FAVORITE ICON -->
+        <div class="book-fav-icon" (click)="toggleFavorite(book)">
+          <fa-icon [icon]="faStar" [ngClass]="{'favorite': book.isFavorite}"></fa-icon>
         </div>
 
         <!-- BOOK COVER -->
-        <div
-          class="book-card-header book-cover"
-          [style.backgroundImage]="
-            book.coverUrl
-              ? 'url(' + book.coverUrl + ')'
-              : 'linear-gradient(135deg, rgba(255,210,120,.6), rgba(255,165,0,.4))'
-          ">
+        <div class="book-card-header">
+          <img
+            *ngIf="book.coverUrl; else noCover"
+            [src]="book.coverUrl"
+            alt="{{ book.title }}"
+          />
+          <ng-template #noCover>📚</ng-template>
         </div>
 
         <div class="book-card-body">

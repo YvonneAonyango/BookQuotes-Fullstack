@@ -1,17 +1,19 @@
 /* ================= BOOKS PAGE ================= */
+:root {
+  --book-text-color: #1e3a8a; /* matches ADD NEW BOOK button color */
+}
+
 .books-page {
   padding: 2rem 1rem !important;
   max-width: 1200px !important;
   margin: 0 auto !important;
   min-height: 100vh !important;
-
   background: rgba(252, 211, 77, 0.15) !important;
   backdrop-filter: saturate(120%) blur(2px) !important;
-
-  color: #1e3a8a !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
+  color: #ffffff !important;
 }
 
 /* ---------------- PAGE HEADER ---------------- */
@@ -41,7 +43,7 @@
 .btn-add-book {
   margin-top: 1rem !important;
   background: rgba(252, 211, 77, 0.55) !important;
-  color: #1e3a8a !important;
+  color: var(--book-text-color) !important;
   border: 1px solid rgba(252, 211, 77, 0.6) !important;
   border-radius: 12px !important;
   padding: 0.55rem 1.2rem !important;
@@ -59,10 +61,11 @@
 
 /* ---------------- BOOKS CONTAINER ---------------- */
 .books-container {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
   gap: 1.5rem !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
   width: 100% !important;
   padding-bottom: 2rem !important;
   border-bottom: 4px solid #d6a34f !important;
@@ -75,10 +78,7 @@
   backdrop-filter: saturate(120%) blur(2px) !important;
   border-radius: 12px !important;
   border: 1px solid rgba(0, 0, 0, 0.1) !important;
-
-  width: 100% !important;
-  max-width: 190px !important;
-
+  flex: 0 0 180px !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
@@ -86,37 +86,53 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* DARK MODE — READABILITY FIX */
-.dark-mode .book-card {
-  background: rgba(252, 211, 77, 0.15) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #ffffff !important;
-}
-
 .book-card:hover {
   transform: translateY(-4px) !important;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* ---------------- BOOK CARD HEADER ---------------- */
+/* ---------------- STAR FAVORITE ICON ---------------- */
+.book-fav-icon {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  z-index: 2 !important;
+}
+
+.book-fav-icon fa-icon {
+  font-size: 1.2rem !important;
+  cursor: pointer !important;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.book-fav-icon fa-icon.favorite {
+  color: gold !important;
+  transform: scale(1.2);
+}
+
+.book-fav-icon fa-icon:not(.favorite) {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------------- BOOK CARD HEADER (IMAGE / DEFAULT ICON) ---------------- */
 .book-card-header {
   height: 150px !important;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 210, 120, 0.6),
-    rgba(255, 165, 0, 0.4)
-  ) !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
+  font-size: 3rem !important;
+  background: linear-gradient(135deg, rgba(255,210,120,.6), rgba(255,165,0,.4)) !important;
 }
 
+.book-card-header img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* DARK MODE HEADER */
 .dark-mode .book-card-header {
-  background: linear-gradient(
-    135deg,
-    rgba(124, 58, 237, 0.35),
-    rgba(99, 39, 237, 0.25)
-  ) !important;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(99, 39, 237, 0.25)) !important;
 }
 
 /* ---------------- BOOK CARD BODY ---------------- */
@@ -128,32 +144,29 @@
   flex: 1 !important;
 }
 
-/* TEXT — DARK MODE WHITE */
+/* ---------------- TEXT COLORS ---------------- */
+.book-title,
+.book-author,
+.book-meta {
+  color: var(--book-text-color) !important;
+}
+
 .book-title {
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  color: #7c3aed !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
 
-.dark-mode .book-title,
-.dark-mode .book-author,
-.dark-mode .book-meta {
-  color: #ffffff !important;
-}
-
 .book-author {
   font-size: 0.8rem !important;
-  color: #3b82f6 !important;
 }
 
 .book-meta {
   font-size: 0.7rem !important;
-  color: #2563eb !important;
   margin-top: auto !important;
-  border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
   padding-top: 0.25rem !important;
 }
 
@@ -178,7 +191,6 @@
   transition: all 0.2s ease !important;
 }
 
-/* EDIT */
 .btn-edit {
   background: rgba(96, 165, 250, 0.35) !important;
   color: #ffffff !important;
@@ -189,7 +201,6 @@
   background: rgba(96, 165, 250, 0.55) !important;
 }
 
-/* DELETE */
 .btn-delete {
   background: rgba(248, 113, 113, 0.35) !important;
   color: #ffffff !important;
@@ -207,22 +218,25 @@
   margin-top: 2rem !important;
 }
 
-/* ---------------- SMALL DEVICES ---------------- */
-@media (max-width: 480px) {
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 1024px) {
   .books-container {
-    gap: 1rem !important;
+    justify-content: center !important;
   }
+}
 
-  .book-card {
-    max-width: 100% !important;
-  }
-
+@media (max-width: 768px) {
   .btn-add-book {
     width: 100% !important;
   }
 }
 
-/* ---------------- EXTRA SMALL / FOLD ---------------- */
+@media (max-width: 480px) {
+  .book-card {
+    flex: 0 0 100% !important;
+  }
+}
+
 @media (max-width: 360px) {
   .book-card-header {
     height: 130px !important;

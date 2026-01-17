@@ -5,8 +5,7 @@
   "metaQuotesTitle": "BookWebApp - My Quotes",
   "metaQuotesDescription": "Browse some of my favourite quotes",
 
-  "yourPersonalLibraryReimagined": "Your personal library, reimagined",
-  "homeDescription": "BookWebApp - Your personal digital library for organizing books and capturing meaningful quotes. Transform your reading experience with smart book management and quote collection.",
+  "homeDescription": "BookWebApp - Your personal digital library for browsing books, reading featured quotes, and managing your own collection once logged in.",
 
   "getStarted": "Start Free Now",
   "browseLibrary": "Browse Library",
@@ -23,16 +22,25 @@
   "transformYourReadingExperience": "Transform your reading experience with our powerful features",
 
   "smartBookManagement": "Smart Book Management",
-  "bookManagementDesc": "Add, categorize, and track all your books in one beautiful digital library.",
+  "bookManagementDesc": "Add, categorize, and track your personal books after logging in.",
 
   "quoteCollection": "Quote Collection",
-  "quoteCollectionDesc": "Save and manage your favorite quotes from books.",
+  "quoteCollectionDesc": "Read curated quotes from books. Quotes are always read-only.",
 
   "readingInsights": "Reading Insights",
   "trackYourReadingHabits": "Track your reading habits and discover patterns in your literary journey",
 
   "howItWorks": "How It Works",
-  "startInThreeEasySteps": "Start in three easy steps",
+  "startInThreeEasySteps": "Get started in a few simple steps",
+
+  "browseBooksStep": "Browse Books",
+  "browseBooksStepDesc": "All users can explore the library and discover books.",
+
+  "readQuotesStep": "Read Quotes",
+  "readQuotesStepDesc": "Enjoy featured quotes from books. Quotes are read-only.",
+
+  "manageBooksStep": "Manage Books",
+  "manageBooksStepDesc": "Add, edit, or delete your own books after logging in.",
 
   "addBooksQuickly": "Add Books Quickly",
   "curateYourCollectionInMinutes": "Curate your collection in minutes",
@@ -98,8 +106,8 @@
   "startByAddingFirstBook": "Start by adding your first book",
 
   "login": "Login",
-  "loginSubtitle": "Sign in to access your personal library",
-  "loginDescription": "Login to access your personal library and manage your books and quotes",
+  "loginSubtitle": "Sign in to manage your personal books",
+  "loginDescription": "Login to browse your library, manage your books, and save quotes.",
 
   "enterUsername": "Enter your username",
   "usernameLabel": "Username",
@@ -113,7 +121,7 @@
   "loggingIn": "Logging in...",
 
   "alreadyHaveAccount": "Already have an account?",
-  "loginToYourAccount": "Login to your account",
+  "loginToYourAccount": "Login to manage your books",
 
   "dontHaveAccount": "Don't have an account?",
   "register": "Register",
