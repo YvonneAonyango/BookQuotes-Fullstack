@@ -4,7 +4,7 @@
   max-width: 1200px !important;
   margin: 0 auto !important;
   min-height: 100vh !important;
-  background-color: rgba(255, 235, 120, 0.2) !important;
+  background-color: rgba(255, 235, 120, 0.2) !important; /* fallback light theme */
   color: #1e3a8a !important;
   backdrop-filter: blur(6px) !important;
 }
@@ -21,12 +21,12 @@
   gap: 0.5rem !important;
 }
 
-/* HEADER H1 - MATCH BOOKS PAGE */
+/* HEADER H1 - MATCH BOOKS PAGE, LIGHTER FONT */
 .quotes-page .page-header h1 {
   font-size: 1.8rem !important;
   height: 42px !important;
   line-height: 42px !important;
-  font-weight: 800 !important;
+  font-weight: 500 !important; /* lighter, natural page header */
   background: linear-gradient(135deg, #3b82f6, #7c3aed) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
@@ -53,15 +53,15 @@
   gap: 1.25rem;
 }
 
-/* GLASSY QUOTE CARD */
+/* ---------------- GLASSY QUOTE CARD ---------------- */
 .quote-item {
   position: relative !important;
-  background: rgba(252, 211, 77, 0.15) !important;
-  backdrop-filter: saturate(120%) blur(4px) !important;
+  background: rgba(252, 211, 77, 0.25) !important; /* slightly opaque for readability */
+  backdrop-filter: saturate(120%) blur(6px) !important;
   border-radius: 12px !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
   padding: 1rem !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
   transition: all 0.3s ease !important;
   display: flex;
   flex-direction: column;
@@ -70,14 +70,14 @@
 
 .quote-item:hover {
   transform: translateY(-3px) !important;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* ---------------- QUOTE TEXT ---------------- */
 .quote-item .quote-text {
   font-style: italic !important;
   font-size: 1.125rem !important;
-  color: #60a5fa !important; /* light blue for readability */
+  color: #111 !important; /* dark gray for readability */
   margin-bottom: 0.25rem !important;
 }
 
@@ -85,7 +85,7 @@
 .quote-item .quote-footer {
   font-size: 0.875rem !important;
   font-weight: 500 !important;
-  color: #93c5fd !important; /* lighter blue for author */
+  color: #333 !important; /* dark gray for readability */
   text-align: right !important;
 }
 
@@ -184,5 +184,39 @@
 
   .quote-item .quote-footer {
     font-size: 0.75rem !important;
+  }
+}
+
+/* ---------------- DARK MODE SUPPORT ---------------- */
+@media (prefers-color-scheme: dark) {
+  .quotes-page {
+    background-color: rgba(30, 30, 30, 0.7) !important; /* subtle dark background */
+    color: #e5e7eb !important; /* light gray text */
+  }
+
+  .quote-item {
+    background: rgba(252, 211, 77, 0.15) !important; /* still yellowish but subtle */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .quote-item .quote-text {
+    color: #f3f4f6 !important; /* light gray text for quotes */
+  }
+
+  .quote-item .quote-footer {
+    color: #d1d5db !important; /* lighter gray for author */
+  }
+
+  .quote-buttons button,
+  .quotes-page .btn-add-quote {
+    color: #111827 !important;
+    background: rgba(252, 211, 77, 0.45) !important;
+    border: 1px solid rgba(252, 211, 77, 0.6) !important;
+  }
+
+  .quotes-page .btn-cancel {
+    background: rgba(248, 113, 113, 0.35) !important;
+    border: 1px solid rgba(248, 113, 113, 0.45) !important;
+    color: #111827 !important;
   }
 }

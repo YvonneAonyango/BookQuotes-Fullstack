@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
     document.body.classList.add('homepage');
     this.titleService.setTitle('BookWebApp - Home');
 
-    // Ensure the current language is applied for template translation
+    // Ensure the current language is applied
     const lang = this.translate.currentLang || this.translate.getDefaultLang() || 'en';
     this.translate.use(lang).subscribe(() => {
       this.translate.get('homeDescription').subscribe((translated: string) => {

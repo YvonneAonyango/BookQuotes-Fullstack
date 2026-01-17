@@ -1,5 +1,5 @@
 :root {
-  --book-text-color: #1e3a8a; /* matches ADD NEW BOOK button */
+  --book-text-color: #1e3a8a; 
 }
 
 .books-page {
@@ -28,7 +28,7 @@
   font-size: 1.8rem !important;
   height: 42px !important;
   line-height: 42px !important;
-  font-weight: 800 !important; 
+  font-weight: 500 !important; 
   background: linear-gradient(135deg, #3b82f6, #7c3aed); 
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
@@ -159,9 +159,11 @@
 .book-title {
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* max 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .book-author {

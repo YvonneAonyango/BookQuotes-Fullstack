@@ -58,6 +58,8 @@
 
   "myQuotes": "My Quotes",
   "myQuotesSubtitle": "Browse some of my favourite quotes",
+  "manageQuotes": "Manage Quotes",
+  "manageQuotesDesc": "Save inspiring quotes from your readings and organize them in your personal quote collection.",
   "allQuotes": "All Quotes",
 
   "quoteText": "Quote Text",
@@ -77,9 +79,6 @@
   "editQuote": "Edit Quote",
   "updateQuote": "Update Quote",
 
-  "manageQuotes": "Manage Quotes",
-  "manageQuotesDesc": "Save inspiring quotes from your readings and organize them in your personal quote collection.",
-
   "confirmDeleteQuote": "Are you sure you want to delete this quote?",
   "noQuotesYet": "No quotes yet",
   "startByAddingQuote": "Start by adding your first quote!",
@@ -90,6 +89,8 @@
   "editBook": "Edit Book",
   "updateBook": "Update Book",
   "confirmDeleteBook": "Are you sure you want to delete this book?",
+  "noBooksYet": "No books yet",
+  "startByAddingFirstBook": "Start by adding your first book",
 
   "bookTitle": "Book Title",
   "enterBookTitle": "Enter book title",
@@ -102,8 +103,6 @@
   "publicationDateRequired": "Publication date is required",
 
   "bookFormDescription": "Add or edit book details in your personal library.",
-  "noBooksYet": "No books yet",
-  "startByAddingFirstBook": "Start by adding your first book",
 
   "login": "Login",
   "loginSubtitle": "Sign in to manage your personal books",

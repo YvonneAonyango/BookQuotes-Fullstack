@@ -2,6 +2,9 @@
   "brand": "Book Quotes Buddy",
   "personalLibrary": "Din personliga bibliotekskompanjon",
 
+  "metaQuotesTitle": "BookWebApp - Mina citat",
+  "metaQuotesDescription": "Bläddra bland några av mina favoritcitat",
+
   "homeDescription": "BookWebApp – ditt personliga digitala bibliotek för att bläddra i böcker, läsa utvalda citat och hantera din egen samling när du är inloggad.",
 
   "getStarted": "Börja gratis nu",
@@ -48,7 +51,15 @@
   "gainInsights": "Få insikter",
   "trackReadingAndDiscoverTrends": "Spåra ditt läsande och upptäck trender",
 
+  "elevateYourReadingExperience": "Förbättra din läsupplevelse",
+  "organizeAndTrackBooks": "Organisera och spåra dina böcker enkelt",
+  "saveAndRevisitFavoriteLines": "Spara och återbesök dina favoritcitat",
+  "seeProgressAndPatterns": "Se dina läsmönster över tid",
+
   "myQuotes": "Mina citat",
+  "myQuotesSubtitle": "Bläddra bland några av mina favoritcitat",
+  "manageQuotes": "Hantera citat",
+  "manageQuotesDesc": "Spara inspirerande citat från dina läsningar och organisera dem i din personliga citatsamling.",
   "allQuotes": "Alla citat",
 
   "quoteText": "Citattext",
@@ -81,11 +92,24 @@
   "noBooksYet": "Inga böcker än",
   "startByAddingFirstBook": "Börja med att lägga till din första bok",
 
+  "bookTitle": "Boktitel",
+  "enterBookTitle": "Ange boktitel",
+  "titleRequired": "Titel krävs",
+
+  "enterAuthorName": "Ange författarnamn",
+  "authorRequired": "Författare krävs",
+
+  "publicationDate": "Publiceringsdatum",
+  "publicationDateRequired": "Publiceringsdatum krävs",
+
+  "bookFormDescription": "Lägg till eller redigera bokdetaljer i ditt personliga bibliotek.",
+
   "login": "Logga in",
   "loginSubtitle": "Logga in för att hantera dina böcker",
   "loginDescription": "Logga in för att bläddra i biblioteket, hantera dina böcker och spara citat.",
 
   "enterUsername": "Ange ditt användarnamn",
+  "usernameLabel": "Användarnamn",
   "usernameRequired": "Användarnamn krävs",
 
   "password": "Lösenord",
@@ -119,5 +143,13 @@
   "loadingBooks": "Laddar böcker...",
 
   "serverError": "Serverfel. Försök igen senare.",
-  "anErrorOccurred": "Ett fel uppstod:"
+  "anErrorOccurred": "Ett fel uppstod:",
+  "creatingAccount": "Skapar konto...",
+"fillAllFieldsCorrectly": "Fyll i alla fält korrekt",
+"registrationFailed": "Registrering misslyckades. Kontrollera informationen",
+"min6Chars": "Minst 6 tecken",
+"lowercaseRequired": "Minst en liten bokstav",
+"uppercaseRequired": "Minst en stor bokstav",
+"numberRequired": "Minst en siffra",
+"symbolRequired": "Minst ett specialtecken (!@#$%^&*)"
 }

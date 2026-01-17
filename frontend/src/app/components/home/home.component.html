@@ -2,68 +2,59 @@
   <!-- HERO SECTION -->
   <section class="hero-modern">
     <h1 class="hero-title">{{ 'brand' | translate }}</h1>
-    <p class="subtitle">
-      Explore books from the library, check out featured quotes for inspiration,
-      and manage your own collection once you log in.
-    </p>
+    <p class="subtitle">{{ 'homeDescription' | translate }}</p>
 
     <div class="cards-grid">
       <div class="card">
         <div class="icon">
           <fa-icon [icon]="faBook" size="2x"></fa-icon>
         </div>
-        <h3>Browse Books</h3>
-        <p>
-          All users can view books in the library. Discover new titles and authors anytime.
-        </p>
+        <h3>{{ 'browseBooksStep' | translate }}</h3>
+        <p>{{ 'browseBooksStepDesc' | translate }}</p>
       </div>
 
       <div class="card">
         <div class="icon">
           <fa-icon [icon]="faQuoteLeft" size="2x"></fa-icon>
         </div>
-        <h3>Featured Quotes</h3>
-        <p>
-          Read curated quotes from books. Quotes are read-only for all users.
-        </p>
+        <h3>{{ 'quoteCollection' | translate }}</h3>
+        <p>{{ 'quoteCollectionDesc' | translate }}</p>
       </div>
 
       <div class="card">
         <div class="icon">
           <fa-icon [icon]="faChartLine" size="2x"></fa-icon>
         </div>
-        <h3>Manage Your Library</h3>
-        <p>
-          Add, edit, or delete your own books once logged in, and track your personal reading progress.
-        </p>
+        <h3>{{ 'manageBooksStep' | translate }}</h3>
+        <p>{{ 'manageBooksStepDesc' | translate }}</p>
       </div>
     </div>
   </section>
 
   <!-- HOW IT WORKS -->
   <section class="steps-modern">
-    <h2>How it works</h2>
-    <p class="subtitle">Get started in a few simple steps</p>
+    <h2>{{ 'howItWorks' | translate }}</h2>
+    <p class="subtitle">{{ 'startInThreeEasySteps' | translate }}</p>
 
     <div class="steps-grid">
       <div class="step">
         <div class="num">1</div>
-        <h3>Browse Books</h3>
-        <p>All users can explore the library and discover books.</p>
+        <h3>{{ 'browseBooksStep' | translate }}</h3>
+        <p>{{ 'browseBooksStepDesc' | translate }}</p>
         <fa-icon [icon]="faBook" class="step-icon"></fa-icon>
       </div>
 
       <div class="step">
         <div class="num">2</div>
-        <h3>Read Quotes</h3>
-        <p>Enjoy featured quotes from books. Quotes are always read-only.</p>
+        <h3>{{ 'readQuotesStep' | translate }}</h3>
+        <p>{{ 'readQuotesStepDesc' | translate }}</p>
         <fa-icon [icon]="faQuoteLeft" class="step-icon"></fa-icon>
       </div>
 
       <div class="step">
         <div class="num">3</div>
-        <h3>Manage Your Books</h3>
-        <p>Add, edit, or delete books in your personal collection after logging in.</p>
+        <h3>{{ 'manageBooksStep' | translate }}</h3>
+        <p>{{ 'manageBooksStepDesc' | translate }}</p>
         <fa-icon [icon]="faPlus" class="step-icon"></fa-icon>
       </div>
     </div>
@@ -71,47 +62,42 @@
 
   <!-- FEATURED QUOTES -->
   <section class="featured-quotes">
-    <h2>Featured Quotes</h2>
+    <h2>{{ 'featuredQuotes' | translate }}</h2>
 
     <div class="quotes-grid">
       <div class="quote-card">
         <fa-icon [icon]="faQuoteLeft" class="quote-icon"></fa-icon>
-        <p class="quote">
-          "The only thing that you absolutely have to know, is the location of the library."
-        </p>
-        <p class="author">— Albert Einstein</p>
+        <p class="quote">{{ 'featuredQuote1' | translate }}</p>
+        <p class="author">— {{ 'featuredQuote1Author' | translate }}</p>
       </div>
 
       <div class="quote-card">
         <fa-icon [icon]="faQuoteLeft" class="quote-icon"></fa-icon>
-        <p class="quote">
-          "A reader lives a thousand lives before he dies… The man who never reads lives only one."
-        </p>
-        <p class="author">— George R. R. Martin</p>
+        <p class="quote">{{ 'featuredQuote2' | translate }}</p>
+        <p class="author">— {{ 'featuredQuote2Author' | translate }}</p>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
   <section class="cta-modern">
-    <h2>Ready to start your journey?</h2>
+    <h2>{{ 'readyToStartYourJourney' | translate }}</h2>
 
     <div class="cta-buttons">
       <button routerLink="/register" class="btn-primary">
-        Get started
+        {{ 'getStarted' | translate }}
         <fa-icon [icon]="faArrowRight" class="btn-icon"></fa-icon>
       </button>
 
       <button routerLink="/books" class="btn-outline">
-        Browse books
+        {{ 'browseLibrary' | translate }}
         <fa-icon [icon]="faBook" class="btn-icon"></fa-icon>
       </button>
     </div>
 
-    <!-- LOGIN REDIRECT -->
     <p class="cta-note">
-      Already have an account?
-      <a routerLink="/login">Log in to manage your books</a>
+      {{ 'alreadyHaveAccount' | translate }}
+      <a routerLink="/login">{{ 'loginToYourAccount' | translate }}</a>
     </p>
   </section>
 </main>
